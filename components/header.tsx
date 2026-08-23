@@ -20,7 +20,10 @@ export default function Header() {
   const pathname = usePathname()
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
-  const { profile } = usePortfolio()
+  const { profile, contact, social } = usePortfolio()
+  const email = contact?.email1 || "poosala15@gmail.com"
+  const linkedinUrl = social?.linkedinUrl || "https://www.linkedin.com/in/poosala-lokesh/"
+  const instagramUrl = social?.instagramUrl || "https://www.instagram.com/_lokesh81/"
 
   useEffect(() => {
     const handleScroll = () => {
@@ -142,15 +145,15 @@ export default function Header() {
           <div className="border-t border-white/10 pt-6">
             <p className="text-xs text-white/40 mb-3">Get in touch</p>
             <a
-              href="mailto:poosalalokesh@gmail.com"
+              href={`mailto:${email}`}
               className="block text-sm font-medium text-white hover:text-purple-300 transition-colors"
             >
-              poosalalokesh@gmail.com
+              {email}
             </a>
             <div className="mt-4 flex flex-wrap items-center gap-4 text-xs text-white/50">
               <GitHubPopover variant="link" />
               <a
-                href="https://www.linkedin.com/in/poosala-lokesh/"
+                href={linkedinUrl}
                 target="_blank"
                 rel="noreferrer"
                 className="hover:text-white"
@@ -158,7 +161,7 @@ export default function Header() {
                 LinkedIn ↗
               </a>
               <a
-                href="https://www.instagram.com/_lokesh81/"
+                href={instagramUrl}
                 target="_blank"
                 rel="noreferrer"
                 className="hover:text-white"

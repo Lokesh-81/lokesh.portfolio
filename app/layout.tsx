@@ -59,7 +59,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     locale: "en_US",
-    url: "https://lokeshportfolio-pink.vercel.app",
+    url: "https://github.com/Lokesh-81/lokesh.portfolio",
     title: "P.Lokesh | Web Developer",
     description:
       "Full Stack Developer & AI Enthusiast based in Hyderabad. Explore selected production projects, engineering experience, and digital experiments.",

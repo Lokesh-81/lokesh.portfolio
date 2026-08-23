@@ -795,12 +795,12 @@ export default function StudioPage() {
         {/* Tab Navigation */}
         <div className="flex overflow-x-auto no-scrollbar gap-1.5 rounded-2xl border border-white/10 bg-black/40 p-1.5 backdrop-blur-xl">
           {[
-            { id: "profile", label: "Profile & Photo", icon: UserIcon },
+            { id: "profile", label: "Profile", icon: UserIcon },
             { id: "experience", label: `Experience (${experiences.length})`, icon: Briefcase },
             { id: "projects", label: `Projects (${projects.length})`, icon: FolderGit2 },
             { id: "skills", label: `Tech Stack (${technologies.length})`, icon: Code2 },
-            { id: "contact", label: "Social & Contact", icon: PhoneCall },
-            { id: "system", label: "Firestore Status", icon: Database }
+            { id: "contact", label: "Socials & Contact", icon: PhoneCall },
+            { id: "system", label: "Settings", icon: Database }
           ].map((tab) => {
             const Icon = tab.icon
             const isActive = activeTab === tab.id

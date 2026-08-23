@@ -52,7 +52,6 @@ export const initialStudioProjects: StudioProject[] = [
     status: "In Development",
     technologies: ["Next.js 15", "Gemini 2.5 Flash", "MongoDB", "Redis", "TypeScript"],
     progress: 75,
-    url: "https://lumora-ai.vercel.app",
     githubUrl: "https://github.com/Lokesh-81",
     createdAt: "2026-06-15",
     updatedAt: "2026-08-20"
