@@ -2,9 +2,11 @@
 
 import { useState, useEffect } from "react"
 import Link from "next/link"
+import Image from "next/image"
 import { usePathname } from "next/navigation"
 import { Menu, X, ArrowUpRight } from "lucide-react"
 import GitHubPopover from "@/components/github-popover"
+import { usePortfolio } from "@/lib/portfolio-context"
 
 const navLinks = [
   { href: "/", label: "Home" },
@@ -18,6 +20,7 @@ export default function Header() {
   const pathname = usePathname()
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
+  const { profile } = usePortfolio()
 
   useEffect(() => {
     const handleScroll = () => {
@@ -42,13 +45,21 @@ export default function Header() {
         <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-6 md:px-10">
           {/* Logo / Monogram */}
           <Link href="/" className="group flex items-center gap-3" aria-label="P. Lokesh home">
-            <span className="relative flex size-9 items-center justify-center rounded-full border border-white/20 bg-white/10 text-xs font-bold text-white backdrop-blur-md transition-all duration-300 group-hover:border-purple-400/50 group-hover:bg-purple-500/20 group-hover:shadow-[0_0_15px_rgba(168,85,247,0.3)]">
-              PL
-              <span className="absolute -top-0.5 -right-0.5 size-2 rounded-full bg-emerald-400 animate-pulse" />
+            <span className="relative flex size-9 items-center justify-center rounded-full border border-white/20 bg-white/10 text-xs font-bold text-white backdrop-blur-md overflow-hidden transition-all duration-300 group-hover:border-purple-400/50 group-hover:bg-purple-500/20 group-hover:shadow-[0_0_15px_rgba(168,85,247,0.3)]">
+              {profile?.photoUrl ? (
+                <img
+                  src={profile.photoUrl}
+                  alt={profile.displayName || "P. Lokesh"}
+                  className="size-full object-cover"
+                />
+              ) : (
+                "PL"
+              )}
+              <span className="absolute -top-0.5 -right-0.5 size-2 rounded-full bg-emerald-400 animate-pulse z-10" />
             </span>
             <div className="flex flex-col">
               <span className="text-xs font-semibold tracking-[0.2em] text-white/90 group-hover:text-white transition-colors">
-                P. LOKESH
+                {profile?.displayName?.toUpperCase() || "P. LOKESH"}
               </span>
               <span className="hidden text-[10px] tracking-wider text-white/40 sm:block">
                 Full Stack · AI

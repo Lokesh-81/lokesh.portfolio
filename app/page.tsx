@@ -4,8 +4,14 @@ import Link from "next/link"
 import { motion } from "framer-motion"
 import { ArrowRight } from "lucide-react"
 import PortfolioShell from "@/components/portfolio-shell"
+import { usePortfolio } from "@/lib/portfolio-context"
 
 export default function HomePage() {
+  const { profile } = usePortfolio()
+
+  const title = profile?.title || "FULL STACK DEVELOPER / AI ENTHUSIAST"
+  const shortBio = profile?.shortBio || "Engineering high-performance web applications, scalable digital platforms, and AI-powered products from Hyderabad, India. Focused on pristine craft, type safety, and real-world execution."
+
   return (
     <PortfolioShell noScroll hideFooter className="flex items-center">
       <div className="w-full">
@@ -18,7 +24,7 @@ export default function HomePage() {
           >
             {/* Sub-label */}
             <p className="mb-3 text-xs uppercase tracking-[0.28em] text-purple-300/80 font-medium">
-              FULL STACK DEVELOPER / AI ENTHUSIAST
+              {title}
             </p>
 
             {/* Main Display Heading */}
@@ -28,7 +34,7 @@ export default function HomePage() {
 
             {/* Supporting Copy */}
             <p className="mt-7 max-w-2xl text-pretty text-base leading-relaxed text-white/70 md:text-lg">
-              Engineering high-performance web applications, scalable digital platforms, and AI-powered products from Hyderabad, India. Focused on pristine craft, type safety, and real-world execution.
+              {shortBio}
             </p>
 
             {/* Action Buttons */}

@@ -5,14 +5,17 @@ import Link from "next/link"
 import { motion } from "framer-motion"
 import { ExternalLink, Github, ArrowUpRight, CheckCircle2, Filter } from "lucide-react"
 import PortfolioShell from "@/components/portfolio-shell"
-import { projects } from "@/lib/data/projects"
+import { usePortfolio } from "@/lib/portfolio-context"
 
 export default function WorkPage() {
   const [selectedCategory, setSelectedCategory] = useState<string>("All")
+  const { projects } = usePortfolio()
+
+  const visibleProjects = projects.filter((p) => p.visible !== false)
 
   const categories = ["All", "AI & FinTech", "Healthcare", "Business & Startups", "Creative & EdTech"]
 
-  const filteredProjects = projects.filter((project) => {
+  const filteredProjects = visibleProjects.filter((project) => {
     if (selectedCategory === "All") return true
     if (selectedCategory === "AI & FinTech") return project.category.includes("AI") || project.category.includes("FinTech")
     if (selectedCategory === "Healthcare") return project.category.includes("Healthcare")

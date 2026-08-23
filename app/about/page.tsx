@@ -4,8 +4,18 @@ import Link from "next/link"
 import { motion } from "framer-motion"
 import { GraduationCap, Award, MapPin, Languages, ArrowUpRight, Code2, Heart } from "lucide-react"
 import PortfolioShell from "@/components/portfolio-shell"
+import { usePortfolio } from "@/lib/portfolio-context"
 
 export default function AboutPage() {
+  const { profile, projects } = usePortfolio()
+
+  const displayName = profile?.displayName || "P. Lokesh"
+  const location = profile?.location || "Hyderabad, India"
+  const languages = profile?.languages?.length ? profile.languages.join(" · ") : "Telugu · English · Hindi · French"
+  const education = profile?.education || "B.Sc. MSCS · 2027"
+  const recognition = profile?.recognition || "Google Student Ambassador"
+  const projectCount = projects?.filter((p) => p.visible !== false)?.length || 7
+
   return (
     <PortfolioShell className="pt-6 md:pt-12">
       <div className="w-full space-y-16">
@@ -20,11 +30,11 @@ export default function AboutPage() {
 
           <div className="max-w-2xl self-end space-y-6">
             <p className="text-xl leading-relaxed text-white/90 md:text-2xl font-light">
-              I&apos;m <span className="font-medium text-white">P. Lokesh</span>, a Full Stack Developer and Computer Science student based in Hyderabad, India, driven by the craft of building resilient web products and AI integrations.
+              I&apos;m <span className="font-medium text-white">{displayName}</span>, a Full Stack Developer and Computer Science student based in {location}, driven by the craft of building resilient web products and AI integrations.
             </p>
 
             <p className="text-sm leading-relaxed text-white/65">
-              I work across the entire software development lifecycle—from responsive, accessible user interfaces and design systems to scalable backend APIs, database schemas, cloud deployments, and AI pipelines.
+              {profile?.aboutSubDescription || "I work across the entire software development lifecycle—from responsive, accessible user interfaces and design systems to scalable backend APIs, database schemas, cloud deployments, and AI pipelines."}
             </p>
 
             <div className="grid grid-cols-2 gap-4 border-t border-white/15 pt-6 text-xs text-white/70 sm:grid-cols-4">
@@ -33,7 +43,7 @@ export default function AboutPage() {
                   <MapPin className="size-3 text-purple-400" />
                   <span>Location</span>
                 </div>
-                <p className="font-medium text-white">Hyderabad, India</p>
+                <p className="font-medium text-white">{location}</p>
               </div>
 
               <div className="rounded-xl border border-white/10 bg-black/40 p-3.5 backdrop-blur-md">
@@ -41,7 +51,7 @@ export default function AboutPage() {
                   <Languages className="size-3 text-purple-400" />
                   <span>Languages</span>
                 </div>
-                <p className="font-medium text-white text-[11px] leading-tight">Telugu · English · Hindi · French</p>
+                <p className="font-medium text-white text-[11px] leading-tight">{languages}</p>
               </div>
 
               <div className="rounded-xl border border-white/10 bg-black/40 p-3.5 backdrop-blur-md">
@@ -49,7 +59,7 @@ export default function AboutPage() {
                   <GraduationCap className="size-3 text-purple-400" />
                   <span>Education</span>
                 </div>
-                <p className="font-medium text-white">B.Sc. MSCS · 2027</p>
+                <p className="font-medium text-white">{education}</p>
               </div>
 
               <div className="rounded-xl border border-white/10 bg-black/40 p-3.5 backdrop-blur-md">
@@ -57,7 +67,7 @@ export default function AboutPage() {
                   <Award className="size-3 text-purple-400" />
                   <span>Recognition</span>
                 </div>
-                <p className="font-medium text-white">Google Student Ambassador</p>
+                <p className="font-medium text-white">{recognition}</p>
               </div>
             </div>
 
@@ -66,7 +76,7 @@ export default function AboutPage() {
                 href="/work"
                 className="rounded-full bg-white px-6 py-3 text-xs font-semibold text-black transition-all hover:bg-white/85"
               >
-                View 7 Shipped Projects
+                View {projectCount} Shipped Projects
               </Link>
               <Link
                 href="/contact"

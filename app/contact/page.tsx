@@ -7,22 +7,25 @@ import {
   Copy,
   Check,
   ArrowUpRight,
-  Send,
   Phone,
   MessageCircle,
-  MapPin,
-  Clock,
-  Github,
   Linkedin,
   Instagram
 } from "lucide-react"
 import PortfolioShell from "@/components/portfolio-shell"
 import GitHubPopover from "@/components/github-popover"
+import { usePortfolio } from "@/lib/portfolio-context"
 
 export default function ContactPage() {
   const [copiedText, setCopiedText] = useState<string | null>(null)
-  const [formSubmitted, setFormSubmitted] = useState(false)
-  const [formData, setFormData] = useState({ name: "", email: "", message: "", subject: "Project Inquiry" })
+  const { contact, social } = usePortfolio()
+
+  const email1 = contact?.email1 || "poosala15@gmail.com"
+  const email2 = contact?.email2 || "lokes81@myyahoo.com"
+  const phoneNumber = contact?.phone || "+91 88856 74172"
+  const whatsappUrl = contact?.whatsappUrl || "https://wa.me/918885674172"
+  const linkedinUrl = social?.linkedinUrl || "https://www.linkedin.com/in/poosala-lokesh/"
+  const instagramUrl = social?.instagramUrl || "https://www.instagram.com/_lokesh81/"
 
   const copyToClipboard = (text: string) => {
     navigator.clipboard.writeText(text)
@@ -30,20 +33,11 @@ export default function ContactPage() {
     setTimeout(() => setCopiedText(null), 2500)
   }
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
-    if (!formData.name || !formData.email || !formData.message) return
-    setFormSubmitted(true)
-  }
-
-  const phoneNumber = "+91 88856 74172"
-  const whatsappUrl = "https://wa.me/918885674172"
-
   return (
     <PortfolioShell className="pt-6 md:pt-12">
-      <div className="w-full space-y-16">
-        {/* Header section */}
-        <section className="grid w-full items-end gap-10 lg:grid-cols-[1fr_0.9fr] border-b border-white/10 pb-12">
+      <div className="w-full space-y-12">
+        {/* Header and Main Contact Section */}
+        <section className="grid w-full items-start gap-10 lg:grid-cols-[1fr_0.9fr]">
           <div>
             <p className="text-xs uppercase tracking-[0.3em] text-white/45">04 / Contact</p>
             <h1 className="mt-3 text-6xl font-light leading-[0.92] tracking-[-0.06em] text-white md:text-8xl">
@@ -69,17 +63,17 @@ export default function ContactPage() {
               <div className="space-y-2">
                 <div className="flex items-center justify-between rounded-xl border border-white/10 bg-white/[0.02] p-2.5">
                   <a
-                    href="mailto:poosalalokesh@gmail.com"
+                    href={`mailto:${email1}`}
                     className="text-xs font-mono text-white hover:text-purple-300 transition-colors"
                   >
-                    poosalalokesh@gmail.com
+                    {email1}
                   </a>
                   <button
-                    onClick={() => copyToClipboard("poosalalokesh@gmail.com")}
+                    onClick={() => copyToClipboard(email1)}
                     className="p-1 text-white/50 hover:text-white transition-colors"
                     title="Copy to clipboard"
                   >
-                    {copiedText === "poosalalokesh@gmail.com" ? (
+                    {copiedText === email1 ? (
                       <Check className="size-3.5 text-emerald-400" />
                     ) : (
                       <Copy className="size-3.5" />
@@ -89,17 +83,17 @@ export default function ContactPage() {
 
                 <div className="flex items-center justify-between rounded-xl border border-white/10 bg-white/[0.02] p-2.5">
                   <a
-                    href="mailto:lokeshpoosala@gmail.com"
+                    href={`mailto:${email2}`}
                     className="text-xs font-mono text-white hover:text-purple-300 transition-colors"
                   >
-                    lokeshpoosala@gmail.com
+                    {email2}
                   </a>
                   <button
-                    onClick={() => copyToClipboard("lokeshpoosala@gmail.com")}
+                    onClick={() => copyToClipboard(email2)}
                     className="p-1 text-white/50 hover:text-white transition-colors"
                     title="Copy to clipboard"
                   >
-                    {copiedText === "lokeshpoosala@gmail.com" ? (
+                    {copiedText === email2 ? (
                       <Check className="size-3.5 text-emerald-400" />
                     ) : (
                       <Copy className="size-3.5" />
@@ -121,14 +115,12 @@ export default function ContactPage() {
 
               <div className="flex items-center justify-between rounded-xl border border-white/10 bg-white/[0.02] p-2.5">
                 <a
-                  href={whatsappUrl}
-                  target="_blank"
-                  rel="noreferrer"
+                  href="tel:+918885674172"
                   className="flex items-center gap-2 text-xs font-mono text-white hover:text-emerald-300 transition-colors"
                 >
                   <span className="size-2 rounded-full bg-emerald-400" />
                   <span>{phoneNumber}</span>
-                  <ArrowUpRight className="size-3 text-white/40" />
+                  <Phone className="size-3 text-white/40 ml-0.5" />
                 </a>
 
                 <div className="flex items-center gap-1">
@@ -159,7 +151,7 @@ export default function ContactPage() {
             <div className="grid grid-cols-3 gap-2">
               <GitHubPopover />
               <a
-                href="https://www.linkedin.com/in/poosala-lokesh/"
+                href={linkedinUrl}
                 target="_blank"
                 rel="noreferrer"
                 className="flex items-center justify-center gap-1.5 rounded-xl border border-white/10 bg-black/40 p-3 text-xs text-white/80 backdrop-blur-md transition hover:border-white/30 hover:text-white"
@@ -168,7 +160,7 @@ export default function ContactPage() {
                 <span>LinkedIn ↗</span>
               </a>
               <a
-                href="https://www.instagram.com/_lokesh81/"
+                href={instagramUrl}
                 target="_blank"
                 rel="noreferrer"
                 className="flex items-center justify-center gap-1.5 rounded-xl border border-white/10 bg-black/40 p-3 text-xs text-white/80 backdrop-blur-md transition hover:border-white/30 hover:text-white"
@@ -178,112 +170,6 @@ export default function ContactPage() {
               </a>
             </div>
           </div>
-        </section>
-
-        {/* Interactive Contact Form */}
-        <section className="mx-auto max-w-3xl rounded-3xl border border-white/15 bg-black/50 p-6 md:p-10 backdrop-blur-2xl shadow-2xl">
-          {formSubmitted ? (
-            <div className="py-12 text-center space-y-4">
-              <div className="mx-auto flex size-14 items-center justify-center rounded-full border border-emerald-400/30 bg-emerald-500/10 text-emerald-400">
-                <Check className="size-6" />
-              </div>
-              <h3 className="text-2xl font-light text-white">Message Received</h3>
-              <p className="mx-auto max-w-md text-xs text-white/65 leading-relaxed">
-                Thank you for reaching out, {formData.name}. I have received your note and will reply directly to {formData.email} shortly.
-              </p>
-              <button
-                onClick={() => {
-                  setFormSubmitted(false)
-                  setFormData({ name: "", email: "", message: "", subject: "Project Inquiry" })
-                }}
-                className="mt-4 rounded-full border border-white/20 px-6 py-2 text-xs font-medium text-white transition hover:bg-white/10"
-              >
-                Send another message
-              </button>
-            </div>
-          ) : (
-            <form onSubmit={handleSubmit} className="space-y-6">
-              <div className="flex items-center justify-between border-b border-white/10 pb-4">
-                <div>
-                  <h3 className="text-xl font-medium text-white">Send a Direct Message</h3>
-                  <p className="text-xs text-white/50">Fill out this quick form or connect directly</p>
-                </div>
-              </div>
-
-              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-                <div>
-                  <label className="text-[11px] uppercase tracking-wider text-white/50 block mb-1.5 font-medium">
-                    Your Name
-                  </label>
-                  <input
-                    type="text"
-                    required
-                    value={formData.name}
-                    onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                    placeholder="Your name"
-                    className="w-full rounded-xl border border-white/15 bg-black/60 px-4 py-2.5 text-xs text-white placeholder:text-white/30 focus:border-purple-400 focus:outline-none"
-                  />
-                </div>
-
-                <div>
-                  <label className="text-[11px] uppercase tracking-wider text-white/50 block mb-1.5 font-medium">
-                    Your Email
-                  </label>
-                  <input
-                    type="email"
-                    required
-                    value={formData.email}
-                    onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                    placeholder="Your email"
-                    className="w-full rounded-xl border border-white/15 bg-black/60 px-4 py-2.5 text-xs text-white placeholder:text-white/30 focus:border-purple-400 focus:outline-none"
-                  />
-                </div>
-              </div>
-
-              <div>
-                <label className="text-[11px] uppercase tracking-wider text-white/50 block mb-1.5 font-medium">
-                  Subject / Topic
-                </label>
-                <select
-                  value={formData.subject}
-                  onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
-                  className="w-full rounded-xl border border-white/15 bg-black/60 px-4 py-2.5 text-xs text-white focus:border-purple-400 focus:outline-none"
-                >
-                  <option value="Project Inquiry">Full Stack Project Inquiry</option>
-                  <option value="Full-Time Engineering Role">Full-Time / Contract Role</option>
-                  <option value="AI / LLM Integration">AI / LLM System Architecture</option>
-                  <option value="General Collaboration">General Collaboration & Mentorship</option>
-                </select>
-              </div>
-
-              <div>
-                <label className="text-[11px] uppercase tracking-wider text-white/50 block mb-1.5 font-medium">
-                  Message
-                </label>
-                <textarea
-                  required
-                  rows={4}
-                  value={formData.message}
-                  onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                  placeholder="Tell me about your product requirements, timeline, or open engineering opportunity..."
-                  className="w-full rounded-xl border border-white/15 bg-black/60 px-4 py-2.5 text-xs text-white placeholder:text-white/30 focus:border-purple-400 focus:outline-none"
-                />
-              </div>
-
-              <div className="flex flex-col justify-between gap-4 sm:flex-row sm:items-center pt-2">
-                <span className="text-[11px] text-white/40 font-mono">
-                  Location: Hyderabad (IST · UTC+5:30)
-                </span>
-                <button
-                  type="submit"
-                  className="flex items-center justify-center gap-2 rounded-full bg-white px-7 py-3 text-xs font-semibold text-black transition-all hover:bg-white/85"
-                >
-                  <span>Transmit Message</span>
-                  <Send className="size-3.5" />
-                </button>
-              </div>
-            </form>
-          )}
         </section>
       </div>
     </PortfolioShell>

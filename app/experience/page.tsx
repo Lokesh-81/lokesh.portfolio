@@ -5,13 +5,16 @@ import Link from "next/link"
 import { motion } from "framer-motion"
 import { Briefcase, Calendar, MapPin, CheckCircle2, Code2, Database, Wrench, Layers } from "lucide-react"
 import PortfolioShell from "@/components/portfolio-shell"
-import { experiences } from "@/lib/data/experience"
-import { techStack, categories, type SkillLevel } from "@/lib/data/tech-stack"
+import { usePortfolio } from "@/lib/portfolio-context"
+import { type SkillLevel } from "@/lib/firebase"
 
 export default function ExperiencePage() {
   const [selectedTechCategory, setSelectedTechCategory] = useState<string>("All")
+  const { experiences, technologies } = usePortfolio()
 
-  const filteredTech = techStack.filter((tech) => {
+  const categories = ["All", ...Array.from(new Set(technologies.map((t) => t.category)))]
+
+  const filteredTech = technologies.filter((tech) => {
     if (selectedTechCategory === "All") return true
     return tech.category === selectedTechCategory
   })

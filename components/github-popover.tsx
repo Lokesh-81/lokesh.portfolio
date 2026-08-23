@@ -2,6 +2,7 @@
 
 import { useState, useRef, useEffect } from "react"
 import { Github, ArrowUpRight, ChevronDown } from "lucide-react"
+import { usePortfolio } from "@/lib/portfolio-context"
 
 interface GitHubPopoverProps {
   variant?: "button" | "card" | "link"
@@ -11,6 +12,7 @@ interface GitHubPopoverProps {
 export default function GitHubPopover({ variant = "card", className = "" }: GitHubPopoverProps) {
   const [isOpen, setIsOpen] = useState(false)
   const menuRef = useRef<HTMLDivElement>(null)
+  const { social } = usePortfolio()
 
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
@@ -34,7 +36,7 @@ export default function GitHubPopover({ variant = "card", className = "" }: GitH
     }
   }, [isOpen])
 
-  const profiles = [
+  const profiles = social?.githubProfiles?.length ? social.githubProfiles : [
     {
       label: "GitHub — lokeshnaivaidya-max",
       username: "lokeshnaivaidya-max",

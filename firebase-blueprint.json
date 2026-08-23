@@ -1,0 +1,75 @@
+{
+  "entities": {
+    "profile": {
+      "fields": {
+        "name": { "type": "string", "description": "Full name" },
+        "displayName": { "type": "string", "description": "Display name" },
+        "title": { "type": "string", "description": "Professional title" },
+        "shortBio": { "type": "string", "description": "Short bio" },
+        "location": { "type": "string", "description": "Location" },
+        "photoUrl": { "type": "string", "description": "Profile photo URL" },
+        "languages": { "type": "array", "description": "Languages spoken" }
+      }
+    },
+    "experience": {
+      "fields": {
+        "company": { "type": "string", "description": "Company name" },
+        "role": { "type": "string", "description": "Job role" },
+        "period": { "type": "string", "description": "Time period" },
+        "location": { "type": "string", "description": "Location" },
+        "description": { "type": "string", "description": "Overview" },
+        "responsibilities": { "type": "array", "description": "Key responsibilities" },
+        "technologies": { "type": "array", "description": "Tech stack" },
+        "order": { "type": "number", "description": "Display order" }
+      }
+    },
+    "technologies": {
+      "fields": {
+        "name": { "type": "string", "description": "Tech name" },
+        "category": { "type": "string", "description": "Tech category" },
+        "level": { "type": "string", "description": "Proficiency level" },
+        "order": { "type": "number", "description": "Display order" }
+      }
+    },
+    "projects": {
+      "fields": {
+        "name": { "type": "string", "description": "Project title" },
+        "category": { "type": "string", "description": "Category" },
+        "tagline": { "type": "string", "description": "Tagline" },
+        "description": { "type": "string", "description": "Full description" },
+        "technologies": { "type": "array", "description": "Technologies" },
+        "whatIWorkedOn": { "type": "array", "description": "Deliverables" },
+        "liveUrl": { "type": "string", "description": "Live URL" },
+        "githubUrl": { "type": "string", "description": "GitHub URL" },
+        "featured": { "type": "boolean", "description": "Featured flag" },
+        "visible": { "type": "boolean", "description": "Visibility flag" },
+        "order": { "type": "number", "description": "Display order" }
+      }
+    },
+    "social": {
+      "fields": {
+        "githubProfiles": { "type": "array", "description": "GitHub profiles" },
+        "linkedinUrl": { "type": "string", "description": "LinkedIn URL" },
+        "instagramUrl": { "type": "string", "description": "Instagram URL" }
+      }
+    },
+    "contact": {
+      "fields": {
+        "email1": { "type": "string", "description": "Primary email" },
+        "email2": { "type": "string", "description": "Secondary email" },
+        "phone": { "type": "string", "description": "Phone number" },
+        "whatsappUrl": { "type": "string", "description": "WhatsApp URL" }
+      }
+    }
+  },
+  "firestoreRules": {
+    "collections": {
+      "portfolio": {
+        "allow": {
+          "read": "true",
+          "write": "request.auth != null"
+        }
+      }
+    }
+  }
+}

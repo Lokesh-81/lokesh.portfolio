@@ -3,6 +3,7 @@ import type { Metadata, Viewport } from "next"
 import { Figtree } from "next/font/google"
 import { GeistMono } from "geist/font/mono"
 import { Instrument_Serif } from "next/font/google"
+import { PortfolioProvider } from "@/lib/portfolio-context"
 import "./globals.css"
 
 const figtree = Figtree({
@@ -91,7 +92,9 @@ html {
         `}</style>
       </head>
       <body className={`${figtree.variable} ${instrumentSerif.variable} antialiased bg-black text-white selection:bg-purple-500/30 selection:text-purple-200`}>
-        {children}
+        <PortfolioProvider>
+          {children}
+        </PortfolioProvider>
       </body>
     </html>
   )
