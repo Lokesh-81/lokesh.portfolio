@@ -166,6 +166,39 @@ export default function StudioPage() {
     setContactForm(contact)
   }, [contact])
 
+  // Format Granular Auth Errors
+  const formatAuthError = (err: any, _action: "signin" | "google" | "reset" | "create"): string => {
+    const code = err?.code || ""
+    const message = err?.message || ""
+
+    if (code === "auth/operation-not-allowed" || message.includes("PASSWORD_LOGIN_DISABLED") || message.includes("OPERATION_NOT_ALLOWED")) {
+      return "[auth/operation-not-allowed] Email/Password sign-in provider is not enabled for the active Firebase project. In Firebase Console → Authentication → Sign-in method, ensure 'Email/Password' is enabled, and verify your Vercel NEXT_PUBLIC_FIREBASE_API_KEY belongs to project 'portfolio-lokesh'."
+    }
+    if (code === "auth/unauthorized-domain") {
+      const domain = typeof window !== "undefined" ? window.location.hostname : "lokeshportfolio-pink.vercel.app"
+      return `[auth/unauthorized-domain] Domain '${domain}' is not authorized in Firebase Authentication. In Firebase Console → Authentication → Settings → Authorized domains, ensure '${domain}' is added.`
+    }
+    if (code === "auth/invalid-credential" || code === "auth/invalid-login-credentials" || code === "auth/wrong-password") {
+      return `[${code || "auth/invalid-credential"}] Invalid credentials for ${ADMIN_EMAIL}. If you haven't created your password in Firebase yet, click 'Forgot / Setup Password?' or use Google Sign-In.`
+    }
+    if (code === "auth/user-not-found") {
+      return `[auth/user-not-found] User ${ADMIN_EMAIL} was not found in Firebase Authentication. Please create the user or use 'Forgot / Setup Password?'.`
+    }
+    if (code === "auth/email-already-in-use") {
+      return `[auth/email-already-in-use] The admin account ${ADMIN_EMAIL} already exists in Firebase Auth. Try logging in or use 'Forgot / Setup Password?'.`
+    }
+    if (code === "auth/network-request-failed") {
+      return `[auth/network-request-failed] Network error while connecting to Firebase Authentication. Please check your internet connection.`
+    }
+    if (code === "auth/popup-closed-by-user") {
+      return "[auth/popup-closed-by-user] Google Sign-In popup was closed before completing login."
+    }
+    if (code === "auth/popup-blocked") {
+      return "[auth/popup-blocked] Google Sign-In popup was blocked by browser. Please allow popups for this site."
+    }
+    return `[${code || "auth/error"}] ${message || "Authentication request failed."}`
+  }
+
   // Handle Auth
   const handleEmailLogin = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -184,21 +217,7 @@ export default function StudioPage() {
       showToast("Welcome to Portfolio Studio!", "success")
     } catch (err: any) {
       console.error("Auth error:", err)
-      if (err.code === "auth/operation-not-allowed" || err.message?.includes("PASSWORD_LOGIN_DISABLED") || err.message?.includes("OPERATION_NOT_ALLOWED")) {
-        setAuthError(
-          "Email/Password sign-in is not enabled in Firebase Authentication. In Firebase Console → Authentication → Sign-in method, please enable the 'Email/Password' provider."
-        )
-      } else if (err.code === "auth/invalid-credential" || err.code === "auth/user-not-found" || err.code === "auth/wrong-password" || err.code === "auth/invalid-email") {
-        setAuthError(
-          `Invalid credentials for ${ADMIN_EMAIL}. If you haven't created the password in Firebase yet, click 'Forgot / Setup Password?' or use Google Sign-In.`
-        )
-      } else if (err.code === "auth/unauthorized-domain") {
-        setAuthError(
-          "Firebase Authentication: unauthorized domain. Please add 'lokeshportfolio-pink.vercel.app' to Firebase Console → Authentication → Settings → Authorized domains."
-        )
-      } else {
-        setAuthError(err.message || "Failed to sign in. Please verify your credentials.")
-      }
+      setAuthError(formatAuthError(err, "signin"))
     } finally {
       setIsSubmittingAuth(false)
     }
@@ -212,15 +231,7 @@ export default function StudioPage() {
       showToast("Signed in successfully with Google", "success")
     } catch (err: any) {
       console.error("Google Auth error:", err)
-      if (err.code === "auth/unauthorized-domain") {
-        setAuthError(
-          "Firebase Authentication: unauthorized domain. In Firebase Console → Authentication → Settings → Authorized domains, please add 'lokeshportfolio-pink.vercel.app'."
-        )
-      } else if (err.code === "auth/popup-closed-by-user") {
-        setAuthError("Google Sign-In popup was closed before completing login.")
-      } else {
-        setAuthError(err.message || "Google sign in was cancelled or failed.")
-      }
+      setAuthError(formatAuthError(err, "google"))
     } finally {
       setIsSubmittingAuth(false)
     }
@@ -234,17 +245,7 @@ export default function StudioPage() {
       showToast(`Password setup link sent to ${ADMIN_EMAIL}! Check your inbox.`, "success")
     } catch (err: any) {
       console.error("Password reset error:", err)
-      if (err.code === "auth/unauthorized-domain") {
-        setAuthError(
-          "Firebase Authentication: unauthorized domain. Please add 'lokeshportfolio-pink.vercel.app' to Firebase Console → Authentication → Settings → Authorized domains."
-        )
-      } else if (err.code === "auth/operation-not-allowed" || err.message?.includes("OPERATION_NOT_ALLOWED")) {
-        setAuthError(
-          "Email/Password provider is disabled in Firebase Console. In Firebase Console → Authentication → Sign-in method, please enable 'Email/Password'."
-        )
-      } else {
-        setAuthError(err.message || "Failed to send password reset email.")
-      }
+      setAuthError(formatAuthError(err, "reset"))
     } finally {
       setIsSendingReset(false)
     }
@@ -262,19 +263,7 @@ export default function StudioPage() {
       showToast(`Admin account created in Firebase Authentication for ${ADMIN_EMAIL}!`, "success")
     } catch (err: any) {
       console.error("Create account error:", err)
-      if (err.code === "auth/email-already-in-use") {
-        setAuthError(`The account ${ADMIN_EMAIL} already exists in Firebase Auth. Try logging in or use 'Forgot / Setup Password?'.`)
-      } else if (err.code === "auth/operation-not-allowed" || err.message?.includes("OPERATION_NOT_ALLOWED")) {
-        setAuthError(
-          "Email/Password sign-up is disabled in Firebase. In Firebase Console → Authentication → Sign-in method, please enable 'Email/Password'."
-        )
-      } else if (err.code === "auth/unauthorized-domain") {
-        setAuthError(
-          "Firebase Authentication: unauthorized domain. Please add 'lokeshportfolio-pink.vercel.app' to Firebase Console → Authentication → Settings → Authorized domains."
-        )
-      } else {
-        setAuthError(err.message || "Failed to create Firebase Auth account.")
-      }
+      setAuthError(formatAuthError(err, "create"))
     } finally {
       setIsCreatingAccount(false)
     }

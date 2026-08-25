@@ -477,6 +477,14 @@ export function getFirebaseApp(): FirebaseApp | null {
     try {
       const config = getResolvedFirebaseConfig()
       app = getApps().length > 0 ? getApp() : initializeApp(config)
+      if (typeof window !== "undefined") {
+        console.log("[Portfolio Studio Firebase Init]", {
+          projectId: app.options.projectId,
+          authDomain: app.options.authDomain,
+          hasApiKey: Boolean(app.options.apiKey),
+          apiKeyPrefix: app.options.apiKey ? app.options.apiKey.substring(0, 6) + "..." : "none"
+        })
+      }
     } catch (e) {
       console.warn("Failed to initialize Firebase App:", e)
     }
@@ -532,8 +540,17 @@ export function getFirebaseStorage(): FirebaseStorage | null {
 
 // Firebase Auth Helpers - STRICTLY allowlist poosala15@gmail.com
 export async function signInWithGoogle(): Promise<User> {
+  const currentApp = getFirebaseApp()
   const firebaseAuth = getFirebaseAuth()
-  if (!firebaseAuth) throw new Error("Firebase Auth not initialized")
+  if (!firebaseAuth || !currentApp) throw new Error("Firebase Auth not initialized")
+
+  console.log({
+    firebaseProjectId: currentApp.options.projectId,
+    firebaseAuthDomain: currentApp.options.authDomain,
+    currentAuthApp: firebaseAuth.app.options.projectId,
+    currentAuthDomain: firebaseAuth.app.options.authDomain
+  })
+
   const provider = new GoogleAuthProvider()
   provider.setCustomParameters({ prompt: "select_account" })
   const result = await signInWithPopup(firebaseAuth, provider)
@@ -546,8 +563,17 @@ export async function signInWithGoogle(): Promise<User> {
 }
 
 export async function signInWithEmail(email: string, pass: string): Promise<User> {
+  const currentApp = getFirebaseApp()
   const firebaseAuth = getFirebaseAuth()
-  if (!firebaseAuth) throw new Error("Firebase Auth not initialized")
+  if (!firebaseAuth || !currentApp) throw new Error("Firebase Auth not initialized")
+
+  console.log({
+    firebaseProjectId: currentApp.options.projectId,
+    firebaseAuthDomain: currentApp.options.authDomain,
+    currentAuthApp: firebaseAuth.app.options.projectId,
+    currentAuthDomain: firebaseAuth.app.options.authDomain
+  })
+
   const cleanEmail = email.trim().toLowerCase()
   if (cleanEmail !== ADMIN_EMAIL.toLowerCase()) {
     throw new Error(`Only ${ADMIN_EMAIL} is authorized for Portfolio Studio.`)
@@ -562,15 +588,33 @@ export async function signInWithEmail(email: string, pass: string): Promise<User
 }
 
 export async function createAdminAccount(password: string): Promise<User> {
+  const currentApp = getFirebaseApp()
   const firebaseAuth = getFirebaseAuth()
-  if (!firebaseAuth) throw new Error("Firebase Auth not initialized")
+  if (!firebaseAuth || !currentApp) throw new Error("Firebase Auth not initialized")
+
+  console.log({
+    firebaseProjectId: currentApp.options.projectId,
+    firebaseAuthDomain: currentApp.options.authDomain,
+    currentAuthApp: firebaseAuth.app.options.projectId,
+    currentAuthDomain: firebaseAuth.app.options.authDomain
+  })
+
   const result = await createUserWithEmailAndPassword(firebaseAuth, ADMIN_EMAIL, password)
   return result.user
 }
 
 export async function sendAdminPasswordReset(email: string = ADMIN_EMAIL): Promise<void> {
+  const currentApp = getFirebaseApp()
   const firebaseAuth = getFirebaseAuth()
-  if (!firebaseAuth) throw new Error("Firebase Auth not initialized")
+  if (!firebaseAuth || !currentApp) throw new Error("Firebase Auth not initialized")
+
+  console.log({
+    firebaseProjectId: currentApp.options.projectId,
+    firebaseAuthDomain: currentApp.options.authDomain,
+    currentAuthApp: firebaseAuth.app.options.projectId,
+    currentAuthDomain: firebaseAuth.app.options.authDomain
+  })
+
   const cleanEmail = email.trim().toLowerCase()
   if (cleanEmail !== ADMIN_EMAIL.toLowerCase()) {
     throw new Error(`Password reset can only be sent to ${ADMIN_EMAIL}.`)
