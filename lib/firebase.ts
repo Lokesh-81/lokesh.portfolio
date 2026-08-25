@@ -442,15 +442,12 @@ export const initialContactData: ContactData = {
 
 export const ADMIN_EMAIL = "poosala15@gmail.com"
 
-// Resolve Firebase configuration dynamically from environment variables with safe defaults for Portfolio-Lokesh
+// Resolve Firebase configuration dynamically from environment variables with defaults
 export function getResolvedFirebaseConfig() {
   const apiKey = process.env.NEXT_PUBLIC_FIREBASE_API_KEY || firebaseConfigJson.apiKey || ""
-  const projectId = process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID || 
-    (firebaseConfigJson.projectId?.includes("gen-lang-client") ? "portfolio-lokesh" : (firebaseConfigJson.projectId || "portfolio-lokesh"))
-  const authDomain = process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN || 
-    (firebaseConfigJson.authDomain?.includes("gen-lang-client") ? `${projectId}.firebaseapp.com` : (firebaseConfigJson.authDomain || `${projectId}.firebaseapp.com`))
-  const storageBucket = process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET || 
-    (firebaseConfigJson.storageBucket?.includes("gen-lang-client") ? `${projectId}.firebasestorage.app` : (firebaseConfigJson.storageBucket || `${projectId}.firebasestorage.app`))
+  const projectId = process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID || firebaseConfigJson.projectId || "portfolio-lokesh"
+  const authDomain = process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN || firebaseConfigJson.authDomain || `${projectId}.firebaseapp.com`
+  const storageBucket = process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET || firebaseConfigJson.storageBucket || `${projectId}.firebasestorage.app`
   const messagingSenderId = process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID || firebaseConfigJson.messagingSenderId || ""
   const appId = process.env.NEXT_PUBLIC_FIREBASE_APP_ID || firebaseConfigJson.appId || ""
   const measurementId = process.env.NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID || firebaseConfigJson.measurementId || ""
