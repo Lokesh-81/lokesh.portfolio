@@ -50,9 +50,12 @@ import {
   type SocialData,
   type ContactData,
   type SkillLevel,
+  ADMIN_EMAIL,
   subscribeToAuth,
   signInWithGoogle,
   signInWithEmail,
+  createAdminAccount,
+  sendAdminPasswordReset,
   signOutStudio,
   saveProfileData,
   saveExperienceItem,
@@ -90,10 +93,12 @@ export default function StudioPage() {
   // Authentication State
   const [currentUser, setCurrentUser] = useState<User | null>(null)
   const [authLoading, setAuthLoading] = useState(true)
-  const [authEmail, setAuthEmail] = useState("")
+  const [authEmail, setAuthEmail] = useState(ADMIN_EMAIL)
   const [authPassword, setAuthPassword] = useState("")
   const [authError, setAuthError] = useState<string | null>(null)
   const [isSubmittingAuth, setIsSubmittingAuth] = useState(false)
+  const [isSendingReset, setIsSendingReset] = useState(false)
+  const [isCreatingAccount, setIsCreatingAccount] = useState(false)
 
   // Navigation
   const [activeTab, setActiveTab] = useState<StudioTab>("profile")
@@ -165,7 +170,11 @@ export default function StudioPage() {
   const handleEmailLogin = async (e: React.FormEvent) => {
     e.preventDefault()
     if (!authEmail || !authPassword) {
-      setAuthError("Please enter both email and password")
+      setAuthError("Please enter both admin email and password.")
+      return
+    }
+    if (authEmail.trim().toLowerCase() !== ADMIN_EMAIL.toLowerCase()) {
+      setAuthError(`Only ${ADMIN_EMAIL} is authorized for Portfolio Studio.`)
       return
     }
     setIsSubmittingAuth(true)
@@ -175,7 +184,17 @@ export default function StudioPage() {
       showToast("Welcome to Portfolio Studio!", "success")
     } catch (err: any) {
       console.error("Auth error:", err)
-      setAuthError(err.message || "Failed to sign in. Please verify your credentials.")
+      if (err.code === "auth/invalid-credential" || err.code === "auth/user-not-found" || err.code === "auth/wrong-password") {
+        setAuthError(
+          `Invalid credentials for ${ADMIN_EMAIL}. If you haven't created your Firebase password yet or need to reset it, use the options below.`
+        )
+      } else if (err.code === "auth/unauthorized-domain") {
+        setAuthError(
+          "Firebase Authentication: unauthorized domain. Please check that your current domain is listed under Firebase Console → Authentication → Settings → Authorized domains."
+        )
+      } else {
+        setAuthError(err.message || "Failed to sign in. Please verify your credentials.")
+      }
     } finally {
       setIsSubmittingAuth(false)
     }
@@ -189,9 +208,53 @@ export default function StudioPage() {
       showToast("Signed in successfully with Google", "success")
     } catch (err: any) {
       console.error("Google Auth error:", err)
-      setAuthError(err.message || "Google sign in was cancelled or failed.")
+      if (err.code === "auth/unauthorized-domain") {
+        setAuthError(
+          "Firebase Authentication: unauthorized domain. Please check that your current domain is authorized in Firebase Authentication settings."
+        )
+      } else if (err.code === "auth/popup-closed-by-user") {
+        setAuthError("Google Sign-In popup was closed before completing login.")
+      } else {
+        setAuthError(err.message || "Google sign in was cancelled or failed.")
+      }
     } finally {
       setIsSubmittingAuth(false)
+    }
+  }
+
+  const handleSendResetLink = async () => {
+    setIsSendingReset(true)
+    setAuthError(null)
+    try {
+      await sendAdminPasswordReset(ADMIN_EMAIL)
+      showToast(`Password setup link sent to ${ADMIN_EMAIL}! Check your inbox.`, "success")
+    } catch (err: any) {
+      console.error("Password reset error:", err)
+      setAuthError(err.message || "Failed to send password reset email.")
+    } finally {
+      setIsSendingReset(false)
+    }
+  }
+
+  const handleCreateAdmin = async () => {
+    if (!authPassword || authPassword.length < 6) {
+      setAuthError("Password must be at least 6 characters to create the account in Firebase.")
+      return
+    }
+    setIsCreatingAccount(true)
+    setAuthError(null)
+    try {
+      await createAdminAccount(authPassword)
+      showToast(`Admin account created in Firebase Authentication for ${ADMIN_EMAIL}!`, "success")
+    } catch (err: any) {
+      console.error("Create account error:", err)
+      if (err.code === "auth/email-already-in-use") {
+        setAuthError(`The account ${ADMIN_EMAIL} already exists in Firebase Auth. Try logging in or use 'Send Password Setup Link'.`)
+      } else {
+        setAuthError(err.message || "Failed to create Firebase Auth account.")
+      }
+    } finally {
+      setIsCreatingAccount(false)
     }
   }
 
@@ -593,9 +656,9 @@ export default function StudioPage() {
     return (
       <PortfolioShell className="pt-10 md:pt-16">
         <div className="mx-auto max-w-lg">
-          <div className="overflow-hidden rounded-3xl border border-purple-500/20 bg-gradient-to-b from-purple-950/20 via-black/80 to-black/95 p-8 md:p-10 backdrop-blur-2xl shadow-2xl space-y-8">
+          <div className="overflow-hidden rounded-3xl border border-purple-500/20 bg-gradient-to-b from-purple-950/20 via-black/80 to-black/95 p-8 md:p-10 backdrop-blur-2xl shadow-2xl space-y-7">
             {/* Studio Icon & Branding */}
-            <div className="text-center space-y-3">
+            <div className="text-center space-y-2.5">
               <div className="mx-auto flex size-14 items-center justify-center rounded-2xl border border-purple-400/40 bg-purple-500/10 text-purple-300 shadow-[0_0_25px_rgba(168,85,247,0.25)]">
                 <Lock className="size-6" />
               </div>
@@ -603,7 +666,7 @@ export default function StudioPage() {
                 Portfolio <span className="instrument italic text-purple-300">Studio</span>
               </h1>
               <p className="text-xs text-white/65 leading-relaxed max-w-sm mx-auto">
-                Admin Content Management Interface for <span className="text-white font-medium">P. Lokesh</span>. Sign in to update experience, projects, skills, and profile data in real time.
+                Admin Content Management System. Restricted to authorized administrator identity.
               </p>
             </div>
 
@@ -616,8 +679,9 @@ export default function StudioPage() {
 
             {/* Google Sign-in */}
             <button
+              type="button"
               onClick={handleGoogleLogin}
-              disabled={isSubmittingAuth}
+              disabled={isSubmittingAuth || isSendingReset || isCreatingAccount}
               className="flex w-full items-center justify-center gap-3 rounded-xl border border-white/20 bg-white/5 py-3 text-xs font-medium text-white transition-all hover:border-purple-400/50 hover:bg-purple-500/10 hover:shadow-lg disabled:opacity-50"
             >
               <svg className="size-4" viewBox="0 0 24 24">
@@ -658,16 +722,26 @@ export default function StudioPage() {
                   type="email"
                   value={authEmail}
                   onChange={(e) => setAuthEmail(e.target.value)}
-                  placeholder="lokesh.naivaidya@gmail.com"
+                  placeholder="poosala15@gmail.com"
                   required
                   className="w-full rounded-xl border border-white/15 bg-white/[0.03] px-3.5 py-2.5 text-xs text-white placeholder:text-white/30 focus:border-purple-400 focus:outline-none"
                 />
               </div>
 
               <div className="space-y-1.5">
-                <label className="text-[11px] font-mono uppercase tracking-wider text-white/60">
-                  Password
-                </label>
+                <div className="flex items-center justify-between">
+                  <label className="text-[11px] font-mono uppercase tracking-wider text-white/60">
+                    Password
+                  </label>
+                  <button
+                    type="button"
+                    onClick={handleSendResetLink}
+                    disabled={isSendingReset || isSubmittingAuth}
+                    className="text-[10px] font-mono text-purple-300 hover:text-purple-200 transition-colors underline underline-offset-2"
+                  >
+                    {isSendingReset ? "Sending Link..." : "Forgot / Setup Password?"}
+                  </button>
+                </div>
                 <input
                   type="password"
                   value={authPassword}
@@ -680,7 +754,7 @@ export default function StudioPage() {
 
               <button
                 type="submit"
-                disabled={isSubmittingAuth}
+                disabled={isSubmittingAuth || isSendingReset || isCreatingAccount}
                 className="w-full rounded-xl bg-purple-600 py-3 text-xs font-semibold text-white transition-all hover:bg-purple-500 shadow-[0_0_20px_rgba(168,85,247,0.3)] disabled:opacity-50 flex items-center justify-center gap-2"
               >
                 {isSubmittingAuth ? (
@@ -695,6 +769,20 @@ export default function StudioPage() {
                   </>
                 )}
               </button>
+
+              {/* First-time account initialization helper */}
+              <div className="pt-2 flex items-center justify-between text-[11px] text-white/40">
+                <span>First time setting up?</span>
+                <button
+                  type="button"
+                  onClick={handleCreateAdmin}
+                  disabled={isCreatingAccount || isSubmittingAuth || !authPassword}
+                  className="text-purple-300 hover:text-purple-200 underline underline-offset-2 disabled:opacity-40"
+                  title="Registers poosala15@gmail.com with the entered password directly in Firebase Authentication"
+                >
+                  {isCreatingAccount ? "Registering in Firebase..." : "Initialize Admin in Firebase Auth"}
+                </button>
+              </div>
             </form>
 
             <div className="pt-2 border-t border-white/10 text-center">

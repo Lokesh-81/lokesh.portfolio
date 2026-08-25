@@ -15,6 +15,8 @@ import {
   getAuth,
   signInWithEmailAndPassword,
   signInWithPopup,
+  createUserWithEmailAndPassword,
+  sendPasswordResetEmail,
   GoogleAuthProvider,
   signOut,
   onAuthStateChanged,
@@ -438,6 +440,34 @@ export const initialContactData: ContactData = {
   locationDisplay: "Hyderabad (IST · UTC+5:30)"
 }
 
+export const ADMIN_EMAIL = "poosala15@gmail.com"
+
+// Resolve Firebase configuration dynamically from environment variables with safe defaults for Portfolio-Lokesh
+export function getResolvedFirebaseConfig() {
+  const apiKey = process.env.NEXT_PUBLIC_FIREBASE_API_KEY || firebaseConfigJson.apiKey || ""
+  const projectId = process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID || 
+    (firebaseConfigJson.projectId?.includes("gen-lang-client") ? "portfolio-lokesh" : (firebaseConfigJson.projectId || "portfolio-lokesh"))
+  const authDomain = process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN || 
+    (firebaseConfigJson.authDomain?.includes("gen-lang-client") ? `${projectId}.firebaseapp.com` : (firebaseConfigJson.authDomain || `${projectId}.firebaseapp.com`))
+  const storageBucket = process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET || 
+    (firebaseConfigJson.storageBucket?.includes("gen-lang-client") ? `${projectId}.firebasestorage.app` : (firebaseConfigJson.storageBucket || `${projectId}.firebasestorage.app`))
+  const messagingSenderId = process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID || firebaseConfigJson.messagingSenderId || ""
+  const appId = process.env.NEXT_PUBLIC_FIREBASE_APP_ID || firebaseConfigJson.appId || ""
+  const measurementId = process.env.NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID || firebaseConfigJson.measurementId || ""
+  const firestoreDatabaseId = process.env.NEXT_PUBLIC_FIREBASE_DATABASE_ID || firebaseConfigJson.firestoreDatabaseId || "(default)"
+
+  return {
+    apiKey,
+    authDomain,
+    projectId,
+    storageBucket,
+    messagingSenderId,
+    appId,
+    measurementId,
+    firestoreDatabaseId
+  }
+}
+
 // App Initialization
 let app: FirebaseApp | null = null
 let db: Firestore | null = null
@@ -448,7 +478,8 @@ export function getFirebaseApp(): FirebaseApp | null {
   if (typeof window === "undefined") return null
   if (!app) {
     try {
-      app = getApps().length > 0 ? getApp() : initializeApp(firebaseConfigJson)
+      const config = getResolvedFirebaseConfig()
+      app = getApps().length > 0 ? getApp() : initializeApp(config)
     } catch (e) {
       console.warn("Failed to initialize Firebase App:", e)
     }
@@ -462,7 +493,8 @@ export function getFirebaseDb(): Firestore | null {
     const currentApp = getFirebaseApp()
     if (currentApp) {
       try {
-        db = getFirestore(currentApp, firebaseConfigJson.firestoreDatabaseId || "(default)")
+        const config = getResolvedFirebaseConfig()
+        db = getFirestore(currentApp, config.firestoreDatabaseId || "(default)")
       } catch (e) {
         console.warn("Failed to initialize Firestore:", e)
       }
@@ -501,20 +533,52 @@ export function getFirebaseStorage(): FirebaseStorage | null {
   return storage
 }
 
-// Firebase Auth Helpers
-export async function signInWithGoogle(): Promise<User | null> {
+// Firebase Auth Helpers - STRICTLY allowlist poosala15@gmail.com
+export async function signInWithGoogle(): Promise<User> {
   const firebaseAuth = getFirebaseAuth()
   if (!firebaseAuth) throw new Error("Firebase Auth not initialized")
   const provider = new GoogleAuthProvider()
+  provider.setCustomParameters({ prompt: "select_account" })
   const result = await signInWithPopup(firebaseAuth, provider)
+  const user = result.user
+  if (!user.email || user.email.toLowerCase() !== ADMIN_EMAIL.toLowerCase()) {
+    await signOut(firebaseAuth)
+    throw new Error("This Google account is not authorized for Portfolio Studio. Please use poosala15@gmail.com.")
+  }
+  return user
+}
+
+export async function signInWithEmail(email: string, pass: string): Promise<User> {
+  const firebaseAuth = getFirebaseAuth()
+  if (!firebaseAuth) throw new Error("Firebase Auth not initialized")
+  const cleanEmail = email.trim().toLowerCase()
+  if (cleanEmail !== ADMIN_EMAIL.toLowerCase()) {
+    throw new Error(`Only ${ADMIN_EMAIL} is authorized for Portfolio Studio.`)
+  }
+  const result = await signInWithEmailAndPassword(firebaseAuth, cleanEmail, pass)
+  const user = result.user
+  if (!user.email || user.email.toLowerCase() !== ADMIN_EMAIL.toLowerCase()) {
+    await signOut(firebaseAuth)
+    throw new Error(`Only ${ADMIN_EMAIL} is authorized for Portfolio Studio.`)
+  }
+  return user
+}
+
+export async function createAdminAccount(password: string): Promise<User> {
+  const firebaseAuth = getFirebaseAuth()
+  if (!firebaseAuth) throw new Error("Firebase Auth not initialized")
+  const result = await createUserWithEmailAndPassword(firebaseAuth, ADMIN_EMAIL, password)
   return result.user
 }
 
-export async function signInWithEmail(email: string, pass: string): Promise<User | null> {
+export async function sendAdminPasswordReset(email: string = ADMIN_EMAIL): Promise<void> {
   const firebaseAuth = getFirebaseAuth()
   if (!firebaseAuth) throw new Error("Firebase Auth not initialized")
-  const result = await signInWithEmailAndPassword(firebaseAuth, email, pass)
-  return result.user
+  const cleanEmail = email.trim().toLowerCase()
+  if (cleanEmail !== ADMIN_EMAIL.toLowerCase()) {
+    throw new Error(`Password reset can only be sent to ${ADMIN_EMAIL}.`)
+  }
+  await sendPasswordResetEmail(firebaseAuth, cleanEmail)
 }
 
 export async function signOutStudio(): Promise<void> {
@@ -530,7 +594,18 @@ export function subscribeToAuth(callback: (user: User | null) => void) {
     callback(null)
     return () => {}
   }
-  return onAuthStateChanged(firebaseAuth, callback)
+  return onAuthStateChanged(firebaseAuth, async (user) => {
+    if (user) {
+      if (!user.email || user.email.toLowerCase() !== ADMIN_EMAIL.toLowerCase()) {
+        await signOut(firebaseAuth)
+        callback(null)
+        return
+      }
+      callback(user)
+    } else {
+      callback(null)
+    }
+  })
 }
 
 // --- Firestore Data Handlers ---
