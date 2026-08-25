@@ -1,11 +1,11 @@
 {
   "projectId": "portfolio-lokesh",
-  "appId": "1:246696021727:web:55c5fcd751c9eafa27e36a",
-  "apiKey": "AIzaSyCOa1fiSM1gMxzQNNuISoC3SnKntQokn3U",
+  "appId": "",
+  "apiKey": "",
   "authDomain": "portfolio-lokesh.firebaseapp.com",
   "firestoreDatabaseId": "(default)",
   "storageBucket": "portfolio-lokesh.firebasestorage.app",
-  "messagingSenderId": "246696021727",
+  "messagingSenderId": "170143581931",
   "measurementId": "",
   "oAuthClientId": "",
   "recaptchaSiteKey": ""

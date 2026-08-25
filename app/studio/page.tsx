@@ -171,6 +171,9 @@ export default function StudioPage() {
     const code = err?.code || ""
     const message = err?.message || ""
 
+    if (code === "auth/invalid-api-key" || code.includes("api-key-not-valid") || message.includes("API key not valid")) {
+      return "[auth/invalid-api-key] Firebase Web API Key is missing or invalid for project 'portfolio-lokesh'. In Firebase Console → Project Settings (Gear icon) → General, copy the Web API Key, update NEXT_PUBLIC_FIREBASE_API_KEY in Vercel, and redeploy."
+    }
     if (code === "auth/operation-not-allowed" || message.includes("PASSWORD_LOGIN_DISABLED") || message.includes("OPERATION_NOT_ALLOWED")) {
       return "[auth/operation-not-allowed] Email/Password sign-in provider is not enabled for the active Firebase project. In Firebase Console → Authentication → Sign-in method, ensure 'Email/Password' is enabled, and verify your Vercel NEXT_PUBLIC_FIREBASE_API_KEY belongs to project 'portfolio-lokesh'."
     }
