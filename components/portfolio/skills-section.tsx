@@ -21,6 +21,27 @@ export function SkillsSection() {
     return tech.category === selectedTechCategory;
   });
 
+  const getCategoryLabel = (cat: string) => {
+    if (cat === 'All') return t('work.filter.all');
+    if (language === 'fr') {
+      switch (cat) {
+        case 'Frontend':
+          return 'Frontend & UI';
+        case 'Backend':
+          return 'Backend & API';
+        case 'AI & ML':
+          return 'IA & Machine Learning';
+        case 'Database':
+          return 'Bases de données';
+        case 'DevOps & Cloud':
+          return 'DevOps & Cloud';
+        default:
+          return cat;
+      }
+    }
+    return cat;
+  };
+
   const getLevelBadge = (level: SkillLevel) => {
     switch (level) {
       case 'Core':
@@ -80,10 +101,10 @@ export function SkillsSection() {
         <div className="mt-8 rounded-2xl border border-[#1F2937] bg-[#111827]/70 p-5 sm:p-6 backdrop-blur-md shadow-xs">
           <div className="mb-4 flex items-center justify-between border-b border-[#1F2937] pb-3">
             <span className="font-mono text-xs uppercase tracking-wider text-[#60A5FA] font-semibold">
-              Interactive Tech Radar & Tooling
+              {language === 'fr' ? 'Radar Technologique & Outils' : 'Interactive Tech Radar & Tooling'}
             </span>
             <span className="rounded-full bg-[#2563EB]/20 border border-[#2563EB]/40 px-2.5 py-0.5 font-mono text-[10px] text-[#60A5FA]">
-              Continuous Loop
+              {language === 'fr' ? 'Boucle Continue' : 'Continuous Loop'}
             </span>
           </div>
           <TechStackSlider />
@@ -114,7 +135,7 @@ export function SkillsSection() {
                       : 'border border-[#1F2937] bg-[#111827] text-[#A5B4FC]/80 hover:border-[#60A5FA] hover:text-[#E0E7FF]'
                   }`}
                 >
-                  {cat === 'All' ? t('work.filter.all') : cat}
+                  {getCategoryLabel(cat)}
                 </button>
               ))}
             </div>
@@ -135,7 +156,7 @@ export function SkillsSection() {
                       {tech.name}
                     </h4>
                     <span className="text-[11px] font-mono text-[#A5B4FC]/70">
-                      {tech.category}
+                      {getCategoryLabel(tech.category)}
                     </span>
                   </div>
                 </div>

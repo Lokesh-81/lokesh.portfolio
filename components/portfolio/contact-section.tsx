@@ -19,6 +19,8 @@ import { TextShimmer } from '@/components/core/text-shimmer';
 import { TextEffect } from '@/components/core/text-effect';
 import { Spotlight } from '@/components/core/spotlight';
 import { BorderTrail } from '@/components/core/border-trail';
+import { GlowEffect } from '@/components/core/glow-effect';
+import { motion } from 'framer-motion';
 import { usePortfolio } from '@/lib/portfolio-context';
 import { useLanguage } from '@/i18n';
 import { submitContactInquiry } from '@/lib/inquiries';
@@ -53,23 +55,45 @@ export function ContactSection() {
   const [form, setForm] = useState({
     name: '',
     email: '',
-    projectType: 'Web Development',
+    projectType: language === 'fr' ? 'Développement Web' : 'Web Development',
     message: '',
   });
   const [status, setStatus] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle');
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [isTextareaFocused, setIsTextareaFocused] = useState(false);
+  const [isTextareaTyping, setIsTextareaTyping] = useState(false);
+  const [isFormTyping, setIsFormTyping] = useState(false);
+  const typingTimerRef = useRef<NodeJS.Timeout | null>(null);
+
+  const handleTypingActivity = () => {
+    setIsFormTyping(true);
+    if (typingTimerRef.current) clearTimeout(typingTimerRef.current);
+    typingTimerRef.current = setTimeout(() => {
+      setIsFormTyping(false);
+      setIsTextareaTyping(false);
+    }, 2500);
+  };
 
   // Custom Dark Dropdown state for Discussion Topic
   const [isTopicOpen, setIsTopicOpen] = useState(false);
   const topicRef = useRef<HTMLDivElement>(null);
 
-  const topicOptions = [
-    'Web Development',
-    'AI Integration',
-    'Technical Consultation',
-    'Software Engineer Role / Hiring',
-    'Other',
-  ];
+  const topicOptions =
+    language === 'fr'
+      ? [
+          'Développement Web',
+          'Intégration IA / LLM',
+          'Consultation Technique',
+          'Poste Ingénieur Logiciel / Recrutement',
+          'Autre',
+        ]
+      : [
+          'Web Development',
+          'AI Integration',
+          'Technical Consultation',
+          'Software Engineer Role / Hiring',
+          'Other',
+        ];
 
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
@@ -95,21 +119,34 @@ export function ContactSection() {
       return;
     }
 
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(form.email.trim())) {
+      setErrorMessage(t('contact.errorEmail') || 'Please provide a valid email address.');
+      setStatus('error');
+      return;
+    }
+
     setStatus('submitting');
     setErrorMessage(null);
 
     try {
-      await submitContactInquiry(form);
+      await submitContactInquiry({
+        name: form.name,
+        email: form.email,
+        topic: form.projectType,
+        projectType: form.projectType,
+        message: form.message,
+      });
       setStatus('success');
+      setForm({
+        name: '',
+        email: '',
+        projectType: 'Web Development',
+        message: '',
+      });
       setTimeout(() => {
-        setForm({
-          name: '',
-          email: '',
-          projectType: 'Web Development',
-          message: '',
-        });
         setStatus('idle');
-      }, 4000);
+      }, 4500);
     } catch (err: any) {
       setStatus('error');
       setErrorMessage(err?.message || 'Error submitting message. Please try again.');
@@ -153,7 +190,27 @@ export function ContactSection() {
         <div className="mt-8 grid gap-8 lg:grid-cols-12 items-start pb-12">
           {/* Production Inquiry Form */}
           <div className="relative rounded-2xl border border-[#1F2937] bg-[#111827]/90 p-6 sm:p-8 shadow-xs lg:col-span-7">
-            <div className="mb-6 flex items-center justify-between border-b border-[#1F2937] pb-4">
+            {/* Glow effect matching hero buttons that activates when typing in the form */}
+            <motion.div
+              className="pointer-events-none absolute -inset-0.5 rounded-2xl"
+              animate={{
+                opacity: isFormTyping || isTextareaFocused ? 1 : 0,
+              }}
+              transition={{
+                duration: 0.25,
+                ease: 'easeOut',
+              }}
+            >
+              <GlowEffect
+                colors={['#FF5733', '#33FF57', '#3357FF', '#F1C40F']}
+                mode="colorShift"
+                blur="soft"
+                duration={3}
+                scale={0.99}
+              />
+            </motion.div>
+
+            <div className="relative z-10 mb-6 flex items-center justify-between border-b border-[#1F2937] pb-4">
               <div>
                 <h3 className="text-lg font-bold text-[#E0E7FF]">
                   {t('contact.formTitle')}
@@ -167,7 +224,7 @@ export function ContactSection() {
               </span>
             </div>
 
-            <form onSubmit={handleSubmit} className="space-y-4">
+            <form onSubmit={handleSubmit} className="relative z-10 space-y-4">
               {errorMessage && (
                 <div className="flex items-center gap-2 rounded-xl border border-rose-500/30 bg-rose-950/40 p-3 text-xs text-rose-300">
                   <AlertCircle className="h-4 w-4 shrink-0 text-rose-400" />
@@ -184,8 +241,12 @@ export function ContactSection() {
                     type="text"
                     required
                     value={form.name}
-                    onChange={(e) => setForm({ ...form, name: e.target.value })}
-                    placeholder="Your Name"
+                    onChange={(e) => {
+                      setForm({ ...form, name: e.target.value });
+                      handleTypingActivity();
+                    }}
+                    onFocus={handleTypingActivity}
+                    placeholder={language === 'fr' ? 'Votre Nom' : 'Your Name'}
                     disabled={status === 'submitting'}
                     className="w-full rounded-xl border border-[#1F2937] bg-[#0B132B] px-3.5 py-2.5 text-xs sm:text-sm text-[#E0E7FF] placeholder:text-[#64748B] focus:border-[#60A5FA] focus:outline-none transition-all disabled:opacity-60"
                   />
@@ -199,15 +260,19 @@ export function ContactSection() {
                     type="email"
                     required
                     value={form.email}
-                    onChange={(e) => setForm({ ...form, email: e.target.value })}
-                    placeholder="your.email@example.com"
+                    onChange={(e) => {
+                      setForm({ ...form, email: e.target.value });
+                      handleTypingActivity();
+                    }}
+                    onFocus={handleTypingActivity}
+                    placeholder={language === 'fr' ? 'votre.email@exemple.com' : 'your.email@example.com'}
                     disabled={status === 'submitting'}
                     className="w-full rounded-xl border border-[#1F2937] bg-[#0B132B] px-3.5 py-2.5 text-xs sm:text-sm text-[#E0E7FF] placeholder:text-[#64748B] focus:border-[#60A5FA] focus:outline-none transition-all disabled:opacity-60"
                   />
                 </div>
               </div>
 
-              {/* Styled, Non-broken Custom Dropdown */}
+              {/* Styled Custom Dropdown */}
               <div className="relative" ref={topicRef}>
                 <label className="block text-xs font-semibold text-[#E0E7FF] mb-1.5">
                   {t('contact.topic')}
@@ -235,6 +300,7 @@ export function ContactSection() {
                         onClick={() => {
                           setForm({ ...form, projectType: topic });
                           setIsTopicOpen(false);
+                          handleTypingActivity();
                         }}
                         className={`flex w-full items-center justify-between rounded-lg px-3 py-2 text-xs transition-colors cursor-pointer ${
                           form.projectType === topic
@@ -252,30 +318,54 @@ export function ContactSection() {
                 )}
               </div>
 
-              {/* Textarea with BorderTrail component integration */}
+              {/* Message Box with GlowEffect like hero buttons - No covering elements */}
               <div>
                 <label className="block text-xs font-semibold text-[#E0E7FF] mb-1.5">
                   {t('contact.yourMessage')}
                 </label>
-                <div className="relative rounded-xl border border-[#1F2937] bg-[#0B132B] p-1 overflow-hidden focus-within:border-[#60A5FA]/60 transition-colors">
+                <div className="relative group">
+                  {/* Glow on message box when focused or typing */}
+                  <motion.div
+                    className="pointer-events-none absolute -inset-0.5 rounded-xl"
+                    animate={{
+                      opacity: isTextareaFocused || isTextareaTyping ? 1 : 0,
+                    }}
+                    transition={{
+                      duration: 0.2,
+                      ease: 'easeOut',
+                    }}
+                  >
+                    <GlowEffect
+                      colors={['#FF5733', '#33FF57', '#3357FF', '#F1C40F']}
+                      mode="colorShift"
+                      blur="soft"
+                      duration={3}
+                    />
+                  </motion.div>
                   <textarea
                     rows={4}
                     required
                     value={form.message}
-                    onChange={(e) => setForm({ ...form, message: e.target.value })}
-                    placeholder="Tell me about your project, timeline, and goals..."
-                    disabled={status === 'submitting'}
-                    className="w-full resize-none rounded-lg bg-transparent p-2.5 text-xs sm:text-sm text-[#E0E7FF] placeholder:text-[#64748B] focus:outline-none disabled:opacity-60"
-                  />
-                  {/* Subtle, smooth animated border trail on textarea */}
-                  <BorderTrail
-                    className="bg-gradient-to-r from-[#2563EB] via-[#60A5FA] to-[#C084FC]"
-                    size={90}
-                    transition={{
-                      repeat: Infinity,
-                      duration: 4,
-                      ease: 'linear',
+                    onFocus={() => {
+                      setIsTextareaFocused(true);
+                      handleTypingActivity();
                     }}
+                    onBlur={() => {
+                      setIsTextareaFocused(false);
+                      setIsTextareaTyping(false);
+                    }}
+                    onChange={(e) => {
+                      setForm({ ...form, message: e.target.value });
+                      setIsTextareaTyping(true);
+                      handleTypingActivity();
+                    }}
+                    placeholder={
+                      language === 'fr'
+                        ? 'Parlez-moi de votre projet, de vos objectifs et de vos délais...'
+                        : 'Tell me about your project, timeline, and goals...'
+                    }
+                    disabled={status === 'submitting'}
+                    className="relative z-10 w-full resize-none rounded-xl border border-[#1F2937] bg-[#0B132B] p-3.5 text-xs sm:text-sm text-[#E0E7FF] placeholder:text-[#64748B] focus:border-[#60A5FA] focus:outline-none transition-all disabled:opacity-60"
                   />
                 </div>
               </div>
@@ -283,19 +373,15 @@ export function ContactSection() {
               {/* Animated Submit Button with BorderTrail + TextShimmer + TextMorph */}
               <div className="pt-2">
                 <div className="relative overflow-hidden rounded-xl border border-[#1F2937] bg-[#111827] p-1 shadow-lg">
-                  {/* BorderTrail runs while submitting or on hover */}
-                  {(status === 'submitting' || status === 'success') && (
+                  {/* BorderTrail runs while submitting */}
+                  {status === 'submitting' && (
                     <BorderTrail
-                      className={
-                        status === 'success'
-                          ? 'bg-gradient-to-r from-[#2DD4BF] via-[#34D399] to-[#60A5FA]'
-                          : 'bg-gradient-to-l from-[#2563EB] via-[#60A5FA] to-[#C084FC]'
-                      }
+                      className="bg-gradient-to-l from-green-300 via-green-500 to-green-300 transition-opacity duration-300 dark:from-green-700/30 dark:via-green-500 dark:to-green-700/30"
                       size={120}
                       transition={{
-                        repeat: Infinity,
-                        duration: 2,
-                        ease: 'linear',
+                        ease: [0, 0.5, 0.8, 0.5],
+                        duration: 4,
+                        repeat: 2,
                       }}
                     />
                   )}
@@ -316,7 +402,7 @@ export function ContactSection() {
                     {status === 'submitting' && (
                       <div className="flex items-center gap-2">
                         <span className="h-4 w-4 animate-spin rounded-full border-2 border-white/30 border-t-white" />
-                        <TextShimmer className="text-white font-medium" duration={1.2}>
+                        <TextShimmer className="font-mono text-sm text-white" duration={1}>
                           Sending message...
                         </TextShimmer>
                       </div>
@@ -325,8 +411,8 @@ export function ContactSection() {
                     {status === 'success' && (
                       <div className="flex items-center gap-2">
                         <CheckCircle2 className="h-4 w-4 text-white" />
-                        <TextMorph className="font-semibold text-white">
-                          Message Sent!
+                        <TextMorph className="font-mono text-sm font-semibold text-white">
+                          Message Sent
                         </TextMorph>
                       </div>
                     )}

@@ -4,9 +4,11 @@ import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
 export interface ContactInquiry {
   name: string;
   email: string;
-  projectType: string;
+  topic?: string;
+  projectType?: string;
   message: string;
   createdAt?: string;
+  read?: boolean;
 }
 
 export async function submitContactInquiry(data: ContactInquiry): Promise<{ success: boolean; id: string }> {
@@ -21,11 +23,14 @@ export async function submitContactInquiry(data: ContactInquiry): Promise<{ succ
   }
 
   const timestamp = new Date().toISOString();
+  const topicValue = data.topic?.trim() || data.projectType?.trim() || 'General Inquiry';
   const inquiry = {
     name: data.name.trim(),
     email: data.email.trim(),
-    projectType: data.projectType?.trim() || 'General Inquiry',
+    topic: topicValue,
+    projectType: topicValue,
     message: data.message.trim(),
+    read: false,
     createdAt: timestamp,
   };
 
@@ -42,12 +47,24 @@ export async function submitContactInquiry(data: ContactInquiry): Promise<{ succ
   });
 
   const writePromise = (async () => {
-    const docRef = await addDoc(collection(db, 'portfolio_inquiries'), {
-      ...inquiry,
-      serverTimestamp: serverTimestamp(),
-    });
-    console.log('[Inquiry Submitted to Firestore]', docRef.id);
-    return { success: true, id: docRef.id };
+    try {
+      // Primary target collection: 'inquiries' as specified in requirements
+      const docRef = await addDoc(collection(db, 'inquiries'), {
+        ...inquiry,
+        serverTimestamp: serverTimestamp(),
+      });
+      console.log('[Inquiry Submitted to inquiries]', docRef.id);
+      return { success: true, id: docRef.id };
+    } catch (primaryErr: any) {
+      console.warn('[Inquiry write to inquiries failed, attempting portfolio_inquiries fallback]:', primaryErr);
+      // Fallback target in case firestore rules only permit portfolio_inquiries
+      const fallbackRef = await addDoc(collection(db, 'portfolio_inquiries'), {
+        ...inquiry,
+        serverTimestamp: serverTimestamp(),
+      });
+      console.log('[Inquiry Submitted to portfolio_inquiries fallback]', fallbackRef.id);
+      return { success: true, id: fallbackRef.id };
+    }
   })();
 
   return await Promise.race([writePromise, timeoutPromise]);

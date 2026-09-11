@@ -9,6 +9,8 @@ export interface CursorProps {
   className?: string;
   springConfig?: SpringOptions;
   attachToParent?: boolean;
+  variants?: any;
+  transition?: any;
 }
 
 export function Cursor({
@@ -16,6 +18,8 @@ export function Cursor({
   className,
   springConfig = { stiffness: 450, damping: 30, mass: 0.5 },
   attachToParent = false,
+  variants,
+  transition,
 }: CursorProps) {
   const cursorRef = useRef<HTMLDivElement>(null);
   const [isVisible, setIsVisible] = useState(false);
@@ -49,8 +53,12 @@ export function Cursor({
         setIsVisible(true);
       };
 
-      const handleMouseEnter = () => setIsVisible(true);
-      const handleMouseLeave = () => setIsVisible(false);
+      const handleMouseEnter = () => {
+        setIsVisible(true);
+      };
+      const handleMouseLeave = () => {
+        setIsVisible(false);
+      };
 
       parent.addEventListener('mousemove', handleMouseMove);
       parent.addEventListener('mouseenter', handleMouseEnter);
@@ -85,10 +93,11 @@ export function Cursor({
               translateX: '-50%',
               translateY: '-50%',
             }}
-            initial={{ opacity: 0, scale: 0.8 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 0.8 }}
-            transition={{ duration: 0.2 }}
+            variants={variants}
+            initial={variants ? 'initial' : { opacity: 0, scale: 0.8 }}
+            animate={variants ? 'animate' : { opacity: 1, scale: 1 }}
+            exit={variants ? 'exit' : { opacity: 0, scale: 0.8 }}
+            transition={transition ?? { duration: 0.2 }}
             className={cn('pointer-events-none fixed top-0 left-0 will-change-transform', className)}
           >
             {children}

@@ -23,7 +23,7 @@ const defaultContainerVariants: Variants = {
   visible: {
     opacity: 1,
     transition: {
-      staggerChildren: 0.035,
+      staggerChildren: 0.04,
     },
   },
 };
@@ -31,16 +31,18 @@ const defaultContainerVariants: Variants = {
 const defaultItemVariants: Variants = {
   hidden: {
     opacity: 0,
-    rotateX: 90,
-    y: 10,
+    filter: 'blur(10px)',
+    y: 16,
+    rotateX: 45,
   },
   visible: {
     opacity: 1,
-    rotateX: 0,
+    filter: 'blur(0px)',
     y: 0,
+    rotateX: 0,
     transition: {
-      duration: 0.3,
-      ease: [0.16, 1, 0.3, 1],
+      duration: 0.45,
+      ease: [0.2, 0.65, 0.3, 0.9],
     },
   },
 };

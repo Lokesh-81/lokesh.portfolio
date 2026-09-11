@@ -54,7 +54,7 @@ export function Dock({
     <DockContext.Provider value={contextValue}>
       <motion.div
         ref={containerRef}
-        onMouseMove={(e) => mouseX.set(e.pageX)}
+        onMouseMove={(e) => mouseX.set(e.clientX)}
         onMouseLeave={() => mouseX.set(Infinity)}
         className={cn(
           'flex h-16 w-max items-end gap-3 rounded-full border border-zinc-200/60 bg-white/80 px-3 pb-2.5 shadow-2xl backdrop-blur-xl dark:border-zinc-800/80 dark:bg-zinc-950/80',
@@ -85,6 +85,7 @@ export function DockItem({
   spring = { mass: 0.1, stiffness: 160, damping: 13 },
 }: DockItemProps) {
   const ref = useRef<HTMLDivElement>(null);
+  const bounds = useRef<{ x: number; width: number } | null>(null);
   const [isHovered, setIsHovered] = useState(false);
   const dockContext = useContext(DockContext);
   const fallbackMouseX = useMotionValue(Infinity);
@@ -93,9 +94,27 @@ export function DockItem({
   const magnification = dockContext?.magnification ?? DEFAULT_MAGNIFICATION;
   const distance = dockContext?.distance ?? DEFAULT_DISTANCE;
 
+  const measure = () => {
+    if (ref.current) {
+      const rect = ref.current.getBoundingClientRect();
+      bounds.current = { x: rect.x, width: rect.width };
+    }
+  };
+
+  React.useEffect(() => {
+    measure();
+    window.addEventListener('resize', measure);
+    return () => window.removeEventListener('resize', measure);
+  }, []);
+
   const distanceCalc = useTransform(mouseX, (val: number) => {
-    const bounds = ref.current?.getBoundingClientRect() ?? { x: 0, width: 0 };
-    return val - bounds.x - bounds.width / 2;
+    if (!bounds.current && ref.current) {
+      const rect = ref.current.getBoundingClientRect();
+      bounds.current = { x: rect.x, width: rect.width };
+    }
+    const b = bounds.current;
+    if (!b || val === Infinity) return distance;
+    return val - (b.x + b.width / 2);
   });
 
   const widthSync = useTransform(
@@ -111,7 +130,10 @@ export function DockItem({
       ref={ref}
       style={{ width, height: width }}
       onClick={onClick}
-      onMouseEnter={() => setIsHovered(true)}
+      onMouseEnter={() => {
+        measure();
+        setIsHovered(true);
+      }}
       onMouseLeave={() => setIsHovered(false)}
       role="button"
       tabIndex={0}
@@ -122,7 +144,7 @@ export function DockItem({
         }
       }}
       className={cn(
-        'relative flex aspect-square cursor-pointer items-center justify-center rounded-full transition-shadow focus:outline-none focus-visible:ring-2 focus-visible:ring-purple-500',
+        'relative flex aspect-square cursor-pointer items-center justify-center rounded-full will-change-[width,height,transform] focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500',
         className
       )}
     >

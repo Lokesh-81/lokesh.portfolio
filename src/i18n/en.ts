@@ -14,6 +14,7 @@ export const en = {
   'hero.greeting': "Hello, I'm",
   'hero.name': 'Poosala Lokesh.',
   'hero.nameShort': 'POOSALA LOKESH.',
+  'hero.imA': "I'm a",
   'hero.titleLine': 'Full Stack Developer & AI-Focused Engineer',
   'hero.bio':
     'Full Stack Developer & AI-focused developer based in Hyderabad, India. Specialized in building modern web applications, scalable digital platforms, and AI-powered products with clean design, high performance, and resilient architecture.',
@@ -67,6 +68,7 @@ export const en = {
   'work.filter.creative': 'Creative & EdTech',
   'work.status.live': 'Live',
   'work.status.dev': 'In Dev',
+  'work.viewLive': 'View Live',
   'work.keyContributions': 'Key Contributions',
   'work.code': 'Code',
   'work.launch': 'Live Demo',
@@ -121,6 +123,7 @@ export const en = {
   'contact.btn.sending': 'Sending...',
   'contact.btn.sent': 'Message Sent ✓',
   'contact.errorRequired': 'Please provide your name, email, and message.',
+  'contact.errorEmail': 'Please provide a valid email address.',
   'contact.successTitle': 'Message Sent Successfully!',
   'contact.successDesc':
     "Thank you for reaching out. I'll get back to you promptly at",

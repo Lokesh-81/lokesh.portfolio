@@ -6,7 +6,6 @@ import { TextEffect } from '@/components/core/text-effect';
 import { TextLoop } from '@/components/core/text-loop';
 import { GlowEffect } from '@/components/core/glow-effect';
 import { Spotlight } from '@/components/core/spotlight';
-import { MoonVisual } from '@/components/portfolio/moon-visual';
 import { useLanguage } from '@/i18n';
 import type { Variants } from 'framer-motion';
 
@@ -27,16 +26,18 @@ const textEffectVariants: { container: Variants; item: Variants } = {
   item: {
     hidden: {
       opacity: 0,
-      rotateX: 90,
-      y: 10,
+      filter: 'blur(10px)',
+      y: 16,
+      rotateX: 45,
     },
     visible: {
       opacity: 1,
+      filter: 'blur(0px)',
       rotateX: 0,
       y: 0,
       transition: {
-        duration: 0.25,
-        ease: [0.16, 1, 0.3, 1],
+        duration: 0.45,
+        ease: [0.2, 0.65, 0.3, 0.9],
       },
     },
   },
@@ -54,9 +55,9 @@ export function Hero({ onNavigate }: HeroProps) {
       />
 
       <div className="mx-auto my-auto w-full max-w-[1400px]">
-        <div className="grid grid-cols-1 items-center gap-10 lg:grid-cols-12 lg:gap-14">
-          {/* Left Column: Hero Typography & Actions */}
-          <div className="relative z-10 flex flex-col justify-center lg:col-span-7">
+        <div className="flex flex-col justify-center max-w-4xl">
+          {/* Hero Typography & Actions */}
+          <div className="relative z-10 flex flex-col justify-center">
             {/* 1. Main Heading with TextEffect character-by-character animation */}
             <h1 className="text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-light tracking-tight text-[#E0E7FF] leading-[1.08]">
               <span className="block text-[#A5B4FC] font-normal text-3xl sm:text-5xl md:text-6xl mb-1">
@@ -83,7 +84,7 @@ export function Hero({ onNavigate }: HeroProps) {
 
             {/* 2. Rotating / Changing Text Loop */}
             <div className="mt-6 flex flex-wrap items-center gap-2.5 text-lg text-[#CBD5E1] md:text-2xl font-light">
-              <span className="text-[#A5B4FC]/80 font-normal">I&apos;m a</span>
+              <span className="text-[#A5B4FC]/80 font-normal">{t('hero.imA') || "I'm a"}</span>
               <TextLoop
                 className="font-medium text-[#E0E7FF]"
                 interval={2600}
@@ -114,10 +115,18 @@ export function Hero({ onNavigate }: HeroProps) {
                   },
                 }}
               >
-                <span className="text-[#60A5FA]">Full Stack Developer</span>
-                <span className="text-[#C084FC]">AI Engineer</span>
-                <span className="text-[#2DD4BF]">Creative Problem Solver</span>
-                <span className="text-[#FDE68A]">Software Architect</span>
+                <span className="text-[#60A5FA]">
+                  {language === 'fr' ? 'Développeur Full Stack' : 'Full Stack Developer'}
+                </span>
+                <span className="text-[#C084FC]">
+                  {language === 'fr' ? 'Ingénieur IA' : 'AI Engineer'}
+                </span>
+                <span className="text-[#2DD4BF]">
+                  {language === 'fr' ? 'Résolveur de Problèmes' : 'Creative Problem Solver'}
+                </span>
+                <span className="text-[#FDE68A]">
+                  {language === 'fr' ? 'Architecte Logiciel' : 'Software Architect'}
+                </span>
               </TextLoop>
             </div>
 
@@ -134,13 +143,13 @@ export function Hero({ onNavigate }: HeroProps) {
 
             {/* 4. CTA Buttons with Glow Effect on both primary actions */}
             <div className="mt-8 flex flex-wrap items-center gap-4">
-              <div className="relative">
+              <div className="relative group">
                 <GlowEffect
-                  colors={['#2563EB', '#60A5FA', '#C084FC']}
+                  colors={['#FF5733', '#33FF57', '#3357FF', '#F1C40F']}
                   mode="colorShift"
                   blur="soft"
-                  duration={4}
-                  scale={0.95}
+                  duration={3}
+                  scale={0.9}
                 />
                 <button
                   onClick={() => onNavigate?.('work')}
@@ -151,14 +160,14 @@ export function Hero({ onNavigate }: HeroProps) {
                 </button>
               </div>
 
-              <div className="relative">
+              <div className="relative group">
                 <GlowEffect
-                  colors={['#60A5FA', '#C084FC', '#2563EB']}
+                  colors={['#FF5733', '#33FF57', '#3357FF', '#F1C40F']}
                   mode="colorShift"
                   blur="soft"
-                  duration={4.5}
-                  scale={0.95}
-                  className="opacity-0 hover:opacity-100 transition-opacity"
+                  duration={3}
+                  scale={0.9}
+                  className="opacity-70 group-hover:opacity-100 transition-opacity"
                 />
                 <button
                   onClick={() => onNavigate?.('contact')}
@@ -169,11 +178,6 @@ export function Hero({ onNavigate }: HeroProps) {
                 </button>
               </div>
             </div>
-          </div>
-
-          {/* Right Column: Subtle 3D Stylized Moon Visual */}
-          <div className="relative flex items-center justify-center lg:col-span-5 lg:justify-end py-4 lg:py-0 overflow-visible">
-            <MoonVisual />
           </div>
         </div>
       </div>

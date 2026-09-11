@@ -1,6 +1,8 @@
 import { initializeApp, getApps, getApp, type FirebaseApp } from "firebase/app"
 import {
   getFirestore,
+  initializeFirestore,
+  setLogLevel,
   collection,
   doc,
   getDoc,
@@ -500,7 +502,27 @@ export function getFirebaseDb(): Firestore | null {
     if (currentApp) {
       try {
         const config = getResolvedFirebaseConfig()
-        db = getFirestore(currentApp, config.firestoreDatabaseId || "(default)")
+        const databaseId = config.firestoreDatabaseId || "(default)"
+
+        // Silence benign network retry logs in container/proxy environments
+        try {
+          setLogLevel("error")
+        } catch {
+          // Ignore if setLogLevel is unsupported in environment
+        }
+
+        try {
+          db = initializeFirestore(
+            currentApp,
+            {
+              experimentalForceLongPolling: true,
+            },
+            databaseId
+          )
+        } catch {
+          // If already initialized or custom settings unsupported, fallback to getFirestore
+          db = getFirestore(currentApp, databaseId)
+        }
       } catch (e) {
         console.warn("Failed to initialize Firestore:", e)
       }
@@ -650,6 +672,21 @@ export function subscribeToAuth(callback: (user: User | null) => void) {
   })
 }
 
+// Helper to protect read operations against hanging network connections in preview/sandboxes
+async function withTimeout<T>(promise: Promise<T>, timeoutMs: number = 2500): Promise<T> {
+  let timeoutId: any
+  const timeoutPromise = new Promise<never>((_, reject) => {
+    timeoutId = setTimeout(() => {
+      reject(new Error("Timeout waiting for Firestore"))
+    }, timeoutMs)
+  })
+  try {
+    return await Promise.race([promise, timeoutPromise])
+  } finally {
+    clearTimeout(timeoutId)
+  }
+}
+
 // --- Firestore Data Handlers ---
 
 // Profile
@@ -658,7 +695,7 @@ export async function fetchProfileData(): Promise<ProfileData> {
   if (firestore) {
     try {
       const docRef = doc(firestore, "portfolio", "profile")
-      const snap = await getDoc(docRef)
+      const snap = await withTimeout(getDoc(docRef), 2500)
       if (snap.exists()) {
         return { ...initialProfileData, ...(snap.data() as ProfileData) }
       }
@@ -691,7 +728,7 @@ export async function fetchExperiencesData(): Promise<ExperienceItem[]> {
   if (firestore) {
     try {
       const colRef = collection(firestore, "portfolio_experience")
-      const snap = await getDocs(colRef)
+      const snap = await withTimeout(getDocs(colRef), 2500)
       if (!snap.empty) {
         const items = snap.docs.map((d) => ({
           id: d.id,
@@ -735,7 +772,7 @@ export async function fetchTechStackData(): Promise<TechItem[]> {
   if (firestore) {
     try {
       const colRef = collection(firestore, "portfolio_technologies")
-      const snap = await getDocs(colRef)
+      const snap = await withTimeout(getDocs(colRef), 2500)
       if (!snap.empty) {
         const items = snap.docs.map((d) => ({
           id: d.id,
@@ -776,7 +813,7 @@ export async function fetchProjectsData(): Promise<ProjectItem[]> {
   if (firestore) {
     try {
       const colRef = collection(firestore, "portfolio_projects")
-      const snap = await getDocs(colRef)
+      const snap = await withTimeout(getDocs(colRef), 2500)
       if (!snap.empty) {
         const items = snap.docs.map((d) => ({
           id: d.id,
@@ -817,7 +854,7 @@ export async function fetchSocialData(): Promise<SocialData> {
   if (firestore) {
     try {
       const docRef = doc(firestore, "portfolio", "social")
-      const snap = await getDoc(docRef)
+      const snap = await withTimeout(getDoc(docRef), 2500)
       if (snap.exists()) {
         return { ...initialSocialData, ...(snap.data() as SocialData) }
       }
@@ -850,7 +887,7 @@ export async function fetchContactData(): Promise<ContactData> {
   if (firestore) {
     try {
       const docRef = doc(firestore, "portfolio", "contact")
-      const snap = await getDoc(docRef)
+      const snap = await withTimeout(getDoc(docRef), 2500)
       if (snap.exists()) {
         return { ...initialContactData, ...(snap.data() as ContactData) }
       }

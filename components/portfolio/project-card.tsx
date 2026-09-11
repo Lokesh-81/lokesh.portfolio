@@ -3,8 +3,7 @@
 import React from 'react';
 import { Spotlight } from '@/components/core/spotlight';
 import { GlowEffect } from '@/components/core/glow-effect';
-import { Cursor } from '@/components/core/cursor';
-import { ExternalLink, CheckCircle2, ArrowUpRight } from 'lucide-react';
+import { ExternalLink, CheckCircle2 } from 'lucide-react';
 import { useLanguage } from '@/i18n';
 import type { Project } from '@/lib/data/projects';
 
@@ -24,7 +23,7 @@ export interface ProjectCardProps {
 export function ProjectCard({ project, onHoverStart, onHoverEnd }: ProjectCardProps) {
   const { t, language } = useLanguage();
 
-  const translatedContent = project.translations?.[language as 'te' | 'hi'];
+  const translatedContent = (project.translations as any)?.[language];
   const projectName = (language !== 'en' && translatedContent?.name) || project.name;
   const projectTagline = (language !== 'en' && translatedContent?.tagline) || project.tagline;
   const projectDesc = (language !== 'en' && translatedContent?.description) || project.description;
@@ -60,25 +59,13 @@ export function ProjectCard({ project, onHoverStart, onHoverEnd }: ProjectCardPr
       tabIndex={project.liveUrl ? 0 : undefined}
       aria-label={project.liveUrl ? `Open ${projectName} live application in a new tab` : undefined}
     >
-      {/* Project Card Glow Effect with colorShift and soft blur */}
+      {/* Project Card Glow Effect with static mode and medium blur */}
       <GlowEffect
-        colors={['#0D5BD7', '#1D9BF0', '#6366F1', '#EC4899', '#F97316']}
-        mode="colorShift"
-        blur="soft"
-        duration={4}
-        scale={0.98}
-        className="opacity-20 group-hover:opacity-55 transition-opacity duration-500 rounded-2xl pointer-events-none"
+        colors={['#0894FF', '#C959DD', '#FF2E54', '#FF9004']}
+        mode="static"
+        blur="medium"
+        className="opacity-40 group-hover:opacity-85 transition-opacity duration-300 rounded-2xl pointer-events-none"
       />
-
-      {/* Interactive Cursor badge on hover */}
-      {project.liveUrl && (
-        <Cursor attachToParent={true} className="z-50 pointer-events-none">
-          <div className="flex items-center gap-1.5 rounded-full bg-[#1D4ED8]/95 px-3 py-1.5 text-xs font-semibold text-white shadow-2xl backdrop-blur-md border border-[#60A5FA]/60">
-            <span>View Live</span>
-            <ArrowUpRight className="h-3.5 w-3.5" />
-          </div>
-        </Cursor>
-      )}
 
       <div
         onMouseEnter={() => onHoverStart?.(project)}
@@ -200,9 +187,9 @@ export function ProjectCard({ project, onHoverStart, onHoverEnd }: ProjectCardPr
                     rel="noreferrer"
                     onClick={(e) => e.stopPropagation()}
                     className="flex items-center gap-1.5 rounded-lg bg-gradient-to-r from-[#2563EB] to-[#60A5FA] px-3.5 py-1.5 text-xs font-semibold text-white shadow-[0_2px_12px_rgba(37,99,235,0.3)] hover:shadow-[0_4px_20px_rgba(96,165,250,0.5)] hover:from-[#1D4ED8] hover:to-[#3B82F6] transition-all hover:scale-[1.02] cursor-pointer"
-                    title="Open Live Project"
+                    title={t('work.viewLive')}
                   >
-                    <span>Live Project</span>
+                    <span>{t('work.viewLive')}</span>
                     <ExternalLink className="h-3.5 w-3.5" />
                   </a>
                 )}

@@ -8,6 +8,7 @@ import { projects as fallbackProjects, type Project } from '@/lib/data/projects'
 import { Filter } from 'lucide-react';
 import { TextEffect } from '@/components/core/text-effect';
 import { Spotlight } from '@/components/core/spotlight';
+import { AnimatedGroup } from '@/components/core/animated-group';
 
 export function ProjectsSection() {
   const { projects: contextProjects } = usePortfolio();
@@ -101,12 +102,43 @@ export function ProjectsSection() {
           ))}
         </div>
 
-        {/* Projects Grid with Responsive Width and Spotlight (No dates or years on cards) */}
-        <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3 pb-12">
+        {/* Projects Grid with AnimatedGroup custom variants */}
+        <AnimatedGroup
+          key={selectedCategory}
+          className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3 pb-12"
+          variants={{
+            container: {
+              visible: {
+                transition: {
+                  staggerChildren: 0.05,
+                },
+              },
+            },
+            item: {
+              hidden: {
+                opacity: 0,
+                filter: 'blur(12px)',
+                y: -60,
+                rotateX: 90,
+              },
+              visible: {
+                opacity: 1,
+                filter: 'blur(0px)',
+                y: 0,
+                rotateX: 0,
+                transition: {
+                  type: 'spring',
+                  bounce: 0.3,
+                  duration: 1,
+                },
+              },
+            },
+          }}
+        >
           {filteredProjects.map((project) => (
             <ProjectCard key={project.id || project.name} project={project} />
           ))}
-        </div>
+        </AnimatedGroup>
       </div>
     </div>
   );
