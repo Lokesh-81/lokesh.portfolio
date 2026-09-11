@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
+import { AnimatePresence, motion } from 'framer-motion';
 import { PortfolioProvider } from '@/lib/portfolio-context';
 import { LanguageProvider } from '@/i18n';
 import { PortfolioDock } from '@/components/portfolio/portfolio-dock';
@@ -11,83 +12,67 @@ import { SkillsSection } from '@/components/portfolio/skills-section';
 import { ExperienceSection } from '@/components/portfolio/experience-section';
 import { ContactSection } from '@/components/portfolio/contact-section';
 import { Footer } from '@/components/portfolio/footer';
+import { Spotlight } from '@/components/core/spotlight';
+
+type SectionId = 'home' | 'about' | 'work' | 'skills' | 'experience' | 'contact';
 
 function PortfolioContent() {
-  const [activeSection, setActiveSection] = useState<string>('home');
+  const [activeSection, setActiveSection] = useState<SectionId>('home');
 
-  // Handle direct section navigation smoothly
+  // Support direct URL hash loading on mount
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const hash = window.location.hash.replace('#', '') as SectionId;
+      if (['home', 'about', 'work', 'skills', 'experience', 'contact'].includes(hash)) {
+        setActiveSection(hash);
+      }
+    }
+  }, []);
+
   const handleNavigate = (sectionId: string) => {
-    setActiveSection(sectionId);
-    const targetElement = document.getElementById(sectionId);
-    if (targetElement) {
-      targetElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      window.history.replaceState(null, '', `#${sectionId}`);
+    const validSection = sectionId as SectionId;
+    setActiveSection(validSection);
+    if (typeof window !== 'undefined') {
+      window.history.replaceState(null, '', `#${validSection}`);
     }
   };
 
-  // Section observer to update active dock item automatically
-  useEffect(() => {
-    const sections = ['home', 'about', 'work', 'skills', 'experience', 'contact'];
-    const elements = sections
-      .map((id) => document.getElementById(id))
-      .filter((el): el is HTMLElement => el !== null);
-
-    if (elements.length === 0) return;
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        const visibleEntries = entries.filter((entry) => entry.isIntersecting);
-        if (visibleEntries.length > 0) {
-          // Find the one closest to the top of the viewport
-          const topVisible = visibleEntries.reduce((prev, curr) =>
-            Math.abs(curr.boundingClientRect.top) < Math.abs(prev.boundingClientRect.top)
-              ? curr
-              : prev
-          );
-          setActiveSection(topVisible.target.id);
-        }
-      },
-      {
-        rootMargin: '-15% 0px -40% 0px',
-        threshold: [0, 0.25, 0.5, 0.75],
-      }
-    );
-
-    elements.forEach((el) => observer.observe(el));
-
-    return () => {
-      elements.forEach((el) => observer.unobserve(el));
-    };
-  }, []);
-
   return (
-    <div className="relative min-h-screen bg-zinc-50 text-zinc-900 selection:bg-purple-500/20 selection:text-purple-700 dark:bg-[#0a0a0c] dark:text-zinc-100 dark:selection:bg-purple-500/30 dark:selection:text-purple-200 transition-colors duration-300">
-      {/* 1. Primary Top Navigation Dock (Apple-Style, Fixed/Sticky at Top) */}
+    <div className="relative h-screen w-screen overflow-hidden bg-[#0B132B] text-[#E0E7FF] selection:bg-[#2563EB]/40 selection:text-[#E0E7FF] flex flex-col font-sans">
+      {/* Global Mouse-Following Spotlight across whole portfolio background */}
+      <Spotlight
+        className="bg-[radial-gradient(circle_at_center,rgba(96,165,250,0.12)_0%,rgba(192,132,252,0.06)_40%,transparent_70%)] blur-3xl pointer-events-none"
+        size={650}
+      />
+
+      {/* 1. Global Animated Pill Dock Navbar */}
       <PortfolioDock activeSection={activeSection} onSelectSection={handleNavigate} />
 
-      {/* Main Content Sections */}
-      <main className="relative">
-        {/* 1. Hero Section (Fits Viewport, Availability below Dock, Editorial Typography) */}
-        <Hero onNavigate={handleNavigate} />
+      {/* 2. Main Application Viewport with Single Natural Scroll Container */}
+      <main className="relative flex-1 pt-20 h-full w-full overflow-y-auto custom-scrollbar">
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={activeSection}
+            initial={{ opacity: 0, y: 8 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -8 }}
+            transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
+            className="flex flex-col min-h-full justify-between"
+          >
+            <div className="flex-1">
+              {activeSection === 'home' && <Hero onNavigate={handleNavigate} />}
+              {activeSection === 'about' && <AboutSection />}
+              {activeSection === 'work' && <ProjectsSection />}
+              {activeSection === 'skills' && <SkillsSection />}
+              {activeSection === 'experience' && <ExperienceSection />}
+              {activeSection === 'contact' && <ContactSection />}
+            </div>
 
-        {/* 2. About Section (Philosophy, Credentials, Both GitHub Profiles) */}
-        <AboutSection />
-
-        {/* 3. Work Section (Static Grid with Spotlight Follower Effect, NO InfiniteSlider on Works) */}
-        <ProjectsSection />
-
-        {/* 4. Skills Section (Dedicated InfiniteSlider ONLY for Tech Stack Logos + Categorized Toolset) */}
-        <SkillsSection />
-
-        {/* 5. Experience Section (Professional Career Timeline & Milestones) */}
-        <ExperienceSection />
-
-        {/* 6. Contact Section (Direct WhatsApp link, Both GitHubs, Clean Form, No Fake Data) */}
-        <ContactSection />
+            {/* Shared Global Footer with Available for New Opportunities & Live IST Clock */}
+            <Footer onNavigate={handleNavigate} />
+          </motion.div>
+        </AnimatePresence>
       </main>
-
-      {/* Footer */}
-      <Footer />
     </div>
   );
 }

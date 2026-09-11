@@ -12,8 +12,8 @@ export interface SpotlightProps {
 
 export function Spotlight({
   className,
-  size = 200,
-  springOptions = { bounce: 0 },
+  size = 320,
+  springOptions = { bounce: 0, damping: 20, stiffness: 220 },
 }: SpotlightProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const [parentElement, setParentElement] = useState<HTMLElement | null>(null);
@@ -47,10 +47,6 @@ export function Spotlight({
   useEffect(() => {
     if (!parentElement) return;
 
-    // Check if device supports fine pointer (mouse/trackpad)
-    const isFinePointer = window.matchMedia('(pointer: fine)').matches;
-    if (!isFinePointer) return;
-
     const onEnter = () => setIsHovered(true);
     const onLeave = () => setIsHovered(false);
 
@@ -68,7 +64,7 @@ export function Spotlight({
   return (
     <div
       ref={containerRef}
-      className="pointer-events-none absolute inset-0 z-0 overflow-hidden rounded-[inherit]"
+      className="pointer-events-none absolute inset-0 z-10 overflow-hidden rounded-[inherit]"
       aria-hidden="true"
     >
       <motion.div
@@ -82,7 +78,7 @@ export function Spotlight({
         animate={{ opacity: isHovered ? 1 : 0 }}
         transition={{ duration: 0.15 }}
         className={cn(
-          'absolute rounded-full bg-[radial-gradient(circle_at_center,rgba(168,85,247,0.25)_0%,rgba(99,102,241,0.15)_40%,transparent_70%)] blur-2xl dark:bg-[radial-gradient(circle_at_center,rgba(168,85,247,0.32)_0%,rgba(139,92,246,0.18)_40%,transparent_70%)]',
+          'absolute rounded-full bg-[radial-gradient(circle_at_center,rgba(96,165,250,0.38)_0%,rgba(192,132,252,0.25)_40%,transparent_70%)] blur-xl pointer-events-none',
           className
         )}
       />

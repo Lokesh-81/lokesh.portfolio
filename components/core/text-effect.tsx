@@ -48,7 +48,7 @@ const defaultItemVariants: Variants = {
 export function TextEffect({
   children,
   per = 'word',
-  as: Component = 'p',
+  as: Component = 'span',
   variants,
   className,
   delay = 0,
@@ -91,7 +91,7 @@ export function TextEffect({
     return children.split('');
   }, [children, per]);
 
-  const MotionComponent = motion[Component as keyof typeof motion] || motion.p;
+  const MotionComponent = motion[Component as keyof typeof motion] || motion.span;
 
   return (
     <MotionComponent

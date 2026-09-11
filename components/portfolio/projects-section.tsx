@@ -2,19 +2,18 @@
 
 import React, { useState } from 'react';
 import { ProjectCard } from './project-card';
-import { Cursor } from '@/components/core/cursor';
 import { usePortfolio } from '@/lib/portfolio-context';
 import { useLanguage } from '@/i18n';
 import { projects as fallbackProjects, type Project } from '@/lib/data/projects';
-import { Filter, ArrowUpRight } from 'lucide-react';
+import { Filter } from 'lucide-react';
+import { TextEffect } from '@/components/core/text-effect';
+import { Spotlight } from '@/components/core/spotlight';
 
 export function ProjectsSection() {
   const { projects: contextProjects } = usePortfolio();
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
   const [selectedCategory, setSelectedCategory] = useState<string>('All');
-  const [hoveredProject, setHoveredProject] = useState<Project | null>(null);
 
-  // Map context projects or fallback projects
   const allProjects: Project[] =
     contextProjects && contextProjects.length > 0
       ? (contextProjects as any)
@@ -50,58 +49,51 @@ export function ProjectsSection() {
   });
 
   return (
-    <section id="work" className="py-24 px-6 relative">
-      {/* Floating cursor preview for active project */}
-      {hoveredProject && (
-        <Cursor>
-          <div className="flex items-center gap-3 rounded-xl border border-zinc-200 bg-white/95 px-4 py-2.5 shadow-2xl backdrop-blur-md dark:border-zinc-700 dark:bg-zinc-900/95">
-            <span className="font-mono text-xs font-bold text-purple-600 dark:text-purple-400">
-              {hoveredProject.number}
-            </span>
-            <div className="flex flex-col">
-              <span className="text-xs font-semibold text-zinc-900 dark:text-white">
-                {hoveredProject.name}
-              </span>
-              <span className="text-[10px] text-zinc-500 dark:text-zinc-400">
-                {hoveredProject.category}
-              </span>
-            </div>
-            <ArrowUpRight className="h-3.5 w-3.5 text-zinc-400" />
-          </div>
-        </Cursor>
-      )}
+    <div className="relative min-h-[85vh] w-full px-4 sm:px-8 py-8 sm:py-12">
+      {/* Spotlight on Projects Section */}
+      <Spotlight
+        className="bg-[radial-gradient(circle_at_center,rgba(96,165,250,0.22)_0%,rgba(192,132,252,0.12)_40%,transparent_70%)] blur-2xl pointer-events-none"
+        size={450}
+      />
 
-      <div className="mx-auto max-w-6xl">
-        <div className="flex flex-col justify-between gap-6 border-b border-zinc-200/80 pb-10 md:flex-row md:items-end dark:border-zinc-900/80">
+      <div className="relative z-10 mx-auto max-w-[1400px]">
+        {/* Section Header with TextEffect (No dates, no numbers) */}
+        <div className="flex flex-col justify-between gap-4 border-b border-[#1F2937] pb-6 md:flex-row md:items-end">
           <div>
-            <p className="text-xs uppercase tracking-[0.25em] text-purple-600 font-semibold dark:text-purple-400">
-              {t('work.tag')}
-            </p>
-            <h2 className="mt-2 text-4xl font-light tracking-tight text-zinc-950 sm:text-6xl md:text-7xl dark:text-white">
-              {t('work.title')}{' '}
-              <span className="instrument italic font-normal">{t('work.titleAccent')}</span>
+            <div className="text-xs uppercase tracking-[0.2em] text-[#60A5FA] font-semibold">
+              <TextEffect key={`tag-${language}`} per="char" delay={0.05}>
+                {t('work.tag')}
+              </TextEffect>
+            </div>
+            <h2 className="mt-1 text-3xl font-light tracking-tight text-[#E0E7FF] sm:text-5xl md:text-6xl">
+              <TextEffect key={`title-${language}`} per="word" delay={0.15}>
+                {t('work.title')}
+              </TextEffect>{' '}
+              <span className="instrument italic font-normal text-[#60A5FA]">
+                {t('work.titleAccent')}
+              </span>
             </h2>
           </div>
-          <div className="max-w-md">
-            <p className="text-sm leading-relaxed text-zinc-600 dark:text-zinc-400">
+          <div className="max-w-md text-xs sm:text-sm leading-relaxed text-[#CBD5E1]">
+            <TextEffect key={`sub-${language}`} per="word" delay={0.25}>
               {t('work.subtitle')}
-            </p>
+            </TextEffect>
           </div>
         </div>
 
         {/* Category Filters */}
-        <div className="mt-8 flex flex-wrap items-center gap-2">
-          <span className="mr-2 text-xs text-zinc-400 flex items-center gap-1.5 font-medium">
-            <Filter className="h-3 w-3" /> {t('work.filter')}
+        <div className="mt-6 flex flex-wrap items-center gap-2">
+          <span className="mr-1 text-xs text-[#A5B4FC]/80 flex items-center gap-1.5 font-medium">
+            <Filter className="h-3 w-3 text-[#60A5FA]" /> {t('work.filter')}
           </span>
           {categories.map((cat) => (
             <button
               key={cat.key}
               onClick={() => setSelectedCategory(cat.key)}
-              className={`rounded-full px-4 py-1.5 text-xs font-medium transition-all duration-200 ${
+              className={`rounded-full px-3.5 py-1 text-xs font-medium transition-all cursor-pointer ${
                 selectedCategory === cat.key
-                  ? 'bg-zinc-950 text-white shadow-sm dark:bg-white dark:text-zinc-950 font-semibold'
-                  : 'border border-zinc-200 bg-white/60 text-zinc-600 hover:border-zinc-400 hover:text-zinc-950 dark:border-zinc-800 dark:bg-zinc-900/60 dark:text-zinc-400 dark:hover:border-zinc-700 dark:hover:text-white'
+                  ? 'bg-gradient-to-r from-[#2563EB] to-[#60A5FA] text-white shadow-xs'
+                  : 'border border-[#1F2937] bg-[#111827] text-[#A5B4FC]/80 hover:border-[#60A5FA] hover:text-[#E0E7FF]'
               }`}
             >
               {cat.label}
@@ -109,18 +101,13 @@ export function ProjectsSection() {
           ))}
         </div>
 
-        {/* Static Bento Grid with Spotlight Follower Effect */}
-        <div className="mt-12 grid gap-6 md:grid-cols-2">
+        {/* Projects Grid with Responsive Width and Spotlight (No dates or years on cards) */}
+        <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3 pb-12">
           {filteredProjects.map((project) => (
-            <ProjectCard
-              key={project.id || project.number}
-              project={project}
-              onHoverStart={(proj) => setHoveredProject(proj)}
-              onHoverEnd={() => setHoveredProject(null)}
-            />
+            <ProjectCard key={project.id || project.name} project={project} />
           ))}
         </div>
       </div>
-    </section>
+    </div>
   );
 }

@@ -2,74 +2,90 @@
 
 import React from 'react';
 import { Calendar, MapPin, CheckCircle2 } from 'lucide-react';
+import { TextEffect } from '@/components/core/text-effect';
+import { Spotlight } from '@/components/core/spotlight';
 import { usePortfolio } from '@/lib/portfolio-context';
 import { useLanguage } from '@/i18n';
 
 export function ExperienceSection() {
   const { experiences } = usePortfolio();
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
 
   return (
-    <section id="experience" className="py-24 px-6 border-t border-zinc-200/80 dark:border-zinc-900/80">
-      <div className="mx-auto max-w-6xl">
-        {/* Header (Section number removed) */}
-        <div className="flex flex-col justify-between gap-6 border-b border-zinc-200/80 pb-10 md:flex-row md:items-end dark:border-zinc-900/80">
+    <div className="relative min-h-[85vh] w-full px-4 sm:px-8 py-8 sm:py-12">
+      {/* Spotlight on Experience Section */}
+      <Spotlight
+        className="bg-[radial-gradient(circle_at_center,rgba(96,165,250,0.22)_0%,rgba(192,132,252,0.12)_40%,transparent_70%)] blur-2xl pointer-events-none"
+        size={450}
+      />
+
+      <div className="relative z-10 mx-auto max-w-[1400px]">
+        {/* Header with TextEffect (No numbers) */}
+        <div className="flex flex-col justify-between gap-4 border-b border-[#1F2937] pb-6 md:flex-row md:items-end">
           <div>
-            <p className="text-xs uppercase tracking-[0.25em] text-purple-600 font-semibold dark:text-purple-400">
-              {t('experience.tag')}
-            </p>
-            <h2 className="mt-2 text-4xl font-light tracking-tight text-zinc-950 sm:text-6xl md:text-7xl dark:text-white">
-              {t('experience.title')}{' '}
-              <span className="instrument italic font-normal">{t('experience.titleAccent')}</span>
+            <div className="text-xs uppercase tracking-[0.2em] text-[#60A5FA] font-semibold">
+              <TextEffect key={`tag-${language}`} per="char" delay={0.05}>
+                {t('experience.tag')}
+              </TextEffect>
+            </div>
+            <h2 className="mt-1 text-3xl font-light tracking-tight text-[#E0E7FF] sm:text-5xl md:text-6xl">
+              <TextEffect key={`title-${language}`} per="word" delay={0.15}>
+                {t('experience.title')}
+              </TextEffect>{' '}
+              <span className="instrument italic font-normal text-[#60A5FA]">
+                {t('experience.titleAccent')}
+              </span>
             </h2>
           </div>
-          <p className="max-w-md text-sm leading-relaxed text-zinc-600 dark:text-zinc-400">
-            {t('experience.subtitle')}
-          </p>
+          <div className="max-w-md text-xs sm:text-sm leading-relaxed text-[#CBD5E1]">
+            <TextEffect key={`sub-${language}`} per="word" delay={0.25}>
+              {t('experience.subtitle')}
+            </TextEffect>
+          </div>
         </div>
 
         {/* Timeline List */}
-        <div className="mt-14 space-y-8">
+        <div className="mt-8 space-y-6 pb-12">
           {experiences.map((exp) => (
             <div
               key={exp.id}
-              className="group relative rounded-3xl border border-zinc-200/80 bg-white p-6 sm:p-8 shadow-sm transition-all hover:border-purple-400/50 hover:shadow-md dark:border-zinc-800/80 dark:bg-zinc-950 dark:hover:border-purple-500/40"
+              className="group relative rounded-2xl border border-[#1F2937] bg-[#111827]/90 p-6 sm:p-7 shadow-xs transition-all hover:border-[#60A5FA] hover:shadow-md"
             >
-              <div className="flex flex-col justify-between gap-3 sm:flex-row sm:items-center border-b border-zinc-100 pb-5 dark:border-zinc-900">
+              <div className="flex flex-col justify-between gap-3 sm:flex-row sm:items-center border-b border-[#1F2937] pb-4">
                 <div>
-                  <span className="text-xs font-mono uppercase tracking-wider text-purple-600 dark:text-purple-400 font-medium">
+                  <span className="text-xs font-mono uppercase tracking-wider text-[#60A5FA] font-semibold">
                     {exp.company}
                   </span>
-                  <h3 className="text-2xl font-bold text-zinc-950 dark:text-white mt-0.5">
+                  <h3 className="text-xl sm:text-2xl font-bold text-[#E0E7FF] mt-0.5">
                     {exp.role}
                   </h3>
                 </div>
 
-                <div className="flex flex-wrap items-center gap-2 text-xs text-zinc-500 dark:text-zinc-400">
-                  <span className="flex items-center gap-1 font-mono rounded-full bg-zinc-100 px-3 py-1 dark:bg-zinc-900">
-                    <Calendar className="h-3 w-3 text-purple-500" />
+                <div className="flex flex-wrap items-center gap-2 text-xs text-[#CBD5E1]">
+                  <span className="flex items-center gap-1 font-mono rounded-full bg-[#0B132B] px-3 py-1 border border-[#1F2937] text-[#A5B4FC]">
+                    <Calendar className="h-3 w-3 text-[#60A5FA]" />
                     {exp.period}
                   </span>
-                  <span className="flex items-center gap-1 rounded-full bg-zinc-100 px-3 py-1 dark:bg-zinc-900">
-                    <MapPin className="h-3 w-3 text-zinc-400" />
+                  <span className="flex items-center gap-1 rounded-full bg-[#0B132B] px-3 py-1 border border-[#1F2937] text-[#CBD5E1]">
+                    <MapPin className="h-3 w-3 text-[#A5B4FC]/80" />
                     {exp.location}
                   </span>
                 </div>
               </div>
 
-              <p className="mt-5 text-sm leading-relaxed text-zinc-600 dark:text-zinc-300">
+              <p className="mt-4 text-xs sm:text-sm leading-relaxed text-[#CBD5E1]">
                 {exp.description}
               </p>
 
               {exp.responsibilities && exp.responsibilities.length > 0 && (
-                <div className="mt-5 space-y-2">
-                  <span className="text-[11px] font-semibold uppercase tracking-wider text-zinc-400 dark:text-zinc-500">
+                <div className="mt-4 space-y-2">
+                  <span className="text-[11px] font-semibold uppercase tracking-wider text-[#A5B4FC]/70">
                     {t('experience.highlights')}
                   </span>
-                  <ul className="space-y-1.5 text-xs text-zinc-600 dark:text-zinc-400">
+                  <ul className="space-y-1.5 text-xs text-[#CBD5E1]">
                     {exp.responsibilities.map((resp, i) => (
                       <li key={i} className="flex items-start gap-2.5">
-                        <CheckCircle2 className="mt-0.5 h-3.5 w-3.5 shrink-0 text-purple-600 dark:text-purple-400" />
+                        <CheckCircle2 className="mt-0.5 h-3.5 w-3.5 shrink-0 text-[#60A5FA]" />
                         <span>{resp}</span>
                       </li>
                     ))}
@@ -77,11 +93,11 @@ export function ExperienceSection() {
                 </div>
               )}
 
-              <div className="mt-6 flex flex-wrap gap-1.5 border-t border-zinc-100 pt-4 dark:border-zinc-900">
+              <div className="mt-5 flex flex-wrap gap-1.5 border-t border-[#1F2937] pt-4">
                 {exp.technologies.map((tech) => (
                   <span
                     key={tech}
-                    className="rounded-md border border-zinc-200 bg-zinc-50 px-2.5 py-0.5 font-mono text-[11px] text-zinc-700 dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-300"
+                    className="rounded-md border border-[#1F2937] bg-[#1F2937]/70 px-2.5 py-0.5 font-mono text-[11px] text-[#E0E7FF]"
                   >
                     {tech}
                   </span>
@@ -91,6 +107,6 @@ export function ExperienceSection() {
           ))}
         </div>
       </div>
-    </section>
+    </div>
   );
 }

@@ -4,6 +4,7 @@ import React, { createContext, useContext, useState, useEffect, useCallback } fr
 import { en } from './en';
 import { te } from './te';
 import { hi } from './hi';
+import { ta, kn, ml, bn, mr, es, fr, de, ja } from './more-languages';
 import { Language, LanguageOption, SUPPORTED_LANGUAGES, TranslationDictionary } from './types';
 
 export * from './types';
@@ -19,6 +20,15 @@ const dictionaries: Record<Language, TranslationDictionary> = {
   en,
   te,
   hi,
+  ta,
+  kn,
+  ml,
+  bn,
+  mr,
+  es,
+  fr,
+  de,
+  ja,
 };
 
 const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
@@ -27,13 +37,16 @@ const STORAGE_KEY = 'portfolio_language';
 
 export function LanguageProvider({ children }: { children: React.ReactNode }) {
   const [language, setLanguageState] = useState<Language>('en');
-  const [mounted, setMounted] = useState(false);
+  const [, setMounted] = useState(false);
 
   useEffect(() => {
     try {
       const saved = localStorage.getItem(STORAGE_KEY) as Language | null;
-      if (saved && (saved === 'en' || saved === 'te' || saved === 'hi')) {
+      if (saved && dictionaries[saved]) {
         setLanguageState(saved);
+        if (typeof document !== 'undefined') {
+          document.documentElement.lang = saved;
+        }
       }
     } catch (e) {
       // Ignore localStorage read errors (e.g. iframe sandbox)
@@ -48,7 +61,6 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
     } catch (e) {
       // Ignore localStorage write errors
     }
-    // Update document lang attribute smoothly
     if (typeof document !== 'undefined') {
       document.documentElement.lang = lang;
     }

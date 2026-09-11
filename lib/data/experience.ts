@@ -39,14 +39,19 @@ export const experiences: Experience[] = [
     location: "Remote",
     type: "Community & Tech Leadership",
     description:
-      "Representing developer technologies and student developer ecosystems, organizing technical workshops, and driving engagement around modern web and cloud technologies.",
+      "Represented developer ecosystems and the student community, organizing technical workshops and driving engagement and hands-on literacy around Gemini AI and generative tools.",
     responsibilities: [
-      "Evangelized Google developer tools, cloud infrastructure, and student developer initiatives on campus",
-      "Organized and facilitated hands-on technical workshops and hackathons on modern web tooling",
-      "Mentored peers in building real-world software applications and adopting best engineering practices"
+      "Conducted hands-on technical workshops focused on Gemini AI APIs, prompt engineering, and GenAI applications",
+      "Fostered student community growth through AI literacy sessions and collaborative developer hackathons",
+      "Mentored student peers in building real-world software applications and adopting best engineering practices"
     ],
-    technologies: ["Developer Relations", "Cloud Technologies", "Technical Mentorship", "Web Ecosystem", "Community Leadership"],
+    technologies: [
+      "Gemini AI",
+      "Technical Workshops",
+      "Student Community",
+      "AI Literacy",
+      "GenAI"
+    ],
     featured: true
   }
 ]
-

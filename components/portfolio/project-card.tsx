@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { Spotlight } from '@/components/core/spotlight';
-import { ArrowUpRight, Github, ExternalLink, CheckCircle2 } from 'lucide-react';
+import { Github, ExternalLink, CheckCircle2 } from 'lucide-react';
 import { useLanguage } from '@/i18n';
 import type { Project } from '@/lib/data/projects';
 
@@ -22,7 +22,6 @@ export interface ProjectCardProps {
 export function ProjectCard({ project, onHoverStart, onHoverEnd }: ProjectCardProps) {
   const { t, language } = useLanguage();
 
-  // Support multilingual content if provided by database, otherwise gracefully fallback to original English
   const translatedContent = project.translations?.[language as 'te' | 'hi'];
   const projectName = (language !== 'en' && translatedContent?.name) || project.name;
   const projectTagline = (language !== 'en' && translatedContent?.tagline) || project.tagline;
@@ -37,52 +36,41 @@ export function ProjectCard({ project, onHoverStart, onHoverEnd }: ProjectCardPr
     <div
       onMouseEnter={() => onHoverStart?.(project)}
       onMouseLeave={() => onHoverEnd?.()}
-      className="group relative flex flex-col justify-between overflow-hidden rounded-2xl border border-zinc-200/90 bg-white p-6 sm:p-8 shadow-sm transition-all duration-300 hover:border-purple-400/60 hover:shadow-xl dark:border-zinc-800/90 dark:bg-zinc-950 dark:hover:border-purple-500/50"
+      className="group relative flex flex-col justify-between overflow-hidden rounded-2xl border border-[#1F2937] bg-[#111827]/90 p-6 sm:p-7 shadow-[0_4px_25px_rgba(0,0,0,0.4)] transition-all duration-300 hover:border-[#60A5FA] hover:shadow-[0_8px_35px_rgba(37,99,235,0.25)]"
     >
       {/* Spotlight follower effect directly on the card canvas */}
       <Spotlight
-        className="from-purple-500/35 via-violet-500/20 to-transparent blur-3xl dark:from-purple-400/28 dark:via-violet-400/18 dark:to-transparent"
-        size={320}
+        className="bg-[radial-gradient(circle_at_center,rgba(96,165,250,0.38)_0%,rgba(192,132,252,0.25)_40%,transparent_70%)] blur-2xl pointer-events-none"
+        size={340}
       />
 
       <div className="relative z-10 flex h-full flex-col justify-between">
         <div>
-          {/* Header with Project Number, Category, and Status */}
-          <div className="flex items-center justify-between gap-2 border-b border-zinc-100 pb-4 dark:border-zinc-900">
-            <div className="flex items-center gap-2.5">
-              <span className="font-mono text-xs font-semibold text-purple-600 dark:text-purple-400">
-                {project.number}
-              </span>
-              <span className="text-zinc-300 dark:text-zinc-700">/</span>
-              <span className="text-xs uppercase tracking-wider text-zinc-500 dark:text-zinc-400 font-medium">
-                {project.category}
-              </span>
-            </div>
+          {/* Header with Category and Live Status Badge (no dates, no numbers) */}
+          <div className="flex items-center justify-between gap-2 border-b border-[#1F2937] pb-3.5">
+            <span className="text-[11px] uppercase tracking-wider text-[#60A5FA] font-semibold">
+              {project.category}
+            </span>
 
-            <div className="flex items-center gap-2">
-              <span className="rounded-full bg-zinc-100 px-2.5 py-0.5 font-mono text-[11px] text-zinc-600 dark:bg-zinc-900 dark:text-zinc-400">
-                {project.year}
-              </span>
+            <span
+              className={`flex items-center gap-1.5 rounded-full px-2.5 py-0.5 text-[11px] font-medium ${
+                isLive
+                  ? 'bg-[#2DD4BF]/15 text-[#2DD4BF] border border-[#2DD4BF]/40'
+                  : 'bg-[#FDE68A]/15 text-[#FDE68A] border border-[#FDE68A]/40'
+              }`}
+            >
               <span
-                className={`flex items-center gap-1.5 rounded-full px-2.5 py-0.5 text-[11px] font-medium ${
-                  isLive
-                    ? 'bg-emerald-50 text-emerald-700 dark:bg-emerald-950/40 dark:text-emerald-400'
-                    : 'bg-amber-50 text-amber-700 dark:bg-amber-950/40 dark:text-amber-400'
+                className={`h-1.5 w-1.5 rounded-full ${
+                  isLive ? 'bg-[#2DD4BF] animate-pulse' : 'bg-[#FDE68A]'
                 }`}
-              >
-                <span
-                  className={`h-1.5 w-1.5 rounded-full ${
-                    isLive ? 'bg-emerald-500 animate-pulse' : 'bg-amber-500'
-                  }`}
-                />
-                {statusLabel}
-              </span>
-            </div>
+              />
+              {statusLabel}
+            </span>
           </div>
 
           {/* Optional Project Image */}
           {project.image && (
-            <div className="mt-4 overflow-hidden rounded-xl border border-zinc-200/80 bg-zinc-100 aspect-video dark:border-zinc-800/80 dark:bg-zinc-900">
+            <div className="mt-4 overflow-hidden rounded-xl border border-[#1F2937] bg-[#0B132B] aspect-video">
               <img
                 src={project.image}
                 alt={project.name}
@@ -92,30 +80,44 @@ export function ProjectCard({ project, onHoverStart, onHoverEnd }: ProjectCardPr
           )}
 
           {/* Project Title & Tagline */}
-          <div className="mt-5">
-            <h3 className="text-2xl font-bold tracking-tight text-zinc-950 group-hover:text-purple-600 dark:text-white dark:group-hover:text-purple-400 transition-colors sm:text-3xl">
-              {projectName}
-            </h3>
-            <p className="mt-1 text-sm font-medium text-zinc-600 dark:text-zinc-300">
+          <div className="mt-4">
+            {project.liveUrl ? (
+              <a
+                href={project.liveUrl}
+                target="_blank"
+                rel="noreferrer"
+                className="group/link inline-flex items-center gap-2 hover:underline"
+              >
+                <h3 className="text-xl sm:text-2xl font-bold tracking-tight text-[#E0E7FF] group-hover:text-[#60A5FA] transition-colors">
+                  {projectName}
+                </h3>
+                <ExternalLink className="h-4 w-4 text-[#60A5FA] opacity-70 group-hover/link:opacity-100 transition-opacity" />
+              </a>
+            ) : (
+              <h3 className="text-xl sm:text-2xl font-bold tracking-tight text-[#E0E7FF] group-hover:text-[#60A5FA] transition-colors">
+                {projectName}
+              </h3>
+            )}
+            <p className="mt-1 text-xs sm:text-sm font-medium text-[#A5B4FC]">
               {projectTagline}
             </p>
           </div>
 
           {/* Project Description */}
-          <p className="mt-3 text-sm leading-relaxed text-zinc-600 dark:text-zinc-400">
+          <p className="mt-3 text-xs sm:text-sm leading-relaxed text-[#CBD5E1]">
             {projectDesc}
           </p>
 
           {/* Key Deliverables / What I worked on */}
           {contributions && contributions.length > 0 && (
-            <div className="mt-5 space-y-1.5">
-              <span className="text-[11px] font-semibold uppercase tracking-wider text-zinc-400 dark:text-zinc-500">
+            <div className="mt-4 space-y-1.5">
+              <span className="text-[10px] font-semibold uppercase tracking-wider text-[#A5B4FC]/70">
                 {t('work.keyContributions')}
               </span>
-              <ul className="space-y-1 text-xs text-zinc-600 dark:text-zinc-400">
+              <ul className="space-y-1 text-xs text-[#CBD5E1]">
                 {contributions.slice(0, 3).map((item, idx) => (
                   <li key={idx} className="flex items-start gap-2">
-                    <CheckCircle2 className="mt-0.5 h-3.5 w-3.5 shrink-0 text-purple-500 dark:text-purple-400" />
+                    <CheckCircle2 className="mt-0.5 h-3.5 w-3.5 shrink-0 text-[#60A5FA]" />
                     <span>{item}</span>
                   </li>
                 ))}
@@ -125,19 +127,19 @@ export function ProjectCard({ project, onHoverStart, onHoverEnd }: ProjectCardPr
         </div>
 
         {/* Footer: Tech stack & Links */}
-        <div className="mt-6 border-t border-zinc-100 pt-5 dark:border-zinc-900">
-          <div className="flex flex-wrap items-center justify-between gap-4">
+        <div className="mt-5 border-t border-[#1F2937] pt-4">
+          <div className="flex flex-wrap items-center justify-between gap-3">
             <div className="flex flex-wrap gap-1.5">
               {project.technologies.slice(0, 4).map((tech) => (
                 <span
                   key={tech}
-                  className="rounded-md border border-zinc-200 bg-zinc-50 px-2 py-0.5 font-mono text-[11px] text-zinc-700 dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-300"
+                  className="rounded-md border border-[#1F2937] bg-[#1F2937]/70 px-2 py-0.5 font-mono text-[11px] text-[#E0E7FF]"
                 >
                   {tech}
                 </span>
               ))}
               {project.technologies.length > 4 && (
-                <span className="rounded-md bg-zinc-100 px-1.5 py-0.5 font-mono text-[10px] text-zinc-500 dark:bg-zinc-800 dark:text-zinc-400">
+                <span className="rounded-md bg-[#2563EB]/25 px-1.5 py-0.5 font-mono text-[10px] text-[#60A5FA] font-semibold">
                   +{project.technologies.length - 4}
                 </span>
               )}
@@ -149,32 +151,23 @@ export function ProjectCard({ project, onHoverStart, onHoverEnd }: ProjectCardPr
                   href={project.githubUrl}
                   target="_blank"
                   rel="noreferrer"
-                  className="inline-flex items-center gap-1 rounded-lg border border-zinc-200 bg-white p-2 text-xs font-medium text-zinc-700 shadow-sm transition-colors hover:bg-zinc-50 hover:text-zinc-950 dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-300 dark:hover:bg-zinc-800 dark:hover:text-white"
-                  title="View Source on GitHub"
+                  className="flex items-center gap-1.5 rounded-lg border border-[#1F2937] bg-[#111827] px-2.5 py-1 text-xs font-medium text-[#E0E7FF] hover:border-[#60A5FA] hover:text-[#60A5FA] transition-colors"
+                  title="Source Code"
                 >
                   <Github className="h-3.5 w-3.5" />
-                  <span className="hidden sm:inline">{t('work.code')}</span>
+                  <span>{t('work.code')}</span>
                 </a>
               )}
 
-              {project.liveUrl ? (
+              {project.liveUrl && (
                 <a
                   href={project.liveUrl}
                   target="_blank"
                   rel="noreferrer"
-                  className="inline-flex items-center gap-1 rounded-lg bg-zinc-950 px-3 py-2 text-xs font-medium text-white shadow transition-colors hover:bg-purple-600 dark:bg-white dark:text-zinc-950 dark:hover:bg-purple-400 dark:hover:text-black"
+                  className="flex items-center gap-1.5 rounded-lg bg-gradient-to-r from-[#2563EB] to-[#60A5FA] px-3.5 py-1.5 text-xs font-semibold text-white shadow-[0_2px_12px_rgba(37,99,235,0.3)] hover:shadow-[0_4px_20px_rgba(96,165,250,0.5)] hover:from-[#1D4ED8] hover:to-[#3B82F6] transition-all hover:scale-[1.02]"
+                  title="View Live Project"
                 >
-                  <span>{t('work.launch')}</span>
-                  <ArrowUpRight className="h-3.5 w-3.5" />
-                </a>
-              ) : (
-                <a
-                  href={project.githubUrl || 'https://github.com/Lokesh-81'}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="inline-flex items-center gap-1 rounded-lg bg-zinc-900 px-3 py-2 text-xs font-medium text-white shadow transition-colors hover:bg-purple-600 dark:bg-zinc-800 dark:text-white dark:hover:bg-purple-500"
-                >
-                  <span>{t('work.explore')}</span>
+                  <span>Live Project</span>
                   <ExternalLink className="h-3.5 w-3.5" />
                 </a>
               )}

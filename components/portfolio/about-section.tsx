@@ -2,6 +2,8 @@
 
 import React from 'react';
 import { MapPin, Languages, GraduationCap, Award, Github, ArrowUpRight } from 'lucide-react';
+import { TextEffect } from '@/components/core/text-effect';
+import { Spotlight } from '@/components/core/spotlight';
 import { usePortfolio } from '@/lib/portfolio-context';
 import { useLanguage } from '@/i18n';
 
@@ -9,7 +11,7 @@ export function AboutSection() {
   const { profile } = usePortfolio();
   const { t, language } = useLanguage();
 
-  const displayName = profile?.displayName || 'P. Lokesh';
+  const displayName = 'Poosala Lokesh';
   const location = profile?.location || 'Hyderabad, India';
   const languagesList =
     language === 'en'
@@ -21,103 +23,117 @@ export function AboutSection() {
   const recognition = profile?.recognition || 'Google Student Ambassador';
 
   return (
-    <section id="about" className="py-24 px-6 border-t border-zinc-200/80 dark:border-zinc-900/80">
-      <div className="mx-auto max-w-6xl">
-        <div className="grid gap-12 lg:grid-cols-[0.8fr_1.2fr] items-start border-b border-zinc-200/80 pb-16 dark:border-zinc-900/80">
+    <div className="relative min-h-[85vh] w-full px-4 sm:px-8 py-8 sm:py-12">
+      {/* Spotlight on About Section */}
+      <Spotlight
+        className="bg-[radial-gradient(circle_at_center,rgba(96,165,250,0.22)_0%,rgba(192,132,252,0.12)_40%,transparent_70%)] blur-2xl pointer-events-none"
+        size={450}
+      />
+
+      <div className="relative z-10 mx-auto max-w-[1400px]">
+        {/* Main Grid */}
+        <div className="grid gap-10 lg:grid-cols-[0.8fr_1.2fr] items-start border-b border-[#1F2937] pb-12">
           <div>
-            <p className="text-xs uppercase tracking-[0.25em] text-purple-600 font-semibold dark:text-purple-400">
-              {t('about.tag')}
-            </p>
-            <h2 className="mt-2 text-4xl font-light tracking-tight text-zinc-950 sm:text-6xl md:text-7xl dark:text-white">
-              {t('about.title')}{' '}
-              <span className="instrument italic font-normal">{t('about.titleAccent')}</span>
+            <div className="text-xs uppercase tracking-[0.2em] text-[#60A5FA] font-semibold">
+              <TextEffect key={`tag-${language}`} per="char" delay={0.05}>
+                {t('about.tag')}
+              </TextEffect>
+            </div>
+            <h2 className="mt-1 text-3xl font-light tracking-tight text-[#E0E7FF] sm:text-5xl md:text-6xl">
+              <TextEffect key={`title-${language}`} per="word" delay={0.15}>
+                {t('about.title')}
+              </TextEffect>{' '}
+              <span className="instrument italic font-normal text-[#60A5FA]">
+                {t('about.titleAccent')}
+              </span>
             </h2>
 
             {/* Both GitHub profiles display */}
             <div className="mt-8 space-y-2">
-              <span className="text-[10px] font-mono uppercase tracking-wider text-zinc-400 dark:text-zinc-500">
+              <span className="text-[10px] font-mono uppercase tracking-wider text-[#A5B4FC]/70">
                 {t('about.verifiedProfiles')}
               </span>
-              <div className="space-y-1.5">
+              <div className="space-y-2 max-w-md">
                 <a
                   href="https://github.com/Lokesh-81"
                   target="_blank"
                   rel="noreferrer"
-                  className="flex items-center justify-between rounded-xl border border-zinc-200/70 bg-white/70 px-3.5 py-2 text-xs font-medium text-zinc-800 hover:border-purple-400 hover:text-purple-600 dark:border-zinc-800/80 dark:bg-zinc-900/60 dark:text-zinc-200 dark:hover:border-purple-500/50 dark:hover:text-purple-400 transition-colors"
+                  className="flex items-center justify-between rounded-xl border border-[#1F2937] bg-[#111827] px-4 py-2.5 text-xs font-medium text-[#E0E7FF] hover:border-[#60A5FA] hover:text-[#60A5FA] shadow-xs transition-all"
                 >
-                  <span className="flex items-center gap-2">
-                    <Github className="h-3.5 w-3.5" />
+                  <span className="flex items-center gap-2.5">
+                    <Github className="h-4 w-4 text-[#A5B4FC]" />
                     <span>github.com/Lokesh-81</span>
                   </span>
-                  <ArrowUpRight className="h-3.5 w-3.5 text-zinc-400" />
+                  <ArrowUpRight className="h-3.5 w-3.5 text-[#64748B]" />
                 </a>
 
                 <a
                   href="https://github.com/lokeshnaivaidya-max"
                   target="_blank"
                   rel="noreferrer"
-                  className="flex items-center justify-between rounded-xl border border-zinc-200/70 bg-white/70 px-3.5 py-2 text-xs font-medium text-zinc-800 hover:border-purple-400 hover:text-purple-600 dark:border-zinc-800/80 dark:bg-zinc-900/60 dark:text-zinc-200 dark:hover:border-purple-500/50 dark:hover:text-purple-400 transition-colors"
+                  className="flex items-center justify-between rounded-xl border border-[#1F2937] bg-[#111827] px-4 py-2.5 text-xs font-medium text-[#E0E7FF] hover:border-[#60A5FA] hover:text-[#60A5FA] shadow-xs transition-all"
                 >
-                  <span className="flex items-center gap-2">
-                    <Github className="h-3.5 w-3.5" />
+                  <span className="flex items-center gap-2.5">
+                    <Github className="h-4 w-4 text-[#A5B4FC]" />
                     <span>github.com/lokeshnaivaidya-max</span>
                   </span>
-                  <ArrowUpRight className="h-3.5 w-3.5 text-zinc-400" />
+                  <ArrowUpRight className="h-3.5 w-3.5 text-[#64748B]" />
                 </a>
               </div>
             </div>
           </div>
 
           <div className="space-y-6">
-            <p className="text-xl leading-relaxed text-zinc-800 dark:text-zinc-200 md:text-2xl font-light">
-              {t('about.introGreeting')}{' '}
-              <span className="font-semibold text-zinc-950 dark:text-white">{displayName}</span>,{' '}
-              {t('about.introSuffix')} {location},{' '}
-              {t('about.introGoal')}
-            </p>
+            <div className="text-lg leading-relaxed text-[#E0E7FF] md:text-xl font-light">
+              <TextEffect key={`intro-${language}`} per="word" delay={0.25}>
+                {`${t('about.introGreeting')} ${displayName}, ${t('about.introSuffix')} ${location}, ${t('about.introGoal')}`}
+              </TextEffect>
+            </div>
 
-            <p className="text-sm leading-relaxed text-zinc-600 dark:text-zinc-400">
-              {language === 'en' && profile?.aboutSubDescription
-                ? profile.aboutSubDescription
-                : t('about.subDescription')}
-            </p>
+            <div className="text-xs sm:text-sm leading-relaxed text-[#CBD5E1]">
+              <TextEffect key={`subdesc-${language}`} per="word" delay={0.4}>
+                {language === 'en' && profile?.aboutSubDescription
+                  ? profile.aboutSubDescription
+                  : t('about.subDescription')}
+              </TextEffect>
+            </div>
 
             {/* Fact Cards */}
-            <div className="grid grid-cols-2 gap-4 pt-4 sm:grid-cols-4">
-              <div className="rounded-2xl border border-zinc-200/80 bg-white p-4 shadow-sm dark:border-zinc-800/80 dark:bg-zinc-950">
-                <div className="flex items-center gap-1.5 text-zinc-400 dark:text-zinc-500 mb-1.5 text-[10px] uppercase tracking-wider font-medium">
-                  <MapPin className="h-3.5 w-3.5 text-purple-600 dark:text-purple-400" />
+            <div className="grid grid-cols-2 gap-3.5 pt-2 sm:grid-cols-4">
+              <div className="rounded-2xl border border-[#1F2937] bg-[#111827] p-4 shadow-xs">
+                <div className="flex items-center gap-1.5 text-[#A5B4FC]/80 mb-1.5 text-[10px] uppercase tracking-wider font-semibold">
+                  <MapPin className="h-3.5 w-3.5 text-[#60A5FA]" />
                   <span>{t('about.location')}</span>
                 </div>
-                <p className="font-semibold text-xs text-zinc-900 dark:text-white">
+                <p className="font-semibold text-xs text-[#E0E7FF]">
                   {language === 'en' ? location : t('hero.location')}
                 </p>
               </div>
 
-              <div className="rounded-2xl border border-zinc-200/80 bg-white p-4 shadow-sm dark:border-zinc-800/80 dark:bg-zinc-950">
-                <div className="flex items-center gap-1.5 text-zinc-400 dark:text-zinc-500 mb-1.5 text-[10px] uppercase tracking-wider font-medium">
-                  <Languages className="h-3.5 w-3.5 text-purple-600 dark:text-purple-400" />
+              <div className="rounded-2xl border border-[#1F2937] bg-[#111827] p-4 shadow-xs">
+                <div className="flex items-center gap-1.5 text-[#A5B4FC]/80 mb-1.5 text-[10px] uppercase tracking-wider font-semibold">
+                  <Languages className="h-3.5 w-3.5 text-[#60A5FA]" />
                   <span>{t('about.languages')}</span>
                 </div>
-                <p className="font-semibold text-[11px] text-zinc-900 dark:text-white leading-tight">
+                <p className="font-semibold text-[11px] text-[#E0E7FF] leading-tight">
                   {languagesList}
                 </p>
               </div>
 
-              <div className="rounded-2xl border border-zinc-200/80 bg-white p-4 shadow-sm dark:border-zinc-800/80 dark:bg-zinc-950">
-                <div className="flex items-center gap-1.5 text-zinc-400 dark:text-zinc-500 mb-1.5 text-[10px] uppercase tracking-wider font-medium">
-                  <GraduationCap className="h-3.5 w-3.5 text-purple-600 dark:text-purple-400" />
+              <div className="rounded-2xl border border-[#1F2937] bg-[#111827] p-4 shadow-xs">
+                <div className="flex items-center gap-1.5 text-[#A5B4FC]/80 mb-1.5 text-[10px] uppercase tracking-wider font-semibold">
+                  <GraduationCap className="h-3.5 w-3.5 text-[#60A5FA]" />
                   <span>{t('about.education')}</span>
                 </div>
-                <p className="font-semibold text-xs text-zinc-900 dark:text-white">{education}</p>
+                <p className="font-semibold text-xs text-[#E0E7FF]">{education}</p>
               </div>
 
-              <div className="rounded-2xl border border-zinc-200/80 bg-white p-4 shadow-sm dark:border-zinc-800/80 dark:bg-zinc-950">
-                <div className="flex items-center gap-1.5 text-zinc-400 dark:text-zinc-500 mb-1.5 text-[10px] uppercase tracking-wider font-medium">
-                  <Award className="h-3.5 w-3.5 text-purple-600 dark:text-purple-400" />
+              <div className="rounded-2xl border border-[#1F2937] bg-[#111827] p-4 shadow-xs">
+                <div className="flex items-center gap-1.5 text-[#A5B4FC]/80 mb-1.5 text-[10px] uppercase tracking-wider font-semibold">
+                  <Award className="h-3.5 w-3.5 text-[#60A5FA]" />
                   <span>{t('about.recognition')}</span>
                 </div>
-                <p className="font-semibold text-[11px] text-zinc-900 dark:text-white leading-tight">
+                <p className="font-semibold text-[11px] text-[#E0E7FF] leading-tight">
                   {recognition}
                 </p>
               </div>
@@ -125,36 +141,42 @@ export function AboutSection() {
           </div>
         </div>
 
-        {/* Engineering Philosophy Cards (Numbers removed as requested) */}
-        <div className="mt-16 grid gap-6 md:grid-cols-3">
-          <div className="rounded-2xl border border-zinc-200/80 bg-white p-6 shadow-sm dark:border-zinc-800/80 dark:bg-zinc-950">
-            <h3 className="text-lg font-semibold text-zinc-950 dark:text-white">
-              {t('about.philosophy1.title')}
+        {/* Engineering Philosophy Cards (No numbers) */}
+        <div className="mt-10 grid gap-6 md:grid-cols-3 pb-12">
+          <div className="rounded-2xl border border-[#1F2937] bg-[#111827]/80 p-6 shadow-xs hover:border-[#60A5FA] transition-colors">
+            <h3 className="text-base font-bold text-[#E0E7FF]">
+              <TextEffect key={`phil1-title-${language}`} per="word" delay={0.5}>
+                {t('about.philosophy1.title')}
+              </TextEffect>
             </h3>
-            <p className="mt-2 text-xs leading-relaxed text-zinc-600 dark:text-zinc-400">
+            <p className="mt-2 text-xs sm:text-sm leading-relaxed text-[#CBD5E1]">
               {t('about.philosophy1.desc')}
             </p>
           </div>
 
-          <div className="rounded-2xl border border-zinc-200/80 bg-white p-6 shadow-sm dark:border-zinc-800/80 dark:bg-zinc-950">
-            <h3 className="text-lg font-semibold text-zinc-950 dark:text-white">
-              {t('about.philosophy2.title')}
+          <div className="rounded-2xl border border-[#1F2937] bg-[#111827]/80 p-6 shadow-xs hover:border-[#60A5FA] transition-colors">
+            <h3 className="text-base font-bold text-[#E0E7FF]">
+              <TextEffect key={`phil2-title-${language}`} per="word" delay={0.55}>
+                {t('about.philosophy2.title')}
+              </TextEffect>
             </h3>
-            <p className="mt-2 text-xs leading-relaxed text-zinc-600 dark:text-zinc-400">
+            <p className="mt-2 text-xs sm:text-sm leading-relaxed text-[#CBD5E1]">
               {t('about.philosophy2.desc')}
             </p>
           </div>
 
-          <div className="rounded-2xl border border-zinc-200/80 bg-white p-6 shadow-sm dark:border-zinc-800/80 dark:bg-zinc-950">
-            <h3 className="text-lg font-semibold text-zinc-950 dark:text-white">
-              {t('about.philosophy3.title')}
+          <div className="rounded-2xl border border-[#1F2937] bg-[#111827]/80 p-6 shadow-xs hover:border-[#60A5FA] transition-colors">
+            <h3 className="text-base font-bold text-[#E0E7FF]">
+              <TextEffect key={`phil3-title-${language}`} per="word" delay={0.6}>
+                {t('about.philosophy3.title')}
+              </TextEffect>
             </h3>
-            <p className="mt-2 text-xs leading-relaxed text-zinc-600 dark:text-zinc-400">
+            <p className="mt-2 text-xs sm:text-sm leading-relaxed text-[#CBD5E1]">
               {t('about.philosophy3.desc')}
             </p>
           </div>
         </div>
       </div>
-    </section>
+    </div>
   );
 }

@@ -123,14 +123,14 @@ export interface ContactData {
 
 // Initial Authentic Defaults
 export const initialProfileData: ProfileData = {
-  name: "P. Lokesh",
-  displayName: "P. Lokesh",
+  name: "Poosala Lokesh",
+  displayName: "Poosala Lokesh",
   title: "Full Stack Developer / AI Enthusiast",
   shortBio:
     "Engineering high-performance web applications, scalable digital platforms, and AI-powered products from Hyderabad, India. Focused on pristine craft, type safety, and real-world execution.",
   aboutHero: "Curious by nature.",
   aboutDescription:
-    "I'm P. Lokesh, a Full Stack Developer and Computer Science student based in Hyderabad, India, driven by the craft of building resilient web products and AI integrations.",
+    "I'm Poosala Lokesh, a Full Stack Developer and Computer Science student based in Hyderabad, India, driven by the craft of building resilient web products and AI integrations.",
   aboutSubDescription:
     "I work across the entire software development lifecycle—from responsive, accessible user interfaces and design systems to scalable backend APIs, database schemas, cloud deployments, and AI pipelines.",
   location: "Hyderabad, India",
@@ -177,18 +177,18 @@ export const initialExperienceData: ExperienceItem[] = [
     location: "Remote",
     type: "Community & Tech Leadership",
     description:
-      "Representing developer technologies and student developer ecosystems, organizing technical workshops, and driving engagement around modern web and cloud technologies.",
+      "Represented developer ecosystems and the student community, organizing technical workshops and driving engagement and hands-on literacy around Gemini AI and generative tools.",
     responsibilities: [
-      "Evangelized Google developer tools, cloud infrastructure, and student developer initiatives on campus",
-      "Organized and facilitated hands-on technical workshops and hackathons on modern web tooling",
+      "Conducted hands-on technical workshops focused on Gemini AI APIs, prompt engineering, and GenAI applications",
+      "Fostered student community growth through AI literacy sessions and collaborative developer hackathons",
       "Mentored peers in building real-world software applications and adopting best engineering practices"
     ],
     technologies: [
-      "Developer Relations",
-      "Cloud Technologies",
-      "Technical Mentorship",
-      "Web Ecosystem",
-      "Community Leadership"
+      "Gemini AI",
+      "Technical Workshops",
+      "Student Community",
+      "AI Literacy",
+      "GenAI"
     ],
     link: "",
     order: 1,
@@ -238,10 +238,36 @@ export const initialTechStackData: TechItem[] = [
 
 export const initialProjectsData: ProjectItem[] = [
   {
-    id: "belvo",
+    id: "lumora-ai",
     number: "01",
-    name: "BELVO",
-    category: "Business / Startup Platform",
+    name: "Lumora AI",
+    category: "AI & FinTech Platform",
+    tagline: "AI-driven financial intelligence & investment research engine",
+    shortDescription: "An intelligent investment research platform leveraging modern LLMs for market synthesis.",
+    description:
+      "An intelligent investment research platform leveraging modern LLMs to extract insights from financial reports, synthesize market trends, and deliver actionable executive summaries.",
+    whatIWorkedOn: [
+      "Integrated Gemini AI API for contextual financial document synthesis",
+      "Built resilient caching and fast retrieval workflows using MongoDB and Redis",
+      "Designed clean financial charts and high-density analytical dashboards",
+      "Implemented streaming AI response components with Markdown and citation support"
+    ],
+    technologies: ["Next.js", "TypeScript", "Gemini AI API", "MongoDB", "Redis", "Tailwind CSS"],
+    status: "Live",
+    liveUrl: "https://www.lumoraai.in/",
+    githubUrl: "https://github.com/Lokesh-81",
+    year: "2026",
+    accentColor: "#ec4899",
+    gradient: "from-pink-900/40 via-rose-950/20 to-black/60",
+    featured: true,
+    visible: true,
+    order: 0
+  },
+  {
+    id: "belvo",
+    number: "02",
+    name: "Belvo",
+    category: "Business & Startup Platform",
     tagline: "Modern business operations & digital client onboarding platform",
     shortDescription: "A high-performance business and startup platform designed to streamline client interaction.",
     description:
@@ -254,119 +280,20 @@ export const initialProjectsData: ProjectItem[] = [
     ],
     technologies: ["React", "Vite", "Tailwind CSS", "Node.js", "REST APIs"],
     status: "Live",
+    liveUrl: "https://www.belvo.buzz/",
     githubUrl: "https://github.com/Lokesh-81",
     year: "2026",
     accentColor: "#a78bfa",
     gradient: "from-purple-900/40 via-violet-950/20 to-black/60",
     featured: true,
     visible: true,
-    order: 0
-  },
-  {
-    id: "naivaidya",
-    number: "02",
-    name: "Naivaidya",
-    category: "Healthcare / Technology",
-    tagline: "Healthcare portal & patient management workflow engine",
-    shortDescription: "A comprehensive digital healthcare management platform facilitating patient coordination.",
-    description:
-      "A comprehensive digital healthcare management platform facilitating patient coordination, appointment authentication, and administrative hospital workflows with high reliability.",
-    whatIWorkedOn: [
-      "Served as Frontend Developer and Team Lead, directing UI architecture and sprint deliverables",
-      "Implemented secure OTP-based authentication and user verification flows",
-      "Engineered comprehensive administrative dashboards for patient records and scheduling",
-      "Integrated Supabase backend services for real-time data persistence and query optimization"
-    ],
-    technologies: ["React", "Supabase", "Tailwind CSS", "OTP Auth", "REST APIs"],
-    status: "Live",
-    githubUrl: "https://github.com/Lokesh-81",
-    year: "2025 - 2026",
-    accentColor: "#38bdf8",
-    gradient: "from-sky-900/40 via-blue-950/20 to-black/60",
-    featured: true,
-    visible: true,
     order: 1
   },
   {
-    id: "foundarly",
-    number: "03",
-    name: "Foundarly",
-    category: "Startup / Digital Platform",
-    tagline: "Collaborative founder ecosystem & venture builder workspace",
-    shortDescription: "A centralized digital platform built to empower startup founders and early-stage innovators.",
-    description:
-      "A centralized digital platform built to empower startup founders and early-stage innovators with venture tracking, resource discovery, and collaborative tooling.",
-    whatIWorkedOn: [
-      "Developed interactive founder workspace dashboards using React and TypeScript",
-      "Constructed RESTful backend endpoints utilizing Node.js, Express, and MongoDB",
-      "Enforced strict TypeScript typing across shared client-server data models",
-      "Crafted responsive data visualizations and venture milestone trackers"
-    ],
-    technologies: ["React", "TypeScript", "Node.js", "Express.js", "Tailwind CSS", "MongoDB"],
-    status: "Live",
-    githubUrl: "https://github.com/Lokesh-81",
-    year: "2025",
-    accentColor: "#34d399",
-    gradient: "from-emerald-900/40 via-teal-950/20 to-black/60",
-    featured: true,
-    visible: true,
-    order: 2
-  },
-  {
-    id: "antara-global",
-    number: "04",
-    name: "ANTARA Global",
-    category: "Corporate / Business Platform",
-    tagline: "Enterprise international business & corporate trade portal",
-    shortDescription: "An enterprise-scale corporate platform designed for global commerce and international trade.",
-    description:
-      "An enterprise-scale corporate platform designed for global commerce and international trade representation, delivering high-trust corporate storytelling and global inquiry workflows.",
-    whatIWorkedOn: [
-      "Built modern editorial pages with Next.js App Router and server-rendered optimizations",
-      "Crafted smooth scroll-driven micro-interactions and transitions with Framer Motion",
-      "Constructed multi-locale corporate inquiry forms and structured lead routing",
-      "Executed comprehensive Core Web Vitals optimizations and semantic SEO metadata"
-    ],
-    technologies: ["Next.js", "TypeScript", "Tailwind CSS", "Framer Motion"],
-    status: "Live",
-    githubUrl: "https://github.com/Lokesh-81",
-    year: "2025",
-    accentColor: "#f59e0b",
-    gradient: "from-amber-900/40 via-orange-950/20 to-black/60",
-    featured: true,
-    visible: true,
-    order: 3
-  },
-  {
-    id: "lumora-ai",
-    number: "05",
-    name: "Lumora AI",
-    category: "AI / FinTech / Investment Research",
-    tagline: "AI-driven financial research & market synthesis engine",
-    shortDescription: "An intelligent investment research platform leveraging modern LLMs for market synthesis.",
-    description:
-      "An intelligent investment research platform leveraging modern LLMs to extract insights from financial reports, synthesize market trends, and deliver actionable executive summaries.",
-    whatIWorkedOn: [
-      "Integrated Gemini API and LLM endpoints for contextual financial document synthesis",
-      "Built resilient caching and fast retrieval workflows using MongoDB and Redis",
-      "Designed clean financial charts and high-density analytical dashboards",
-      "Implemented streaming AI response components with Markdown and citation support"
-    ],
-    technologies: ["Next.js", "TypeScript", "Gemini AI API", "MongoDB", "Redis", "Tailwind CSS"],
-    status: "In Development",
-    githubUrl: "https://github.com/Lokesh-81",
-    year: "2026",
-    accentColor: "#ec4899",
-    gradient: "from-pink-900/40 via-rose-950/20 to-black/60",
-    featured: true,
-    visible: true,
-    order: 4
-  },
-  {
     id: "indira-thakur-photography",
-    number: "06",
+    number: "03",
     name: "Indira Thakur Photography",
-    category: "Photography / Creative Portfolio",
+    category: "Photography & Creative Showcase",
     tagline: "Editorial photography showcase & artistic client gallery",
     shortDescription: "A visual-first creative portfolio engineered for high-resolution visual storytelling.",
     description:
@@ -379,19 +306,20 @@ export const initialProjectsData: ProjectItem[] = [
     ],
     technologies: ["React", "Vite", "Tailwind CSS", "Framer Motion", "Cloudinary CDN"],
     status: "Live",
+    liveUrl: "https://www.indirathakur.com/",
     githubUrl: "https://github.com/Lokesh-81",
     year: "2025",
     accentColor: "#c084fc",
     gradient: "from-fuchsia-900/40 via-purple-950/20 to-black/60",
     featured: true,
     visible: true,
-    order: 5
+    order: 2
   },
   {
-    id: "jv-edtech",
-    number: "07",
-    name: "JV EdTech",
-    category: "Education / EdTech",
+    id: "jv-ed-tech",
+    number: "04",
+    name: "JV Ed Tech",
+    category: "Education & EdTech Portal",
     tagline: "Interactive digital learning portal & student course manager",
     shortDescription: "An educational platform built to facilitate structured digital courses and learning modules.",
     description:
@@ -404,10 +332,89 @@ export const initialProjectsData: ProjectItem[] = [
     ],
     technologies: ["Next.js", "React", "TypeScript", "Tailwind CSS", "Supabase / PostgreSQL"],
     status: "Live",
+    liveUrl: "https://jv-ed-tech.vercel.app/",
     githubUrl: "https://github.com/Lokesh-81",
     year: "2025",
     accentColor: "#60a5fa",
     gradient: "from-blue-900/40 via-indigo-950/20 to-black/60",
+    featured: true,
+    visible: true,
+    order: 3
+  },
+  {
+    id: "naivaidya",
+    number: "05",
+    name: "Naivaidya",
+    category: "Healthcare & Technology",
+    tagline: "Healthcare portal & patient management workflow engine",
+    shortDescription: "A comprehensive digital healthcare management platform facilitating patient coordination.",
+    description:
+      "A comprehensive digital healthcare management platform facilitating patient coordination, appointment authentication, and administrative hospital workflows with high reliability.",
+    whatIWorkedOn: [
+      "Served as Frontend Developer and Team Lead, directing UI architecture and sprint deliverables",
+      "Implemented secure OTP-based authentication and user verification flows",
+      "Engineered comprehensive administrative dashboards for patient records and scheduling",
+      "Integrated Supabase backend services for real-time data persistence and query optimization"
+    ],
+    technologies: ["React", "Supabase", "Tailwind CSS", "OTP Auth", "REST APIs"],
+    status: "Live",
+    liveUrl: "https://naivaidya-naivaidya.vercel.app/",
+    githubUrl: "https://github.com/Lokesh-81",
+    year: "2025 - 2026",
+    accentColor: "#38bdf8",
+    gradient: "from-sky-900/40 via-blue-950/20 to-black/60",
+    featured: true,
+    visible: true,
+    order: 4
+  },
+  {
+    id: "antara-global",
+    number: "06",
+    name: "Antara Global",
+    category: "Corporate & Global Commerce",
+    tagline: "Enterprise international business & corporate trade portal",
+    shortDescription: "An enterprise-scale corporate platform designed for global commerce and international trade.",
+    description:
+      "An enterprise-scale corporate platform designed for global commerce and international trade representation, delivering high-trust corporate storytelling and global inquiry workflows.",
+    whatIWorkedOn: [
+      "Built modern editorial pages with Next.js App Router and server-rendered optimizations",
+      "Crafted smooth scroll-driven micro-interactions and transitions with Framer Motion",
+      "Constructed multi-locale corporate inquiry forms and structured lead routing",
+      "Executed comprehensive Core Web Vitals optimizations and semantic SEO metadata"
+    ],
+    technologies: ["Next.js", "TypeScript", "Tailwind CSS", "Framer Motion"],
+    status: "Live",
+    liveUrl: "https://anatara-global.vercel.app/",
+    githubUrl: "https://github.com/Lokesh-81",
+    year: "2025",
+    accentColor: "#f59e0b",
+    gradient: "from-amber-900/40 via-orange-950/20 to-black/60",
+    featured: true,
+    visible: true,
+    order: 5
+  },
+  {
+    id: "foundarly",
+    number: "07",
+    name: "Foundarly",
+    category: "Startup & Venture Builder",
+    tagline: "Collaborative founder ecosystem & venture builder workspace",
+    shortDescription: "A centralized digital platform built to empower startup founders and early-stage innovators.",
+    description:
+      "A centralized digital platform built to empower startup founders and early-stage innovators with venture tracking, resource discovery, and collaborative tooling.",
+    whatIWorkedOn: [
+      "Developed interactive founder workspace dashboards using React and TypeScript",
+      "Constructed RESTful backend endpoints utilizing Node.js, Express, and MongoDB",
+      "Enforced strict TypeScript typing across shared client-server data models",
+      "Crafted responsive data visualizations and venture milestone trackers"
+    ],
+    technologies: ["React", "TypeScript", "Node.js", "Express.js", "Tailwind CSS", "MongoDB"],
+    status: "Live",
+    liveUrl: "https://www.foundarlybusinessworld.in/",
+    githubUrl: "https://github.com/Lokesh-81",
+    year: "2025",
+    accentColor: "#34d399",
+    gradient: "from-emerald-900/40 via-teal-950/20 to-black/60",
     featured: true,
     visible: true,
     order: 6

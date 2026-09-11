@@ -1,72 +1,114 @@
 'use client';
 
 import React from 'react';
-import { ArrowUp } from 'lucide-react';
+import { Spotlight } from '@/components/core/spotlight';
+import { TechStackSlider } from '@/components/portfolio/tech-stack-slider';
+import { Clock } from '@/components/core/sliding-number';
+import { TextEffect } from '@/components/core/text-effect';
 import { useLanguage } from '@/i18n';
 
-export function Footer() {
+export interface FooterProps {
+  onNavigate?: (section: string) => void;
+}
+
+export function Footer({ onNavigate }: FooterProps) {
   const { t } = useLanguage();
 
-  const scrollToTop = () => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
-
   return (
-    <footer className="border-t border-zinc-200/80 bg-white/50 px-6 py-12 text-xs text-zinc-500 backdrop-blur-md dark:border-zinc-900/80 dark:bg-black/50 dark:text-zinc-500">
-      <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-6 sm:flex-row">
-        <div className="flex flex-col items-center gap-1 sm:items-start">
-          <div className="flex items-center gap-2 font-mono text-zinc-800 dark:text-zinc-200">
-            <span className="font-semibold tracking-wider">P. LOKESH</span>
-            <span>·</span>
-            <span>{t('footer.location')}</span>
+    <footer className="relative mt-auto border-t border-[#1F2937] bg-[#0B132B]/95 px-4 sm:px-8 pt-8 pb-10 backdrop-blur-md overflow-hidden">
+      <Spotlight
+        className="bg-[radial-gradient(circle_at_center,rgba(96,165,250,0.18)_0%,rgba(192,132,252,0.1)_40%,transparent_70%)] blur-2xl pointer-events-none"
+        size={400}
+      />
+
+      <div className="relative z-10 mx-auto max-w-[1400px]">
+        {/* 1. AVAILABLE FOR NEW OPPORTUNITIES - Exclusively placed in Footer per requirement */}
+        <div className="mb-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 border-b border-[#1F2937]/70 pb-5">
+          <div className="flex items-center gap-2.5 rounded-full border border-[#2DD4BF]/30 bg-[#2DD4BF]/10 px-4 py-2 text-xs font-semibold text-[#2DD4BF]">
+            <span className="relative flex h-2.5 w-2.5">
+              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#2DD4BF] opacity-75" />
+              <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-[#2DD4BF]" />
+            </span>
+            <span className="font-mono text-[11px] tracking-wider uppercase">
+              {t('hero.statusBadge')}
+            </span>
           </div>
-          <p className="text-[11px] text-zinc-400 dark:text-zinc-600">
-            © {new Date().getFullYear()} P. Lokesh. {t('footer.engineered')}
-          </p>
+
+          <div className="text-xs text-[#CBD5E1]">
+            <span className="font-medium text-[#E0E7FF]">{t('hero.location')}</span>
+          </div>
         </div>
 
-        <div className="flex flex-wrap items-center justify-center gap-4 sm:gap-6">
-          <div className="flex flex-wrap items-center gap-3 sm:gap-4 text-zinc-600 dark:text-zinc-400">
+        {/* 2. Footer Main Content & Tech Ticker */}
+        <div className="mb-6">
+          <div className="mb-3 flex items-center justify-between text-xs text-[#64748B]">
+            <span className="font-mono text-[10px] uppercase tracking-wider text-[#60A5FA]">
+              <TextEffect per="word" delay={0.1}>
+                {t('hero.techTicker')}
+              </TextEffect>
+            </span>
+          </div>
+          <TechStackSlider />
+        </div>
+
+        {/* 3. Footer Links, Social & Credits */}
+        <div className="flex flex-col items-center justify-between gap-4 border-t border-[#1F2937]/70 pt-5 pb-6 sm:flex-row text-xs text-[#64748B]">
+          <div className="flex items-center gap-2 font-mono text-[#E0E7FF]">
+            <span className="font-bold tracking-wider">POOSALA LOKESH</span>
+            <span className="text-[#334155]">·</span>
+            <span className="text-xs text-[#CBD5E1]">{t('footer.location')}</span>
+            <span className="text-[#334155]">·</span>
+            <span className="text-[11px] text-[#64748B]">
+              © {new Date().getFullYear()} Poosala Lokesh
+            </span>
+          </div>
+
+          <div className="flex flex-wrap items-center justify-center gap-4 text-xs font-medium text-[#CBD5E1]">
             <a
               href="https://github.com/Lokesh-81"
               target="_blank"
               rel="noreferrer"
-              className="hover:text-purple-600 dark:hover:text-purple-400 transition-colors"
+              className="hover:text-[#60A5FA] transition-colors"
             >
               GitHub (Lokesh-81)
             </a>
+            <span className="text-[#334155]">·</span>
             <a
               href="https://github.com/lokeshnaivaidya-max"
               target="_blank"
               rel="noreferrer"
-              className="hover:text-purple-600 dark:hover:text-purple-400 transition-colors"
+              className="hover:text-[#60A5FA] transition-colors"
             >
               GitHub (naivaidya-max)
             </a>
+            <span className="text-[#334155]">·</span>
             <a
               href="https://www.linkedin.com/in/poosala-lokesh/"
               target="_blank"
               rel="noreferrer"
-              className="hover:text-purple-600 dark:hover:text-purple-400 transition-colors"
+              className="hover:text-[#60A5FA] transition-colors"
             >
               LinkedIn
             </a>
-            <a
-              href="#contact"
-              className="hover:text-purple-600 dark:hover:text-purple-400 transition-colors"
+            <span className="text-[#334155]">·</span>
+            <button
+              onClick={() => onNavigate?.('contact')}
+              className="hover:text-[#60A5FA] transition-colors cursor-pointer"
             >
               {t('footer.contact')}
-            </a>
+            </button>
           </div>
+        </div>
 
-          <button
-            onClick={scrollToTop}
-            className="flex items-center gap-1 rounded-full border border-zinc-200 bg-white px-3 py-1.5 text-zinc-700 shadow-sm transition-all hover:border-purple-400 hover:text-zinc-950 dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-300 dark:hover:border-purple-500 dark:hover:text-white cursor-pointer"
-            aria-label={t('footer.backToTop')}
-          >
-            <span>{t('footer.top')}</span>
-            <ArrowUp className="h-3 w-3" />
-          </button>
+        {/* 4. Live IST Clock as the ABSOLUTE FINAL, BOTTOM-MOST ELEMENT */}
+        <div className="border-t border-[#1F2937]/50 pt-5 flex items-center justify-center">
+          <div className="inline-flex items-center gap-2.5 rounded-full border border-[#1F2937] bg-[#111827]/80 px-4 py-1.5 shadow-sm">
+            <span className="font-mono text-[11px] font-semibold text-[#60A5FA] tracking-wider uppercase">
+              IST Live Clock
+            </span>
+            <span className="text-[#334155]">·</span>
+            <Clock />
+          </div>
         </div>
       </div>
     </footer>

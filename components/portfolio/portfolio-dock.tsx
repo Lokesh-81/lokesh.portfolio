@@ -1,247 +1,235 @@
 'use client';
 
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import {
-  Briefcase,
   Home,
-  Mail,
-  ScrollText,
-  Code2,
-  SunMoon,
   User,
+  Briefcase,
+  Sparkles,
+  ScrollText,
+  Mail,
   Languages,
   Check,
 } from 'lucide-react';
-import { Dock, DockIcon, DockItem, DockLabel } from '@/components/core/dock';
-import { useLanguage, SUPPORTED_LANGUAGES, Language } from '@/i18n';
+import { motion, AnimatePresence } from 'framer-motion';
+import { useLanguage } from '@/i18n';
 
 export interface PortfolioDockProps {
   activeSection?: string;
-  onSelectSection?: (section: string) => void;
+  onSelectSection?: (sectionId: string) => void;
 }
 
-export function PortfolioDock({ activeSection = 'home', onSelectSection }: PortfolioDockProps) {
-  const { t, language, setLanguage } = useLanguage();
-  const [isDark, setIsDark] = useState(true);
+export function PortfolioDock({
+  activeSection = 'home',
+  onSelectSection,
+}: PortfolioDockProps) {
+  const { t, language, setLanguage, supportedLanguages } = useLanguage();
   const [isLangOpen, setIsLangOpen] = useState(false);
+  const [hoveredItem, setHoveredItem] = useState<string | null>(null);
   const langRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    // Check initial theme from html class
-    const isDarkInitial = document.documentElement.classList.contains('dark');
-    setIsDark(isDarkInitial);
-  }, []);
-
-  // Close dropdown on click outside or escape key
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
+    function handleClickOutside(event: MouseEvent) {
       if (langRef.current && !langRef.current.contains(event.target as Node)) {
         setIsLangOpen(false);
       }
-    };
-
-    const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key === 'Escape') {
-        setIsLangOpen(false);
-      }
-    };
-
-    if (isLangOpen) {
-      document.addEventListener('mousedown', handleClickOutside);
-      document.addEventListener('keydown', handleKeyDown);
     }
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-      document.removeEventListener('keydown', handleKeyDown);
-    };
-  }, [isLangOpen]);
-
-  const toggleTheme = () => {
-    const nextDark = !isDark;
-    setIsDark(nextDark);
-    if (nextDark) {
-      document.documentElement.classList.add('dark');
-      try {
-        localStorage.setItem('theme', 'dark');
-      } catch (e) {}
-    } else {
-      document.documentElement.classList.remove('dark');
-      try {
-        localStorage.setItem('theme', 'light');
-      } catch (e) {}
-    }
-  };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
 
   const navItems = [
     {
-      title: t('nav.home'),
-      sectionId: 'home',
-      icon: <Home className="h-full w-full" />,
-      href: '#home',
+      id: 'home',
+      title: t('nav.home') || 'Home',
+      icon: Home,
     },
     {
-      title: t('nav.about'),
-      sectionId: 'about',
-      icon: <User className="h-full w-full" />,
-      href: '#about',
+      id: 'about',
+      title: t('nav.about') || 'About',
+      icon: User,
     },
     {
-      title: t('nav.work'),
-      sectionId: 'work',
-      icon: <Briefcase className="h-full w-full" />,
-      href: '#work',
+      id: 'work',
+      title: t('nav.work') || 'Work',
+      icon: Briefcase,
     },
     {
-      title: t('nav.skills'),
-      sectionId: 'skills',
-      icon: <Code2 className="h-full w-full" />,
-      href: '#skills',
+      id: 'skills',
+      title: t('nav.skills') || 'Skills',
+      icon: Sparkles,
     },
     {
-      title: t('nav.experience'),
-      sectionId: 'experience',
-      icon: <ScrollText className="h-full w-full" />,
-      href: '#experience',
+      id: 'experience',
+      title: t('nav.experience') || 'Experience',
+      icon: ScrollText,
     },
     {
-      title: t('nav.contact'),
-      sectionId: 'contact',
-      icon: <Mail className="h-full w-full" />,
-      href: '#contact',
-    },
-    {
-      title: t('nav.theme'),
-      sectionId: 'theme',
-      icon: <SunMoon className="h-full w-full" />,
-      href: '#',
-      onClick: toggleTheme,
+      id: 'contact',
+      title: t('nav.contact') || 'Contact',
+      icon: Mail,
     },
   ];
 
-  const handleSelectLanguage = (code: Language) => {
-    setLanguage(code);
-    setIsLangOpen(false);
-  };
-
   return (
     <nav
-      aria-label="Main navigation"
-      className="fixed top-3 sm:top-5 left-1/2 z-50 max-w-[calc(100vw-20px)] -translate-x-1/2"
-      ref={langRef}
+      aria-label="Main Navigation"
+      className="fixed top-5 sm:top-6 left-1/2 z-50 -translate-x-1/2 select-none"
     >
-      <div className="relative">
-        <Dock
-          direction="top"
-          magnification={48}
-          distance={100}
-          className="h-12 sm:h-14 items-center gap-1 sm:gap-2 rounded-full border border-zinc-200/80 bg-white/85 px-2 sm:px-3.5 shadow-lg backdrop-blur-xl dark:border-zinc-800/80 dark:bg-zinc-950/85"
-        >
+      <div className="relative" ref={langRef}>
+        {/* Floating spacious frosted glass container */}
+        <div className="flex items-center gap-2 sm:gap-3 rounded-full border border-[#1F2937]/90 bg-[#0B132B]/85 px-3 py-2 sm:px-4 sm:py-2.5 shadow-[0_12px_40px_rgba(0,0,0,0.6)] backdrop-blur-2xl">
           {navItems.map((item) => {
-            const isActive = activeSection === item.sectionId;
+            const isActive = activeSection === item.id;
+            const Icon = item.icon;
 
             return (
-              <DockItem
-                key={item.sectionId}
-                onClick={() => {
-                  if (item.onClick) {
-                    item.onClick();
-                  } else if (onSelectSection && item.sectionId) {
-                    onSelectSection(item.sectionId);
-                  } else if (item.href.startsWith('#')) {
-                    const target = document.querySelector(item.href);
-                    if (target) {
-                      target.scrollIntoView({ behavior: 'smooth' });
-                      window.history.pushState(null, '', item.href);
-                    }
-                  }
-                }}
-                className={`aspect-square rounded-full border transition-all ${
-                  isActive
-                    ? 'border-purple-500/80 bg-purple-500/15 text-purple-600 shadow-sm dark:border-purple-400/80 dark:bg-purple-500/25 dark:text-purple-300 ring-2 ring-purple-500/20'
-                    : 'border-transparent bg-transparent hover:border-zinc-200 hover:bg-zinc-100/80 dark:hover:border-zinc-800 dark:hover:bg-zinc-900/80 text-zinc-600 dark:text-zinc-300'
-                }`}
+              <div
+                key={item.id}
+                className="relative"
+                onMouseEnter={() => setHoveredItem(item.id)}
+                onMouseLeave={() => setHoveredItem(null)}
               >
-                <DockLabel position="bottom">{item.title}</DockLabel>
+                <motion.button
+                  whileHover={{ scale: 1.14, y: -2 }}
+                  whileTap={{ scale: 0.94 }}
+                  transition={{ type: 'spring', stiffness: 450, damping: 25 }}
+                  onClick={() => onSelectSection?.(item.id)}
+                  aria-label={item.title}
+                  className={`relative flex h-10 w-10 sm:h-11 sm:w-11 items-center justify-center rounded-full transition-colors cursor-pointer ${
+                    isActive
+                      ? 'text-[#60A5FA]'
+                      : 'text-[#A5B4FC]/80 hover:text-[#E0E7FF]'
+                  }`}
+                >
+                  {/* Smooth Active Indicator Gliding Pill with layoutId */}
+                  {isActive && (
+                    <motion.div
+                      layoutId="navbar-active-pill"
+                      className="absolute inset-0 rounded-full bg-gradient-to-b from-[#2563EB]/40 to-[#1D4ED8]/25 border border-[#60A5FA]/60 shadow-[0_0_20px_rgba(96,165,250,0.45)]"
+                      transition={{
+                        type: 'spring',
+                        stiffness: 380,
+                        damping: 30,
+                      }}
+                    />
+                  )}
 
-                <DockIcon className="p-2 sm:p-2.5">
-                  <span
-                    className={
-                      isActive
-                        ? 'text-purple-600 dark:text-purple-300'
-                        : 'text-zinc-600 dark:text-zinc-300'
-                    }
-                  >
-                    {item.icon}
-                  </span>
-                </DockIcon>
-              </DockItem>
+                  {/* Circular Button Outline & subtle background when inactive */}
+                  {!isActive && (
+                    <div className="absolute inset-0 rounded-full border border-[#1F2937]/60 bg-[#111827]/60 transition-colors hover:border-[#60A5FA]/50 hover:bg-[#1F2937]/80" />
+                  )}
+
+                  <Icon className="relative z-10 h-4 w-4 sm:h-5 sm:w-5 transition-transform" />
+                </motion.button>
+
+                {/* Refined Floating Tooltip */}
+                <AnimatePresence>
+                  {hoveredItem === item.id && (
+                    <motion.div
+                      initial={{ opacity: 0, y: 6, scale: 0.9 }}
+                      animate={{ opacity: 1, y: 0, scale: 1 }}
+                      exit={{ opacity: 0, y: 4, scale: 0.9 }}
+                      transition={{ duration: 0.15 }}
+                      className="pointer-events-none absolute left-1/2 top-full mt-2 -translate-x-1/2 whitespace-nowrap rounded-md border border-[#1F2937] bg-[#111827]/95 px-2.5 py-1 text-[11px] font-medium text-[#E0E7FF] shadow-lg backdrop-blur-md"
+                    >
+                      {item.title}
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
             );
           })}
 
-          {/* Clean Language Selector Dock Item */}
-          <DockItem
-            onClick={() => setIsLangOpen(!isLangOpen)}
-            aria-label="Change language"
-            aria-expanded={isLangOpen}
-            aria-haspopup="true"
-            className={`aspect-square rounded-full border transition-all ${
-              isLangOpen
-                ? 'border-purple-500/80 bg-purple-500/20 text-purple-600 dark:border-purple-400/80 dark:bg-purple-500/30 dark:text-purple-300 shadow-sm'
-                : 'border-transparent bg-transparent hover:border-zinc-200 hover:bg-zinc-100/80 dark:hover:border-zinc-800 dark:hover:bg-zinc-900/80 text-zinc-600 dark:text-zinc-300'
-            }`}
-          >
-            <DockLabel position="bottom">{t('nav.language')}</DockLabel>
+          {/* Subtle Vertical Divider */}
+          <div className="h-5 w-[1px] bg-[#1F2937]/80 mx-0.5 sm:mx-1" />
 
-            <DockIcon className="p-2 sm:p-2.5">
-              <span className="text-zinc-600 dark:text-zinc-300">
-                <Languages className="h-full w-full" />
-              </span>
-            </DockIcon>
-          </DockItem>
-        </Dock>
-
-        {/* Small, Premium Floating Language Dropdown */}
-        {isLangOpen && (
+          {/* Language Selector Button */}
           <div
-            role="menu"
-            aria-orientation="vertical"
-            className="absolute right-2 top-full mt-2.5 w-44 rounded-2xl border border-zinc-200/90 bg-white/95 p-1.5 shadow-xl backdrop-blur-xl dark:border-zinc-800 dark:bg-zinc-950/95 animate-in fade-in zoom-in-95 duration-150"
+            className="relative"
+            onMouseEnter={() => setHoveredItem('language')}
+            onMouseLeave={() => setHoveredItem(null)}
           >
-            <div className="px-3 py-1.5 text-[10px] font-mono uppercase tracking-wider text-zinc-400 dark:text-zinc-500 border-b border-zinc-100 dark:border-zinc-900 mb-1">
-              {t('nav.language')}
-            </div>
+            <motion.button
+              whileHover={{ scale: 1.14, y: -2 }}
+              whileTap={{ scale: 0.94 }}
+              transition={{ type: 'spring', stiffness: 450, damping: 25 }}
+              onClick={() => setIsLangOpen(!isLangOpen)}
+              aria-label={t('nav.language') || 'Language'}
+              className={`relative flex h-10 w-10 sm:h-11 sm:w-11 items-center justify-center rounded-full transition-colors cursor-pointer ${
+                isLangOpen
+                  ? 'border border-[#60A5FA] bg-[#2563EB]/30 text-[#60A5FA]'
+                  : 'border border-[#1F2937]/60 bg-[#111827]/60 text-[#60A5FA] hover:border-[#60A5FA]/50 hover:bg-[#1F2937]/80'
+              }`}
+            >
+              <Languages className="relative z-10 h-4 w-4 sm:h-5 sm:w-5" />
+            </motion.button>
 
-            <div className="space-y-0.5">
-              {SUPPORTED_LANGUAGES.map((langOpt) => {
-                const isSelected = language === langOpt.code;
-                return (
-                  <button
-                    key={langOpt.code}
-                    role="menuitem"
-                    onClick={() => handleSelectLanguage(langOpt.code)}
-                    className={`flex w-full items-center justify-between rounded-xl px-3 py-2 text-xs font-medium transition-colors ${
-                      isSelected
-                        ? 'bg-purple-50 text-purple-700 dark:bg-purple-950/50 dark:text-purple-300 font-semibold'
-                        : 'text-zinc-700 hover:bg-zinc-100 dark:text-zinc-300 dark:hover:bg-zinc-900'
-                    }`}
-                  >
-                    <span className="flex items-center gap-2">
-                      <span>{langOpt.label}</span>
-                      {langOpt.code !== 'en' && (
-                        <span className="text-[10px] text-zinc-400 dark:text-zinc-500 font-normal">
+            {/* Tooltip for Language */}
+            <AnimatePresence>
+              {hoveredItem === 'language' && !isLangOpen && (
+                <motion.div
+                  initial={{ opacity: 0, y: 6, scale: 0.9 }}
+                  animate={{ opacity: 1, y: 0, scale: 1 }}
+                  exit={{ opacity: 0, y: 4, scale: 0.9 }}
+                  transition={{ duration: 0.15 }}
+                  className="pointer-events-none absolute left-1/2 top-full mt-2 -translate-x-1/2 whitespace-nowrap rounded-md border border-[#1F2937] bg-[#111827]/95 px-2.5 py-1 text-[11px] font-medium text-[#E0E7FF] shadow-lg backdrop-blur-md"
+                >
+                  {t('nav.language') || 'Language'}
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
+        </div>
+
+        {/* Language Dropdown Menu */}
+        <AnimatePresence>
+          {isLangOpen && (
+            <motion.div
+              initial={{ opacity: 0, y: 8, scale: 0.95 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: 6, scale: 0.95 }}
+              transition={{ duration: 0.18, ease: [0.16, 1, 0.3, 1] }}
+              role="menu"
+              className="absolute left-1/2 -translate-x-1/2 top-full mt-3 w-56 max-h-72 overflow-y-auto custom-scrollbar rounded-2xl border border-[#1F2937] bg-[#111827]/95 p-1.5 shadow-2xl backdrop-blur-2xl z-50"
+            >
+              <div className="px-3 py-1.5 text-[10px] font-mono uppercase tracking-wider text-[#A5B4FC]/70 border-b border-[#1F2937] mb-1">
+                {t('nav.language') || 'Select Language'}
+              </div>
+
+              <div className="space-y-0.5">
+                {supportedLanguages.map((langOpt) => {
+                  const isSelected = language === langOpt.code;
+                  return (
+                    <button
+                      key={langOpt.code}
+                      role="menuitem"
+                      onClick={() => {
+                        setLanguage(langOpt.code);
+                        setIsLangOpen(false);
+                      }}
+                      className={`flex w-full items-center justify-between rounded-xl px-3 py-2 text-xs transition-colors cursor-pointer ${
+                        isSelected
+                          ? 'bg-[#2563EB]/30 text-[#60A5FA] font-semibold'
+                          : 'text-[#E0E7FF] hover:bg-[#1F2937]'
+                      }`}
+                    >
+                      <div className="flex items-center gap-2">
+                        <span>{langOpt.label}</span>
+                        <span className="text-[10px] text-[#A5B4FC]/70">
                           ({langOpt.englishName})
                         </span>
+                      </div>
+                      {isSelected && (
+                        <Check className="h-3.5 w-3.5 text-[#60A5FA]" />
                       )}
-                    </span>
-                    {isSelected && (
-                      <Check className="h-3.5 w-3.5 text-purple-600 dark:text-purple-400" />
-                    )}
-                  </button>
-                );
-              })}
-            </div>
-          </div>
-        )}
+                    </button>
+                  );
+                })}
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
     </nav>
   );
