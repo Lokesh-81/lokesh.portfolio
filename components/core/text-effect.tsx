@@ -5,6 +5,7 @@ import { motion, type Variants } from 'framer-motion';
 import { cn } from '@/lib/utils';
 
 export interface TextEffectProps {
+  key?: React.Key;
   children: string;
   per?: 'char' | 'word' | 'line';
   as?: React.ElementType;

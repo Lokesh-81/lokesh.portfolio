@@ -4,11 +4,13 @@ import React, { useState } from 'react';
 import { ProjectCard } from './project-card';
 import { Cursor } from '@/components/core/cursor';
 import { usePortfolio } from '@/lib/portfolio-context';
+import { useLanguage } from '@/i18n';
 import { projects as fallbackProjects, type Project } from '@/lib/data/projects';
-import { Filter, ArrowUpRight, Github } from 'lucide-react';
+import { Filter, ArrowUpRight } from 'lucide-react';
 
 export function ProjectsSection() {
   const { projects: contextProjects } = usePortfolio();
+  const { t } = useLanguage();
   const [selectedCategory, setSelectedCategory] = useState<string>('All');
   const [hoveredProject, setHoveredProject] = useState<Project | null>(null);
 
@@ -19,11 +21,11 @@ export function ProjectsSection() {
       : fallbackProjects;
 
   const categories = [
-    'All',
-    'AI & FinTech',
-    'Healthcare',
-    'Business & Startups',
-    'Creative & EdTech',
+    { key: 'All', label: t('work.filter.all') },
+    { key: 'AI & FinTech', label: t('work.filter.aiFintech') },
+    { key: 'Healthcare', label: t('work.filter.healthcare') },
+    { key: 'Business & Startups', label: t('work.filter.business') },
+    { key: 'Creative & EdTech', label: t('work.filter.creative') },
   ];
 
   const filteredProjects = allProjects.filter((project) => {
@@ -73,15 +75,16 @@ export function ProjectsSection() {
         <div className="flex flex-col justify-between gap-6 border-b border-zinc-200/80 pb-10 md:flex-row md:items-end dark:border-zinc-900/80">
           <div>
             <p className="text-xs uppercase tracking-[0.25em] text-purple-600 font-semibold dark:text-purple-400">
-              02 / SELECTED WORK & SYSTEMS
+              {t('work.tag')}
             </p>
             <h2 className="mt-2 text-4xl font-light tracking-tight text-zinc-950 sm:text-6xl md:text-7xl dark:text-white">
-              Things I've <span className="instrument italic font-normal">built.</span>
+              {t('work.title')}{' '}
+              <span className="instrument italic font-normal">{t('work.titleAccent')}</span>
             </h2>
           </div>
           <div className="max-w-md">
             <p className="text-sm leading-relaxed text-zinc-600 dark:text-zinc-400">
-              A curated catalog of production platforms, healthcare workflow engines, AI-powered financial tools, and enterprise web solutions engineered with modern standards.
+              {t('work.subtitle')}
             </p>
           </div>
         </div>
@@ -89,47 +92,33 @@ export function ProjectsSection() {
         {/* Category Filters */}
         <div className="mt-8 flex flex-wrap items-center gap-2">
           <span className="mr-2 text-xs text-zinc-400 flex items-center gap-1.5 font-medium">
-            <Filter className="h-3 w-3" /> Filter:
+            <Filter className="h-3 w-3" /> {t('work.filter')}
           </span>
           {categories.map((cat) => (
             <button
-              key={cat}
-              onClick={() => setSelectedCategory(cat)}
+              key={cat.key}
+              onClick={() => setSelectedCategory(cat.key)}
               className={`rounded-full px-4 py-1.5 text-xs font-medium transition-all duration-200 ${
-                selectedCategory === cat
+                selectedCategory === cat.key
                   ? 'bg-zinc-950 text-white shadow-sm dark:bg-white dark:text-zinc-950 font-semibold'
-                  : 'border border-zinc-200 bg-white/70 text-zinc-600 hover:border-zinc-400 hover:text-zinc-900 dark:border-zinc-800 dark:bg-zinc-900/60 dark:text-zinc-400 dark:hover:border-zinc-700 dark:hover:text-white'
+                  : 'border border-zinc-200 bg-white/60 text-zinc-600 hover:border-zinc-400 hover:text-zinc-950 dark:border-zinc-800 dark:bg-zinc-900/60 dark:text-zinc-400 dark:hover:border-zinc-700 dark:hover:text-white'
               }`}
             >
-              {cat}
+              {cat.label}
             </button>
           ))}
         </div>
 
-        {/* Project Grid with Spotlight Cards */}
-        <div className="mt-12 grid gap-8 md:grid-cols-2">
+        {/* Static Bento Grid with Spotlight Follower Effect */}
+        <div className="mt-12 grid gap-6 md:grid-cols-2">
           {filteredProjects.map((project) => (
             <ProjectCard
-              key={project.id}
+              key={project.id || project.number}
               project={project}
               onHoverStart={(proj) => setHoveredProject(proj)}
               onHoverEnd={() => setHoveredProject(null)}
             />
           ))}
-        </div>
-
-        {/* Bottom GitHub CTA */}
-        <div className="mt-14 flex items-center justify-center">
-          <a
-            href="https://github.com/Lokesh-81"
-            target="_blank"
-            rel="noreferrer"
-            className="inline-flex items-center gap-2 rounded-full border border-zinc-200 bg-white px-6 py-3 text-xs font-medium text-zinc-800 shadow-sm transition-all hover:border-purple-400 hover:bg-zinc-50 dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-200 dark:hover:border-purple-500/50 dark:hover:bg-zinc-800"
-          >
-            <Github className="h-4 w-4" />
-            <span>Explore More Open Source Code on GitHub</span>
-            <ArrowUpRight className="h-3.5 w-3.5 text-zinc-400" />
-          </a>
         </div>
       </div>
     </section>

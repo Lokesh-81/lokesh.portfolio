@@ -2,6 +2,7 @@
 
 import React from 'react';
 import { InfiniteSlider } from '@/components/core/infinite-slider';
+import { useLanguage } from '@/i18n';
 
 export interface TechLogoItem {
   name: string;
@@ -197,17 +198,19 @@ const row2Technologies: TechLogoItem[] = [
 ];
 
 export function TechStackSlider() {
+  const { t } = useLanguage();
+
   return (
     <div className="w-full overflow-hidden py-8">
       <div className="mb-6 flex items-center justify-between">
         <div className="flex items-center gap-2">
           <span className="h-2 w-2 rounded-full bg-purple-500" />
           <span className="text-xs uppercase tracking-widest text-zinc-500 dark:text-zinc-400 font-mono font-medium">
-            Active Technologies & Frameworks
+            {t('skills.activeTech')}
           </span>
         </div>
         <span className="text-[11px] font-mono text-zinc-400 dark:text-zinc-500">
-          Infinitely synchronized
+          {t('skills.infinitelySynced')}
         </span>
       </div>
 

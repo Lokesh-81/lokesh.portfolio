@@ -5,6 +5,7 @@ import { motion, AnimatePresence, type Transition, type Variants } from 'framer-
 import { cn } from '@/lib/utils';
 
 export interface TextLoopProps {
+  key?: React.Key;
   children: React.ReactNode;
   className?: string;
   interval?: number;

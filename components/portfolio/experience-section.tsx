@@ -1,27 +1,30 @@
 'use client';
 
 import React from 'react';
-import { Briefcase, Calendar, MapPin, CheckCircle2 } from 'lucide-react';
+import { Calendar, MapPin, CheckCircle2 } from 'lucide-react';
 import { usePortfolio } from '@/lib/portfolio-context';
+import { useLanguage } from '@/i18n';
 
 export function ExperienceSection() {
   const { experiences } = usePortfolio();
+  const { t } = useLanguage();
 
   return (
     <section id="experience" className="py-24 px-6 border-t border-zinc-200/80 dark:border-zinc-900/80">
       <div className="mx-auto max-w-6xl">
-        {/* Header */}
+        {/* Header (Section number removed) */}
         <div className="flex flex-col justify-between gap-6 border-b border-zinc-200/80 pb-10 md:flex-row md:items-end dark:border-zinc-900/80">
           <div>
             <p className="text-xs uppercase tracking-[0.25em] text-purple-600 font-semibold dark:text-purple-400">
-              04 / CAREER TRACK RECORD
+              {t('experience.tag')}
             </p>
             <h2 className="mt-2 text-4xl font-light tracking-tight text-zinc-950 sm:text-6xl md:text-7xl dark:text-white">
-              Roles & <span className="instrument italic font-normal">Experience.</span>
+              {t('experience.title')}{' '}
+              <span className="instrument italic font-normal">{t('experience.titleAccent')}</span>
             </h2>
           </div>
           <p className="max-w-md text-sm leading-relaxed text-zinc-600 dark:text-zinc-400">
-            A chronological breakdown of leadership roles, development responsibilities, and delivered milestones across startups and technology organizations.
+            {t('experience.subtitle')}
           </p>
         </div>
 
@@ -61,7 +64,7 @@ export function ExperienceSection() {
               {exp.responsibilities && exp.responsibilities.length > 0 && (
                 <div className="mt-5 space-y-2">
                   <span className="text-[11px] font-semibold uppercase tracking-wider text-zinc-400 dark:text-zinc-500">
-                    Key Highlights & Outcomes
+                    {t('experience.highlights')}
                   </span>
                   <ul className="space-y-1.5 text-xs text-zinc-600 dark:text-zinc-400">
                     {exp.responsibilities.map((resp, i) => (

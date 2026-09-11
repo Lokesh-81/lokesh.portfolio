@@ -3,11 +3,13 @@
 import React, { useState } from 'react';
 import { Filter, Code2, Layers } from 'lucide-react';
 import { usePortfolio } from '@/lib/portfolio-context';
+import { useLanguage } from '@/i18n';
 import type { SkillLevel } from '@/lib/firebase';
 import { TechStackSlider } from './tech-stack-slider';
 
 export function SkillsSection() {
   const { technologies } = usePortfolio();
+  const { t } = useLanguage();
   const [selectedTechCategory, setSelectedTechCategory] = useState<string>('All');
 
   const categories = ['All', ...Array.from(new Set(technologies.map((t) => t.category)))];
@@ -28,21 +30,33 @@ export function SkillsSection() {
     }
   };
 
+  const getLevelText = (level: SkillLevel) => {
+    switch (level) {
+      case 'Core':
+        return t('skills.level.core');
+      case 'Working Knowledge':
+        return t('skills.level.working');
+      case 'Familiar':
+        return t('skills.level.familiar');
+    }
+  };
+
   return (
     <section id="skills" className="py-24 px-6 border-t border-zinc-200/80 dark:border-zinc-900/80">
       <div className="mx-auto max-w-6xl">
-        {/* Header */}
+        {/* Header (Number removed) */}
         <div className="flex flex-col justify-between gap-6 border-b border-zinc-200/80 pb-10 md:flex-row md:items-end dark:border-zinc-900/80">
           <div>
             <p className="text-xs uppercase tracking-[0.25em] text-purple-600 font-semibold dark:text-purple-400">
-              03 / TECHNICAL CAPABILITIES
+              {t('skills.tag')}
             </p>
             <h2 className="mt-2 text-4xl font-light tracking-tight text-zinc-950 sm:text-6xl md:text-7xl dark:text-white">
-              Skills & <span className="instrument italic font-normal">Toolsets.</span>
+              {t('skills.title')}{' '}
+              <span className="instrument italic font-normal">{t('skills.titleAccent')}</span>
             </h2>
           </div>
           <p className="max-w-md text-sm leading-relaxed text-zinc-600 dark:text-zinc-400">
-            A comprehensive overview of production technologies, architecture patterns, frameworks, and tools applied across real-world systems.
+            {t('skills.subtitle')}
           </p>
         </div>
 
@@ -57,14 +71,14 @@ export function SkillsSection() {
             <div className="flex items-center gap-2.5">
               <Code2 className="h-5 w-5 text-purple-600 dark:text-purple-400" />
               <h3 className="text-2xl font-light tracking-tight text-zinc-950 dark:text-white sm:text-3xl">
-                Technical <span className="instrument italic font-normal">Proficiency</span>
+                {t('skills.proficiency')}
               </h3>
             </div>
 
             {/* Category Filter */}
             <div className="flex flex-wrap items-center gap-2">
               <span className="text-xs text-zinc-400 flex items-center gap-1.5 font-medium">
-                <Filter className="h-3 w-3" /> Filter:
+                <Filter className="h-3 w-3" /> {t('skills.filter')}
               </span>
               {categories.map((cat) => (
                 <button
@@ -76,7 +90,7 @@ export function SkillsSection() {
                       : 'border border-zinc-200 bg-white/60 text-zinc-600 hover:border-zinc-400 dark:border-zinc-800 dark:bg-zinc-900/60 dark:text-zinc-400 dark:hover:border-zinc-700'
                   }`}
                 >
-                  {cat}
+                  {cat === 'All' ? t('work.filter.all') : cat}
                 </button>
               ))}
             </div>
@@ -103,11 +117,11 @@ export function SkillsSection() {
                 </div>
 
                 <span
-                  className={`rounded-full border px-2.5 py-0.5 text-[10px] font-medium ${getLevelBadge(
+                  className={`rounded-full border px-2.5 py-0.5 text-[10px] font-medium font-mono ${getLevelBadge(
                     tech.level
                   )}`}
                 >
-                  {tech.level}
+                  {getLevelText(tech.level)}
                 </span>
               </div>
             ))}

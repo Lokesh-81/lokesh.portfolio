@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { PortfolioProvider } from '@/lib/portfolio-context';
+import { LanguageProvider } from '@/i18n';
 import { PortfolioDock } from '@/components/portfolio/portfolio-dock';
 import { Hero } from '@/components/portfolio/hero';
 import { AboutSection } from '@/components/portfolio/about-section';
@@ -94,7 +95,9 @@ function PortfolioContent() {
 export default function App() {
   return (
     <PortfolioProvider>
-      <PortfolioContent />
+      <LanguageProvider>
+        <PortfolioContent />
+      </LanguageProvider>
     </PortfolioProvider>
   );
 }

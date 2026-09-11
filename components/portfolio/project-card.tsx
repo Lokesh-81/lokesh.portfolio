@@ -3,16 +3,36 @@
 import React from 'react';
 import { Spotlight } from '@/components/core/spotlight';
 import { ArrowUpRight, Github, ExternalLink, CheckCircle2 } from 'lucide-react';
+import { useLanguage } from '@/i18n';
 import type { Project } from '@/lib/data/projects';
 
 export interface ProjectCardProps {
   key?: React.Key;
-  project: Project & { image?: string };
+  project: Project & {
+    image?: string;
+    translations?: {
+      te?: { name?: string; tagline?: string; description?: string; whatIWorkedOn?: string[] };
+      hi?: { name?: string; tagline?: string; description?: string; whatIWorkedOn?: string[] };
+    };
+  };
   onHoverStart?: (project: Project) => void;
   onHoverEnd?: () => void;
 }
 
 export function ProjectCard({ project, onHoverStart, onHoverEnd }: ProjectCardProps) {
+  const { t, language } = useLanguage();
+
+  // Support multilingual content if provided by database, otherwise gracefully fallback to original English
+  const translatedContent = project.translations?.[language as 'te' | 'hi'];
+  const projectName = (language !== 'en' && translatedContent?.name) || project.name;
+  const projectTagline = (language !== 'en' && translatedContent?.tagline) || project.tagline;
+  const projectDesc = (language !== 'en' && translatedContent?.description) || project.description;
+  const contributions =
+    (language !== 'en' && translatedContent?.whatIWorkedOn) || project.whatIWorkedOn;
+
+  const isLive = project.status === 'Live';
+  const statusLabel = isLive ? t('work.status.live') : t('work.status.dev');
+
   return (
     <div
       onMouseEnter={() => onHoverStart?.(project)}
@@ -45,17 +65,17 @@ export function ProjectCard({ project, onHoverStart, onHoverEnd }: ProjectCardPr
               </span>
               <span
                 className={`flex items-center gap-1.5 rounded-full px-2.5 py-0.5 text-[11px] font-medium ${
-                  project.status === 'Live'
+                  isLive
                     ? 'bg-emerald-50 text-emerald-700 dark:bg-emerald-950/40 dark:text-emerald-400'
                     : 'bg-amber-50 text-amber-700 dark:bg-amber-950/40 dark:text-amber-400'
                 }`}
               >
                 <span
                   className={`h-1.5 w-1.5 rounded-full ${
-                    project.status === 'Live' ? 'bg-emerald-500 animate-pulse' : 'bg-amber-500'
+                    isLive ? 'bg-emerald-500 animate-pulse' : 'bg-amber-500'
                   }`}
                 />
-                {project.status}
+                {statusLabel}
               </span>
             </div>
           </div>
@@ -74,26 +94,26 @@ export function ProjectCard({ project, onHoverStart, onHoverEnd }: ProjectCardPr
           {/* Project Title & Tagline */}
           <div className="mt-5">
             <h3 className="text-2xl font-bold tracking-tight text-zinc-950 group-hover:text-purple-600 dark:text-white dark:group-hover:text-purple-400 transition-colors sm:text-3xl">
-              {project.name}
+              {projectName}
             </h3>
             <p className="mt-1 text-sm font-medium text-zinc-600 dark:text-zinc-300">
-              {project.tagline}
+              {projectTagline}
             </p>
           </div>
 
           {/* Project Description */}
           <p className="mt-3 text-sm leading-relaxed text-zinc-600 dark:text-zinc-400">
-            {project.description}
+            {projectDesc}
           </p>
 
           {/* Key Deliverables / What I worked on */}
-          {project.whatIWorkedOn && project.whatIWorkedOn.length > 0 && (
+          {contributions && contributions.length > 0 && (
             <div className="mt-5 space-y-1.5">
               <span className="text-[11px] font-semibold uppercase tracking-wider text-zinc-400 dark:text-zinc-500">
-                Key Contributions
+                {t('work.keyContributions')}
               </span>
               <ul className="space-y-1 text-xs text-zinc-600 dark:text-zinc-400">
-                {project.whatIWorkedOn.slice(0, 3).map((item, idx) => (
+                {contributions.slice(0, 3).map((item, idx) => (
                   <li key={idx} className="flex items-start gap-2">
                     <CheckCircle2 className="mt-0.5 h-3.5 w-3.5 shrink-0 text-purple-500 dark:text-purple-400" />
                     <span>{item}</span>
@@ -133,7 +153,7 @@ export function ProjectCard({ project, onHoverStart, onHoverEnd }: ProjectCardPr
                   title="View Source on GitHub"
                 >
                   <Github className="h-3.5 w-3.5" />
-                  <span className="hidden sm:inline">Code</span>
+                  <span className="hidden sm:inline">{t('work.code')}</span>
                 </a>
               )}
 
@@ -144,7 +164,7 @@ export function ProjectCard({ project, onHoverStart, onHoverEnd }: ProjectCardPr
                   rel="noreferrer"
                   className="inline-flex items-center gap-1 rounded-lg bg-zinc-950 px-3 py-2 text-xs font-medium text-white shadow transition-colors hover:bg-purple-600 dark:bg-white dark:text-zinc-950 dark:hover:bg-purple-400 dark:hover:text-black"
                 >
-                  <span>Launch</span>
+                  <span>{t('work.launch')}</span>
                   <ArrowUpRight className="h-3.5 w-3.5" />
                 </a>
               ) : (
@@ -154,7 +174,7 @@ export function ProjectCard({ project, onHoverStart, onHoverEnd }: ProjectCardPr
                   rel="noreferrer"
                   className="inline-flex items-center gap-1 rounded-lg bg-zinc-900 px-3 py-2 text-xs font-medium text-white shadow transition-colors hover:bg-purple-600 dark:bg-zinc-800 dark:text-white dark:hover:bg-purple-500"
                 >
-                  <span>Explore</span>
+                  <span>{t('work.explore')}</span>
                   <ExternalLink className="h-3.5 w-3.5" />
                 </a>
               )}

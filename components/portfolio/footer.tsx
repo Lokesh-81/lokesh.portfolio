@@ -1,9 +1,12 @@
 'use client';
 
 import React from 'react';
-import { ArrowUp, Heart, Github, Linkedin, Mail } from 'lucide-react';
+import { ArrowUp } from 'lucide-react';
+import { useLanguage } from '@/i18n';
 
 export function Footer() {
+  const { t } = useLanguage();
+
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
@@ -15,10 +18,10 @@ export function Footer() {
           <div className="flex items-center gap-2 font-mono text-zinc-800 dark:text-zinc-200">
             <span className="font-semibold tracking-wider">P. LOKESH</span>
             <span>·</span>
-            <span>HYDERABAD, INDIA</span>
+            <span>{t('footer.location')}</span>
           </div>
           <p className="text-[11px] text-zinc-400 dark:text-zinc-600">
-            © {new Date().getFullYear()} P. Lokesh. Engineered with craft, motion, and precision.
+            © {new Date().getFullYear()} P. Lokesh. {t('footer.engineered')}
           </p>
         </div>
 
@@ -52,16 +55,16 @@ export function Footer() {
               href="#contact"
               className="hover:text-purple-600 dark:hover:text-purple-400 transition-colors"
             >
-              Contact
+              {t('footer.contact')}
             </a>
           </div>
 
           <button
             onClick={scrollToTop}
-            className="flex items-center gap-1 rounded-full border border-zinc-200 bg-white px-3 py-1.5 text-zinc-700 shadow-sm transition-all hover:border-purple-400 hover:text-zinc-950 dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-300 dark:hover:border-purple-500 dark:hover:text-white"
-            aria-label="Scroll back to top"
+            className="flex items-center gap-1 rounded-full border border-zinc-200 bg-white px-3 py-1.5 text-zinc-700 shadow-sm transition-all hover:border-purple-400 hover:text-zinc-950 dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-300 dark:hover:border-purple-500 dark:hover:text-white cursor-pointer"
+            aria-label={t('footer.backToTop')}
           >
-            <span>Top</span>
+            <span>{t('footer.top')}</span>
             <ArrowUp className="h-3 w-3" />
           </button>
         </div>
