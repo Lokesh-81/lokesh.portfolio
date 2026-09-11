@@ -8,6 +8,20 @@ service cloud.firestore {
              request.auth.token.email == 'poosala15@gmail.com';
     }
 
+    // Inquiries submitted through the portfolio contact form
+    match /portfolio_inquiries/{inquiryId} {
+      allow create: if request.resource.data.name is string &&
+                       request.resource.data.name.size() > 0 &&
+                       request.resource.data.name.size() <= 150 &&
+                       request.resource.data.email is string &&
+                       request.resource.data.email.size() > 0 &&
+                       request.resource.data.email.size() <= 200 &&
+                       request.resource.data.message is string &&
+                       request.resource.data.message.size() > 0 &&
+                       request.resource.data.message.size() <= 5000;
+      allow read, update, delete: if isAdmin();
+    }
+
     // Allow public read on portfolio collections and documents
     // Only the authorized admin (poosala15@gmail.com) can create, update, or delete
     match /portfolio/{document=**} {
@@ -20,4 +34,5 @@ service cloud.firestore {
     }
   }
 }
+
 

@@ -10,37 +10,46 @@ export interface ContactInquiry {
 }
 
 export async function submitContactInquiry(data: ContactInquiry): Promise<{ success: boolean; id: string }> {
+  // Validate required fields
+  if (!data.name?.trim() || !data.email?.trim() || !data.message?.trim()) {
+    throw new Error('Please fill in all required fields (name, email, message).');
+  }
+
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!emailRegex.test(data.email.trim())) {
+    throw new Error('Please provide a valid email address.');
+  }
+
   const timestamp = new Date().toISOString();
   const inquiry = {
-    ...data,
+    name: data.name.trim(),
+    email: data.email.trim(),
+    projectType: data.projectType?.trim() || 'General Inquiry',
+    message: data.message.trim(),
     createdAt: timestamp,
   };
 
-  // Try Firestore if available
   const db = getFirebaseDb();
-  if (db) {
-    try {
-      const docRef = await addDoc(collection(db, 'portfolio_inquiries'), {
-        ...inquiry,
-        serverTimestamp: serverTimestamp(),
-      });
-      console.log('[Inquiry Submitted to Firestore]', docRef.id);
-      return { success: true, id: docRef.id };
-    } catch (e) {
-      console.warn('Firestore submission failed, falling back to local storage:', e);
-    }
+  if (!db) {
+    throw new Error('Database connection unavailable. Please contact directly via WhatsApp or email.');
   }
 
-  // Fallback to local storage persistence
-  try {
-    const existing = JSON.parse(localStorage.getItem('portfolio_inquiries') || '[]');
-    const id = `inq-${Date.now()}`;
-    existing.push({ id, ...inquiry });
-    localStorage.setItem('portfolio_inquiries', JSON.stringify(existing));
-    console.log('[Inquiry Saved Locally]', id);
-    return { success: true, id };
-  } catch (e) {
-    console.error('Failed to save inquiry locally:', e);
-    return { success: true, id: `inq-${Date.now()}` };
-  }
+  // 10-second timeout guard to prevent UI from hanging on "Sending..."
+  const timeoutPromise = new Promise<never>((_, reject) => {
+    setTimeout(() => {
+      reject(new Error('Network request timed out. Please check your connection or reach out on WhatsApp.'));
+    }, 10000);
+  });
+
+  const writePromise = (async () => {
+    const docRef = await addDoc(collection(db, 'portfolio_inquiries'), {
+      ...inquiry,
+      serverTimestamp: serverTimestamp(),
+    });
+    console.log('[Inquiry Submitted to Firestore]', docRef.id);
+    return { success: true, id: docRef.id };
+  })();
+
+  return await Promise.race([writePromise, timeoutPromise]);
 }
+

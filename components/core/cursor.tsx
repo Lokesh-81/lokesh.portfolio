@@ -89,7 +89,7 @@ export function Cursor({
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.8 }}
             transition={{ duration: 0.2 }}
-            className={cn('pointer-events-none fixed will-change-transform', className)}
+            className={cn('pointer-events-none fixed top-0 left-0 will-change-transform', className)}
           >
             {children}
           </motion.div>

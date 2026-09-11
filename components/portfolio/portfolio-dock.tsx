@@ -77,8 +77,11 @@ export function PortfolioDock({
       className="fixed top-5 sm:top-6 left-1/2 z-50 -translate-x-1/2 select-none"
     >
       <div className="relative" ref={langRef}>
-        {/* Floating spacious frosted glass container */}
-        <div className="flex items-center gap-2 sm:gap-3 rounded-full border border-[#1F2937]/90 bg-[#0B132B]/85 px-3 py-2 sm:px-4 sm:py-2.5 shadow-[0_12px_40px_rgba(0,0,0,0.6)] backdrop-blur-2xl">
+        {/* Floating spacious frosted glass container with ambient glow */}
+        <div className="relative flex items-center gap-1.5 sm:gap-2.5 rounded-full border border-[#1F2937]/90 bg-[#0B132B]/85 px-2.5 py-1.5 sm:px-4 sm:py-2.5 shadow-[0_12px_40px_rgba(0,0,0,0.6)] backdrop-blur-2xl">
+          {/* Subtle ambient dock glow */}
+          <div className="absolute inset-0 -z-10 rounded-full bg-gradient-to-r from-[#2563EB]/15 via-[#60A5FA]/10 to-[#C084FC]/15 blur-md pointer-events-none" />
+
           {navItems.map((item) => {
             const isActive = activeSection === item.id;
             const Icon = item.icon;
@@ -96,7 +99,7 @@ export function PortfolioDock({
                   transition={{ type: 'spring', stiffness: 450, damping: 25 }}
                   onClick={() => onSelectSection?.(item.id)}
                   aria-label={item.title}
-                  className={`relative flex h-10 w-10 sm:h-11 sm:w-11 items-center justify-center rounded-full transition-colors cursor-pointer ${
+                  className={`relative flex h-8 w-8 min-[400px]:h-9 min-[400px]:w-9 sm:h-11 sm:w-11 items-center justify-center rounded-full transition-colors cursor-pointer ${
                     isActive
                       ? 'text-[#60A5FA]'
                       : 'text-[#A5B4FC]/80 hover:text-[#E0E7FF]'
@@ -120,7 +123,7 @@ export function PortfolioDock({
                     <div className="absolute inset-0 rounded-full border border-[#1F2937]/60 bg-[#111827]/60 transition-colors hover:border-[#60A5FA]/50 hover:bg-[#1F2937]/80" />
                   )}
 
-                  <Icon className="relative z-10 h-4 w-4 sm:h-5 sm:w-5 transition-transform" />
+                  <Icon className="relative z-10 h-3.5 w-3.5 min-[400px]:h-4 min-[400px]:w-4 sm:h-5 sm:w-5 transition-transform" />
                 </motion.button>
 
                 {/* Refined Floating Tooltip */}

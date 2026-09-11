@@ -255,7 +255,6 @@ export const initialProjectsData: ProjectItem[] = [
     technologies: ["Next.js", "TypeScript", "Gemini AI API", "MongoDB", "Redis", "Tailwind CSS"],
     status: "Live",
     liveUrl: "https://www.lumoraai.in/",
-    githubUrl: "https://github.com/Lokesh-81",
     year: "2026",
     accentColor: "#ec4899",
     gradient: "from-pink-900/40 via-rose-950/20 to-black/60",
@@ -281,7 +280,6 @@ export const initialProjectsData: ProjectItem[] = [
     technologies: ["React", "Vite", "Tailwind CSS", "Node.js", "REST APIs"],
     status: "Live",
     liveUrl: "https://www.belvo.buzz/",
-    githubUrl: "https://github.com/Lokesh-81",
     year: "2026",
     accentColor: "#a78bfa",
     gradient: "from-purple-900/40 via-violet-950/20 to-black/60",
@@ -307,7 +305,6 @@ export const initialProjectsData: ProjectItem[] = [
     technologies: ["React", "Vite", "Tailwind CSS", "Framer Motion", "Cloudinary CDN"],
     status: "Live",
     liveUrl: "https://www.indirathakur.com/",
-    githubUrl: "https://github.com/Lokesh-81",
     year: "2025",
     accentColor: "#c084fc",
     gradient: "from-fuchsia-900/40 via-purple-950/20 to-black/60",
@@ -318,7 +315,7 @@ export const initialProjectsData: ProjectItem[] = [
   {
     id: "jv-ed-tech",
     number: "04",
-    name: "JV Ed Tech",
+    name: "JV EdTech",
     category: "Education & EdTech Portal",
     tagline: "Interactive digital learning portal & student course manager",
     shortDescription: "An educational platform built to facilitate structured digital courses and learning modules.",
@@ -333,7 +330,6 @@ export const initialProjectsData: ProjectItem[] = [
     technologies: ["Next.js", "React", "TypeScript", "Tailwind CSS", "Supabase / PostgreSQL"],
     status: "Live",
     liveUrl: "https://jv-ed-tech.vercel.app/",
-    githubUrl: "https://github.com/Lokesh-81",
     year: "2025",
     accentColor: "#60a5fa",
     gradient: "from-blue-900/40 via-indigo-950/20 to-black/60",
@@ -359,7 +355,6 @@ export const initialProjectsData: ProjectItem[] = [
     technologies: ["React", "Supabase", "Tailwind CSS", "OTP Auth", "REST APIs"],
     status: "Live",
     liveUrl: "https://naivaidya-naivaidya.vercel.app/",
-    githubUrl: "https://github.com/Lokesh-81",
     year: "2025 - 2026",
     accentColor: "#38bdf8",
     gradient: "from-sky-900/40 via-blue-950/20 to-black/60",
@@ -385,7 +380,6 @@ export const initialProjectsData: ProjectItem[] = [
     technologies: ["Next.js", "TypeScript", "Tailwind CSS", "Framer Motion"],
     status: "Live",
     liveUrl: "https://anatara-global.vercel.app/",
-    githubUrl: "https://github.com/Lokesh-81",
     year: "2025",
     accentColor: "#f59e0b",
     gradient: "from-amber-900/40 via-orange-950/20 to-black/60",
@@ -396,7 +390,7 @@ export const initialProjectsData: ProjectItem[] = [
   {
     id: "foundarly",
     number: "07",
-    name: "Foundarly",
+    name: "Foundarly Business World",
     category: "Startup & Venture Builder",
     tagline: "Collaborative founder ecosystem & venture builder workspace",
     shortDescription: "A centralized digital platform built to empower startup founders and early-stage innovators.",
@@ -411,7 +405,6 @@ export const initialProjectsData: ProjectItem[] = [
     technologies: ["React", "TypeScript", "Node.js", "Express.js", "Tailwind CSS", "MongoDB"],
     status: "Live",
     liveUrl: "https://www.foundarlybusinessworld.in/",
-    githubUrl: "https://github.com/Lokesh-81",
     year: "2025",
     accentColor: "#34d399",
     gradient: "from-emerald-900/40 via-teal-950/20 to-black/60",
@@ -451,14 +444,15 @@ export const ADMIN_EMAIL = "poosala15@gmail.com"
 
 // Resolve Firebase configuration dynamically from environment variables with defaults
 export function getResolvedFirebaseConfig() {
-  const apiKey = process.env.NEXT_PUBLIC_FIREBASE_API_KEY || firebaseConfigJson.apiKey || ""
-  const projectId = process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID || firebaseConfigJson.projectId || "portfolio-lokesh"
-  const authDomain = process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN || firebaseConfigJson.authDomain || `${projectId}.firebaseapp.com`
-  const storageBucket = process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET || firebaseConfigJson.storageBucket || `${projectId}.firebasestorage.app`
-  const messagingSenderId = process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID || firebaseConfigJson.messagingSenderId || ""
-  const appId = process.env.NEXT_PUBLIC_FIREBASE_APP_ID || firebaseConfigJson.appId || ""
-  const measurementId = process.env.NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID || firebaseConfigJson.measurementId || ""
-  const firestoreDatabaseId = process.env.NEXT_PUBLIC_FIREBASE_DATABASE_ID || firebaseConfigJson.firestoreDatabaseId || "(default)"
+  const env = typeof import.meta !== 'undefined' ? ((import.meta as any).env || {}) : {}
+  const apiKey = (env.VITE_FIREBASE_API_KEY as string) || firebaseConfigJson.apiKey || ""
+  const projectId = (env.VITE_FIREBASE_PROJECT_ID as string) || firebaseConfigJson.projectId || "gen-lang-client-0464688082"
+  const authDomain = (env.VITE_FIREBASE_AUTH_DOMAIN as string) || firebaseConfigJson.authDomain || `${projectId}.firebaseapp.com`
+  const storageBucket = (env.VITE_FIREBASE_STORAGE_BUCKET as string) || firebaseConfigJson.storageBucket || `${projectId}.firebasestorage.app`
+  const messagingSenderId = (env.VITE_FIREBASE_MESSAGING_SENDER_ID as string) || firebaseConfigJson.messagingSenderId || ""
+  const appId = (env.VITE_FIREBASE_APP_ID as string) || firebaseConfigJson.appId || ""
+  const measurementId = (env.VITE_FIREBASE_MEASUREMENT_ID as string) || firebaseConfigJson.measurementId || ""
+  const firestoreDatabaseId = (env.VITE_FIREBASE_DATABASE_ID as string) || firebaseConfigJson.firestoreDatabaseId || "(default)"
 
   return {
     apiKey,

@@ -476,58 +476,123 @@ export const fr: Record<string, string> = {
   'nav.language': 'Langue',
   'nav.changeLanguage': 'Changer de langue',
 
+  // Hero Section
   'hero.roleTag': 'Développeur Full Stack',
   'hero.greeting': 'Bonjour, je suis',
   'hero.name': 'Poosala Lokesh.',
   'hero.nameShort': 'POOSALA LOKESH.',
   'hero.titleLine': 'Développeur Full Stack & Ingénieur IA',
   'hero.bio':
-    'Développeur Full Stack et passionné d’IA basé à Hyderabad, Inde. Spécialisé dans les applications web modernes, les plateformes évolutives et les produits pilotés par l’IA.',
+    'Développeur Full Stack et passionné d’IA basé à Hyderabad, Inde. Spécialisé dans les applications web modernes, les plateformes évolutives et les produits pilotés par l’IA avec une conception soignée, de hautes performances et une architecture résiliente.',
   'hero.ctaWork': 'Voir mes projets',
   'hero.ctaContact': 'Travaillons ensemble',
   'hero.statusBadge': 'DISPONIBLE POUR DE NOUVEAUX PROJETS',
   'hero.location': 'Hyderabad, Inde',
+  'hero.timeZone': 'IST (UTC+5:30)',
+  'hero.techTicker': 'Technologies de base et Frameworks',
 
+  // About Section
   'about.tag': 'À PROPOS DE MOI',
   'about.title': 'Curieux par',
   'about.titleAccent': 'nature.',
+  'about.verifiedProfiles': 'Profils GitHub vérifiés',
+  'about.primaryProfile': 'Dépôt principal',
+  'about.secondaryProfile': 'Organisation / Secondaire',
   'about.introGreeting': 'Je suis',
   'about.name': 'Poosala Lokesh',
   'about.introSuffix': 'développeur Full Stack et étudiant en informatique à Hyderabad,',
-  'about.introGoal': 'passionné par la création de plateformes web résilientes et de solutions IA.',
+  'about.introGoal':
+    'passionné par la création de plateformes web résilientes et de solutions IA.',
+  'about.subDescription':
+    'Je travaille sur tout le cycle de développement logiciel — des interfaces utilisateur réactives et accessibles jusqu’aux API backend évolutives, bases de données, déploiements cloud et pipelines IA modernes.',
+  'about.location': 'Localisation',
+  'about.languages': 'Langues',
+  'about.languagesList': 'Télougou · Anglais · Hindi · Français',
+  'about.education': 'Formation',
+  'about.recognition': 'Distinctions',
+  'about.philosophy1.title': 'Artisanat Impeccable',
+  'about.philosophy1.desc':
+    'Des interfaces conçues avec une précision optique, des transitions fluides et un strict respect de l’accessibilité et de la performance.',
+  'about.philosophy2.title': 'Architecture Évolutive',
+  'about.philosophy2.desc':
+    'Typage statique de bout en bout, API résilientes, schémas normalisés et gestion d’état assurant la pérennité des plateformes.',
+  'about.philosophy3.title': 'Systèmes Natifs IA',
+  'about.philosophy3.desc':
+    'Conception d’expériences IA contextuelles avec LLMs en streaming, pipelines de recherche et workflows intelligents.',
 
+  // Work / Projects Section
   'work.tag': 'PROJETS SÉLECTIONNÉS',
   'work.title': 'Ce que j’ai',
   'work.titleAccent': 'construit.',
+  'work.subtitle':
+    'Un catalogue de plateformes en production, moteurs de santé, outils financiers IA et solutions web d’entreprise.',
   'work.filter': 'Filtrer :',
   'work.filter.all': 'Tous',
+  'work.filter.aiFintech': 'IA & FinTech',
+  'work.filter.healthcare': 'Santé',
+  'work.filter.business': 'Affaires & Startups',
+  'work.filter.creative': 'Créatif & EdTech',
   'work.status.live': 'En ligne',
   'work.status.dev': 'En développement',
+  'work.keyContributions': 'Contributions clés',
   'work.code': 'Code',
   'work.launch': 'Démo live',
+  'work.explore': 'Explorer',
 
+  // Skills Section
   'skills.tag': 'COMPÉTENCES TECHNIQUES',
   'skills.title': 'Compétences &',
   'skills.titleAccent': 'Outils.',
+  'skills.subtitle':
+    'Un aperçu complet des technologies de production, modèles d’architecture et frameworks appliqués dans des systèmes réels.',
+  'skills.proficiency': 'Compétence technique',
+  'skills.filter': 'Filtrer :',
+  'skills.activeTech': 'Technologies et Frameworks actifs',
+  'skills.infinitelySynced': 'Synchronisation continue',
+  'skills.level.core': 'Principal',
+  'skills.level.working': 'Connaissance pratique',
+  'skills.level.familiar': 'Familier',
 
+  // Experience Section
   'experience.tag': 'PARCOURS PROFESSIONNEL',
   'experience.title': 'Rôles &',
   'experience.titleAccent': 'Expérience.',
+  'experience.subtitle':
+    'Une vue chronologique des rôles de leadership, responsabilités techniques et projets livrés à travers startups et entreprises.',
+  'experience.highlights': 'Points forts et résultats',
+  'experience.focusAreas': 'Domaines d’intervention & Leadership',
 
-  'contact.tag': 'CONTACT',
+  // Contact Section
+  'contact.tag': 'CONTACT & DEMANDES',
   'contact.title': 'Construisons',
   'contact.titleAccent': 'ensemble.',
+  'contact.subtitle':
+    'Disponible pour des postes d’ingénieur logiciel à temps plein, missions de développement produit et conseil technique. Contactez-moi directement ou envoyez un message ci-dessous.',
   'contact.formTitle': 'Envoyer un message direct',
+  'contact.formDesc': 'Remplissez le formulaire ci-dessous et je vous répondrai sous 12 heures.',
+  'contact.responseBadge': 'Réponse moy. < 12 h',
   'contact.yourName': 'Votre Nom',
-  'contact.namePlaceholder': 'Your name',
+  'contact.namePlaceholder': 'Votre nom',
   'contact.emailAddress': 'Adresse e-mail',
-  'contact.emailPlaceholder': 'your@gmail.com',
+  'contact.emailPlaceholder': 'votre@gmail.com',
+  'contact.topic': 'Sujet de discussion',
+  'contact.topic.fullstack': 'Application Web Full-Stack',
+  'contact.topic.ai': 'Intégration IA / LLM',
+  'contact.topic.frontend': 'Architecture Frontend',
+  'contact.topic.role': 'Poste Ingénieur Logiciel / Recrutement',
+  'contact.topic.consulting': 'Conseil Technique',
   'contact.yourMessage': 'Votre message',
+  'contact.messagePlaceholder': 'Parlez-moi de votre projet, calendrier, budget ou offre d’emploi...',
   'contact.btn.send': 'Envoyer le message',
+  'contact.btn.sending': 'Envoi du message...',
+  'contact.btn.sent': 'Message Envoyé ✓',
   'contact.whatsapp': 'WhatsApp',
   'contact.whatsappNumber': '+91 8885674172',
+  'contact.githubSection': 'Profils GitHub',
   'contact.githubPrimary': 'GitHub — Lokesh-81',
   'contact.githubSecondary': 'GitHub — lokeshnaivaidya-max',
+  'contact.linkedin': 'LinkedIn',
+  'contact.instagram': 'Instagram',
 };
 
 // German (de)

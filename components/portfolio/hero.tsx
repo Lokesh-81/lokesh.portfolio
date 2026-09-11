@@ -132,7 +132,7 @@ export function Hero({ onNavigate }: HeroProps) {
               </TextEffect>
             </div>
 
-            {/* 4. CTA Buttons with Glow Effect */}
+            {/* 4. CTA Buttons with Glow Effect on both primary actions */}
             <div className="mt-8 flex flex-wrap items-center gap-4">
               <div className="relative">
                 <GlowEffect
@@ -151,18 +151,28 @@ export function Hero({ onNavigate }: HeroProps) {
                 </button>
               </div>
 
-              <button
-                onClick={() => onNavigate?.('contact')}
-                className="inline-flex items-center gap-2 rounded-xl border border-[#1F2937] bg-[#111827]/90 px-6 py-3.5 text-sm font-semibold text-[#E0E7FF] shadow-xs transition-all hover:border-[#60A5FA] hover:bg-[#1F2937] active:scale-[0.98] cursor-pointer"
-              >
-                <Mail className="h-4 w-4 text-[#A5B4FC]" />
-                <span>{t('hero.ctaContact')}</span>
-              </button>
+              <div className="relative">
+                <GlowEffect
+                  colors={['#60A5FA', '#C084FC', '#2563EB']}
+                  mode="colorShift"
+                  blur="soft"
+                  duration={4.5}
+                  scale={0.95}
+                  className="opacity-0 hover:opacity-100 transition-opacity"
+                />
+                <button
+                  onClick={() => onNavigate?.('contact')}
+                  className="relative inline-flex items-center gap-2 rounded-xl border border-[#1F2937] bg-[#111827]/90 px-6 py-3.5 text-sm font-semibold text-[#E0E7FF] shadow-xs transition-all hover:border-[#60A5FA] hover:bg-[#1F2937] active:scale-[0.98] cursor-pointer"
+                >
+                  <Mail className="h-4 w-4 text-[#A5B4FC]" />
+                  <span>{t('hero.ctaContact')}</span>
+                </button>
+              </div>
             </div>
           </div>
 
           {/* Right Column: Subtle 3D Stylized Moon Visual */}
-          <div className="relative flex items-center justify-center lg:col-span-5 lg:justify-end py-4 lg:py-0">
+          <div className="relative flex items-center justify-center lg:col-span-5 lg:justify-end py-4 lg:py-0 overflow-visible">
             <MoonVisual />
           </div>
         </div>
