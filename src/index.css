@@ -1,0 +1,48 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --font-figtree: "Figtree", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    --font-instrument-serif: "Instrument Serif", Georgia, serif;
+  }
+
+  body {
+    font-family: var(--font-figtree);
+  }
+}
+
+.instrument {
+  font-family: "Instrument Serif", Georgia, serif;
+}
+
+@keyframes infinite-slider-scroll {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@keyframes infinite-slider-scroll-reverse {
+  from {
+    transform: translateX(-50%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+.animate-infinite-slider {
+  animation: infinite-slider-scroll var(--duration, 25s) linear infinite;
+}
+
+.animate-infinite-slider-reverse {
+  animation: infinite-slider-scroll-reverse var(--duration, 25s) linear infinite;
+}
+
+.animate-infinite-slider:hover,
+.animate-infinite-slider-reverse:hover {
+  animation-play-state: paused;
+}
+
