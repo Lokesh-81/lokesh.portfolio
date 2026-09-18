@@ -93,7 +93,7 @@ export function TextEffect({
     return children.split('');
   }, [children, per]);
 
-  const MotionComponent = motion[Component as keyof typeof motion] || motion.span;
+  const MotionComponent = (motion[Component as keyof typeof motion] || motion.span) as any;
 
   return (
     <MotionComponent

@@ -13,6 +13,13 @@ import {
   deleteDoc,
   type Firestore
 } from "firebase/firestore"
+
+// Immediately silence internal SDK retry logs for offline/proxied environments
+try {
+  setLogLevel("silent")
+} catch {
+  // Ignore if unsupported
+}
 import {
   getAuth,
   signInWithEmailAndPassword,
@@ -138,7 +145,7 @@ export const initialProfileData: ProfileData = {
   location: "Hyderabad, India",
   graduationYear: "2027",
   education: "B.Sc. MSCS · 2027",
-  recognition: "Google Student Ambassador",
+  recognition: "Google Cloud Certified Professional Cloud Architect · Google Student Ambassador",
   languages: ["Telugu", "English", "Hindi", "French"],
   photoUrl: ""
 }
@@ -225,11 +232,14 @@ export const initialTechStackData: TechItem[] = [
   { id: "tech-gemini", name: "AI / LLM APIs (Gemini)", level: "Working Knowledge", category: "Backend & APIs", order: 18 },
 
   // Databases & Cloud
-  { id: "tech-mongo", name: "MongoDB", level: "Working Knowledge", category: "Databases & Cloud", order: 19 },
-  { id: "tech-supabase", name: "Supabase", level: "Working Knowledge", category: "Databases & Cloud", order: 20 },
-  { id: "tech-firebase", name: "Firebase (Firestore & Auth)", level: "Working Knowledge", category: "Databases & Cloud", order: 21 },
-  { id: "tech-mysql", name: "MySQL", level: "Working Knowledge", category: "Databases & Cloud", order: 22 },
-  { id: "tech-vercel", name: "Vercel", level: "Core", category: "Databases & Cloud", order: 23 },
+  { id: "tech-gcp", name: "Google Cloud Platform (GCP)", level: "Core", category: "Databases & Cloud", order: 19 },
+  { id: "tech-gcp-arch", name: "Google Cloud Architecture", level: "Core", category: "Databases & Cloud", order: 20 },
+  { id: "tech-gke", name: "Google Kubernetes Engine (GKE)", level: "Working Knowledge", category: "Databases & Cloud", order: 21 },
+  { id: "tech-mongo", name: "MongoDB", level: "Working Knowledge", category: "Databases & Cloud", order: 22 },
+  { id: "tech-supabase", name: "Supabase", level: "Working Knowledge", category: "Databases & Cloud", order: 23 },
+  { id: "tech-firebase", name: "Firebase (Firestore & Auth)", level: "Working Knowledge", category: "Databases & Cloud", order: 24 },
+  { id: "tech-mysql", name: "MySQL", level: "Working Knowledge", category: "Databases & Cloud", order: 25 },
+  { id: "tech-vercel", name: "Vercel", level: "Core", category: "Databases & Cloud", order: 26 },
 
   // Tools & Emerging
   { id: "tech-git", name: "Git", level: "Core", category: "Tools & Emerging", order: 24 },
@@ -506,7 +516,7 @@ export function getFirebaseDb(): Firestore | null {
 
         // Silence benign network retry logs in container/proxy environments
         try {
-          setLogLevel("error")
+          setLogLevel("silent")
         } catch {
           // Ignore if setLogLevel is unsupported in environment
         }
@@ -516,15 +526,20 @@ export function getFirebaseDb(): Firestore | null {
             currentApp,
             {
               experimentalForceLongPolling: true,
+              experimentalAutoDetectLongPolling: false,
             },
             databaseId
           )
         } catch {
           // If already initialized or custom settings unsupported, fallback to getFirestore
-          db = getFirestore(currentApp, databaseId)
+          try {
+            db = getFirestore(currentApp, databaseId)
+          } catch (e) {
+            console.debug("[Portfolio Firestore] Initialization fallback:", e)
+          }
         }
       } catch (e) {
-        console.warn("Failed to initialize Firestore:", e)
+        console.debug("[Portfolio Firestore] Failed to initialize Firestore:", e)
       }
     }
   }
@@ -673,7 +688,7 @@ export function subscribeToAuth(callback: (user: User | null) => void) {
 }
 
 // Helper to protect read operations against hanging network connections in preview/sandboxes
-async function withTimeout<T>(promise: Promise<T>, timeoutMs: number = 2500): Promise<T> {
+async function withTimeout<T>(promise: Promise<T>, timeoutMs: number = 4500): Promise<T> {
   let timeoutId: any
   const timeoutPromise = new Promise<never>((_, reject) => {
     timeoutId = setTimeout(() => {
@@ -695,12 +710,12 @@ export async function fetchProfileData(): Promise<ProfileData> {
   if (firestore) {
     try {
       const docRef = doc(firestore, "portfolio", "profile")
-      const snap = await withTimeout(getDoc(docRef), 2500)
+      const snap = await withTimeout(getDoc(docRef), 4500)
       if (snap.exists()) {
         return { ...initialProfileData, ...(snap.data() as ProfileData) }
       }
-    } catch (e) {
-      console.warn("Firestore fetch profile error:", e)
+    } catch (e: any) {
+      console.debug("[Portfolio Firestore] Profile fallback used:", e?.message || e)
     }
   }
   return initialProfileData
@@ -728,7 +743,7 @@ export async function fetchExperiencesData(): Promise<ExperienceItem[]> {
   if (firestore) {
     try {
       const colRef = collection(firestore, "portfolio_experience")
-      const snap = await withTimeout(getDocs(colRef), 2500)
+      const snap = await withTimeout(getDocs(colRef), 4500)
       if (!snap.empty) {
         const items = snap.docs.map((d) => ({
           id: d.id,
@@ -736,8 +751,8 @@ export async function fetchExperiencesData(): Promise<ExperienceItem[]> {
         })) as ExperienceItem[]
         return items.sort((a, b) => (a.order ?? 0) - (b.order ?? 0))
       }
-    } catch (e) {
-      console.warn("Firestore fetch experiences error:", e)
+    } catch (e: any) {
+      console.debug("[Portfolio Firestore] Experiences fallback used:", e?.message || e)
     }
   }
   return initialExperienceData
@@ -772,7 +787,7 @@ export async function fetchTechStackData(): Promise<TechItem[]> {
   if (firestore) {
     try {
       const colRef = collection(firestore, "portfolio_technologies")
-      const snap = await withTimeout(getDocs(colRef), 2500)
+      const snap = await withTimeout(getDocs(colRef), 4500)
       if (!snap.empty) {
         const items = snap.docs.map((d) => ({
           id: d.id,
@@ -780,8 +795,8 @@ export async function fetchTechStackData(): Promise<TechItem[]> {
         })) as TechItem[]
         return items.sort((a, b) => (a.order ?? 0) - (b.order ?? 0))
       }
-    } catch (e) {
-      console.warn("Firestore fetch technologies error:", e)
+    } catch (e: any) {
+      console.debug("[Portfolio Firestore] Technologies fallback used:", e?.message || e)
     }
   }
   return initialTechStackData
@@ -813,7 +828,7 @@ export async function fetchProjectsData(): Promise<ProjectItem[]> {
   if (firestore) {
     try {
       const colRef = collection(firestore, "portfolio_projects")
-      const snap = await withTimeout(getDocs(colRef), 2500)
+      const snap = await withTimeout(getDocs(colRef), 4500)
       if (!snap.empty) {
         const items = snap.docs.map((d) => ({
           id: d.id,
@@ -821,8 +836,8 @@ export async function fetchProjectsData(): Promise<ProjectItem[]> {
         })) as ProjectItem[]
         return items.sort((a, b) => (a.order ?? 0) - (b.order ?? 0))
       }
-    } catch (e) {
-      console.warn("Firestore fetch projects error:", e)
+    } catch (e: any) {
+      console.debug("[Portfolio Firestore] Projects fallback used:", e?.message || e)
     }
   }
   return initialProjectsData
@@ -854,12 +869,12 @@ export async function fetchSocialData(): Promise<SocialData> {
   if (firestore) {
     try {
       const docRef = doc(firestore, "portfolio", "social")
-      const snap = await withTimeout(getDoc(docRef), 2500)
+      const snap = await withTimeout(getDoc(docRef), 4500)
       if (snap.exists()) {
         return { ...initialSocialData, ...(snap.data() as SocialData) }
       }
-    } catch (e) {
-      console.warn("Firestore fetch social error:", e)
+    } catch (e: any) {
+      console.debug("[Portfolio Firestore] Social fallback used:", e?.message || e)
     }
   }
   return initialSocialData
@@ -887,12 +902,12 @@ export async function fetchContactData(): Promise<ContactData> {
   if (firestore) {
     try {
       const docRef = doc(firestore, "portfolio", "contact")
-      const snap = await withTimeout(getDoc(docRef), 2500)
+      const snap = await withTimeout(getDoc(docRef), 4500)
       if (snap.exists()) {
         return { ...initialContactData, ...(snap.data() as ContactData) }
       }
-    } catch (e) {
-      console.warn("Firestore fetch contact error:", e)
+    } catch (e: any) {
+      console.debug("[Portfolio Firestore] Contact fallback used:", e?.message || e)
     }
   }
   return initialContactData

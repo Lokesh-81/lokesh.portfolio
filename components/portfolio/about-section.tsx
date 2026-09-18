@@ -138,6 +138,38 @@ export function AboutSection() {
                 </p>
               </div>
             </div>
+
+            {/* Active Google Cloud Certification Callout */}
+            <div className="rounded-2xl border border-[#F9AB00]/40 bg-[#F9AB00]/10 p-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 backdrop-blur-md shadow-xs">
+              <div className="flex items-center gap-3">
+                <img
+                  src="/professional-cloud-architect-certification.svg"
+                  alt="Google Cloud Certified Professional Cloud Architect"
+                  className="h-11 w-11 shrink-0 object-contain drop-shadow-md"
+                  referrerPolicy="no-referrer"
+                />
+                <div>
+                  <div className="flex flex-wrap items-center gap-2">
+                    <span className="font-bold text-xs sm:text-sm text-[#E0E7FF]">
+                      Google Cloud Certified — Professional Cloud Architect
+                    </span>
+                    <span className="text-[10px] font-mono font-semibold px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">
+                      Active
+                    </span>
+                  </div>
+                  <p className="text-[11px] text-[#A5B4FC]/80 font-mono mt-0.5">
+                    Series #128554 · ID: 7cffa63a... · Valid Sep 2026 – Sep 2028 · 37 Google Cloud Skill Badges
+                  </p>
+                </div>
+              </div>
+              <a
+                href="#certifications"
+                className="inline-flex items-center gap-1.5 text-xs font-semibold text-[#FDE68A] hover:text-white transition-colors cursor-pointer shrink-0 rounded-xl bg-[#F9AB00]/20 border border-[#F9AB00]/40 px-3 py-1.5"
+              >
+                <span>View Cert & 37 Badges</span>
+                <ArrowUpRight className="h-3.5 w-3.5" />
+              </a>
+            </div>
           </div>
         </div>
 

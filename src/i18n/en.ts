@@ -4,6 +4,7 @@ export const en = {
   'nav.about': 'About',
   'nav.work': 'Work',
   'nav.skills': 'Skills',
+  'nav.certifications': 'Certifications',
   'nav.experience': 'Experience',
   'nav.contact': 'Contact',
   'nav.language': 'Language',

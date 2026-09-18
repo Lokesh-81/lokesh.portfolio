@@ -88,12 +88,6 @@ export function Hero({ onNavigate }: HeroProps) {
               <TextLoop
                 className="font-medium text-[#E0E7FF]"
                 interval={2600}
-                transition={{
-                  type: 'spring',
-                  stiffness: 900,
-                  damping: 80,
-                  mass: 10,
-                }}
                 variants={{
                   initial: {
                     y: 20,
@@ -118,16 +112,39 @@ export function Hero({ onNavigate }: HeroProps) {
                 <span className="text-[#60A5FA]">
                   {language === 'fr' ? 'Développeur Full Stack' : 'Full Stack Developer'}
                 </span>
+                <span className="text-[#FDE68A]">
+                  {language === 'fr' ? 'Architecte Cloud Google' : 'Google Cloud Architect'}
+                </span>
                 <span className="text-[#C084FC]">
                   {language === 'fr' ? 'Ingénieur IA' : 'AI Engineer'}
                 </span>
                 <span className="text-[#2DD4BF]">
                   {language === 'fr' ? 'Résolveur de Problèmes' : 'Creative Problem Solver'}
                 </span>
-                <span className="text-[#FDE68A]">
-                  {language === 'fr' ? 'Architecte Logiciel' : 'Software Architect'}
-                </span>
               </TextLoop>
+            </div>
+
+            {/* Featured Credential Pill */}
+            <div className="mt-4">
+              <button
+                onClick={() => onNavigate?.('certifications')}
+                className="group inline-flex items-center gap-2.5 rounded-full border border-[#F9AB00]/40 bg-[#F9AB00]/10 hover:bg-[#F9AB00]/20 px-3.5 py-1.5 backdrop-blur-md transition-all hover:scale-[1.02] active:scale-[0.98] cursor-pointer shadow-[0_0_16px_rgba(249,171,0,0.15)]"
+                title="View Google Cloud Certified Professional Cloud Architect Credential"
+              >
+                <img
+                  src="/professional-cloud-architect-certification.svg"
+                  alt="GCP Badge"
+                  className="h-5 w-5 object-contain"
+                  referrerPolicy="no-referrer"
+                />
+                <span className="text-xs font-semibold text-[#FDE68A] flex items-center gap-1.5">
+                  Google Cloud Certified Professional Cloud Architect
+                  <span className="text-[10px] font-mono px-1.5 py-0.5 rounded-full bg-[#F9AB00]/20 text-[#F9AB00]">
+                    Sep 2026
+                  </span>
+                </span>
+                <ArrowRight className="h-3 w-3 text-[#FDE68A] group-hover:translate-x-0.5 transition-transform" />
+              </button>
             </div>
 
             {/* 3. Description with TextEffect */}

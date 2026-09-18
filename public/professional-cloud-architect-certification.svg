@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500" width="100%" height="100%">
+  <defs>
+    <!-- Path for top curved text: "Cloud Architect" -->
+    <path id="top-arc" d="M 90 250 A 160 160 0 0 1 410 250" fill="none" />
+    <!-- Path for bottom curved text: "GOOGLE CLOUD CERTIFIED · PROFESSIONAL" -->
+    <path id="bottom-arc" d="M 425 250 A 175 175 0 0 1 75 250" fill="none" />
+    
+    <filter id="badge-glow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="8" stdDeviation="12" flood-color="#F9AB00" flood-opacity="0.25" />
+    </filter>
+  </defs>
+
+  <!-- Outer Circle Background -->
+  <circle cx="250" cy="250" r="240" fill="#F8FAFC" stroke="#E2E8F0" stroke-width="4" />
+  <circle cx="250" cy="250" r="236" fill="none" stroke="#CBD5E1" stroke-width="1.5" opacity="0.6" />
+
+  <!-- Thin inner guide line -->
+  <circle cx="250" cy="250" r="195" fill="none" stroke="#E2E8F0" stroke-width="1.5" />
+
+  <!-- Curved Text: Top "Cloud Architect" -->
+  <text font-family="system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif"
+        font-size="34"
+        font-weight="600"
+        fill="#3C4043"
+        letter-spacing="0.5">
+    <textPath href="#top-arc" startOffset="50%" text-anchor="middle">
+      Cloud Architect
+    </textPath>
+  </text>
+
+  <!-- Curved Text: Bottom "GOOGLE CLOUD CERTIFIED · PROFESSIONAL" -->
+  <text font-family="system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif"
+        font-size="18"
+        font-weight="700"
+        fill="#5F6368"
+        letter-spacing="3.8">
+    <textPath href="#bottom-arc" startOffset="50%" text-anchor="middle">
+      GOOGLE CLOUD CERTIFIED · PROFESSIONAL
+    </textPath>
+  </text>
+
+  <!-- Golden Ring -->
+  <circle cx="250" cy="250" r="148" fill="none" stroke="#F9AB00" stroke-width="20" stroke-linecap="round" filter="url(#badge-glow)" />
+
+  <!-- Inner Cloud Container -->
+  <g transform="translate(180, 192) scale(1.4)">
+    <!-- Google Cloud 4-color icon -->
+    <!-- Red part -->
+    <path d="M 48 8 C 34 8 22 17 17 30 C 19 29.5 21 29 23 29 C 33 29 42 36 44 46 C 46 45 49 44.5 52 44.5 C 60 44.5 67 49 71 56 C 73 53 74 49 74 45 C 74 24.5 57.5 8 48 8 Z" fill="#EA4335" />
+    <!-- Yellow/Orange part -->
+    <path d="M 17 30 C 7 32 0 41 0 52 C 0 64 10 74 22 74 C 23.5 74 25 73.8 26.5 73.5 C 24 70 22.5 65.5 22.5 61 C 22.5 49 31.5 39 43.5 37.5 C 41 32 35 28 28 28 C 24 28 20 29 17 30 Z" fill="#FBBC04" />
+    <!-- Green part -->
+    <path d="M 22 74 C 30 74 54 74 65 74 C 70 74 74 72 77 69 C 74 66 70 64 65 64 C 55 64 43 64 36 64 C 29 64 24 67 22 74 Z" fill="#34A853" />
+    <!-- Blue part -->
+    <path d="M 71 56 C 70 54 68 52 66 50.5 C 62 47 57 45 52 45 C 47.5 45 43.5 46.5 40 49 C 37 51 34.5 54 33.5 58 C 33 60 33 62 33.5 64 C 34.5 68 37 71.5 40.5 73.5 C 42 74 44 74 46 74 L 82 74 C 92 74 100 66 100 56 C 100 46.5 92.5 38.5 83 38 C 82 28 73.5 20 63 20 C 58 20 53.5 22 50 25 C 57 28 62 34 63.5 42 C 67 43.5 70 46.5 71 50.5 Z" fill="#4285F4" />
+  </g>
+</svg>

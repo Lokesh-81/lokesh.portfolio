@@ -9,13 +9,14 @@ import { Hero } from '@/components/portfolio/hero';
 import { AboutSection } from '@/components/portfolio/about-section';
 import { ProjectsSection } from '@/components/portfolio/projects-section';
 import { SkillsSection } from '@/components/portfolio/skills-section';
+import { CertificationsSection } from '@/components/portfolio/certifications-section';
 import { ExperienceSection } from '@/components/portfolio/experience-section';
 import { ContactSection } from '@/components/portfolio/contact-section';
 import { Footer } from '@/components/portfolio/footer';
 import { Spotlight } from '@/components/core/spotlight';
 import { Clock } from '@/components/core/sliding-number';
 
-type SectionId = 'home' | 'about' | 'work' | 'skills' | 'experience' | 'contact';
+type SectionId = 'home' | 'about' | 'work' | 'skills' | 'certifications' | 'experience' | 'contact';
 
 function PortfolioContent() {
   const [activeSection, setActiveSection] = useState<SectionId>('home');
@@ -25,7 +26,7 @@ function PortfolioContent() {
     if (typeof window !== 'undefined') {
       const handleHash = () => {
         const hash = window.location.hash.replace('#', '') as SectionId;
-        if (['home', 'about', 'work', 'skills', 'experience', 'contact'].includes(hash)) {
+        if (['home', 'about', 'work', 'skills', 'certifications', 'experience', 'contact'].includes(hash)) {
           setActiveSection(hash);
         }
       };
@@ -87,6 +88,7 @@ function PortfolioContent() {
               {activeSection === 'about' && <AboutSection />}
               {activeSection === 'work' && <ProjectsSection />}
               {activeSection === 'skills' && <SkillsSection />}
+              {activeSection === 'certifications' && <CertificationsSection onNavigate={handleNavigate} />}
               {activeSection === 'experience' && <ExperienceSection />}
               {activeSection === 'contact' && <ContactSection />}
             </div>

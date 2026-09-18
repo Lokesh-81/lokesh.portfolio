@@ -6,6 +6,7 @@ import {
   Activity,
   Package,
   Component,
+  Award,
   ScrollText,
   Mail,
   SunMoon,
@@ -60,6 +61,11 @@ export function PortfolioDock({
       id: 'skills',
       title: t('nav.skills') || 'Skills',
       icon: Component,
+    },
+    {
+      id: 'certifications',
+      title: t('nav.certifications') || 'Certifications',
+      icon: Award,
     },
     {
       id: 'experience',

@@ -66,8 +66,8 @@ export function PortfolioProvider({ children }: { children: React.ReactNode }) {
       setProjects(proj)
       setSocial(soc)
       setContact(cont)
-    } catch (e) {
-      console.warn("Failed to load live portfolio data, using defaults:", e)
+    } catch (e: any) {
+      console.debug("[Portfolio] Default dataset active:", e?.message || e)
     } finally {
       setLoading(false)
     }
