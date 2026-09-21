@@ -55,6 +55,12 @@ export interface ProfileData {
   recognition: string
   languages: string[]
   photoUrl: string
+  email?: string
+  phone?: string
+  availability?: string
+  heroImage?: string
+  tagline?: string
+  bio?: string
 }
 
 export interface ExperienceItem {
@@ -66,12 +72,14 @@ export interface ExperienceItem {
   endDate?: string
   current?: boolean
   location: string
-  type: string
+  type?: string
   description: string
   responsibilities: string[]
   technologies: string[]
   link?: string
-  order: number
+  order?: number
+  sortOrder?: number
+  display_order?: number
   featured?: boolean
 }
 
@@ -80,32 +88,43 @@ export type SkillLevel = "Core" | "Working Knowledge" | "Familiar"
 export interface TechItem {
   id: string
   name: string
-  level: SkillLevel
+  level: SkillLevel | string
   category: string
   iconName?: string
-  order: number
+  icon?: string
+  order?: number
+  sortOrder?: number
+  display_order?: number
 }
 
 export interface ProjectItem {
   id: string
-  number: string
+  number?: string
   name: string
+  title?: string
   category: string
-  tagline: string
+  tagline?: string
   shortDescription?: string
   description: string
-  whatIWorkedOn: string[]
+  whatIWorkedOn?: string[]
+  keyHighlights?: string[]
   technologies: string[]
-  status: "Live" | "In Development"
+  status?: "Live" | "In Development" | string
   liveUrl?: string
   githubUrl?: string
-  year: string
+  year?: string
   image?: string
-  accentColor: string
+  imageUrl?: string
+  coverImageUrl?: string
+  accentColor?: string
   gradient?: string
-  featured: boolean
-  visible: boolean
-  order: number
+  featured?: boolean
+  visible?: boolean
+  order?: number
+  role?: string
+  metrics?: string
+  sortOrder?: number
+  display_order?: number
 }
 
 export interface SocialProfile {
@@ -125,9 +144,16 @@ export interface ContactData {
   email1: string
   email2: string
   phone: string
-  whatsappNumber: string
-  whatsappUrl: string
-  locationDisplay: string
+  whatsappNumber?: string
+  whatsappUrl?: string
+  locationDisplay?: string
+  tag?: string
+  title?: string
+  titleAccent?: string
+  subtitle?: string
+  email?: string
+  location?: string
+  responseTime?: string
 }
 
 // Initial Authentic Defaults

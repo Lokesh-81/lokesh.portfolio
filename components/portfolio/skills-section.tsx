@@ -163,10 +163,10 @@ export function SkillsSection() {
 
                 <span
                   className={`rounded-full border px-2.5 py-0.5 text-[10px] ${getLevelBadge(
-                    tech.level
+                    tech.level as any
                   )}`}
                 >
-                  {getLevelText(tech.level)}
+                  {getLevelText(tech.level as any)}
                 </span>
               </div>
             ))}

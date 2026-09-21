@@ -7,6 +7,7 @@ import { TextLoop } from '@/components/core/text-loop';
 import { GlowEffect } from '@/components/core/glow-effect';
 import { Spotlight } from '@/components/core/spotlight';
 import { useLanguage } from '@/i18n';
+import { usePortfolio } from '@/lib/portfolio-context';
 import type { Variants } from 'framer-motion';
 
 export interface HeroProps {
@@ -45,6 +46,28 @@ const textEffectVariants: { container: Variants; item: Variants } = {
 
 export function Hero({ onNavigate }: HeroProps) {
   const { t, language } = useLanguage();
+  const { hero, profile } = usePortfolio();
+
+  const greetingText = hero?.greeting || t('hero.greeting');
+  const nameText = hero?.name || profile?.displayName || 'Poosala Lokesh.';
+  const imAText = hero?.imA || t('hero.imA') || "I'm a";
+  const bioText = hero?.bio || t('hero.bio');
+  const ctaWorkText = hero?.ctaWork || t('hero.ctaWork');
+  const ctaContactText = hero?.ctaContact || t('hero.ctaContact');
+
+  const defaultRotating = [
+    language === 'fr' ? 'Développeur Full Stack' : 'Full Stack Developer',
+    language === 'fr' ? 'Architecte Cloud Google' : 'Google Cloud Architect',
+    language === 'fr' ? 'Ingénieur IA' : 'AI Engineer',
+    language === 'fr' ? 'Résolveur de Problèmes' : 'Creative Problem Solver',
+  ];
+
+  const rotatingWords =
+    hero?.rotatingWords && hero.rotatingWords.length > 0
+      ? hero.rotatingWords
+      : defaultRotating;
+
+  const rotatingColors = ['text-[#60A5FA]', 'text-[#FDE68A]', 'text-[#C084FC]', 'text-[#2DD4BF]'];
 
   return (
     <div className="relative flex min-h-[90vh] w-full flex-col justify-center px-4 sm:px-8 py-10 sm:py-16">
@@ -62,29 +85,29 @@ export function Hero({ onNavigate }: HeroProps) {
             <h1 className="text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-light tracking-tight text-[#E0E7FF] leading-[1.08]">
               <span className="block text-[#A5B4FC] font-normal text-3xl sm:text-5xl md:text-6xl mb-1">
                 <TextEffect
-                  key={`greet-${language}`}
+                  key={`greet-${language}-${greetingText}`}
                   per="char"
                   delay={0.1}
                   variants={textEffectVariants}
                 >
-                  {t('hero.greeting')}
+                  {greetingText}
                 </TextEffect>
               </span>
               <span className="block font-bold tracking-tight text-[#E0E7FF]">
                 <TextEffect
-                  key={`name-${language}`}
+                  key={`name-${language}-${nameText}`}
                   per="char"
                   delay={0.25}
                   variants={textEffectVariants}
                 >
-                  Poosala Lokesh.
+                  {nameText}
                 </TextEffect>
               </span>
             </h1>
 
             {/* 2. Rotating / Changing Text Loop */}
             <div className="mt-6 flex flex-wrap items-center gap-2.5 text-lg text-[#CBD5E1] md:text-2xl font-light">
-              <span className="text-[#A5B4FC]/80 font-normal">{t('hero.imA') || "I'm a"}</span>
+              <span className="text-[#A5B4FC]/80 font-normal">{imAText}</span>
               <TextLoop
                 className="font-medium text-[#E0E7FF]"
                 interval={2600}
@@ -109,52 +132,47 @@ export function Hero({ onNavigate }: HeroProps) {
                   },
                 }}
               >
-                <span className="text-[#60A5FA]">
-                  {language === 'fr' ? 'Développeur Full Stack' : 'Full Stack Developer'}
-                </span>
-                <span className="text-[#FDE68A]">
-                  {language === 'fr' ? 'Architecte Cloud Google' : 'Google Cloud Architect'}
-                </span>
-                <span className="text-[#C084FC]">
-                  {language === 'fr' ? 'Ingénieur IA' : 'AI Engineer'}
-                </span>
-                <span className="text-[#2DD4BF]">
-                  {language === 'fr' ? 'Résolveur de Problèmes' : 'Creative Problem Solver'}
-                </span>
+                {rotatingWords.map((word, index) => (
+                  <span key={index} className={rotatingColors[index % rotatingColors.length]}>
+                    {word}
+                  </span>
+                ))}
               </TextLoop>
             </div>
 
             {/* Featured Credential Pill */}
-            <div className="mt-4">
-              <button
-                onClick={() => onNavigate?.('certifications')}
-                className="group inline-flex items-center gap-2.5 rounded-full border border-[#F9AB00]/40 bg-[#F9AB00]/10 hover:bg-[#F9AB00]/20 px-3.5 py-1.5 backdrop-blur-md transition-all hover:scale-[1.02] active:scale-[0.98] cursor-pointer shadow-[0_0_16px_rgba(249,171,0,0.15)]"
-                title="View Google Cloud Certified Professional Cloud Architect Credential"
-              >
-                <img
-                  src="/professional-cloud-architect-certification.svg"
-                  alt="GCP Badge"
-                  className="h-5 w-5 object-contain"
-                  referrerPolicy="no-referrer"
-                />
-                <span className="text-xs font-semibold text-[#FDE68A] flex items-center gap-1.5">
-                  Google Cloud Certified Professional Cloud Architect
-                  <span className="text-[10px] font-mono px-1.5 py-0.5 rounded-full bg-[#F9AB00]/20 text-[#F9AB00]">
-                    Sep 2026
+            {(hero?.showAvailability !== false) && (
+              <div className="mt-4">
+                <button
+                  onClick={() => onNavigate?.(hero?.featuredCredentialLink || 'certifications')}
+                  className="group inline-flex items-center gap-2.5 rounded-full border border-[#F9AB00]/40 bg-[#F9AB00]/10 hover:bg-[#F9AB00]/20 px-3.5 py-1.5 backdrop-blur-md transition-all hover:scale-[1.02] active:scale-[0.98] cursor-pointer shadow-[0_0_16px_rgba(249,171,0,0.15)]"
+                  title="View Google Cloud Certified Professional Cloud Architect Credential"
+                >
+                  <img
+                    src="/professional-cloud-architect-certification.svg"
+                    alt="GCP Badge"
+                    className="h-5 w-5 object-contain"
+                    referrerPolicy="no-referrer"
+                  />
+                  <span className="text-xs font-semibold text-[#FDE68A] flex items-center gap-1.5">
+                    {hero?.featuredCredentialTitle || 'Google Cloud Certified Professional Cloud Architect'}
+                    <span className="text-[10px] font-mono px-1.5 py-0.5 rounded-full bg-[#F9AB00]/20 text-[#F9AB00]">
+                      {hero?.featuredCredentialDate || 'Sep 2026'}
+                    </span>
                   </span>
-                </span>
-                <ArrowRight className="h-3 w-3 text-[#FDE68A] group-hover:translate-x-0.5 transition-transform" />
-              </button>
-            </div>
+                  <ArrowRight className="h-3 w-3 text-[#FDE68A] group-hover:translate-x-0.5 transition-transform" />
+                </button>
+              </div>
+            )}
 
             {/* 3. Description with TextEffect */}
             <div className="mt-5 max-w-2xl text-base sm:text-lg leading-relaxed text-[#CBD5E1]">
               <TextEffect
-                key={`bio-${language}`}
+                key={`bio-${language}-${bioText.slice(0, 20)}`}
                 per="word"
                 delay={0.4}
               >
-                {t('hero.bio')}
+                {bioText}
               </TextEffect>
             </div>
 
@@ -172,7 +190,7 @@ export function Hero({ onNavigate }: HeroProps) {
                   onClick={() => onNavigate?.('work')}
                   className="relative inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-[#2563EB] to-[#60A5FA] px-6 py-3.5 text-sm font-semibold text-white shadow-[0_4px_20px_rgba(37,99,235,0.4)] transition-transform hover:scale-[1.02] active:scale-[0.98] cursor-pointer"
                 >
-                  <span>{t('hero.ctaWork')}</span>
+                  <span>{ctaWorkText}</span>
                   <ArrowRight className="h-4 w-4" />
                 </button>
               </div>
@@ -191,7 +209,7 @@ export function Hero({ onNavigate }: HeroProps) {
                   className="relative inline-flex items-center gap-2 rounded-xl border border-[#1F2937] bg-[#111827]/90 px-6 py-3.5 text-sm font-semibold text-[#E0E7FF] shadow-xs transition-all hover:border-[#60A5FA] hover:bg-[#1F2937] active:scale-[0.98] cursor-pointer"
                 >
                   <Mail className="h-4 w-4 text-[#A5B4FC]" />
-                  <span>{t('hero.ctaContact')}</span>
+                  <span>{ctaContactText}</span>
                 </button>
               </div>
             </div>
@@ -201,3 +219,4 @@ export function Hero({ onNavigate }: HeroProps) {
     </div>
   );
 }
+

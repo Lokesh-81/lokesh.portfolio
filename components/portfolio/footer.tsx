@@ -69,8 +69,18 @@ export function Footer({ onNavigate }: FooterProps) {
           </div>
         </div>
 
-        {/* Live IST Clock as the ABSOLUTE FINAL, BOTTOM-MOST ELEMENT below copyright row */}
-        <div className="border-t border-[#1F2937]/50 pt-5 flex items-center justify-center">
+        {/* Live IST Clock & Discreet Studio entry */}
+        <div className="border-t border-[#1F2937]/50 pt-5 flex items-center justify-between">
+          <div className="w-16">
+            <button
+              onClick={() => onNavigate?.('studio')}
+              className="text-[10px] text-[#334155] hover:text-[#60A5FA] transition-colors cursor-pointer flex items-center gap-1 font-mono"
+              title="Admin Studio CMS"
+            >
+              <span>⚙ studio</span>
+            </button>
+          </div>
+
           <div className="inline-flex items-center gap-2.5 rounded-full border border-[#1F2937] bg-[#111827]/80 px-4 py-1.5 shadow-sm">
             <span className="font-mono text-[11px] font-semibold text-[#60A5FA] tracking-wider uppercase">
               IST Live Clock
@@ -78,6 +88,8 @@ export function Footer({ onNavigate }: FooterProps) {
             <span className="text-[#334155]">·</span>
             <Clock />
           </div>
+
+          <div className="w-16" />
         </div>
       </div>
     </footer>

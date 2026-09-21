@@ -166,7 +166,7 @@ export function SkillsExperienceSection() {
                 <div className="mt-3">
                   <span
                     className={`inline-block rounded-md border px-2 py-0.5 text-[10px] font-mono font-medium ${getLevelBadge(
-                      tech.level
+                      tech.level as any
                     )}`}
                   >
                     {tech.level}

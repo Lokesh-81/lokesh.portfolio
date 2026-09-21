@@ -6,28 +6,35 @@ export interface CertificationDomain {
 export interface Certification {
   id: string
   title: string
-  badgeTitle: string
-  subtitle: string
-  recipient: string
-  certifiedAs: string
+  badgeTitle?: string
+  subtitle?: string
+  recipient?: string
+  certifiedAs?: string
   issuer: string
   issuerLogo?: string
-  seriesId: string
-  issueDate: string
-  expirationDate: string
-  credentialId: string
-  verificationUrl: string
-  signatory: {
+  seriesId?: string
+  issueDate?: string
+  expirationDate?: string
+  expiryDate?: string
+  credentialId?: string
+  verificationUrl?: string
+  credentialUrl?: string
+  signatory?: {
     name: string
     title: string
   }
-  status: 'Active' | 'Renewed' | 'Lifetime'
-  badgeImage: string
-  featured: boolean
-  description: string
-  domains: CertificationDomain[]
-  technologies: string[]
-  examScope: string[]
+  status?: 'Active' | 'Renewed' | 'Lifetime' | string
+  badgeImage?: string
+  badgeUrl?: string
+  featured?: boolean
+  description?: string
+  domains?: CertificationDomain[]
+  technologies?: string[]
+  examScope?: string[]
+  skills?: string[]
+  display_order?: number
+  order?: number
+  sortOrder?: number
 }
 
 export type BadgeCategory =
@@ -42,12 +49,17 @@ export type BadgeCategory =
 export interface SkillBadge {
   id: string;
   title: string;
-  category: BadgeCategory;
-  level: 'Introductory' | 'Intermediate' | 'Advanced';
-  issuer: 'Google Cloud';
-  issuedDate: string;
-  description: string;
-  skills: string[];
+  category?: BadgeCategory | string;
+  level?: 'Introductory' | 'Intermediate' | 'Advanced' | string;
+  issuer: string;
+  issuedDate?: string;
+  date?: string;
+  description?: string;
+  skills?: string[];
+  url?: string;
+  display_order?: number;
+  order?: number;
+  sortOrder?: number;
 }
 
 export const certifications: Certification[] = [

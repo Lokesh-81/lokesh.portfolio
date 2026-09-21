@@ -18,32 +18,79 @@ import { Clock } from '@/components/core/sliding-number';
 
 type SectionId = 'home' | 'about' | 'work' | 'skills' | 'certifications' | 'experience' | 'contact';
 
+import { StudioApp } from './studio/StudioApp';
+
 function PortfolioContent() {
   const [activeSection, setActiveSection] = useState<SectionId>('home');
+  const [isStudioRoute, setIsStudioRoute] = useState<boolean>(() => {
+    if (typeof window !== 'undefined') {
+      const isPath = window.location.pathname.startsWith('/studio');
+      const isHash = window.location.hash === '#studio' || window.location.hash.startsWith('#/studio');
+      return isPath || isHash;
+    }
+    return false;
+  });
 
-  // Support direct URL hash loading on mount and hashchange
+  // Support direct URL hash and pathname loading on mount and popstate/hashchange
   useEffect(() => {
     if (typeof window !== 'undefined') {
-      const handleHash = () => {
-        const hash = window.location.hash.replace('#', '') as SectionId;
+      const checkRoute = () => {
+        const path = window.location.pathname;
+        const hash = window.location.hash.replace('#', '');
+
+        if (path.startsWith('/studio') || hash === 'studio' || hash.startsWith('/studio')) {
+          setIsStudioRoute(true);
+          return;
+        }
+
+        setIsStudioRoute(false);
         if (['home', 'about', 'work', 'skills', 'certifications', 'experience', 'contact'].includes(hash)) {
-          setActiveSection(hash);
+          setActiveSection(hash as SectionId);
         }
       };
 
-      handleHash();
-      window.addEventListener('hashchange', handleHash);
-      return () => window.removeEventListener('hashchange', handleHash);
+      checkRoute();
+      window.addEventListener('hashchange', checkRoute);
+      window.addEventListener('popstate', checkRoute);
+      return () => {
+        window.removeEventListener('hashchange', checkRoute);
+        window.removeEventListener('popstate', checkRoute);
+      };
     }
   }, []);
 
   const handleNavigate = (sectionId: string) => {
+    if (sectionId === 'studio') {
+      setIsStudioRoute(true);
+      if (typeof window !== 'undefined') {
+        window.history.pushState(null, '', '#studio');
+      }
+      return;
+    }
+
     const validSection = sectionId as SectionId;
+    setIsStudioRoute(false);
     setActiveSection(validSection);
     if (typeof window !== 'undefined') {
-      window.history.replaceState(null, '', `#${validSection}`);
+      if (window.location.pathname.startsWith('/studio')) {
+        window.history.pushState(null, '', `/#${validSection}`);
+      } else {
+        window.history.replaceState(null, '', `#${validSection}`);
+      }
     }
   };
+
+  const handleExitStudio = () => {
+    setIsStudioRoute(false);
+    setActiveSection('home');
+    if (typeof window !== 'undefined') {
+      window.history.pushState(null, '', '/#home');
+    }
+  };
+
+  if (isStudioRoute) {
+    return <StudioApp onExitStudio={handleExitStudio} />;
+  }
 
   return (
     <div className="relative h-screen w-full overflow-hidden bg-[#0B132B] text-[#E0E7FF] selection:bg-[#2563EB]/40 selection:text-[#E0E7FF] flex flex-col font-sans">
