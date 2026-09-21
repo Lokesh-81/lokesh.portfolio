@@ -79,6 +79,7 @@ export function StudioLayout({ onExitStudio }: StudioLayoutProps) {
     isSupabaseConnected,
     syncFromSupabase,
     logoutStudioAdmin,
+    adminUser,
   } = usePortfolio();
 
   const [activeTab, setActiveTab] = useState<StudioTabId>('dashboard');
@@ -396,7 +397,9 @@ export function StudioLayout({ onExitStudio }: StudioLayoutProps) {
                 PL
               </div>
               <div className="hidden sm:block text-left">
-                <p className="text-xs font-semibold text-[#E0E7FF]">Poosala Lokesh</p>
+                <p className="text-xs font-semibold text-[#E0E7FF]">
+                  {adminUser?.displayName || adminUser?.username || 'Lokesh'}
+                </p>
                 <p className="text-[10px] text-emerald-400 font-mono">Admin Verified</p>
               </div>
             </div>

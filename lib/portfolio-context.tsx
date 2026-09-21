@@ -45,6 +45,7 @@ import {
   CACHE_KEYS,
   setLocal
 } from "@/lib/supabase"
+import { studioAuth, type AdminUser } from "@/lib/studio-auth"
 
 export interface PortfolioContextValue {
   // Core Portfolio Entities
@@ -76,8 +77,11 @@ export interface PortfolioContextValue {
   // Auth
   isAdminAuthenticated: boolean
   isAuthLoading: boolean
-  loginStudioAdmin: (passwordOrEmail: string, password?: string) => Promise<boolean>
+  adminUser: { id?: string; username: string; displayName: string; role: string } | null
+  loginStudioAdmin: (username: string, password?: string, rememberMe?: boolean) => Promise<{ success: boolean; error?: string }>
   logoutStudioAdmin: () => Promise<void>
+  changeAdminPassword: (currentPassword: string, newPassword: string) => Promise<{ success: boolean; error?: string; message?: string }>
+  logoutAllAdminSessions: () => Promise<{ success: boolean }>
 
   // Refresh
   refreshAll: () => Promise<void>
@@ -712,97 +716,69 @@ export function PortfolioProvider({ children }: { children: React.ReactNode }) {
     }
   }
 
-  // AUTH STATE & ACTIONS
+  // AUTH STATE & ACTIONS (Username + Password only, no email)
   const [isAdminAuthenticated, setIsAdminAuthenticated] = useState<boolean>(false)
+  const [adminUser, setAdminUser] = useState<AdminUser | null>(null)
   const [isAuthLoading, setIsAuthLoading] = useState<boolean>(true)
 
   useEffect(() => {
     const initAuth = async () => {
       try {
-        const { data } = await supabase.auth.getSession()
-        if (data.session) {
+        const res = await studioAuth.verifySession()
+        if (res.valid) {
           setIsAdminAuthenticated(true)
-        } else if (typeof window !== 'undefined') {
-          const storedAdmin = sessionStorage.getItem('studio_admin_session')
-          if (storedAdmin === 'active') {
-            setIsAdminAuthenticated(true)
-          }
+          setAdminUser(res.user || { username: 'Lokesh', displayName: 'Lokesh', role: 'admin' })
+        } else {
+          setIsAdminAuthenticated(false)
+          setAdminUser(null)
         }
       } catch {
-        if (typeof window !== 'undefined') {
-          const storedAdmin = sessionStorage.getItem('studio_admin_session')
-          if (storedAdmin === 'active') {
-            setIsAdminAuthenticated(true)
-          }
-        }
+        setIsAdminAuthenticated(false)
+        setAdminUser(null)
       } finally {
         setIsAuthLoading(false)
       }
     }
 
     initAuth()
-
-    const { data: authListener } = supabase.auth.onAuthStateChange((_event, session) => {
-      if (session) {
-        setIsAdminAuthenticated(true)
-        if (typeof window !== 'undefined') {
-          sessionStorage.setItem('studio_admin_session', 'active')
-        }
-      }
-    })
-
-    return () => {
-      authListener.subscription.unsubscribe()
-    }
   }, [])
 
-  const loginStudioAdmin = async (passwordOrEmail: string, passwordInput?: string): Promise<boolean> => {
+  const loginStudioAdmin = async (
+    usernameOrPass: string,
+    passwordInput?: string,
+    rememberMe: boolean = false
+  ): Promise<{ success: boolean; error?: string }> => {
     setIsAuthLoading(true)
     try {
-      const email = passwordInput ? passwordOrEmail : ((import.meta as any).env?.VITE_ADMIN_EMAIL || 'poosala15@gmail.com')
-      const password = passwordInput || passwordOrEmail
-
-      // Attempt Supabase Auth email/password sign in
-      try {
-        const { data, error } = await supabase.auth.signInWithPassword({
-          email,
-          password,
-        })
-        if (!error && data.session) {
-          setIsAdminAuthenticated(true)
-          if (typeof window !== 'undefined') {
-            sessionStorage.setItem('studio_admin_session', 'active')
-          }
-          return true
-        }
-      } catch (authErr) {
-        console.debug('[Auth] Supabase auth note:', authErr)
-      }
-
-      // Secure admin check without persisting plaintext credentials
-      const validKey = (import.meta as any).env?.VITE_STUDIO_ADMIN_KEY || 'Lokesh@Admin2026'
-      if (password === validKey || password === 'Lokesh@Studio81' || password === 'admin' || password === 'admin123') {
+      const username = passwordInput !== undefined ? usernameOrPass : 'Lokesh'
+      const password = passwordInput !== undefined ? passwordInput : usernameOrPass
+      const res = await studioAuth.login(username, password, rememberMe)
+      if (res.success) {
         setIsAdminAuthenticated(true)
-        if (typeof window !== 'undefined') {
-          sessionStorage.setItem('studio_admin_session', 'active')
-        }
-        return true
+        setAdminUser(res.user || { username: 'Lokesh', displayName: 'Lokesh', role: 'admin' })
+        return { success: true }
       }
-
-      return false
+      return { success: false, error: res.error || 'Invalid username or password' }
     } finally {
       setIsAuthLoading(false)
     }
   }
 
   const logoutStudioAdmin = async () => {
-    try {
-      await supabase.auth.signOut()
-    } catch {}
-    if (typeof window !== 'undefined') {
-      sessionStorage.removeItem('studio_admin_session')
-    }
+    await studioAuth.logout()
     setIsAdminAuthenticated(false)
+    setAdminUser(null)
+  }
+
+  const changeAdminPassword = async (currentPassword: string, newPassword: string) => {
+    return await studioAuth.changePassword(currentPassword, newPassword)
+  }
+
+  const logoutAllAdminSessions = async () => {
+    const res = await studioAuth.logoutAll()
+    setIsAdminAuthenticated(false)
+    setAdminUser(null)
+    return res
   }
 
   const activeResume = resumes.find((r) => r.isActive) || resumes[0]
@@ -836,8 +812,11 @@ export function PortfolioProvider({ children }: { children: React.ReactNode }) {
         isSupabaseConnected: supabaseStatus === 'connected',
         isAdminAuthenticated,
         isAuthLoading,
+        adminUser,
         loginStudioAdmin,
         logoutStudioAdmin,
+        changeAdminPassword,
+        logoutAllAdminSessions,
         refreshAll,
         syncFromSupabase: refreshAll,
         updateProfileState,

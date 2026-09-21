@@ -21,20 +21,69 @@ import {
 } from '@/lib/data/certifications';
 
 // Safe client-side Supabase credentials
+const getEnvVar = (key: string, fallback: string): string => {
+  try {
+    if (typeof import.meta !== 'undefined' && (import.meta as any).env) {
+      const val = (import.meta as any).env[key];
+      if (val && typeof val === 'string' && val.trim().length > 0) {
+        return val.trim();
+      }
+    }
+  } catch {}
+  return fallback;
+};
+
 export const SUPABASE_URL =
-  (import.meta as any).env?.VITE_SUPABASE_URL || 'https://xkkwfrwamvictgrhepgg.supabase.co';
+  getEnvVar('VITE_SUPABASE_URL', '') ||
+  getEnvVar('NEXT_PUBLIC_SUPABASE_URL', '') ||
+  'https://xkkwfrwamvictgrhepgg.supabase.co';
+
 export const SUPABASE_ANON_KEY =
-  (import.meta as any).env?.VITE_SUPABASE_ANON_KEY ||
+  getEnvVar('VITE_SUPABASE_ANON_KEY', '') ||
+  getEnvVar('NEXT_PUBLIC_SUPABASE_ANON_KEY', '') ||
   'sb_publishable_2nLc2vuaV6KJQM5VODAAGg_X2NrdvH6';
 
 export const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
   auth: {
-    persistSession: true,
-    autoRefreshToken: true,
-    detectSessionInUrl: true,
-    storage: typeof window !== 'undefined' ? window.localStorage : undefined,
+    persistSession: false,
+    autoRefreshToken: false,
+    detectSessionInUrl: false,
+  },
+  global: {
+    headers: {
+      'x-application-name': 'lokesh-portfolio-studio',
+    },
   },
 });
+
+export function getSupabaseDiagnostics(): {
+  isConfigured: boolean;
+  hasUrl: boolean;
+  hasAnonKey: boolean;
+  url: string;
+  source: string;
+  message: string;
+} {
+  const hasUrl = Boolean(SUPABASE_URL && SUPABASE_URL.trim().length > 0);
+  const hasAnonKey = Boolean(SUPABASE_ANON_KEY && SUPABASE_ANON_KEY.trim().length > 0);
+  const isConfigured = hasUrl && hasAnonKey;
+
+  let message = 'Supabase client configured with project URL.';
+  if (!hasUrl) {
+    message = 'Missing VITE_SUPABASE_URL environment variable.';
+  } else if (!hasAnonKey) {
+    message = 'Missing VITE_SUPABASE_ANON_KEY environment variable.';
+  }
+
+  return {
+    isConfigured,
+    hasUrl,
+    hasAnonKey,
+    url: SUPABASE_URL,
+    source: (import.meta as any).env?.VITE_SUPABASE_URL ? 'VITE_SUPABASE_URL' : 'Default Project Endpoint',
+    message,
+  };
+}
 
 export const STORAGE_BUCKET = 'portfolio-media';
 
@@ -652,15 +701,43 @@ export async function loadPortfolioDataset() {
   return result;
 }
 
-export async function testSupabaseConnection(): Promise<{ connected: boolean; profileCount?: number; error?: string }> {
+export async function testSupabaseConnection(): Promise<{
+  connected: boolean;
+  profileCount?: number;
+  error?: string;
+  diagnostic?: string;
+}> {
+  const diag = getSupabaseDiagnostics();
+  if (!diag.isConfigured) {
+    return {
+      connected: false,
+      error: diag.message,
+      diagnostic: 'Please configure VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY in your deployment environment.',
+    };
+  }
+
   try {
     const { data, error, count } = await supabase.from('profiles').select('id', { count: 'exact' });
     if (error) {
-      return { connected: false, error: error.message };
+      return {
+        connected: false,
+        error: error.message,
+        diagnostic:
+          error.code === 'PGRST116' || error.message.includes('relation') || error.message.includes('does not exist')
+            ? 'Connected to Supabase project, but tables are pending. Run supabase/schema.sql in the Supabase SQL Editor.'
+            : error.message,
+      };
     }
     return { connected: true, profileCount: count || (data ? data.length : 0) };
   } catch (err: any) {
-    return { connected: false, error: err?.message || 'Network error' };
+    const isNetwork = err?.name === 'TypeError' || err?.message?.includes('fetch');
+    return {
+      connected: false,
+      error: isNetwork ? 'Network error: Failed to fetch Supabase endpoint.' : err?.message || 'Connection failed',
+      diagnostic: isNetwork
+        ? `Ensure ${SUPABASE_URL} is active and not blocked by CORS or network policies.`
+        : err?.message,
+    };
   }
 }
 
