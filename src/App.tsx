@@ -44,6 +44,10 @@ function PortfolioContent() {
         }
 
         setIsStudioRoute(false);
+        if (hash === 'testimonials') {
+          setActiveSection('experience');
+          return;
+        }
         if (['home', 'about', 'work', 'skills', 'certifications', 'experience', 'contact'].includes(hash)) {
           setActiveSection(hash as SectionId);
         }

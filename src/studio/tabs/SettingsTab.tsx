@@ -55,10 +55,8 @@ export function SettingsTab({ showToast }: SettingsTabProps) {
   const [dbHealth, setDbHealth] = useState<any>(null);
 
   // Security / Admin Password Change State
-  const [currentPassword, setCurrentPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
-  const [showCurrentPassword, setShowCurrentPassword] = useState(false);
   const [showNewPassword, setShowNewPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [isUpdatingPassword, setIsUpdatingPassword] = useState(false);
@@ -92,11 +90,6 @@ export function SettingsTab({ showToast }: SettingsTabProps) {
     e.preventDefault();
     setPasswordStatus(null);
 
-    if (!currentPassword) {
-      setPasswordStatus({ type: 'error', message: 'Please enter your current password.' });
-      return;
-    }
-
     if (!newPassword) {
       setPasswordStatus({ type: 'error', message: 'Please enter a new password.' });
       return;
@@ -120,20 +113,19 @@ export function SettingsTab({ showToast }: SettingsTabProps) {
 
     setIsUpdatingPassword(true);
     try {
-      const res = await changeAdminPassword(currentPassword, newPassword);
+      const res = await changeAdminPassword(newPassword);
       if (res.success) {
         setPasswordStatus({
           type: 'success',
           message: res.message || 'Password successfully updated!',
         });
         showToast('Admin password updated successfully!', 'success');
-        setCurrentPassword('');
         setNewPassword('');
         setConfirmPassword('');
       } else {
         setPasswordStatus({
           type: 'error',
-          message: res.error || 'Failed to update password. Please check your current password.',
+          message: res.error || 'Failed to update password.',
         });
         showToast(res.error || 'Password update failed', 'error');
       }
@@ -311,32 +303,6 @@ export function SettingsTab({ showToast }: SettingsTabProps) {
           )}
 
           <form onSubmit={handleChangePassword} className="space-y-3">
-            {/* Current Password */}
-            <div>
-              <label className="block text-xs font-medium text-[#CBD5E1] mb-1">
-                Current Password
-              </label>
-              <div className="relative">
-                <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3 text-[#64748B]">
-                  <Lock className="h-3.5 w-3.5" />
-                </div>
-                <input
-                  type={showCurrentPassword ? 'text' : 'password'}
-                  value={currentPassword}
-                  onChange={(e) => setCurrentPassword(e.target.value)}
-                  placeholder="Enter your current password"
-                  className="w-full rounded-xl border border-[#1F2937] bg-[#111827] pl-9 pr-10 py-2 text-xs text-[#E0E7FF] placeholder-[#475569] focus:border-[#60A5FA] focus:outline-none font-mono"
-                />
-                <button
-                  type="button"
-                  onClick={() => setShowCurrentPassword(!showCurrentPassword)}
-                  className="absolute inset-y-0 right-0 flex items-center pr-3 text-[#64748B] hover:text-[#CBD5E1] cursor-pointer"
-                >
-                  {showCurrentPassword ? <EyeOff className="h-3.5 w-3.5" /> : <Eye className="h-3.5 w-3.5" />}
-                </button>
-              </div>
-            </div>
-
             <div className="grid gap-3 sm:grid-cols-2">
               {/* New Password */}
               <div>

@@ -48,6 +48,8 @@ import { MessagesTab } from './tabs/MessagesTab';
 import { MediaTab } from './tabs/MediaTab';
 import { ResumeTab } from './tabs/ResumeTab';
 import { SettingsTab } from './tabs/SettingsTab';
+import { TestimonialsTab } from './tabs/TestimonialsTab';
+import { Quote } from 'lucide-react';
 
 export type StudioTabId =
   | 'dashboard'
@@ -60,6 +62,7 @@ export type StudioTabId =
   | 'skills'
   | 'certifications'
   | 'achievements'
+  | 'testimonials'
   | 'languages'
   | 'social'
   | 'contact'
@@ -113,6 +116,7 @@ export function StudioLayout({ onExitStudio }: StudioLayoutProps) {
     { id: 'skills', label: 'Tech Stack & Skills', icon: Cpu, category: 'Portfolio Content' },
     { id: 'certifications', label: 'Certifications', icon: Award, category: 'Portfolio Content' },
     { id: 'achievements', label: 'Achievements', icon: Trophy, category: 'Portfolio Content' },
+    { id: 'testimonials', label: 'Testimonials', icon: Quote, category: 'Portfolio Content' },
     { id: 'languages', label: 'Languages', icon: Languages, category: 'Portfolio Content' },
     { id: 'social', label: 'Social Links', icon: Share2, category: 'Portfolio Content' },
     { id: 'contact', label: 'Contact Settings', icon: Phone, category: 'Portfolio Content' },
@@ -155,6 +159,8 @@ export function StudioLayout({ onExitStudio }: StudioLayoutProps) {
         return <CertificationsTab showToast={showToast} />;
       case 'achievements':
         return <AchievementsTab showToast={showToast} />;
+      case 'testimonials':
+        return <TestimonialsTab showToast={showToast} />;
       case 'languages':
         return <LanguagesTab showToast={showToast} />;
       case 'social':

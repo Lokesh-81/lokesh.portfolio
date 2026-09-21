@@ -22,11 +22,20 @@ interface MessagesTabProps {
 }
 
 export function MessagesTab({ showToast }: MessagesTabProps) {
-  const { messages, updateMessageStatus, deleteMessage } = usePortfolio();
+  const { messages, updateMessageStatus, deleteMessage, refreshAll } = usePortfolio();
 
   const [statusFilter, setStatusFilter] = useState<'all' | 'new' | 'read' | 'archived'>('all');
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedMessage, setSelectedMessage] = useState<ContactMessage | null>(null);
+
+  React.useEffect(() => {
+    const handleNewMessage = (e: any) => {
+      refreshAll?.();
+      showToast('New client message received!', 'success');
+    };
+    window.addEventListener('portfolio_message_added', handleNewMessage);
+    return () => window.removeEventListener('portfolio_message_added', handleNewMessage);
+  }, [refreshAll, showToast]);
 
   const filteredMessages = messages.filter((m) => {
     const matchesStatus = statusFilter === 'all' || m.status === statusFilter;

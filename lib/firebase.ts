@@ -112,19 +112,24 @@ export interface ProjectItem {
   status?: "Live" | "In Development" | string
   liveUrl?: string
   githubUrl?: string
+  caseStudyUrl?: string
   year?: string
   image?: string
   imageUrl?: string
   coverImageUrl?: string
+  galleryImages?: string[]
   accentColor?: string
   gradient?: string
   featured?: boolean
+  isFeatured?: boolean
+  isPublished?: boolean
   visible?: boolean
   order?: number
   role?: string
   metrics?: string
   sortOrder?: number
   display_order?: number
+  displayOrder?: number
 }
 
 export interface SocialProfile {

@@ -154,7 +154,13 @@ export const studioAuth = {
     // verify against the secure bcrypt hash for the initial admin account (Lokesh).
     // Note: The plaintext password is NEVER stored or compared directly.
     try {
+      const customUsername =
+        typeof window !== 'undefined'
+          ? localStorage.getItem('lokesh_studio_custom_username')
+          : null;
+      const expectedUsername = customUsername || INITIAL_ADMIN_USER.username;
       const isUsernameMatch =
+        cleanUsername.toLowerCase() === expectedUsername.toLowerCase() ||
         cleanUsername.toLowerCase() === INITIAL_ADMIN_USER.username.toLowerCase();
 
       // Check if user updated password locally in custom hash storage
@@ -171,7 +177,11 @@ export const studioAuth = {
         const token = generateSecureToken();
         const duration = rememberMe ? 30 * 86400000 : 86400000;
         const expiresAt = new Date(Date.now() + duration).toISOString();
-        const user: AdminUser = { ...INITIAL_ADMIN_USER };
+        const user: AdminUser = {
+          ...INITIAL_ADMIN_USER,
+          username: customUsername || INITIAL_ADMIN_USER.username,
+          displayName: customUsername || INITIAL_ADMIN_USER.displayName,
+        };
 
         saveSession(token, user, expiresAt, rememberMe);
         return { success: true, user };
@@ -263,16 +273,76 @@ export const studioAuth = {
   },
 
   /**
-   * Change admin password
+   * Update admin username and display name
+   */
+  async updateUsername(
+    newUsername: string,
+    displayName?: string
+  ): Promise<{ success: boolean; error?: string; message?: string; user?: AdminUser }> {
+    const cleanUsername = newUsername.trim();
+    if (!cleanUsername || cleanUsername.length < 3) {
+      return { success: false, error: 'Username must be at least 3 characters long' };
+    }
+
+    const token = getStoredSessionToken();
+    const targetDisplayName = displayName?.trim() || cleanUsername;
+
+    if (token) {
+      try {
+        const { data, error } = await supabase.rpc('studio_admin_update_profile', {
+          p_session_token: token,
+          p_new_username: cleanUsername,
+          p_new_display_name: targetDisplayName,
+        });
+
+        if (!error && data && data.success) {
+          const updatedUser: AdminUser = {
+            id: data.user?.id,
+            username: data.user?.username || cleanUsername,
+            displayName: data.user?.display_name || targetDisplayName,
+            role: data.user?.role || 'admin',
+          };
+          if (typeof window !== 'undefined') {
+            const rememberMe = !!localStorage.getItem(STORAGE_KEY_TOKEN);
+            const storage = rememberMe ? localStorage : sessionStorage;
+            storage.setItem(STORAGE_KEY_USER, JSON.stringify(updatedUser));
+            localStorage.setItem('lokesh_studio_custom_username', cleanUsername);
+          }
+          return { success: true, message: 'Admin username updated successfully!', user: updatedUser };
+        } else if (data?.error) {
+          return { success: false, error: data.error };
+        }
+      } catch (rpcErr) {
+        console.warn('[Studio Auth] Update profile RPC notice:', rpcErr);
+      }
+    }
+
+    // Fallback: update locally
+    const updatedUser: AdminUser = {
+      username: cleanUsername,
+      displayName: targetDisplayName,
+      role: 'admin',
+    };
+    if (typeof window !== 'undefined') {
+      const rememberMe = !!localStorage.getItem(STORAGE_KEY_TOKEN);
+      const storage = rememberMe ? localStorage : sessionStorage;
+      storage.setItem(STORAGE_KEY_USER, JSON.stringify(updatedUser));
+      localStorage.setItem('lokesh_studio_custom_username', cleanUsername);
+    }
+    return { success: true, message: 'Admin username updated successfully!', user: updatedUser };
+  },
+
+  /**
+   * Change admin password (session authentication is sufficient)
    */
   async changePassword(
-    currentPassword: string,
-    newPassword: string
+    newPassword: string,
+    currentPassword?: string
   ): Promise<{ success: boolean; error?: string; message?: string }> {
     const token = getStoredSessionToken();
 
-    if (!currentPassword || !newPassword) {
-      return { success: false, error: 'Please enter current and new password' };
+    if (!newPassword) {
+      return { success: false, error: 'Please enter a new password' };
     }
 
     if (newPassword.length < 6) {
@@ -282,17 +352,21 @@ export const studioAuth = {
       };
     }
 
-    // 1. Try Supabase PostgreSQL RPC
+    // 1. Try Supabase PostgreSQL RPC with session token
     if (token) {
       try {
         const { data, error } = await supabase.rpc('studio_admin_change_password', {
           p_session_token: token,
-          p_current_password: currentPassword,
           p_new_password: newPassword,
+          p_current_password: currentPassword || '',
         });
 
         if (!error && data) {
           if (data.success) {
+            if (typeof window !== 'undefined') {
+              const newHash = bcrypt.hashSync(newPassword, 10);
+              localStorage.setItem('lokesh_studio_custom_hash', newHash);
+            }
             return {
               success: true,
               message: data.message || 'Password updated successfully!',
@@ -311,18 +385,6 @@ export const studioAuth = {
 
     // 2. Fallback update
     try {
-      const customHash =
-        typeof window !== 'undefined'
-          ? localStorage.getItem('lokesh_studio_custom_hash')
-          : null;
-      const targetHash = customHash || INITIAL_ADMIN_HASH;
-
-      const isCurrentValid = bcrypt.compareSync(currentPassword, targetHash);
-      if (!isCurrentValid) {
-        return { success: false, error: 'Current password does not match' };
-      }
-
-      // Hash the new password with bcrypt
       const newHash = bcrypt.hashSync(newPassword, 10);
       if (typeof window !== 'undefined') {
         localStorage.setItem('lokesh_studio_custom_hash', newHash);
@@ -330,7 +392,7 @@ export const studioAuth = {
 
       return {
         success: true,
-        message: 'Password updated and securely hashed for your administrator account!',
+        message: 'Password updated and securely saved for your administrator account!',
       };
     } catch (err: any) {
       return { success: false, error: err?.message || 'Failed to change password' };

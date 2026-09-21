@@ -32,6 +32,7 @@ import {
   defaultSocialLinks,
   defaultSiteSettings,
   defaultResumes,
+  defaultTestimonials,
   type HeroSettings,
   type AboutSettings,
   type EducationItem,
@@ -45,6 +46,7 @@ import {
   CACHE_KEYS,
   setLocal
 } from "@/lib/supabase"
+import type { TestimonialItem } from "@/lib/portfolio-types"
 import { studioAuth, type AdminUser } from "@/lib/studio-auth"
 
 export interface PortfolioContextValue {
@@ -68,6 +70,7 @@ export interface PortfolioContextValue {
   settings: SiteSettings // alias for siteSettings
   resumes: ResumeItem[]
   activeResume?: ResumeItem
+  testimonials: TestimonialItem[]
   messages: ContactMessage[]
   mediaItems: MediaItem[]
   loading: boolean
@@ -80,7 +83,8 @@ export interface PortfolioContextValue {
   adminUser: { id?: string; username: string; displayName: string; role: string } | null
   loginStudioAdmin: (username: string, password?: string, rememberMe?: boolean) => Promise<{ success: boolean; error?: string }>
   logoutStudioAdmin: () => Promise<void>
-  changeAdminPassword: (currentPassword: string, newPassword: string) => Promise<{ success: boolean; error?: string; message?: string }>
+  changeAdminPassword: (newPassword: string, currentPassword?: string) => Promise<{ success: boolean; error?: string; message?: string }>
+  updateAdminUsername: (newUsername: string, displayName?: string) => Promise<{ success: boolean; error?: string; message?: string }>
   logoutAllAdminSessions: () => Promise<{ success: boolean }>
 
   // Refresh
@@ -108,6 +112,7 @@ export interface PortfolioContextValue {
   setSocialLinksState: React.Dispatch<React.SetStateAction<SocialLinkItem[]>>
   setMessagesState: React.Dispatch<React.SetStateAction<ContactMessage[]>>
   setResumesState: React.Dispatch<React.SetStateAction<ResumeItem[]>>
+  setTestimonialsState: React.Dispatch<React.SetStateAction<TestimonialItem[]>>
   setMediaItemsState: React.Dispatch<React.SetStateAction<MediaItem[]>>
 
   // Structured CRUD actions
@@ -154,6 +159,10 @@ export interface PortfolioContextValue {
   setActiveResume: (id: string) => Promise<void>
   setActiveResumeVersion: (id: string) => Promise<void>
 
+  saveTestimonial: (item: TestimonialItem) => Promise<void>
+  deleteTestimonial: (id: string) => Promise<void>
+  reorderTestimonials: (items: TestimonialItem[]) => Promise<void>
+
   markMessageStatus: (id: string, status: 'new' | 'read' | 'archived') => Promise<void>
   updateMessageStatus: (id: string, status: 'new' | 'read' | 'archived') => Promise<void>
   deleteMessage: (id: string) => Promise<void>
@@ -181,6 +190,7 @@ export function PortfolioProvider({ children }: { children: React.ReactNode }) {
   const [contact, setContact] = useState<ContactData>(initialContactData)
   const [siteSettings, setSiteSettings] = useState<SiteSettings>(defaultSiteSettings)
   const [resumes, setResumes] = useState<ResumeItem[]>(defaultResumes)
+  const [testimonials, setTestimonials] = useState<TestimonialItem[]>(defaultTestimonials)
   const [messages, setMessages] = useState<ContactMessage[]>([])
   const [mediaItems, setMediaItems] = useState<MediaItem[]>([])
   const [loading, setLoading] = useState(true)
@@ -206,6 +216,7 @@ export function PortfolioProvider({ children }: { children: React.ReactNode }) {
       setContact(data.contact)
       setSiteSettings(data.siteSettings)
       setResumes(data.resumes)
+      setTestimonials(data.testimonials || defaultTestimonials)
       setMessages(data.messages)
 
       // Test Supabase connectivity
@@ -225,6 +236,17 @@ export function PortfolioProvider({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     refreshAll()
+
+    // Listen for custom events or cross-tab storage changes for immediate sync
+    const handleSync = () => {
+      refreshAll()
+    }
+    window.addEventListener('portfolio_message_added', handleSync)
+    window.addEventListener('storage', handleSync)
+    return () => {
+      window.removeEventListener('portfolio_message_added', handleSync)
+      window.removeEventListener('storage', handleSync)
+    }
   }, [refreshAll])
 
   // Profile Updater
@@ -333,14 +355,40 @@ export function PortfolioProvider({ children }: { children: React.ReactNode }) {
 
   // EDUCATION CRUD
   const saveEducation = async (item: EducationItem) => {
+    const normalizedItem: EducationItem = {
+      ...item,
+      degree: item.degree?.trim() || 'Degree',
+      institution: item.institution?.trim() || 'Institution',
+      fieldOfStudy: item.fieldOfStudy || item.degree || 'Computer Science',
+      startYear: item.startYear || (item.period ? item.period.split(/[–-]/)[0]?.trim() : '2024') || '2024',
+      endYear: item.endYear || (item.period ? item.period.split(/[–-]/)[1]?.trim() : '2027') || '2027',
+      period: item.period || `${item.startYear || '2024'} – ${item.endYear || '2027'}`,
+    }
     const exists = educations.some((e) => e.id === item.id)
     const updated = exists
-      ? educations.map((e) => (e.id === item.id ? item : e))
-      : [...educations, item]
+      ? educations.map((e) => (e.id === item.id ? normalizedItem : e))
+      : [...educations, normalizedItem]
     setEducations(updated)
     setLocal(CACHE_KEYS.EDUCATION, updated)
     try {
-      await supabase.from('educations').upsert([item])
+      await supabase.from('educations').upsert([
+        {
+          id: normalizedItem.id,
+          institution: normalizedItem.institution,
+          degree: normalizedItem.degree,
+          field_of_study: normalizedItem.fieldOfStudy,
+          start_year: normalizedItem.startYear,
+          end_year: normalizedItem.endYear,
+          grade: normalizedItem.grade || '',
+          description: normalizedItem.description || '',
+          location: normalizedItem.location || 'Hyderabad, India',
+          institution_url: normalizedItem.institutionUrl || '',
+          logo_url: normalizedItem.logoUrl || '',
+          display_order: normalizedItem.displayOrder ?? normalizedItem.sortOrder ?? 0,
+          is_published: normalizedItem.isPublished ?? true,
+          updated_at: new Date().toISOString(),
+        },
+      ])
     } catch {
       // Offline fallback
     }
@@ -362,7 +410,9 @@ export function PortfolioProvider({ children }: { children: React.ReactNode }) {
     setEducations(reordered)
     setLocal(CACHE_KEYS.EDUCATION, reordered)
     try {
-      await supabase.from('educations').upsert(reordered)
+      for (let i = 0; i < reordered.length; i++) {
+        await supabase.from('educations').update({ display_order: i + 1 }).eq('id', reordered[i].id)
+      }
     } catch {
       // Offline fallback
     }
@@ -370,14 +420,54 @@ export function PortfolioProvider({ children }: { children: React.ReactNode }) {
 
   // PROJECT CRUD
   const saveProject = async (item: ProjectItem) => {
+    const projectName = item.name || item.title || 'Untitled Project'
+    const projectImage = item.image || item.imageUrl || item.coverImageUrl || ''
+    const projectHighlights = item.whatIWorkedOn || item.keyHighlights || []
+    const normalizedItem: ProjectItem = {
+      ...item,
+      name: projectName,
+      title: projectName,
+      image: projectImage,
+      imageUrl: projectImage,
+      whatIWorkedOn: projectHighlights,
+      keyHighlights: projectHighlights,
+      category: item.category || 'Full Stack Applications',
+      status: item.status || 'Live',
+      year: item.year || '2026',
+    }
     const exists = projects.some((p) => p.id === item.id)
     const updated = exists
-      ? projects.map((p) => (p.id === item.id ? item : p))
-      : [item, ...projects]
+      ? projects.map((p) => (p.id === item.id ? normalizedItem : p))
+      : [normalizedItem, ...projects]
     setProjects(updated)
     setLocal(CACHE_KEYS.PROJECTS, updated)
     try {
-      await supabase.from('projects').upsert([item])
+      await supabase.from('projects').upsert([
+        {
+          id: normalizedItem.id,
+          number: normalizedItem.number || `0${projects.length + 1}`,
+          name: normalizedItem.name,
+          category: normalizedItem.category,
+          tagline: normalizedItem.tagline || '',
+          short_description: normalizedItem.shortDescription || normalizedItem.description || '',
+          description: normalizedItem.description || normalizedItem.shortDescription || '',
+          what_i_worked_on: normalizedItem.whatIWorkedOn || [],
+          technologies: normalizedItem.technologies || [],
+          status: normalizedItem.status || 'Live',
+          live_url: normalizedItem.liveUrl || '',
+          github_url: normalizedItem.githubUrl || '',
+          case_study_url: normalizedItem.caseStudyUrl || '',
+          year: normalizedItem.year || '2026',
+          image: normalizedItem.image || '',
+          gallery_images: normalizedItem.galleryImages || [],
+          accent_color: normalizedItem.accentColor || '#2563EB',
+          gradient: normalizedItem.gradient || 'from-blue-900/40 via-indigo-950/20 to-black/60',
+          is_featured: normalizedItem.isFeatured ?? normalizedItem.featured ?? true,
+          is_published: normalizedItem.isPublished ?? true,
+          display_order: normalizedItem.display_order ?? normalizedItem.sortOrder ?? 0,
+          updated_at: new Date().toISOString(),
+        },
+      ])
     } catch {
       // Offline fallback
     }
@@ -410,11 +500,14 @@ export function PortfolioProvider({ children }: { children: React.ReactNode }) {
     const reordered = items.map((item, idx) => ({
       ...item,
       number: (idx + 1).toString().padStart(2, '0'),
+      display_order: idx + 1,
     }))
     setProjects(reordered)
     setLocal(CACHE_KEYS.PROJECTS, reordered)
     try {
-      await supabase.from('projects').upsert(reordered)
+      for (let i = 0; i < reordered.length; i++) {
+        await supabase.from('projects').update({ display_order: i + 1 }).eq('id', reordered[i].id)
+      }
     } catch {
       // Offline fallback
     }
@@ -536,14 +629,32 @@ export function PortfolioProvider({ children }: { children: React.ReactNode }) {
 
   // LANGUAGE CRUD
   const saveLanguage = async (item: LanguageItem) => {
+    const langName = item.language || item.name || 'Language'
+    const normalizedItem: LanguageItem = {
+      ...item,
+      language: langName,
+      name: langName,
+      proficiency: item.proficiency || 'Professional Working',
+      percentage: item.percentage ?? 100,
+    }
     const exists = languages.some((l) => l.id === item.id)
     const updated = exists
-      ? languages.map((l) => (l.id === item.id ? item : l))
-      : [...languages, item]
+      ? languages.map((l) => (l.id === item.id ? normalizedItem : l))
+      : [...languages, normalizedItem]
     setLanguages(updated)
     setLocal(CACHE_KEYS.LANGUAGES, updated)
     try {
-      await supabase.from('languages').upsert([item])
+      await supabase.from('languages').upsert([
+        {
+          id: normalizedItem.id,
+          language: normalizedItem.language,
+          proficiency: normalizedItem.proficiency,
+          percentage: normalizedItem.percentage ?? 100,
+          display_order: normalizedItem.display_order ?? normalizedItem.sortOrder ?? 0,
+          is_enabled: normalizedItem.isEnabled ?? true,
+          created_at: new Date().toISOString(),
+        },
+      ])
     } catch {
       // Offline fallback
     }
@@ -595,7 +706,17 @@ export function PortfolioProvider({ children }: { children: React.ReactNode }) {
     setResumes(updated)
     setLocal(CACHE_KEYS.RESUMES, updated)
     try {
-      await supabase.from('resumes').upsert([item])
+      await supabase.from('resumes').upsert([
+        {
+          id: item.id,
+          title: item.title,
+          url: item.url,
+          path: item.path || item.url,
+          file_size: item.fileSize || '1.2 MB',
+          is_active: item.isActive ?? true,
+          updated_at: new Date().toISOString(),
+        }
+      ])
     } catch {
       // Offline fallback
     }
@@ -620,7 +741,68 @@ export function PortfolioProvider({ children }: { children: React.ReactNode }) {
     setResumes(updated)
     setLocal(CACHE_KEYS.RESUMES, updated)
     try {
-      await supabase.from('resumes').upsert(updated)
+      for (const r of updated) {
+        await supabase
+          .from('resumes')
+          .update({ is_active: r.id === id, updated_at: new Date().toISOString() })
+          .eq('id', r.id)
+      }
+    } catch {
+      // Offline fallback
+    }
+  }
+
+  // TESTIMONIALS CRUD
+  const saveTestimonial = async (item: TestimonialItem) => {
+    const exists = testimonials.some((t) => t.id === item.id)
+    const updated = exists
+      ? testimonials.map((t) => (t.id === item.id ? item : t))
+      : [item, ...testimonials]
+    setTestimonials(updated)
+    setLocal(CACHE_KEYS.TESTIMONIALS, updated)
+    try {
+      await supabase.from('testimonials').upsert([
+        {
+          id: item.id,
+          name: item.name,
+          role: item.role || '',
+          company: item.company || '',
+          testimonial: item.testimonial,
+          project_url: item.projectUrl || (item as any).project_url || '',
+          avatar_url: item.avatarUrl || (item as any).avatar_url || '',
+          rating: item.rating ?? 5,
+          display_order: item.displayOrder ?? (item as any).display_order ?? 0,
+          is_published: item.isPublished ?? (item as any).is_published ?? true,
+          updated_at: new Date().toISOString(),
+        }
+      ])
+    } catch {
+      // Offline fallback
+    }
+  }
+
+  const deleteTestimonial = async (id: string) => {
+    const updated = testimonials.filter((t) => t.id !== id)
+    setTestimonials(updated)
+    setLocal(CACHE_KEYS.TESTIMONIALS, updated)
+    try {
+      await supabase.from('testimonials').delete().eq('id', id)
+    } catch {
+      // Offline fallback
+    }
+  }
+
+  const reorderTestimonials = async (items: TestimonialItem[]) => {
+    const ordered = items.map((item, idx) => ({ ...item, displayOrder: idx }))
+    setTestimonials(ordered)
+    setLocal(CACHE_KEYS.TESTIMONIALS, ordered)
+    try {
+      for (let i = 0; i < ordered.length; i++) {
+        await supabase
+          .from('testimonials')
+          .update({ display_order: i, updated_at: new Date().toISOString() })
+          .eq('id', ordered[i].id)
+      }
     } catch {
       // Offline fallback
     }
@@ -770,8 +952,16 @@ export function PortfolioProvider({ children }: { children: React.ReactNode }) {
     setAdminUser(null)
   }
 
-  const changeAdminPassword = async (currentPassword: string, newPassword: string) => {
-    return await studioAuth.changePassword(currentPassword, newPassword)
+  const changeAdminPassword = async (newPassword: string, currentPassword?: string) => {
+    return await studioAuth.changePassword(newPassword, currentPassword)
+  }
+
+  const updateAdminUsername = async (newUsername: string, displayName?: string) => {
+    const res = await studioAuth.updateUsername(newUsername, displayName)
+    if (res.success && res.user) {
+      setAdminUser(res.user)
+    }
+    return res
   }
 
   const logoutAllAdminSessions = async () => {
@@ -805,6 +995,7 @@ export function PortfolioProvider({ children }: { children: React.ReactNode }) {
         settings: siteSettings,
         resumes,
         activeResume,
+        testimonials,
         messages,
         mediaItems,
         loading,
@@ -816,6 +1007,7 @@ export function PortfolioProvider({ children }: { children: React.ReactNode }) {
         loginStudioAdmin,
         logoutStudioAdmin,
         changeAdminPassword,
+        updateAdminUsername,
         logoutAllAdminSessions,
         refreshAll,
         syncFromSupabase: refreshAll,
@@ -837,6 +1029,7 @@ export function PortfolioProvider({ children }: { children: React.ReactNode }) {
         setSocialLinksState: setSocialLinks,
         setMessagesState: setMessages,
         setResumesState: setResumes,
+        setTestimonialsState: setTestimonials,
         setMediaItemsState: setMediaItems,
         saveExperience,
         deleteExperience,
@@ -871,6 +1064,9 @@ export function PortfolioProvider({ children }: { children: React.ReactNode }) {
         deleteResume,
         setActiveResume,
         setActiveResumeVersion: setActiveResume,
+        saveTestimonial,
+        deleteTestimonial,
+        reorderTestimonials,
         markMessageStatus,
         updateMessageStatus: markMessageStatus,
         deleteMessage,

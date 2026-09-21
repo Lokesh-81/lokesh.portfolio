@@ -328,7 +328,8 @@ BEGIN
     AND table_name IN (
       'profiles', 'hero_settings', 'about_settings', 'experiences', 'educations',
       'projects', 'skills', 'certifications', 'skill_badges', 'achievements',
-      'languages', 'social_links', 'contact_messages', 'media', 'resumes', 'site_settings'
+      'languages', 'social_links', 'contact_messages', 'media', 'resumes', 'site_settings',
+      'testimonials'
     )
   LOOP
     EXECUTE format('ALTER TABLE public.%I ENABLE ROW LEVEL SECURITY;', t);
@@ -357,23 +358,23 @@ ON public.contact_messages FOR INSERT
 TO anon, authenticated
 WITH CHECK (true);
 
--- Authenticated Admin FULL ACCESS on all tables
-CREATE POLICY "Admin All Profiles" ON public.profiles FOR ALL TO authenticated USING (true) WITH CHECK (true);
-CREATE POLICY "Admin All Hero" ON public.hero_settings FOR ALL TO authenticated USING (true) WITH CHECK (true);
-CREATE POLICY "Admin All About" ON public.about_settings FOR ALL TO authenticated USING (true) WITH CHECK (true);
-CREATE POLICY "Admin All Experiences" ON public.experiences FOR ALL TO authenticated USING (true) WITH CHECK (true);
-CREATE POLICY "Admin All Educations" ON public.educations FOR ALL TO authenticated USING (true) WITH CHECK (true);
-CREATE POLICY "Admin All Projects" ON public.projects FOR ALL TO authenticated USING (true) WITH CHECK (true);
-CREATE POLICY "Admin All Skills" ON public.skills FOR ALL TO authenticated USING (true) WITH CHECK (true);
-CREATE POLICY "Admin All Certifications" ON public.certifications FOR ALL TO authenticated USING (true) WITH CHECK (true);
-CREATE POLICY "Admin All Skill Badges" ON public.skill_badges FOR ALL TO authenticated USING (true) WITH CHECK (true);
-CREATE POLICY "Admin All Achievements" ON public.achievements FOR ALL TO authenticated USING (true) WITH CHECK (true);
-CREATE POLICY "Admin All Languages" ON public.languages FOR ALL TO authenticated USING (true) WITH CHECK (true);
-CREATE POLICY "Admin All Social Links" ON public.social_links FOR ALL TO authenticated USING (true) WITH CHECK (true);
-CREATE POLICY "Admin All Contact Messages" ON public.contact_messages FOR ALL TO authenticated USING (true) WITH CHECK (true);
-CREATE POLICY "Admin All Media" ON public.media FOR ALL TO authenticated USING (true) WITH CHECK (true);
-CREATE POLICY "Admin All Resumes" ON public.resumes FOR ALL TO authenticated USING (true) WITH CHECK (true);
-CREATE POLICY "Admin All Site Settings" ON public.site_settings FOR ALL TO authenticated USING (true) WITH CHECK (true);
+-- Studio Client & Admin FULL ACCESS on all tables
+CREATE POLICY "Admin All Profiles" ON public.profiles FOR ALL TO anon, authenticated USING (true) WITH CHECK (true);
+CREATE POLICY "Admin All Hero" ON public.hero_settings FOR ALL TO anon, authenticated USING (true) WITH CHECK (true);
+CREATE POLICY "Admin All About" ON public.about_settings FOR ALL TO anon, authenticated USING (true) WITH CHECK (true);
+CREATE POLICY "Admin All Experiences" ON public.experiences FOR ALL TO anon, authenticated USING (true) WITH CHECK (true);
+CREATE POLICY "Admin All Educations" ON public.educations FOR ALL TO anon, authenticated USING (true) WITH CHECK (true);
+CREATE POLICY "Admin All Projects" ON public.projects FOR ALL TO anon, authenticated USING (true) WITH CHECK (true);
+CREATE POLICY "Admin All Skills" ON public.skills FOR ALL TO anon, authenticated USING (true) WITH CHECK (true);
+CREATE POLICY "Admin All Certifications" ON public.certifications FOR ALL TO anon, authenticated USING (true) WITH CHECK (true);
+CREATE POLICY "Admin All Skill Badges" ON public.skill_badges FOR ALL TO anon, authenticated USING (true) WITH CHECK (true);
+CREATE POLICY "Admin All Achievements" ON public.achievements FOR ALL TO anon, authenticated USING (true) WITH CHECK (true);
+CREATE POLICY "Admin All Languages" ON public.languages FOR ALL TO anon, authenticated USING (true) WITH CHECK (true);
+CREATE POLICY "Admin All Social Links" ON public.social_links FOR ALL TO anon, authenticated USING (true) WITH CHECK (true);
+CREATE POLICY "Admin All Contact Messages" ON public.contact_messages FOR ALL TO anon, authenticated USING (true) WITH CHECK (true);
+CREATE POLICY "Admin All Media" ON public.media FOR ALL TO anon, authenticated USING (true) WITH CHECK (true);
+CREATE POLICY "Admin All Resumes" ON public.resumes FOR ALL TO anon, authenticated USING (true) WITH CHECK (true);
+CREATE POLICY "Admin All Site Settings" ON public.site_settings FOR ALL TO anon, authenticated USING (true) WITH CHECK (true);
 
 -- Index optimization
 CREATE INDEX IF NOT EXISTS idx_projects_order ON public.projects (display_order);
@@ -544,8 +545,8 @@ $$;
 
 CREATE OR REPLACE FUNCTION public.studio_admin_change_password(
   p_session_token TEXT,
-  p_current_password TEXT,
-  p_new_password TEXT
+  p_new_password TEXT,
+  p_current_password TEXT DEFAULT NULL
 )
 RETURNS JSONB
 LANGUAGE plpgsql
@@ -561,13 +562,16 @@ BEGIN
   WHERE session_token = p_session_token AND expires_at > NOW();
 
   IF NOT FOUND THEN
-    RETURN jsonb_build_object('success', false, 'error', 'Unauthorized session');
+    RETURN jsonb_build_object('success', false, 'error', 'Unauthorized or expired session');
   END IF;
 
   SELECT * INTO v_user FROM public.admin_users WHERE id = v_session.user_id;
 
-  IF v_user.password_hash != crypt(p_current_password, v_user.password_hash) THEN
-    RETURN jsonb_build_object('success', false, 'error', 'Current password is incorrect');
+  -- If current password is provided, verify it; otherwise authenticated active session is sufficient
+  IF p_current_password IS NOT NULL AND p_current_password != '' THEN
+    IF v_user.password_hash != crypt(p_current_password, v_user.password_hash) THEN
+      RETURN jsonb_build_object('success', false, 'error', 'Current password is incorrect');
+    END IF;
   END IF;
 
   IF LENGTH(p_new_password) < 6 THEN
@@ -583,8 +587,108 @@ BEGIN
 END;
 $$;
 
+CREATE OR REPLACE FUNCTION public.studio_admin_update_profile(
+  p_session_token TEXT,
+  p_new_username TEXT,
+  p_new_display_name TEXT DEFAULT NULL
+)
+RETURNS JSONB
+LANGUAGE plpgsql
+SECURITY DEFINER
+SET search_path = public, extensions
+AS $$
+DECLARE
+  v_session RECORD;
+  v_user RECORD;
+  v_clean_username TEXT;
+BEGIN
+  SELECT * INTO v_session
+  FROM public.admin_sessions
+  WHERE session_token = p_session_token AND expires_at > NOW();
+
+  IF NOT FOUND THEN
+    RETURN jsonb_build_object('success', false, 'error', 'Unauthorized or expired session');
+  END IF;
+
+  v_clean_username := TRIM(p_new_username);
+  IF LENGTH(v_clean_username) < 3 THEN
+    RETURN jsonb_build_object('success', false, 'error', 'Username must be at least 3 characters');
+  END IF;
+
+  IF EXISTS (
+    SELECT 1 FROM public.admin_users 
+    WHERE LOWER(username) = LOWER(v_clean_username) AND id != v_session.user_id
+  ) THEN
+    RETURN jsonb_build_object('success', false, 'error', 'Username is already taken');
+  END IF;
+
+  UPDATE public.admin_users
+  SET username = v_clean_username,
+      display_name = COALESCE(NULLIF(TRIM(p_new_display_name), ''), v_clean_username),
+      updated_at = NOW()
+  WHERE id = v_session.user_id
+  RETURNING * INTO v_user;
+
+  RETURN jsonb_build_object(
+    'success', true,
+    'message', 'Admin profile updated',
+    'user', jsonb_build_object(
+      'id', v_user.id,
+      'username', v_user.username,
+      'display_name', v_user.display_name,
+      'role', v_user.role
+    )
+  );
+END;
+$$;
+
 GRANT EXECUTE ON FUNCTION public.studio_admin_login(TEXT, TEXT, BOOLEAN) TO anon, authenticated;
 GRANT EXECUTE ON FUNCTION public.studio_admin_verify_session(TEXT) TO anon, authenticated;
 GRANT EXECUTE ON FUNCTION public.studio_admin_logout(TEXT) TO anon, authenticated;
 GRANT EXECUTE ON FUNCTION public.studio_admin_logout_all(TEXT) TO anon, authenticated;
 GRANT EXECUTE ON FUNCTION public.studio_admin_change_password(TEXT, TEXT, TEXT) TO anon, authenticated;
+GRANT EXECUTE ON FUNCTION public.studio_admin_update_profile(TEXT, TEXT, TEXT) TO anon, authenticated;
+
+-- ==============================================================================
+-- 18. Testimonials Table & Real Database Persistence
+-- ==============================================================================
+CREATE TABLE IF NOT EXISTS public.testimonials (
+  id TEXT PRIMARY KEY,
+  name TEXT NOT NULL,
+  role TEXT,
+  company TEXT,
+  testimonial TEXT NOT NULL,
+  project_url TEXT,
+  avatar_url TEXT,
+  rating INTEGER DEFAULT 5,
+  display_order INTEGER DEFAULT 0,
+  is_published BOOLEAN DEFAULT TRUE,
+  created_at TIMESTAMPTZ DEFAULT NOW(),
+  updated_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+CREATE INDEX IF NOT EXISTS idx_testimonials_order ON public.testimonials (display_order);
+
+ALTER TABLE public.testimonials ENABLE ROW LEVEL SECURITY;
+CREATE POLICY "Public Read Testimonials" ON public.testimonials FOR SELECT USING (is_published = true);
+CREATE POLICY "Admin All Testimonials" ON public.testimonials FOR ALL TO anon, authenticated USING (true) WITH CHECK (true);
+
+-- Seed Foundarly Business World Owner real testimonial
+INSERT INTO public.testimonials (id, name, role, company, testimonial, project_url, display_order, is_published)
+VALUES (
+  'test-foundarly',
+  'Foundarly Business World Owner',
+  'Founder & Business Owner',
+  'Foundarly Business World',
+  'Super fast execution and very satisfying results every single time! Lokesh is highly reliable, technically solid, and always ready to tackle any challenge on the website. A pleasure to work with!',
+  'https://www.foundarlybusinessworld.in/',
+  0,
+  true
+)
+ON CONFLICT (id) DO UPDATE
+SET name = EXCLUDED.name,
+    role = EXCLUDED.role,
+    company = EXCLUDED.company,
+    testimonial = EXCLUDED.testimonial,
+    project_url = EXCLUDED.project_url,
+    is_published = true;

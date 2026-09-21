@@ -71,14 +71,21 @@ export interface ProjectItem {
   status?: 'Live' | 'In Development' | string;
   liveUrl?: string;
   githubUrl?: string;
+  caseStudyUrl?: string;
   coverImageUrl?: string;
   imageUrl?: string;
   year?: string;
   image?: string;
+  galleryImages?: string[];
+  accentColor?: string;
+  gradient?: string;
   order?: number;
   sortOrder?: number;
   display_order?: number;
+  displayOrder?: number;
   featured?: boolean;
+  isFeatured?: boolean;
+  isPublished?: boolean;
   visible?: boolean;
 }
 
@@ -285,6 +292,25 @@ export interface ResumeItem {
   createdAt?: string;
   uploadedAt?: string;
   updatedAt?: string;
+}
+
+export interface TestimonialItem {
+  id: string;
+  name: string;
+  role?: string;
+  company?: string;
+  testimonial: string;
+  rating?: number;
+  projectUrl?: string;
+  project_url?: string;
+  avatarUrl?: string;
+  avatar_url?: string;
+  displayOrder?: number;
+  display_order?: number;
+  isPublished?: boolean;
+  is_published?: boolean;
+  createdAt?: string;
+  created_at?: string;
 }
 
 export interface SiteSettings {

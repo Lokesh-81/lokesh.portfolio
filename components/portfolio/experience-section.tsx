@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { Calendar, MapPin, CheckCircle2 } from 'lucide-react';
+import { Calendar, MapPin, CheckCircle2, Quote, Star, ExternalLink } from 'lucide-react';
 import { TextEffect } from '@/components/core/text-effect';
 import { Spotlight } from '@/components/core/spotlight';
 import { usePortfolio } from '@/lib/portfolio-context';
@@ -54,8 +54,10 @@ const experienceTranslations: Record<
 };
 
 export function ExperienceSection() {
-  const { experiences } = usePortfolio();
+  const { experiences, testimonials } = usePortfolio();
   const { t, language } = useLanguage();
+
+  const publishedTestimonials = (testimonials || []).filter((item) => item.isPublished !== false);
 
   return (
     <div className="relative min-h-[85vh] w-full px-4 sm:px-8 py-8 sm:py-12">
@@ -162,6 +164,72 @@ export function ExperienceSection() {
             );
           })}
         </div>
+
+        {/* Client Endorsements & Testimonials */}
+        {publishedTestimonials.length > 0 && (
+          <div id="testimonials" className="mt-8 pt-10 border-t border-[#1F2937] pb-12">
+            <div className="flex flex-col justify-between gap-3 border-b border-[#1F2937] pb-5 sm:flex-row sm:items-end">
+              <div>
+                <div className="text-xs uppercase tracking-[0.2em] text-[#60A5FA] font-semibold">
+                  <span>Client Feedback & Recommendations</span>
+                </div>
+                <h3 className="mt-1 text-2xl font-light tracking-tight text-[#E0E7FF] sm:text-4xl">
+                  Client <span className="instrument italic font-normal text-[#60A5FA]">Testimonials</span>
+                </h3>
+              </div>
+              <p className="max-w-md text-xs sm:text-sm text-[#94A3B8]">
+                Real feedback and endorsements from founders and business partners.
+              </p>
+            </div>
+
+            <div className="mt-6 grid grid-cols-1 md:grid-cols-2 gap-4">
+              {publishedTestimonials.map((item) => (
+                <div
+                  key={item.id}
+                  className="group relative flex flex-col justify-between rounded-2xl border border-[#1F2937] bg-[#111827]/90 p-6 shadow-xs transition-all hover:border-[#60A5FA] hover:shadow-md"
+                >
+                  <div>
+                    <div className="flex items-center justify-between gap-2 border-b border-[#1F2937] pb-3 mb-4">
+                      <div className="flex items-center gap-1 text-amber-400">
+                        {Array.from({ length: item.rating || 5 }).map((_, i) => (
+                          <Star key={i} className="h-3.5 w-3.5 fill-amber-400 text-amber-400" />
+                        ))}
+                      </div>
+                      <Quote className="h-4 w-4 text-[#60A5FA]/60" />
+                    </div>
+
+                    <p className="text-xs sm:text-sm leading-relaxed text-[#CBD5E1] italic">
+                      &ldquo;{item.testimonial}&rdquo;
+                    </p>
+                  </div>
+
+                  <div className="mt-6 flex items-center justify-between pt-4 border-t border-[#1F2937]">
+                    <div>
+                      <h4 className="text-xs sm:text-sm font-semibold text-[#E0E7FF]">
+                        {item.name}
+                      </h4>
+                      <p className="text-[11px] text-[#94A3B8]">
+                        {item.role || 'Client'} {item.company ? `· ${item.company}` : ''}
+                      </p>
+                    </div>
+
+                    {item.projectUrl && (
+                      <a
+                        href={item.projectUrl}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="inline-flex items-center gap-1 rounded-lg border border-[#1F2937] bg-[#0B132B] px-2.5 py-1 text-[11px] font-medium text-[#60A5FA] hover:border-[#60A5FA] hover:text-white transition-colors"
+                      >
+                        <span>Visit Site</span>
+                        <ExternalLink className="h-3 w-3" />
+                      </a>
+                    )}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

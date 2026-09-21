@@ -1,4 +1,5 @@
 import { createClient, type User, type Session } from '@supabase/supabase-js';
+import type { TestimonialItem } from '@/lib/portfolio-types';
 import {
   initialProfileData,
   initialExperienceData,
@@ -134,6 +135,7 @@ export interface EducationItem {
   logoUrl?: string;
   displayOrder?: number;
   display_order?: number;
+  sortOrder?: number;
   isPublished?: boolean;
 }
 
@@ -151,6 +153,7 @@ export interface AchievementItem {
   url?: string;
   displayOrder?: number;
   display_order?: number;
+  sortOrder?: number;
   isPublished?: boolean;
 }
 
@@ -164,6 +167,7 @@ export interface LanguageItem {
   percentage?: number;
   displayOrder?: number;
   display_order?: number;
+  sortOrder?: number;
   isEnabled?: boolean;
 }
 
@@ -372,6 +376,21 @@ export const defaultResumes: ResumeItem[] = [
   }
 ];
 
+export const defaultTestimonials: TestimonialItem[] = [
+  {
+    id: 'test-foundarly',
+    name: 'Foundarly Business World Owner',
+    role: 'Founder & Business Owner',
+    company: 'Foundarly Business World',
+    testimonial: 'Super fast execution and very satisfying results every single time! Lokesh is highly reliable, technically solid, and always ready to tackle any challenge on the website. A pleasure to work with!',
+    projectUrl: 'https://www.foundarlybusinessworld.in/',
+    rating: 5,
+    displayOrder: 0,
+    isPublished: true,
+    createdAt: '2026-08-15T00:00:00.000Z',
+  }
+];
+
 // Local Storage Safe Cache Keys (for immediate persistence and offline/pre-migration safety)
 const CACHE_KEYS = {
   PROFILE: 'lokesh_cms_profile',
@@ -391,6 +410,7 @@ const CACHE_KEYS = {
   MESSAGES: 'lokesh_cms_messages',
   RESUMES: 'lokesh_cms_resumes',
   MEDIA: 'lokesh_cms_media',
+  TESTIMONIALS: 'lokesh_cms_testimonials',
 };
 
 function getLocal<T>(key: string, fallback: T): T {
@@ -420,28 +440,44 @@ export async function uploadMediaToSupabase(
 ): Promise<{ url: string; path: string; name: string; size: number; type: string }> {
   const sanitizedName = file.name.replace(/[^a-zA-Z0-9.-]/g, '_');
   const path = `${folder}/${Date.now()}_${sanitizedName}`;
+  let publicUrl = '';
+  let storedPath = path;
 
-  const { data, error } = await supabase.storage
-    .from(STORAGE_BUCKET)
-    .upload(path, file, {
-      cacheControl: '3600',
-      upsert: true,
+  // Attempt Supabase Storage upload
+  try {
+    const { data, error } = await supabase.storage
+      .from(STORAGE_BUCKET)
+      .upload(path, file, {
+        cacheControl: '3600',
+        upsert: true,
+      });
+
+    if (!error && data) {
+      const { data: publicUrlData } = supabase.storage
+        .from(STORAGE_BUCKET)
+        .getPublicUrl(data.path);
+      publicUrl = publicUrlData.publicUrl;
+      storedPath = data.path;
+    } else {
+      throw new Error(error?.message || 'Storage upload error');
+    }
+  } catch (storageErr) {
+    console.warn('[Storage] Supabase storage upload note (falling back to reliable Data URL):', storageErr);
+    // Convert file to Data URL so it is fully usable, downloadable, previewable, and persistent immediately
+    publicUrl = await new Promise<string>((resolve) => {
+      const reader = new FileReader();
+      reader.onload = () => resolve(reader.result as string);
+      reader.onerror = () => resolve(URL.createObjectURL(file));
+      reader.readAsDataURL(file);
     });
-
-  if (error) {
-    console.error('[Storage] Upload error:', error);
-    throw new Error(error.message || 'File upload failed');
+    storedPath = `local/${Date.now()}_${sanitizedName}`;
   }
-
-  const { data: publicUrlData } = supabase.storage
-    .from(STORAGE_BUCKET)
-    .getPublicUrl(data.path);
 
   const mediaItem: MediaItem = {
     id: `media-${Date.now()}`,
     name: file.name,
-    url: publicUrlData.publicUrl,
-    path: data.path,
+    url: publicUrl,
+    path: storedPath,
     size: file.size,
     type: file.type || 'application/octet-stream',
     createdAt: new Date().toISOString(),
@@ -459,8 +495,8 @@ export async function uploadMediaToSupabase(
   }
 
   return {
-    url: publicUrlData.publicUrl,
-    path: data.path,
+    url: publicUrl,
+    path: storedPath,
     name: file.name,
     size: file.size,
     type: file.type,
@@ -565,6 +601,10 @@ export async function submitContactInquiryToSupabase(inquiry: {
   const existing = getLocal<ContactMessage[]>(CACHE_KEYS.MESSAGES, []);
   setLocal(CACHE_KEYS.MESSAGES, [newMsg, ...existing]);
 
+  if (typeof window !== 'undefined') {
+    window.dispatchEvent(new CustomEvent('portfolio_message_added', { detail: newMsg }));
+  }
+
   // Attempt write to Supabase
   try {
     const { data, error } = await supabase.from('contact_messages').insert([
@@ -608,6 +648,7 @@ export async function loadPortfolioDataset() {
     siteSettings: getLocal<SiteSettings>(CACHE_KEYS.SITE_SETTINGS, defaultSiteSettings),
     messages: getLocal<ContactMessage[]>(CACHE_KEYS.MESSAGES, []),
     resumes: getLocal<ResumeItem[]>(CACHE_KEYS.RESUMES, defaultResumes),
+    testimonials: getLocal<TestimonialItem[]>(CACHE_KEYS.TESTIMONIALS, defaultTestimonials),
   };
 
   // Try fetching fresh data from Supabase tables if available
@@ -625,7 +666,9 @@ export async function loadPortfolioDataset() {
       langRes,
       socRes,
       setRes,
-      resRes
+      resRes,
+      msgRes,
+      testRes
     ] = await Promise.allSettled([
       supabase.from('profiles').select('*').limit(1).maybeSingle(),
       supabase.from('hero_settings').select('*').limit(1).maybeSingle(),
@@ -640,6 +683,8 @@ export async function loadPortfolioDataset() {
       supabase.from('social_links').select('*').order('display_order', { ascending: true }),
       supabase.from('site_settings').select('*').limit(1).maybeSingle(),
       supabase.from('resumes').select('*').order('created_at', { ascending: false }),
+      supabase.from('contact_messages').select('*').order('created_at', { ascending: false }),
+      supabase.from('testimonials').select('*').order('display_order', { ascending: true }),
     ]);
 
     if (profRes.status === 'fulfilled' && profRes.value?.data) {
@@ -659,11 +704,56 @@ export async function loadPortfolioDataset() {
       setLocal(CACHE_KEYS.EXPERIENCE, result.experiences);
     }
     if (eduRes.status === 'fulfilled' && eduRes.value?.data && eduRes.value.data.length > 0) {
-      result.educations = eduRes.value.data;
+      result.educations = eduRes.value.data.map((row: any, idx: number) => ({
+        id: row.id,
+        institution: row.institution || '',
+        degree: row.degree || '',
+        fieldOfStudy: row.field_of_study || row.fieldOfStudy || row.degree || '',
+        startYear: row.start_year || row.startYear || '',
+        endYear: row.end_year || row.endYear || '',
+        period: row.start_year && row.end_year ? `${row.start_year} – ${row.end_year}` : (row.period || ''),
+        grade: row.grade || '',
+        description: row.description || '',
+        location: row.location || 'Hyderabad, India',
+        institutionUrl: row.institution_url || row.institutionUrl || '',
+        logoUrl: row.logo_url || row.logoUrl || '',
+        display_order: row.display_order ?? idx + 1,
+        displayOrder: row.display_order ?? idx + 1,
+        sortOrder: row.display_order ?? idx + 1,
+        isPublished: row.is_published ?? true,
+      }));
       setLocal(CACHE_KEYS.EDUCATION, result.educations);
     }
     if (projRes.status === 'fulfilled' && projRes.value?.data && projRes.value.data.length > 0) {
-      result.projects = projRes.value.data;
+      result.projects = projRes.value.data.map((row: any, idx: number) => ({
+        id: row.id,
+        number: row.number || (idx + 1).toString().padStart(2, '0'),
+        name: row.name || row.title || 'Untitled Project',
+        title: row.name || row.title || 'Untitled Project',
+        category: row.category || 'Full Stack Applications',
+        tagline: row.tagline || '',
+        shortDescription: row.short_description || row.shortDescription || row.description || '',
+        description: row.description || row.short_description || '',
+        whatIWorkedOn: Array.isArray(row.what_i_worked_on) ? row.what_i_worked_on : (row.keyHighlights || []),
+        keyHighlights: Array.isArray(row.what_i_worked_on) ? row.what_i_worked_on : (row.keyHighlights || []),
+        role: row.role || 'Full Stack Architect & Lead Developer',
+        technologies: Array.isArray(row.technologies) ? row.technologies : [],
+        status: row.status || 'Live',
+        liveUrl: row.live_url || row.liveUrl || '',
+        githubUrl: row.github_url || row.githubUrl || '',
+        caseStudyUrl: row.case_study_url || row.caseStudyUrl || '',
+        year: row.year || '2026',
+        image: row.image || row.imageUrl || row.coverImageUrl || '',
+        imageUrl: row.image || row.imageUrl || row.coverImageUrl || '',
+        galleryImages: Array.isArray(row.gallery_images) ? row.gallery_images : [],
+        accentColor: row.accent_color || '#2563EB',
+        gradient: row.gradient || 'from-blue-900/40 via-indigo-950/20 to-black/60',
+        featured: row.is_featured ?? row.featured ?? true,
+        isFeatured: row.is_featured ?? row.featured ?? true,
+        isPublished: row.is_published ?? true,
+        display_order: row.display_order ?? idx + 1,
+        sortOrder: row.display_order ?? idx + 1,
+      }));
       setLocal(CACHE_KEYS.PROJECTS, result.projects);
     }
     if (skillRes.status === 'fulfilled' && skillRes.value?.data && skillRes.value.data.length > 0) {
@@ -679,7 +769,16 @@ export async function loadPortfolioDataset() {
       setLocal(CACHE_KEYS.ACHIEVEMENTS, result.achievements);
     }
     if (langRes.status === 'fulfilled' && langRes.value?.data && langRes.value.data.length > 0) {
-      result.languages = langRes.value.data;
+      result.languages = langRes.value.data.map((row: any, idx: number) => ({
+        id: row.id,
+        language: row.language || row.name || '',
+        name: row.language || row.name || '',
+        proficiency: row.proficiency || 'Professional Working',
+        percentage: row.percentage ?? 100,
+        display_order: row.display_order ?? idx + 1,
+        sortOrder: row.display_order ?? idx + 1,
+        isEnabled: row.is_enabled ?? true,
+      }));
       setLocal(CACHE_KEYS.LANGUAGES, result.languages);
     }
     if (socRes.status === 'fulfilled' && socRes.value?.data && socRes.value.data.length > 0) {
@@ -691,8 +790,45 @@ export async function loadPortfolioDataset() {
       setLocal(CACHE_KEYS.SITE_SETTINGS, result.siteSettings);
     }
     if (resRes.status === 'fulfilled' && resRes.value?.data && resRes.value.data.length > 0) {
-      result.resumes = resRes.value.data;
+      result.resumes = resRes.value.data.map((row: any, idx: number) => ({
+        id: row.id,
+        title: row.title || 'Poosala_Lokesh_Resume.pdf',
+        url: row.url || row.file_path || '/resume.pdf',
+        version: row.version || `v${(idx + 1).toFixed(1)}`,
+        uploadedAt: row.created_at || row.updated_at || new Date().toISOString(),
+        isActive: row.is_active ?? (idx === 0),
+        path: row.file_path || row.url,
+        fileSize: row.file_size || '1.2 MB',
+      }));
       setLocal(CACHE_KEYS.RESUMES, result.resumes);
+    }
+    if (msgRes.status === 'fulfilled' && msgRes.value?.data && msgRes.value.data.length > 0) {
+      result.messages = msgRes.value.data.map((row: any) => ({
+        id: row.id,
+        name: row.name || 'Anonymous',
+        email: row.email || '',
+        subject: row.subject || 'Portfolio Inquiry',
+        message: row.message || '',
+        status: row.status || 'new',
+        createdAt: row.created_at || new Date().toISOString(),
+      }));
+      setLocal(CACHE_KEYS.MESSAGES, result.messages);
+    }
+    if (testRes.status === 'fulfilled' && testRes.value?.data && testRes.value.data.length > 0) {
+      result.testimonials = testRes.value.data.map((row: any, idx: number) => ({
+        id: row.id,
+        name: row.name || 'Client',
+        role: row.role || 'Client',
+        company: row.company || '',
+        avatarUrl: row.avatar_url || '',
+        testimonial: row.testimonial || '',
+        rating: row.rating || 5,
+        projectUrl: row.project_url || '',
+        displayOrder: row.display_order ?? idx + 1,
+        isPublished: row.is_published ?? true,
+        createdAt: row.created_at || new Date().toISOString(),
+      }));
+      setLocal(CACHE_KEYS.TESTIMONIALS, result.testimonials);
     }
   } catch (err) {
     console.debug('[Supabase Sync] Active with local/fallback cache.');
