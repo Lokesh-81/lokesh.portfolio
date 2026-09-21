@@ -263,3 +263,23 @@ INSERT INTO public.site_settings (
   'Available for exciting full-stack engineering and cloud architecture challenges.',
   'Available for high-impact roles & internships'
 ) ON CONFLICT (id) DO NOTHING;
+
+-- Testimonials Seed
+INSERT INTO public.testimonials (id, name, role, company, testimonial, project_url, display_order, is_published)
+VALUES (
+  'test-foundarly',
+  'Foundarly Business World Owner',
+  'Founder & Business Owner',
+  'Foundarly Business World',
+  'Super fast execution and very satisfying results every single time! Lokesh is highly reliable, technically solid, and always ready to tackle any challenge on the website. A pleasure to work with!',
+  'https://foundarlybusinessworld.in',
+  0,
+  true
+)
+ON CONFLICT (id) DO UPDATE
+SET name = EXCLUDED.name,
+    role = EXCLUDED.role,
+    company = EXCLUDED.company,
+    testimonial = EXCLUDED.testimonial,
+    project_url = EXCLUDED.project_url,
+    is_published = true;

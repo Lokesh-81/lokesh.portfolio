@@ -8,6 +8,7 @@ import {
   Component,
   Award,
   ScrollText,
+  Quote,
   Mail,
   SunMoon,
   Languages,
@@ -71,6 +72,11 @@ export function PortfolioDock({
       id: 'experience',
       title: t('nav.experience') || 'Experience',
       icon: ScrollText,
+    },
+    {
+      id: 'testimonials',
+      title: 'Testimonials',
+      icon: Quote,
     },
     {
       id: 'contact',

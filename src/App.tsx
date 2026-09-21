@@ -16,7 +16,7 @@ import { Footer } from '@/components/portfolio/footer';
 import { Spotlight } from '@/components/core/spotlight';
 import { Clock } from '@/components/core/sliding-number';
 
-type SectionId = 'home' | 'about' | 'work' | 'skills' | 'certifications' | 'experience' | 'contact';
+type SectionId = 'home' | 'about' | 'work' | 'skills' | 'certifications' | 'experience' | 'testimonials' | 'contact';
 
 import { StudioApp } from './studio/StudioApp';
 
@@ -45,10 +45,14 @@ function PortfolioContent() {
 
         setIsStudioRoute(false);
         if (hash === 'testimonials') {
-          setActiveSection('experience');
+          setActiveSection('testimonials');
+          setTimeout(() => {
+            const el = document.getElementById('testimonials');
+            if (el) el.scrollIntoView({ behavior: 'smooth' });
+          }, 150);
           return;
         }
-        if (['home', 'about', 'work', 'skills', 'certifications', 'experience', 'contact'].includes(hash)) {
+        if (['home', 'about', 'work', 'skills', 'certifications', 'experience', 'testimonials', 'contact'].includes(hash)) {
           setActiveSection(hash as SectionId);
         }
       };
@@ -68,6 +72,19 @@ function PortfolioContent() {
       setIsStudioRoute(true);
       if (typeof window !== 'undefined') {
         window.history.pushState(null, '', '#studio');
+      }
+      return;
+    }
+
+    if (sectionId === 'testimonials') {
+      setIsStudioRoute(false);
+      setActiveSection('testimonials');
+      if (typeof window !== 'undefined') {
+        window.history.replaceState(null, '', '#testimonials');
+        setTimeout(() => {
+          const el = document.getElementById('testimonials');
+          if (el) el.scrollIntoView({ behavior: 'smooth' });
+        }, 150);
       }
       return;
     }
@@ -140,7 +157,7 @@ function PortfolioContent() {
               {activeSection === 'work' && <ProjectsSection />}
               {activeSection === 'skills' && <SkillsSection />}
               {activeSection === 'certifications' && <CertificationsSection onNavigate={handleNavigate} />}
-              {activeSection === 'experience' && <ExperienceSection />}
+              {(activeSection === 'experience' || activeSection === 'testimonials') && <ExperienceSection />}
               {activeSection === 'contact' && <ContactSection />}
             </div>
 

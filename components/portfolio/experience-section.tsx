@@ -1,7 +1,7 @@
 'use client';
 
-import React from 'react';
-import { Calendar, MapPin, CheckCircle2, Quote, Star, ExternalLink } from 'lucide-react';
+import React, { useEffect } from 'react';
+import { Calendar, MapPin, CheckCircle2, Quote, Star, ExternalLink, ScrollText } from 'lucide-react';
 import { TextEffect } from '@/components/core/text-effect';
 import { Spotlight } from '@/components/core/spotlight';
 import { usePortfolio } from '@/lib/portfolio-context';
@@ -59,6 +59,15 @@ export function ExperienceSection() {
 
   const publishedTestimonials = (testimonials || []).filter((item) => item.isPublished !== false);
 
+  useEffect(() => {
+    if (typeof window !== 'undefined' && window.location.hash === '#testimonials') {
+      setTimeout(() => {
+        const el = document.getElementById('testimonials');
+        if (el) el.scrollIntoView({ behavior: 'smooth' });
+      }, 100);
+    }
+  }, []);
+
   return (
     <div className="relative min-h-[85vh] w-full px-4 sm:px-8 py-8 sm:py-12">
       {/* Spotlight on Experience Section */}
@@ -92,8 +101,37 @@ export function ExperienceSection() {
           </div>
         </div>
 
+        {/* Quick Navigation Pills */}
+        <div className="mt-6 flex flex-wrap items-center gap-3">
+          <a
+            href="#experience-timeline"
+            onClick={(e) => {
+              e.preventDefault();
+              document.getElementById('experience-timeline')?.scrollIntoView({ behavior: 'smooth' });
+            }}
+            className="inline-flex items-center gap-1.5 rounded-full border border-[#1F2937] bg-[#111827]/80 px-3.5 py-1.5 text-xs text-[#CBD5E1] hover:border-[#60A5FA] hover:text-[#60A5FA] transition-all"
+          >
+            <ScrollText className="h-3.5 w-3.5 text-[#60A5FA]" />
+            <span>Work History ({experiences.length})</span>
+          </a>
+
+          {publishedTestimonials.length > 0 && (
+            <a
+              href="#testimonials"
+              onClick={(e) => {
+                e.preventDefault();
+                document.getElementById('testimonials')?.scrollIntoView({ behavior: 'smooth' });
+              }}
+              className="inline-flex items-center gap-1.5 rounded-full border border-[#1F2937] bg-[#111827]/80 px-3.5 py-1.5 text-xs text-[#CBD5E1] hover:border-[#60A5FA] hover:text-[#60A5FA] transition-all"
+            >
+              <Quote className="h-3.5 w-3.5 text-amber-400" />
+              <span>Client Testimonials ({publishedTestimonials.length})</span>
+            </a>
+          )}
+        </div>
+
         {/* Timeline List */}
-        <div className="mt-8 space-y-6 pb-12">
+        <div id="experience-timeline" className="mt-8 space-y-6 pb-12">
           {experiences.map((exp) => {
             const tr = experienceTranslations[language]?.[exp.id];
             const company = tr?.company || exp.company;
@@ -215,12 +253,13 @@ export function ExperienceSection() {
 
                     {item.projectUrl && (
                       <a
-                        href={item.projectUrl}
+                        href={item.projectUrl.startsWith('http') ? item.projectUrl : `https://${item.projectUrl}`}
                         target="_blank"
                         rel="noreferrer"
-                        className="inline-flex items-center gap-1 rounded-lg border border-[#1F2937] bg-[#0B132B] px-2.5 py-1 text-[11px] font-medium text-[#60A5FA] hover:border-[#60A5FA] hover:text-white transition-colors"
+                        className="inline-flex items-center gap-1.5 rounded-lg border border-[#1F2937] bg-[#0B132B] px-2.5 py-1 text-[11px] font-medium text-[#60A5FA] hover:border-[#60A5FA] hover:text-white transition-colors"
+                        title={item.projectUrl}
                       >
-                        <span>Visit Site</span>
+                        <span className="font-mono">{item.projectUrl.replace(/^https?:\/\/(www\.)?/, '').replace(/\/$/, '') || 'Visit Site'}</span>
                         <ExternalLink className="h-3 w-3" />
                       </a>
                     )}

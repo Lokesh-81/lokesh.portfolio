@@ -669,6 +669,9 @@ CREATE TABLE IF NOT EXISTS public.testimonials (
 
 CREATE INDEX IF NOT EXISTS idx_testimonials_order ON public.testimonials (display_order);
 
+-- Permissions
+GRANT ALL ON TABLE public.testimonials TO anon, authenticated, service_role;
+
 ALTER TABLE public.testimonials ENABLE ROW LEVEL SECURITY;
 CREATE POLICY "Public Read Testimonials" ON public.testimonials FOR SELECT USING (is_published = true);
 CREATE POLICY "Admin All Testimonials" ON public.testimonials FOR ALL TO anon, authenticated USING (true) WITH CHECK (true);
@@ -681,7 +684,7 @@ VALUES (
   'Founder & Business Owner',
   'Foundarly Business World',
   'Super fast execution and very satisfying results every single time! Lokesh is highly reliable, technically solid, and always ready to tackle any challenge on the website. A pleasure to work with!',
-  'https://www.foundarlybusinessworld.in/',
+  'https://foundarlybusinessworld.in',
   0,
   true
 )

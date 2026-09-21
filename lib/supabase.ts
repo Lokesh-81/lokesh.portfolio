@@ -383,7 +383,7 @@ export const defaultTestimonials: TestimonialItem[] = [
     role: 'Founder & Business Owner',
     company: 'Foundarly Business World',
     testimonial: 'Super fast execution and very satisfying results every single time! Lokesh is highly reliable, technically solid, and always ready to tackle any challenge on the website. A pleasure to work with!',
-    projectUrl: 'https://www.foundarlybusinessworld.in/',
+    projectUrl: 'https://foundarlybusinessworld.in',
     rating: 5,
     displayOrder: 0,
     isPublished: true,
@@ -648,7 +648,12 @@ export async function loadPortfolioDataset() {
     siteSettings: getLocal<SiteSettings>(CACHE_KEYS.SITE_SETTINGS, defaultSiteSettings),
     messages: getLocal<ContactMessage[]>(CACHE_KEYS.MESSAGES, []),
     resumes: getLocal<ResumeItem[]>(CACHE_KEYS.RESUMES, defaultResumes),
-    testimonials: getLocal<TestimonialItem[]>(CACHE_KEYS.TESTIMONIALS, defaultTestimonials),
+    testimonials: (() => {
+      const cached = getLocal<TestimonialItem[]>(CACHE_KEYS.TESTIMONIALS, defaultTestimonials);
+      if (!Array.isArray(cached) || cached.length === 0) return defaultTestimonials;
+      const hasFoundarly = cached.some((t) => t.id === 'test-foundarly' || t.company?.includes('Foundarly'));
+      return hasFoundarly ? cached : [...defaultTestimonials, ...cached];
+    })(),
   };
 
   // Try fetching fresh data from Supabase tables if available
