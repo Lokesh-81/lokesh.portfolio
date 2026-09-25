@@ -37,15 +37,6 @@ export function Footer({ onNavigate }: FooterProps) {
 
           <div className="flex flex-wrap items-center justify-center gap-4 text-xs font-medium text-[#CBD5E1]">
             <a
-              href="https://lokesh-portfolio-drab.vercel.app/"
-              target="_blank"
-              rel="noreferrer"
-              className="hover:text-[#60A5FA] transition-colors"
-            >
-              Portfolio
-            </a>
-            <span className="text-[#334155]">·</span>
-            <a
               href="https://github.com/Lokesh-81"
               target="_blank"
               rel="noreferrer"

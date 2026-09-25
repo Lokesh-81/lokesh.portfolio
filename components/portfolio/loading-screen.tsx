@@ -15,7 +15,7 @@ export function LoadingScreen({ onComplete }: LoadingScreenProps) {
     setIsVisible(false);
     setTimeout(() => {
       onComplete?.();
-    }, 450);
+    }, 400);
   };
 
   return (
@@ -34,13 +34,14 @@ export function LoadingScreen({ onComplete }: LoadingScreenProps) {
           </div>
 
           <div className="relative z-10 flex flex-col items-center justify-center px-4 text-center">
-            {/* The Signature Component requested by the user */}
+            {/* The opentype SVG Signature Component */}
             <div className="scale-90 sm:scale-100 md:scale-110 transition-transform">
               <Signature
-                text="Lokesh"
-                fontSize={48}
+                text="Poosala Lokesh"
+                fontSize={42}
                 duration={1.5}
                 color="#60A5FA"
+                fontUrl="/LastoriaBoldRegular.otf"
                 onComplete={handleFinish}
               />
             </div>
@@ -49,8 +50,8 @@ export function LoadingScreen({ onComplete }: LoadingScreenProps) {
             <motion.div
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 1.0, duration: 0.6 }}
-              className="mt-4 flex flex-col items-center gap-1.5"
+              transition={{ delay: 0.8, duration: 0.6 }}
+              className="mt-6 flex flex-col items-center gap-1.5"
             >
               <p className="text-xs uppercase tracking-[0.25em] text-[#60A5FA] font-mono">
                 Poosala Lokesh
@@ -65,7 +66,7 @@ export function LoadingScreen({ onComplete }: LoadingScreenProps) {
               initial={{ opacity: 0 }}
               animate={{ opacity: 0.6 }}
               whileHover={{ opacity: 1 }}
-              transition={{ delay: 0.6, duration: 0.3 }}
+              transition={{ delay: 0.5, duration: 0.3 }}
               onClick={handleFinish}
               className="mt-8 text-[11px] font-mono text-[#64748B] hover:text-[#93C5FD] transition-colors cursor-pointer px-3 py-1 rounded-full border border-[#1F2937]/60 hover:border-[#60A5FA]/40"
             >

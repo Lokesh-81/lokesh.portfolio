@@ -357,7 +357,7 @@ export const defaultSiteSettings: SiteSettings = {
   siteDescription: 'Portfolio of Poosala Lokesh - Full Stack Developer, Google Cloud Certified Professional Cloud Architect & recipient of 37 Google Cloud Skill Badges based in Hyderabad, India.',
   seoTitle: 'Poosala Lokesh Portfolio',
   seoDescription: 'Engineering high-performance web applications, scalable digital platforms, and AI-powered products from Hyderabad, India.',
-  canonicalUrl: 'https://lokesh-portfolio-drab.vercel.app/',
+  canonicalUrl: '',
   faviconUrl: '/icon.svg',
   ogImageUrl: '/icon.svg',
   copyrightText: `© ${new Date().getFullYear()} Poosala Lokesh. Crafted with pride.`,
