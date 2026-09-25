@@ -65,8 +65,6 @@ export function Signature({
 
         for (const path of fontPaths) {
           try {
-            // Modern opentype.js v1.3+ requires opentype.parse(ArrayBuffer)
-            // fetch works reliably across all browsers and local dev servers
             const res = await fetch(path as string);
             if (res.ok) {
               const buffer = await res.arrayBuffer();
@@ -78,29 +76,8 @@ export function Signature({
           }
         }
 
-        // Secondary fallback to opentype.load with callback in environments supporting it
         if (!font) {
-          for (const path of fontPaths) {
-            try {
-              font = await new Promise<opentype.Font>((resolve, reject) => {
-                try {
-                  (opentype as any).load(path, (err: any, f: any) => {
-                    if (err || !f) reject(err || new Error('Failed to load font'));
-                    else resolve(f);
-                  });
-                } catch (e) {
-                  reject(e);
-                }
-              });
-              if (font) break;
-            } catch {
-              // Try next candidate
-            }
-          }
-        }
-
-        if (!font) {
-          throw new Error('Font could not be loaded from any path');
+          throw new Error('Font could not be loaded from candidate paths');
         }
 
         let x = horizontalPadding;
