@@ -24,7 +24,7 @@ export interface SignatureProps {
   once?: boolean;
   /** Custom font URL to load */
   fontUrl?: string;
-  /** Optional callback fired when signature animation completes */
+  /** Optional callback fired when animation sequence finishes */
   onComplete?: () => void;
 }
 
@@ -42,14 +42,15 @@ export function Signature({
 }: SignatureProps) {
   const [paths, setPaths] = useState<string[]>([]);
   const [width, setWidth] = useState<number>(300);
-  const height = fontSize * 3; // Give plenty of vertical space
-  const horizontalPadding = fontSize * 0.1;
-  const topMargin = fontSize * 1.5; // Shift down
+  const height = fontSize * 3.8; // Vertical space for ascenders/descenders
+  const horizontalPadding = fontSize * 0.2;
+  const topMargin = fontSize * 2.2; // Baseline offset to prevent clipping top loops
   const baseline = topMargin;
   const maskId = `signature-reveal-${useId().replace(/:/g, '')}`;
 
   useEffect(() => {
-    let isMounted = true;
+    let isCancelled = false;
+
     async function load() {
       try {
         let font: opentype.Font | null = null;
@@ -64,10 +65,37 @@ export function Signature({
 
         for (const path of fontPaths) {
           try {
-            font = (await opentype.load(path as string)) as opentype.Font;
-            if (font) break;
+            // Modern opentype.js v1.3+ requires opentype.parse(ArrayBuffer)
+            // fetch works reliably across all browsers and local dev servers
+            const res = await fetch(path as string);
+            if (res.ok) {
+              const buffer = await res.arrayBuffer();
+              font = opentype.parse(buffer) as opentype.Font;
+              if (font) break;
+            }
           } catch {
-            // Try next path
+            // Try next candidate
+          }
+        }
+
+        // Secondary fallback to opentype.load with callback in environments supporting it
+        if (!font) {
+          for (const path of fontPaths) {
+            try {
+              font = await new Promise<opentype.Font>((resolve, reject) => {
+                try {
+                  (opentype as any).load(path, (err: any, f: any) => {
+                    if (err || !f) reject(err || new Error('Failed to load font'));
+                    else resolve(f);
+                  });
+                } catch (e) {
+                  reject(e);
+                }
+              });
+              if (font) break;
+            } catch {
+              // Try next candidate
+            }
           }
         }
 
@@ -87,13 +115,13 @@ export function Signature({
           x += advanceWidth * (fontSize / font.unitsPerEm);
         }
 
-        if (isMounted) {
+        if (!isCancelled) {
           setPaths(newPaths);
           setWidth(x + horizontalPadding);
         }
       } catch (error) {
         console.error('Signature component font load error:', error);
-        if (isMounted) {
+        if (!isCancelled) {
           setPaths([]);
           setWidth(text.length * fontSize * 0.6);
         }
@@ -101,19 +129,21 @@ export function Signature({
     }
 
     load();
+
     return () => {
-      isMounted = false;
+      isCancelled = true;
     };
   }, [text, fontSize, baseline, horizontalPadding, fontUrl]);
 
+  // Handle animation completion callback
   useEffect(() => {
-    if (!onComplete) return;
-    const totalTime = (delay + duration + text.length * 0.2 + 0.3) * 1000;
+    if (!onComplete || paths.length === 0) return;
+    const totalTime = (delay + duration + (paths.length - 1) * 0.2 + 0.8) * 1000;
     const timer = setTimeout(() => {
       onComplete();
     }, totalTime);
     return () => clearTimeout(timer);
-  }, [delay, duration, text.length, onComplete]);
+  }, [delay, duration, paths.length, onComplete]);
 
   const variants = {
     hidden: { pathLength: 0, opacity: 0 },
@@ -127,7 +157,7 @@ export function Signature({
       height={height}
       viewBox={`0 0 ${width} ${height}`}
       fill="none"
-      className={cn('text-foreground overflow-visible', className)}
+      className={cn('text-foreground overflow-visible max-w-full h-auto', className)}
       initial="hidden"
       whileInView={inView ? 'visible' : undefined}
       animate={inView ? undefined : 'visible'}
@@ -140,7 +170,7 @@ export function Signature({
               key={i}
               d={d}
               stroke="white"
-              strokeWidth={fontSize * 0.22}
+              strokeWidth={fontSize * 0.35}
               fill="none"
               variants={variants}
               transition={{

@@ -4,6 +4,7 @@ import React from 'react';
 import { MapPin, Languages, GraduationCap, Award, Github, ArrowUpRight } from 'lucide-react';
 import { TextEffect } from '@/components/core/text-effect';
 import { Spotlight } from '@/components/core/spotlight';
+import { Signature } from '@/components/ui/signature';
 import { usePortfolio } from '@/lib/portfolio-context';
 import { useLanguage } from '@/i18n';
 
@@ -77,6 +78,24 @@ export function AboutSection() {
                     <ArrowUpRight className="h-3.5 w-3.5 text-[#64748B]" />
                   </a>
                 ))}
+              </div>
+            </div>
+
+            {/* Handcrafted Opentype Signature */}
+            <div className="mt-8 pt-6 border-t border-[#1F2937]/80">
+              <span className="text-[10px] font-mono uppercase tracking-wider text-[#A5B4FC]/70 block mb-2">
+                Signature
+              </span>
+              <div className="overflow-visible py-1">
+                <Signature
+                  text="Poosala Lokesh"
+                  fontSize={28}
+                  duration={1.5}
+                  color="#60A5FA"
+                  fontUrl="/LastoriaBoldRegular.otf"
+                  inView={true}
+                  once={true}
+                />
               </div>
             </div>
 
