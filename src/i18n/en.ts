@@ -6,6 +6,7 @@ export const en = {
   'nav.skills': 'Skills',
   'nav.certifications': 'Certifications',
   'nav.experience': 'Experience',
+  'nav.testimonials': 'Testimonials',
   'nav.contact': 'Contact',
   'nav.language': 'Language',
   'nav.changeLanguage': 'Change language',
@@ -89,6 +90,25 @@ export const en = {
   'skills.level.working': 'Working Knowledge',
   'skills.level.familiar': 'Familiar',
 
+  // Certifications Section
+  'certifications.tag': 'PROFESSIONAL CREDENTIALS',
+  'certifications.title': 'Certifications &',
+  'certifications.titleAccent': 'Google Cloud Badges.',
+  'certifications.subtitle':
+    'Official enterprise certifications and skill badges validating cloud solution architecture, generative AI, cybersecurity, Kubernetes, and smart data analytics on Google Cloud.',
+  'certifications.stat.cert': 'Professional Cert',
+  'certifications.stat.badges': 'Official Skill Badges',
+  'certifications.stat.focus': 'Cloud Architecture & AI',
+  'certifications.stat.issuedBy': 'Google Cloud Platform',
+  'certifications.searchPlaceholder': 'Search 37 skill badges by title, skill, or service...',
+  'certifications.filter.all': 'All Badges',
+  'certifications.filter.intro': 'Introductory',
+  'certifications.filter.intermediate': 'Intermediate',
+  'certifications.filter.advanced': 'Advanced',
+  'certifications.noBadgesFound': 'No badges found matching your search.',
+  'certifications.viewGcpCert': 'View GCP Certificate',
+  'certifications.exploreBadges': 'Explore 37 Badges',
+
   // Experience Section
   'experience.tag': 'CAREER TRACK RECORD',
   'experience.title': 'Roles &',
@@ -97,6 +117,16 @@ export const en = {
     'A chronological breakdown of leadership roles, development responsibilities, and delivered milestones across startups and technology organizations.',
   'experience.highlights': 'Key Highlights & Outcomes',
   'experience.focusAreas': 'Focus Areas & Leadership',
+
+  // Testimonials Section
+  'testimonials.tag': 'CLIENT ENDORSEMENTS',
+  'testimonials.viewing': 'Currently viewing',
+  'testimonials.title': 'Client',
+  'testimonials.titleAccent': 'Feedback.',
+  'testimonials.subtitle':
+    'Genuine endorsements, client reviews, and direct collaboration feedback from founders and business partners.',
+  'testimonials.verified': 'Verified Feedback',
+  'testimonials.clientReview': 'Client Review',
 
   // Contact Section
   'contact.tag': 'CONTACT & INQUIRIES',

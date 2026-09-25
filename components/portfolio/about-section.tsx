@@ -13,12 +13,7 @@ export function AboutSection() {
 
   const displayName = profile?.displayName || profile?.name || 'Poosala Lokesh';
   const location = profile?.location || 'Hyderabad, India';
-  const languagesList =
-    language === 'en'
-      ? profile?.languages?.length
-        ? profile.languages.join(' · ')
-        : 'Telugu · English · Hindi · French'
-      : t('about.languagesList');
+  const languagesList = t('about.languagesList') || 'Telugu · English · Hindi · French';
   const education = profile?.education || 'B.Sc. MSCS · 2027';
   const recognition = profile?.recognition || 'Google Student Ambassador';
 
@@ -30,9 +25,9 @@ export function AboutSection() {
           { handle: 'lokeshnaivaidya-max', url: 'https://github.com/lokeshnaivaidya-max', label: 'github.com/lokeshnaivaidya-max' },
         ];
 
-  const tagText = about?.tag || t('about.tag');
-  const titleText = about?.title || t('about.title');
-  const titleAccentText = about?.titleAccent || t('about.titleAccent');
+  const tagText = t('about.tag', about?.tag || 'ABOUT ME');
+  const titleText = t('about.title', about?.title || 'Curious by');
+  const titleAccentText = t('about.titleAccent', about?.titleAccent || 'nature.');
 
 
   return (

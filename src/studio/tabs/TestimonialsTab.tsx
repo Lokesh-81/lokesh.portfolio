@@ -166,11 +166,13 @@ export function TestimonialsTab({ showToast }: TestimonialsTabProps) {
                     &ldquo;{t.testimonial}&rdquo;
                   </p>
                   <div className="flex items-center gap-3 pt-1">
-                    <div className="flex items-center gap-0.5 text-amber-400">
-                      {Array.from({ length: t.rating || 5 }).map((_, i) => (
-                        <Star key={i} className="h-3 w-3 fill-amber-400 text-amber-400" />
-                      ))}
-                    </div>
+                    {t.rating ? (
+                      <div className="flex items-center gap-0.5 text-amber-400">
+                        {Array.from({ length: t.rating }).map((_, i) => (
+                          <Star key={i} className="h-3 w-3 fill-amber-400 text-amber-400" />
+                        ))}
+                      </div>
+                    ) : null}
                     {t.projectUrl && (
                       <a
                         href={t.projectUrl}

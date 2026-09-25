@@ -357,6 +357,7 @@ export const defaultSiteSettings: SiteSettings = {
   siteDescription: 'Portfolio of Poosala Lokesh - Full Stack Developer, Google Cloud Certified Professional Cloud Architect & recipient of 37 Google Cloud Skill Badges based in Hyderabad, India.',
   seoTitle: 'Poosala Lokesh Portfolio',
   seoDescription: 'Engineering high-performance web applications, scalable digital platforms, and AI-powered products from Hyderabad, India.',
+  canonicalUrl: 'https://lokesh-portfolio-drab.vercel.app/',
   faviconUrl: '/icon.svg',
   ogImageUrl: '/icon.svg',
   copyrightText: `© ${new Date().getFullYear()} Poosala Lokesh. Crafted with pride.`,
@@ -379,7 +380,7 @@ export const defaultResumes: ResumeItem[] = [
 export const defaultTestimonials: TestimonialItem[] = [
   {
     id: 'test-foundarly',
-    name: 'Foundarly Business World Owner',
+    name: 'Abhishek Aggarwal',
     role: 'Founder & Business Owner',
     company: 'Foundarly Business World',
     testimonial: 'Super fast execution and very satisfying results every single time! Lokesh is highly reliable, technically solid, and always ready to tackle any challenge on the website. A pleasure to work with!',
@@ -388,7 +389,18 @@ export const defaultTestimonials: TestimonialItem[] = [
     displayOrder: 0,
     isPublished: true,
     createdAt: '2026-08-15T00:00:00.000Z',
-  }
+  },
+  {
+    id: 'test-indira-thakur',
+    name: 'Indira Thakur',
+    company: 'Indira Thakur Photography',
+    testimonial: 'I was looking for a website developer to create my website and came across Lokesh through a company I had hired. I shared the colour palette, font style, and other details I wanted to match my brand, and he implemented everything as requested.\n\nThere were multiple complications during the development process, which he resolved efficiently. I would message him about any issues with the website on WhatsApp, and he would work on resolving them. He never told me that something couldn’t be done. He has a positive attitude towards his work and always tries to find a solution, which I really appreciated.\n\nIt was nice working with him. The website now looks satisfactory, and I’m happy with the overall result.',
+    projectUrl: 'https://www.indirathakur.com',
+    rating: 5,
+    displayOrder: 1,
+    isPublished: true,
+    createdAt: '2026-09-24T00:00:00.000Z',
+  },
 ];
 
 // Local Storage Safe Cache Keys (for immediate persistence and offline/pre-migration safety)
@@ -651,8 +663,33 @@ export async function loadPortfolioDataset() {
     testimonials: (() => {
       const cached = getLocal<TestimonialItem[]>(CACHE_KEYS.TESTIMONIALS, defaultTestimonials);
       if (!Array.isArray(cached) || cached.length === 0) return defaultTestimonials;
-      const hasFoundarly = cached.some((t) => t.id === 'test-foundarly' || t.company?.includes('Foundarly'));
-      return hasFoundarly ? cached : [...defaultTestimonials, ...cached];
+      const updated = cached.map((c) => {
+        if (c.id === 'test-foundarly') {
+          return {
+            ...c,
+            name: 'Abhishek Aggarwal',
+            role: 'Founder & Business Owner',
+            company: 'Foundarly Business World',
+            projectUrl: 'https://foundarlybusinessworld.in',
+            rating: 5,
+          };
+        }
+        if (c.id === 'test-indira-thakur') {
+          return {
+            ...c,
+            name: 'Indira Thakur',
+            company: 'Indira Thakur Photography',
+            projectUrl: 'https://www.indirathakur.com',
+            rating: 5,
+          };
+        }
+        return c;
+      });
+      const cachedIds = new Set(updated.map((t) => t.id));
+      const missingDefaults = defaultTestimonials.filter((dt) => !cachedIds.has(dt.id));
+      const finalResult = missingDefaults.length > 0 ? [...updated, ...missingDefaults] : updated;
+      setLocal(CACHE_KEYS.TESTIMONIALS, finalResult);
+      return finalResult;
     })(),
   };
 

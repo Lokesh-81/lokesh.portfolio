@@ -48,25 +48,29 @@ export function Hero({ onNavigate }: HeroProps) {
   const { t, language } = useLanguage();
   const { hero, profile } = usePortfolio();
 
-  const greetingText = hero?.greeting || t('hero.greeting');
-  const nameText = hero?.name || profile?.displayName || 'Poosala Lokesh.';
-  const imAText = hero?.imA || t('hero.imA') || "I'm a";
-  const bioText = hero?.bio || t('hero.bio');
-  const ctaWorkText = hero?.ctaWork || t('hero.ctaWork');
-  const ctaContactText = hero?.ctaContact || t('hero.ctaContact');
+  const greetingText = t('hero.greeting', hero?.greeting || "Hello, I'm");
+  const nameText = t('hero.name', hero?.name || profile?.displayName || 'Poosala Lokesh.');
+  const imAText = t('hero.imA', hero?.imA || "I'm a");
+  const bioText = t('hero.bio', hero?.bio);
+  const ctaWorkText = t('hero.ctaWork', hero?.ctaWork || 'View My Work');
+  const ctaContactText = t('hero.ctaContact', hero?.ctaContact || "Let's Work Together");
 
-  const defaultRotating = [
-    language === 'fr' ? 'Développeur Full Stack' : 'Full Stack Developer',
-    language === 'fr' ? 'Architecte Cloud Google' : 'Google Cloud Architect',
-    language === 'fr' ? 'Ingénieur IA' : 'AI Engineer',
-    language === 'fr' ? 'Résolveur de Problèmes' : 'Creative Problem Solver',
-  ];
+  const rotatingWordsByLang: Record<string, string[]> = {
+    en: ['Full Stack Developer', 'Google Cloud Architect', 'AI Engineer', 'Creative Problem Solver'],
+    te: ['ఫుల్ స్టాక్ డెవలపర్', 'గూగుల్ క్లౌడ్ ఆర్కిటెక్ట్', 'AI ఇంజనీర్', 'సృజనాత్మక పరిష్కారకర్త'],
+    hi: ['फुल स्टैक डेवलपर', 'गूगल क्लाउड आर्किटेक्ट', 'AI इंजीनियर', 'समस्या समाधानकर्ता'],
+    ta: ['ஃபுல் ஸ்டாக் டெவலப்பர்', 'கூகிள் கிளவுட் ஆர்க்கிடெக்ட்', 'AI பொறியாளர்', 'தீர்வு உருவாக்குநர்'],
+    kn: ['ಫುಲ್ ಸ್ಟ್ಯಾಕ್ ಡೆವಲಪರ್', 'ಗೂಗಲ್ ಕ್ಲೌಡ್ ಆರ್ಕಿಟೆಕ್ಟ್', 'AI ಎಂಜಿನಿಯರ್', 'ಸಮಸ್ಯೆ ಪರಿಹಾರಕ'],
+    ml: ['ഫുൾ സ്റ്റാക്ക് ഡെവലപ്പർ', 'ഗൂഗിൾ ക്ലൗഡ് ആർക്കിടെക്റ്റ്', 'AI എഞ്ചിനീയർ', 'പ്രശ്നപരിഹാരകൻ'],
+    bn: ['ফুল স্ট্যাক ডেভেলপার', 'গুগল ক্লাউড আর্কিটেক্ট', 'এআই প্রকৌশলী', 'সমস্যা সমাধানকারী'],
+    mr: ['फुल स्टॅक डेव्हलपर', 'गुगल क्लाउड आर्किटेक्ट', 'AI अभियंता', 'समस्या निवारक'],
+    es: ['Desarrollador Full Stack', 'Arquitecto Google Cloud', 'Ingeniero de IA', 'Solucionador Creativo'],
+    fr: ['Développeur Full Stack', 'Architecte Cloud Google', 'Ingénieur IA', 'Résolveur de Problèmes'],
+    de: ['Full-Stack-Entwickler', 'Google Cloud-Architekt', 'KI-Ingenieur', 'Kreativer Problemlöser'],
+    ja: ['フルスタックエンジニア', 'Google Cloud アーキテクト', 'AI エンジニア', '問題解決スペシャリスト'],
+  };
 
-  const rotatingWords =
-    hero?.rotatingWords && hero.rotatingWords.length > 0
-      ? hero.rotatingWords
-      : defaultRotating;
-
+  const rotatingWords = rotatingWordsByLang[language] || rotatingWordsByLang.en;
   const rotatingColors = ['text-[#60A5FA]', 'text-[#FDE68A]', 'text-[#C084FC]', 'text-[#2DD4BF]'];
 
   return (

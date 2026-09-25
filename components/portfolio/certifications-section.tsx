@@ -109,23 +109,22 @@ export function CertificationsSection({ onNavigate }: CertificationsSectionProps
             <div className="text-xs uppercase tracking-[0.2em] text-[#60A5FA] font-semibold flex items-center gap-2">
               <Award className="h-4 w-4 text-[#F9AB00]" />
               <TextEffect key={`tag-${language}`} per="char" delay={0.05}>
-                {language === 'fr' ? 'ACCRÉDITATIONS PROFESSIONNELLES' : 'PROFESSIONAL CREDENTIALS'}
+                {t('certifications.tag') || 'PROFESSIONAL CREDENTIALS'}
               </TextEffect>
             </div>
             <h2 className="mt-1 text-3xl font-light tracking-tight text-[#E0E7FF] sm:text-5xl md:text-6xl">
               <TextEffect key={`title-${language}`} per="word" delay={0.15}>
-                {language === 'fr' ? 'Certifications &' : 'Certifications &'}
+                {t('certifications.title') || 'Certifications &'}
               </TextEffect>{' '}
               <span className="instrument italic font-normal text-[#F9AB00]">
-                {language === 'fr' ? 'Badges Google Cloud.' : 'Google Cloud Badges.'}
+                {t('certifications.titleAccent') || 'Google Cloud Badges.'}
               </span>
             </h2>
           </div>
           <div className="max-w-md text-xs sm:text-sm leading-relaxed text-[#CBD5E1]">
             <TextEffect key={`sub-${language}`} per="word" delay={0.25}>
-              {language === 'fr'
-                ? 'Accréditations et badges officiels validant l’architecture cloud, l’IA générative, la sécurité et l’analyse sur Google Cloud Platform.'
-                : 'Official enterprise certifications and skill badges validating cloud solution architecture, generative AI, cybersecurity, Kubernetes, and smart data analytics on Google Cloud.'}
+              {t('certifications.subtitle') ||
+                'Official enterprise certifications and skill badges validating cloud solution architecture, generative AI, cybersecurity, Kubernetes, and smart data analytics on Google Cloud.'}
             </TextEffect>
           </div>
         </div>
@@ -138,7 +137,9 @@ export function CertificationsSection({ onNavigate }: CertificationsSectionProps
             </div>
             <div>
               <div className="text-xl sm:text-2xl font-bold text-[#E0E7FF]">1</div>
-              <div className="text-[11px] text-[#94A3B8] font-mono">Professional Cert</div>
+              <div className="text-[11px] text-[#94A3B8] font-mono">
+                {t('certifications.stat.cert') || 'Professional Cert'}
+              </div>
             </div>
           </div>
 
@@ -148,7 +149,9 @@ export function CertificationsSection({ onNavigate }: CertificationsSectionProps
             </div>
             <div>
               <div className="text-xl sm:text-2xl font-bold text-[#E0E7FF]">{skillBadges.length}</div>
-              <div className="text-[11px] text-[#94A3B8] font-mono">Official Skill Badges</div>
+              <div className="text-[11px] text-[#94A3B8] font-mono">
+                {t('certifications.stat.badges') || 'Official Skill Badges'}
+              </div>
             </div>
           </div>
 
@@ -160,7 +163,9 @@ export function CertificationsSection({ onNavigate }: CertificationsSectionProps
               <div className="text-xl sm:text-2xl font-bold text-[#E0E7FF]">
                 {skillBadges.filter((b) => b.category === 'Machine Learning & AI').length}
               </div>
-              <div className="text-[11px] text-[#94A3B8] font-mono">AI & Machine Learning</div>
+              <div className="text-[11px] text-[#94A3B8] font-mono">
+                {t('certifications.stat.focus') || 'Cloud Architecture & AI'}
+              </div>
             </div>
           </div>
 
@@ -170,7 +175,9 @@ export function CertificationsSection({ onNavigate }: CertificationsSectionProps
             </div>
             <div>
               <div className="text-xl sm:text-2xl font-bold text-emerald-400">100%</div>
-              <div className="text-[11px] text-[#94A3B8] font-mono">Google Verified</div>
+              <div className="text-[11px] text-[#94A3B8] font-mono">
+                {t('certifications.stat.issuedBy') || 'Google Verified'}
+              </div>
             </div>
           </div>
         </div>

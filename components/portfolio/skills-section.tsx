@@ -23,23 +23,88 @@ export function SkillsSection() {
 
   const getCategoryLabel = (cat: string) => {
     if (cat === 'All') return t('work.filter.all');
-    if (language === 'fr') {
-      switch (cat) {
-        case 'Frontend':
-          return 'Frontend & UI';
-        case 'Backend':
-          return 'Backend & API';
-        case 'AI & ML':
-          return 'IA & Machine Learning';
-        case 'Database':
-          return 'Bases de données';
-        case 'DevOps & Cloud':
-          return 'DevOps & Cloud';
-        default:
-          return cat;
-      }
-    }
-    return cat;
+
+    const categoryTranslations: Record<string, Record<string, string>> = {
+      te: {
+        Frontend: 'ఫ్రంటెండ్',
+        Backend: 'బ్యాకెండ్',
+        'AI & ML': 'AI & ML',
+        Database: 'డేటాబేస్',
+        'DevOps & Cloud': 'డెవ్ఆప్స్ & క్లౌడ్',
+      },
+      hi: {
+        Frontend: 'फ्रंटएंड',
+        Backend: 'बैकएंड',
+        'AI & ML': 'AI एवं मशीन लर्निंग',
+        Database: 'डेटाबेस',
+        'DevOps & Cloud': 'डेवऑप्स एवं क्लाउड',
+      },
+      fr: {
+        Frontend: 'Frontend & UI',
+        Backend: 'Backend & API',
+        'AI & ML': 'IA & Machine Learning',
+        Database: 'Bases de données',
+        'DevOps & Cloud': 'DevOps & Cloud',
+      },
+      es: {
+        Frontend: 'Frontend & UI',
+        Backend: 'Backend & API',
+        'AI & ML': 'IA y Machine Learning',
+        Database: 'Bases de datos',
+        'DevOps & Cloud': 'DevOps y Cloud',
+      },
+      de: {
+        Frontend: 'Frontend & UI',
+        Backend: 'Backend & API',
+        'AI & ML': 'KI & Maschinelles Lernen',
+        Database: 'Datenbanken',
+        'DevOps & Cloud': 'DevOps & Cloud',
+      },
+      ja: {
+        Frontend: 'フロントエンド',
+        Backend: 'バックエンド',
+        'AI & ML': 'AI & 機械学習',
+        Database: 'データベース',
+        'DevOps & Cloud': 'DevOps & クラウド',
+      },
+      ta: {
+        Frontend: 'முன்பகுதி (Frontend)',
+        Backend: 'பின்தள (Backend)',
+        'AI & ML': 'AI & இயந்திர கற்றல்',
+        Database: 'தரவுத்தளம்',
+        'DevOps & Cloud': 'DevOps & கிளவுட்',
+      },
+      kn: {
+        Frontend: 'ಫ್ರಂಟ್‌ಎಂಡ್',
+        Backend: 'ಬ್ಯಾಕ್‌ಎಂಡ್',
+        'AI & ML': 'AI & ML',
+        Database: 'ಡೇಟಾಬೇಸ್',
+        'DevOps & Cloud': 'ಡೆವ್ಆಪ್ಸ್ & ಕ್ಲೌಡ್',
+      },
+      ml: {
+        Frontend: 'ഫ്രണ്ട്‌എൻഡ്',
+        Backend: 'ബാക്കെൻഡ്',
+        'AI & ML': 'AI & ML',
+        Database: 'ഡാറ്റാബേസ്',
+        'DevOps & Cloud': 'ഡെവ്ഓപ്സ് & ക്ലൗഡ്',
+      },
+      bn: {
+        Frontend: 'ফ্রন্টএন্ড',
+        Backend: 'ব্যাকএন্ড',
+        'AI & ML': 'এআই ও মেশিন লার্নিং',
+        Database: 'ডাটাবেস',
+        'DevOps & Cloud': 'ডেভঅপ্স ও ক্লাউড',
+      },
+      mr: {
+        Frontend: 'फ्रंटएंड',
+        Backend: 'बॅकएंड',
+        'AI & ML': 'AI व मशीन लर्निंग',
+        Database: 'डेटाबेस',
+        'DevOps & Cloud': 'डेव्हऑप्स व क्लाउड',
+      },
+    };
+
+    return categoryTranslations[language]?.[cat] || cat;
   };
 
   const getLevelBadge = (level: SkillLevel) => {

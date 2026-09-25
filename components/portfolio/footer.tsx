@@ -3,12 +3,15 @@
 import React from 'react';
 import { Spotlight } from '@/components/core/spotlight';
 import { Clock } from '@/components/core/sliding-number';
+import { useLanguage } from '@/i18n';
 
 export interface FooterProps {
   onNavigate?: (section: string) => void;
 }
 
 export function Footer({ onNavigate }: FooterProps) {
+  const { t } = useLanguage();
+
   return (
     <footer className="relative mt-auto border-t border-[#1F2937] bg-[#0B132B]/95 px-4 sm:px-8 py-8 backdrop-blur-md overflow-hidden">
       <Spotlight
@@ -23,30 +26,32 @@ export function Footer({ onNavigate }: FooterProps) {
           <div className="flex flex-wrap items-center justify-center gap-2 font-mono text-[#E0E7FF] text-center sm:text-left">
             <span className="font-bold tracking-wider">POOSALA LOKESH</span>
             <span className="text-[#334155]">·</span>
-            <span className="text-xs text-[#CBD5E1] tracking-wider uppercase">HYDERABAD, INDIA</span>
+            <span className="text-xs text-[#CBD5E1] tracking-wider uppercase">
+              {t('footer.location') || 'HYDERABAD, INDIA'}
+            </span>
             <span className="text-[#334155]">·</span>
             <span className="text-[11px] text-[#A5B4FC]/80 font-normal">
-              © {new Date().getFullYear()} Poosala Lokesh
+              © {new Date().getFullYear()} Poosala Lokesh · {t('footer.rights') || 'All rights reserved.'}
             </span>
           </div>
 
           <div className="flex flex-wrap items-center justify-center gap-4 text-xs font-medium text-[#CBD5E1]">
+            <a
+              href="https://lokesh-portfolio-drab.vercel.app/"
+              target="_blank"
+              rel="noreferrer"
+              className="hover:text-[#60A5FA] transition-colors"
+            >
+              Portfolio
+            </a>
+            <span className="text-[#334155]">·</span>
             <a
               href="https://github.com/Lokesh-81"
               target="_blank"
               rel="noreferrer"
               className="hover:text-[#60A5FA] transition-colors"
             >
-              GitHub (Lokesh-81)
-            </a>
-            <span className="text-[#334155]">·</span>
-            <a
-              href="https://github.com/lokeshnaivaidya-max"
-              target="_blank"
-              rel="noreferrer"
-              className="hover:text-[#60A5FA] transition-colors"
-            >
-              GitHub (naivaidya-max)
+              GitHub
             </a>
             <span className="text-[#334155]">·</span>
             <a
@@ -59,7 +64,7 @@ export function Footer({ onNavigate }: FooterProps) {
             </a>
             <span className="text-[#334155]">·</span>
             <a
-              href="https://www.instagram.com/mr.lokesh__poosala/"
+              href="https://www.instagram.com/_lokesh81/"
               target="_blank"
               rel="noreferrer"
               className="hover:text-[#F9A8D4] transition-colors"

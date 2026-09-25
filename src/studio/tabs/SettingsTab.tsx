@@ -46,7 +46,7 @@ export function SettingsTab({ showToast }: SettingsTabProps) {
     keywords:
       settings?.keywords ||
       'Poosala Lokesh, Full Stack Developer, Next.js, React, Supabase, Google Cloud, AI Engineer, Hyderabad',
-    canonicalUrl: settings?.canonicalUrl || 'https://lokesh-portfolio.dev',
+    canonicalUrl: settings?.canonicalUrl || 'https://lokesh-portfolio-drab.vercel.app/',
     emailNotifications: settings?.emailNotifications ?? true,
   });
 

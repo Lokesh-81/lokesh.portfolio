@@ -471,7 +471,9 @@ export const fr: Record<string, string> = {
   'nav.about': 'À propos',
   'nav.work': 'Projets',
   'nav.skills': 'Compétences',
+  'nav.certifications': 'Certifications',
   'nav.experience': 'Expérience',
+  'nav.testimonials': 'Témoignages',
   'nav.contact': 'Contact',
   'nav.language': 'Langue',
   'nav.changeLanguage': 'Changer de langue',
@@ -555,6 +557,25 @@ export const fr: Record<string, string> = {
   'skills.level.working': 'Connaissance pratique',
   'skills.level.familiar': 'Familier',
 
+  // Certifications Section
+  'certifications.tag': 'ACCRÉDITATIONS PROFESSIONNELLES',
+  'certifications.title': 'Certifications &',
+  'certifications.titleAccent': 'Badges Google Cloud.',
+  'certifications.subtitle':
+    'Accréditations et badges officiels validant l’architecture cloud, l’IA générative, la sécurité et l’analyse sur Google Cloud Platform.',
+  'certifications.stat.cert': 'Certificat Professionnel',
+  'certifications.stat.badges': 'Badges Officiels',
+  'certifications.stat.focus': 'Architecture Cloud & IA',
+  'certifications.stat.issuedBy': 'Google Cloud Platform',
+  'certifications.searchPlaceholder': 'Rechercher parmi 37 badges par titre, compétence ou service...',
+  'certifications.filter.all': 'Tous les badges',
+  'certifications.filter.intro': 'Niveau Débutant',
+  'certifications.filter.intermediate': 'Niveau Intermédiaire',
+  'certifications.filter.advanced': 'Niveau Avancé',
+  'certifications.noBadgesFound': 'Aucun badge ne correspond à votre recherche.',
+  'certifications.viewGcpCert': 'Voir le Certificat GCP',
+  'certifications.exploreBadges': 'Explorer les 37 Badges',
+
   // Experience Section
   'experience.tag': 'PARCOURS PROFESSIONNEL',
   'experience.title': 'Rôles &',
@@ -563,6 +584,16 @@ export const fr: Record<string, string> = {
     'Une vue chronologique des rôles de leadership, responsabilités techniques et projets livrés à travers startups et entreprises.',
   'experience.highlights': 'Points forts et résultats',
   'experience.focusAreas': 'Domaines d’intervention & Leadership',
+
+  // Testimonials Section
+  'testimonials.tag': 'TÉMOIGNAGES CLIENTS',
+  'testimonials.viewing': 'Affichage actuel',
+  'testimonials.title': 'Avis',
+  'testimonials.titleAccent': 'Clients.',
+  'testimonials.subtitle':
+    'Recommandations authentiques et retours de collaboration directe de fondateurs et partenaires.',
+  'testimonials.verified': 'Retour Vérifié',
+  'testimonials.clientReview': 'Avis Client',
 
   // Contact Section
   'contact.tag': 'CONTACT & DEMANDES',
