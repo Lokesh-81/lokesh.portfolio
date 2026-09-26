@@ -81,6 +81,18 @@ export interface ExperienceItem {
   sortOrder?: number
   display_order?: number
   featured?: boolean
+  lor?: {
+    hasLor: boolean
+    title: string
+    issuer: string
+    issuedBy: string
+    role: string
+    date: string
+    phone: string
+    email: string
+    location: string
+    skillsVerified?: string[]
+  }
 }
 
 export type SkillLevel = "Core" | "Working Knowledge" | "Familiar"
@@ -204,7 +216,26 @@ export const initialExperienceData: ExperienceItem[] = [
     technologies: ["React", "TypeScript", "Tailwind CSS", "Supabase", "Node.js", "REST APIs", "Vite"],
     link: "",
     order: 0,
-    featured: true
+    featured: true,
+    lor: {
+      hasLor: true,
+      title: "Letter of Recommendation (LOR)",
+      issuer: "Belvo Company",
+      issuedBy: "Hrishikesh Mishra",
+      role: "CEO, Belvo",
+      date: "22-09-2026",
+      phone: "+918928466820",
+      email: "contact.belvo@gmail.com",
+      location: "Goregaon, Mumbai",
+      skillsVerified: [
+        "Web development and website implementation",
+        "Front-end development and responsive design",
+        "Debugging and resolving technical issues",
+        "Understanding project requirements and development workflows",
+        "Testing and improving web pages and features",
+        "Collaborating with team members on development tasks"
+      ]
+    }
   },
   {
     id: "google-ambassador",

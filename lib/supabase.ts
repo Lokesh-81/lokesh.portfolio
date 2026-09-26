@@ -304,6 +304,17 @@ export const defaultEducations: EducationItem[] = [
 
 export const defaultAchievements: AchievementItem[] = [
   {
+    id: 'ach-belvo-lor',
+    title: 'Letter of Recommendation (LOR) — Web Developer Intern',
+    organization: 'Belvo Company (Hrishikesh Mishra, CEO)',
+    date: 'September 22, 2026',
+    description: 'Official Letter of Recommendation issued by Belvo CEO for outstanding contributions in web development, responsive design, debugging, and team collaboration.',
+    positionOrPrize: 'Official Letter of Recommendation',
+    url: '#experience',
+    displayOrder: 0,
+    isPublished: true,
+  },
+  {
     id: 'ach-1',
     title: 'Google Cloud Certified Professional Cloud Architect',
     organization: 'Google Cloud',
@@ -379,6 +390,19 @@ export const defaultResumes: ResumeItem[] = [
 
 export const defaultTestimonials: TestimonialItem[] = [
   {
+    id: 'test-belvo-lor',
+    name: 'Hrishikesh Mishra',
+    role: 'CEO',
+    company: 'Belvo Company',
+    testimonial:
+      'It is my pleasure to recommend Poosala Lokesh for successfully completing a 3-month internship as a Web Developer at Belvo. During the internship, they demonstrated a strong willingness to learn, adaptability, and a professional attitude while completing assigned tasks. They gained practical exposure to website development, implementation, debugging, and improving web-based solutions. I am pleased to recommend Poosala Lokesh for future opportunities in the field of Web Development and related areas.',
+    projectUrl: 'https://www.belvo.buzz/',
+    rating: 5,
+    displayOrder: 0,
+    isPublished: true,
+    createdAt: '2026-09-22T00:00:00.000Z',
+  },
+  {
     id: 'test-foundarly',
     name: 'Abhishek Aggarwal',
     role: 'Founder & Business Owner',
@@ -386,7 +410,7 @@ export const defaultTestimonials: TestimonialItem[] = [
     testimonial: 'Super fast execution and very satisfying results every single time! Lokesh is highly reliable, technically solid, and always ready to tackle any challenge on the website. A pleasure to work with!',
     projectUrl: 'https://foundarlybusinessworld.in',
     rating: 5,
-    displayOrder: 0,
+    displayOrder: 1,
     isPublished: true,
     createdAt: '2026-08-15T00:00:00.000Z',
   },
@@ -397,7 +421,7 @@ export const defaultTestimonials: TestimonialItem[] = [
     testimonial: 'I was looking for a website developer to create my website and came across Lokesh through a company I had hired. I shared the colour palette, font style, and other details I wanted to match my brand, and he implemented everything as requested.\n\nThere were multiple complications during the development process, which he resolved efficiently. I would message him about any issues with the website on WhatsApp, and he would work on resolving them. He never told me that something couldn’t be done. He has a positive attitude towards his work and always tries to find a solution, which I really appreciated.\n\nIt was nice working with him. The website now looks satisfactory, and I’m happy with the overall result.',
     projectUrl: 'https://www.indirathakur.com',
     rating: 5,
-    displayOrder: 1,
+    displayOrder: 2,
     isPublished: true,
     createdAt: '2026-09-24T00:00:00.000Z',
   },

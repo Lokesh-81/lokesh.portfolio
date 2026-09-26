@@ -67,7 +67,7 @@ export function SkillBadgeCard({
 
         {/* Level Tag */}
         <p className="text-[10px] sm:text-[11px] font-medium tracking-[0.14em] text-[#5F6368] uppercase font-mono">
-          {getLevelLabel(badge.level)}
+          {getLevelLabel(badge.level || '')}
         </p>
       </div>
 

@@ -123,7 +123,7 @@ export function StudioLayout({ onExitStudio }: StudioLayoutProps) {
 
     { id: 'messages', label: 'Inquiries & Inbox', icon: Inbox, badge: unreadMessagesCount, category: 'Operations' },
     { id: 'media', label: 'Media Library', icon: ImageIcon, category: 'Operations' },
-    { id: 'resume', label: 'Resume Manager', icon: FileCheck2, category: 'Operations' },
+    { id: 'resume', label: 'Documents & Resumes', icon: FileCheck2, category: 'Operations' },
     { id: 'settings', label: 'Settings & SEO', icon: Settings, category: 'Operations' },
   ];
 

@@ -1,11 +1,23 @@
 'use client';
 
-import React from 'react';
-import { Calendar, MapPin, CheckCircle2, ScrollText } from 'lucide-react';
+import React, { useState } from 'react';
+import {
+  Calendar,
+  MapPin,
+  CheckCircle2,
+  ScrollText,
+  FileCheck2,
+  FileText,
+  ArrowUpRight,
+  ShieldCheck,
+  Award,
+  Sparkles
+} from 'lucide-react';
 import { TextEffect } from '@/components/core/text-effect';
 import { Spotlight } from '@/components/core/spotlight';
 import { usePortfolio } from '@/lib/portfolio-context';
 import { useLanguage } from '@/i18n';
+import { BelvoLorModal } from '@/components/portfolio/belvo-lor-modal';
 
 const experienceTranslations: Record<
   string,
@@ -210,6 +222,7 @@ export interface ExperienceSectionProps {
 export function ExperienceSection({ onNavigate }: ExperienceSectionProps = {}) {
   const { experiences } = usePortfolio();
   const { t, language } = useLanguage();
+  const [isLorModalOpen, setIsLorModalOpen] = useState(false);
 
   return (
     <div className="relative min-h-[85vh] w-full px-4 sm:px-8 py-8 sm:py-12">
@@ -310,21 +323,71 @@ export function ExperienceSection({ onNavigate }: ExperienceSectionProps = {}) {
                   </div>
                 )}
 
-                <div className="mt-5 flex flex-wrap gap-1.5 border-t border-[#1F2937] pt-4">
-                  {exp.technologies.map((tech) => (
-                    <span
-                      key={tech}
-                      className="rounded-md border border-[#1F2937] bg-[#1F2937]/70 px-2.5 py-0.5 font-mono text-[11px] text-[#E0E7FF]"
-                    >
-                      {tech}
-                    </span>
-                  ))}
-                </div>
+                {exp.technologies && exp.technologies.length > 0 && (
+                  <div className="mt-5 flex flex-wrap gap-1.5 border-t border-[#1F2937] pt-4">
+                    {exp.technologies.map((tech) => (
+                      <span
+                        key={tech}
+                        className="rounded-md border border-[#1F2937] bg-[#1F2937]/70 px-2.5 py-0.5 font-mono text-[11px] text-[#E0E7FF]"
+                      >
+                        {tech}
+                      </span>
+                    ))}
+                  </div>
+                )}
+
+                {/* Special Belvo Letter of Recommendation (LOR) Showcase Box */}
+                {exp.id === 'belvo' && (
+                  <div className="mt-6 rounded-2xl border border-purple-500/40 bg-gradient-to-br from-purple-950/40 via-[#111827] to-indigo-950/30 p-5 shadow-lg backdrop-blur-md relative overflow-hidden group/lor">
+                    <div className="absolute top-0 right-0 w-64 h-64 bg-radial from-purple-500/10 to-transparent pointer-events-none" />
+
+                    <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 relative z-10">
+                      <div className="flex items-start gap-3.5">
+                        <div className="h-12 w-12 rounded-2xl bg-purple-500/20 border border-purple-500/40 flex items-center justify-center shrink-0 text-purple-300 shadow-inner">
+                          <FileCheck2 className="h-6 w-6 text-purple-400" />
+                        </div>
+                        <div>
+                          <div className="flex flex-wrap items-center gap-2">
+                            <span className="text-sm font-bold text-white tracking-tight flex items-center gap-1.5">
+                              <span>Official Letter of Recommendation (LOR)</span>
+                              <Sparkles className="h-3.5 w-3.5 text-purple-400" />
+                            </span>
+                            <span className="inline-flex items-center gap-1 rounded-full bg-emerald-500/20 px-2.5 py-0.5 text-[10px] font-medium text-emerald-400 border border-emerald-500/30">
+                              <ShieldCheck className="h-3 w-3" />
+                              Issued by CEO
+                            </span>
+                          </div>
+                          <p className="text-xs text-[#CBD5E1] mt-1 leading-snug">
+                            Issued by <strong className="text-white">Hrishikesh Mishra</strong>, CEO of Belvo Company · Goregaon, Mumbai · Dated 22-09-2026
+                          </p>
+                        </div>
+                      </div>
+
+                      <div className="flex items-center gap-2 shrink-0">
+                        <button
+                          onClick={() => setIsLorModalOpen(true)}
+                          className="flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-purple-600 via-indigo-600 to-purple-700 hover:from-purple-500 hover:to-indigo-500 px-4 py-2.5 text-xs font-semibold text-white shadow-md hover:scale-[1.02] active:scale-[0.98] transition-all cursor-pointer"
+                          title="View authentic Belvo Company Letter of Recommendation"
+                        >
+                          <FileText className="h-4 w-4" />
+                          <span>View Official LOR (PDF)</span>
+                        </button>
+                      </div>
+                    </div>
+
+                    <div className="mt-4 pt-3.5 border-t border-purple-500/20 text-xs text-[#CBD5E1] leading-relaxed italic bg-purple-950/20 rounded-xl p-3 border border-purple-500/10">
+                      &ldquo;It is my pleasure to recommend you for successfully completing a 3-month internship as a Web Developer at Belvo. During the internship, Poosala Lokesh demonstrated a strong willingness to learn and actively participated in web development activities... Poosala Lokesh contributed to assigned projects and responsibilities while working with the development team. They showed dedication, adaptability, and a professional attitude while completing assigned tasks and meeting project requirements.&rdquo;
+                    </div>
+                  </div>
+                )}
               </div>
             );
           })}
         </div>
       </div>
+
+      {/* Official Belvo Letter of Recommendation Viewer Modal */}
+      <BelvoLorModal isOpen={isLorModalOpen} onClose={() => setIsLorModalOpen(false)} />
     </div>
   );
 }

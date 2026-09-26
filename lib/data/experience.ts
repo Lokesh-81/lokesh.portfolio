@@ -1,3 +1,16 @@
+export interface ExperienceLOR {
+  hasLor: boolean
+  title: string
+  issuer: string
+  issuedBy: string
+  role: string
+  date: string
+  phone: string
+  email: string
+  location: string
+  skillsVerified: string[]
+}
+
 export interface Experience {
   id: string
   company: string
@@ -9,6 +22,7 @@ export interface Experience {
   responsibilities: string[]
   technologies: string[]
   featured: boolean
+  lor?: ExperienceLOR
 }
 
 export const experiences: Experience[] = [
@@ -17,7 +31,7 @@ export const experiences: Experience[] = [
     company: "BELVO",
     role: "Web Development Intern",
     period: "June 2026 – September 2026",
-    location: "Remote",
+    location: "Goregaon, Mumbai (Remote)",
     type: "Web Development Internship",
     description:
       "Engineered scalable digital business platforms and healthcare workflow engines (including Naivaidya), leading frontend architecture, patient authentication flows with Supabase, and responsive web systems.",
@@ -29,7 +43,26 @@ export const experiences: Experience[] = [
       "Optimized production build performance and delivery latency on Vercel edge networks"
     ],
     technologies: ["React", "TypeScript", "Tailwind CSS", "Supabase", "Node.js", "REST APIs", "Vite", "Vercel"],
-    featured: true
+    featured: true,
+    lor: {
+      hasLor: true,
+      title: "Letter of Recommendation (LOR)",
+      issuer: "Belvo Company",
+      issuedBy: "Hrishikesh Mishra",
+      role: "CEO, Belvo",
+      date: "22-09-2026",
+      phone: "+918928466820",
+      email: "contact.belvo@gmail.com",
+      location: "Goregaon, Mumbai",
+      skillsVerified: [
+        "Web development and website implementation",
+        "Front-end development and responsive design",
+        "Debugging and resolving technical issues",
+        "Understanding project requirements and development workflows",
+        "Testing and improving web pages and features",
+        "Collaborating with team members on development tasks"
+      ]
+    }
   },
   {
     id: "google-ambassador",

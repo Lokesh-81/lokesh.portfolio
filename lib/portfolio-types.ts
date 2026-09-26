@@ -107,6 +107,18 @@ export interface ExperienceItem {
   sortOrder?: number;
   display_order?: number;
   featured?: boolean;
+  lor?: {
+    hasLor: boolean;
+    title: string;
+    issuer: string;
+    issuedBy: string;
+    role: string;
+    date: string;
+    phone: string;
+    email: string;
+    location: string;
+    skillsVerified?: string[];
+  };
 }
 
 export interface EducationItem {

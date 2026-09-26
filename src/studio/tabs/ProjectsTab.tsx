@@ -278,7 +278,7 @@ export function ProjectsTab({ showToast }: ProjectsTabProps) {
               </button>
               <button
                 type="button"
-                onClick={() => handleDelete(project.id, project.title)}
+                onClick={() => handleDelete(project.id, project.title || project.name || 'Project')}
                 className="p-2 text-[#64748B] hover:text-red-400 transition-colors cursor-pointer"
                 title="Delete Project"
               >

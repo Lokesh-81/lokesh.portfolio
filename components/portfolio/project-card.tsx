@@ -149,7 +149,7 @@ export function ProjectCard({ project, onHoverStart, onHoverEnd }: ProjectCardPr
                   {t('work.keyContributions')}
                 </span>
                 <ul className="space-y-1 text-xs text-[#CBD5E1]">
-                  {contributions.slice(0, 3).map((item, idx) => (
+                  {contributions.slice(0, 3).map((item: string, idx: number) => (
                     <li key={idx} className="flex items-start gap-2">
                       <CheckCircle2 className="mt-0.5 h-3.5 w-3.5 shrink-0 text-[#60A5FA]" />
                       <span>{item}</span>

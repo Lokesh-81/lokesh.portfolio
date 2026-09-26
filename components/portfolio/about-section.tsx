@@ -1,16 +1,28 @@
 'use client';
 
-import React from 'react';
-import { MapPin, Languages, GraduationCap, Award, Github, ArrowUpRight } from 'lucide-react';
+import React, { useState } from 'react';
+import {
+  MapPin,
+  Languages,
+  GraduationCap,
+  Award,
+  Github,
+  ArrowUpRight,
+  FileCheck2,
+  FileText,
+  ShieldCheck,
+} from 'lucide-react';
 import { TextEffect } from '@/components/core/text-effect';
 import { Spotlight } from '@/components/core/spotlight';
 import { Signature } from '@/components/ui/signature';
 import { usePortfolio } from '@/lib/portfolio-context';
 import { useLanguage } from '@/i18n';
+import { BelvoLorModal } from '@/components/portfolio/belvo-lor-modal';
 
 export function AboutSection() {
   const { profile, about } = usePortfolio();
   const { t, language } = useLanguage();
+  const [isLorModalOpen, setIsLorModalOpen] = useState(false);
 
   const displayName = profile?.displayName || profile?.name || 'Poosala Lokesh';
   const location = profile?.location || 'Hyderabad, India';
@@ -188,6 +200,36 @@ export function AboutSection() {
                 <ArrowUpRight className="h-3.5 w-3.5" />
               </a>
             </div>
+
+            {/* Official Letter of Recommendation (Belvo Company) Callout */}
+            <div className="rounded-2xl border border-purple-500/40 bg-purple-950/20 p-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 backdrop-blur-md shadow-xs">
+              <div className="flex items-center gap-3">
+                <div className="h-11 w-11 rounded-xl bg-purple-500/20 border border-purple-500/40 flex items-center justify-center shrink-0 text-purple-300">
+                  <FileCheck2 className="h-6 w-6 text-purple-400" />
+                </div>
+                <div>
+                  <div className="flex flex-wrap items-center gap-2">
+                    <span className="font-bold text-xs sm:text-sm text-white">
+                      Belvo Company — Letter of Recommendation (LOR)
+                    </span>
+                    <span className="text-[10px] font-mono font-semibold px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 flex items-center gap-1">
+                      <ShieldCheck className="h-2.5 w-2.5" />
+                      CEO Commendation
+                    </span>
+                  </div>
+                  <p className="text-[11px] text-[#CBD5E1] mt-0.5 font-mono">
+                    Issued 22-09-2026 by Hrishikesh Mishra (CEO, Belvo) · Web Development Intern
+                  </p>
+                </div>
+              </div>
+              <button
+                onClick={() => setIsLorModalOpen(true)}
+                className="inline-flex items-center gap-1.5 text-xs font-semibold text-purple-200 hover:text-white transition-colors cursor-pointer shrink-0 rounded-xl bg-purple-600/30 hover:bg-purple-600/50 border border-purple-500/40 px-3 py-1.5 shadow-sm"
+              >
+                <FileText className="h-3.5 w-3.5" />
+                <span>View Official LOR (PDF)</span>
+              </button>
+            </div>
           </div>
         </div>
 
@@ -227,6 +269,9 @@ export function AboutSection() {
           </div>
         </div>
       </div>
+
+      {/* Official Belvo Letter of Recommendation Viewer Modal */}
+      <BelvoLorModal isOpen={isLorModalOpen} onClose={() => setIsLorModalOpen(false)} />
     </div>
   );
 }

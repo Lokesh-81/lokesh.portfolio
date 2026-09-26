@@ -165,7 +165,7 @@ export function LanguagesTab({ showToast }: LanguagesTabProps) {
               </button>
               <button
                 type="button"
-                onClick={() => handleDelete(lang.id, lang.name)}
+                onClick={() => handleDelete(lang.id, lang.name || lang.language || 'Language')}
                 className="p-2 text-[#64748B] hover:text-red-400 cursor-pointer"
                 title="Delete Language"
               >

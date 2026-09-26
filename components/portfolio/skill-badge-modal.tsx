@@ -129,7 +129,7 @@ export function SkillBadgeModal({ badge, onClose }: SkillBadgeModalProps) {
                 <div className="w-14 h-[1px] bg-[#DADCE0] my-1" />
 
                 <p className="text-xs sm:text-sm font-semibold tracking-[0.16em] text-[#5F6368] uppercase font-mono">
-                  SKILL BADGE · {badge.level.toUpperCase()}
+                  SKILL BADGE · {(badge.level || 'Intermediate').toUpperCase()}
                 </p>
               </div>
 
@@ -165,7 +165,7 @@ export function SkillBadgeModal({ badge, onClose }: SkillBadgeModalProps) {
                 Demonstrated Google Cloud Skills
               </h4>
               <div className="flex flex-wrap gap-1.5">
-                {badge.skills.map((skill) => (
+                {(badge.skills || []).map((skill) => (
                   <span
                     key={skill}
                     className="rounded-md border border-[#1F2937] bg-[#0B132B] px-2.5 py-1 font-mono text-[11px] text-[#E0E7FF]"

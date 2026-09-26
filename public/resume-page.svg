@@ -1,0 +1,135 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 595 842" width="100%" height="100%" style="background-color: #ffffff;">
+  <!-- Margin Guidelines: 48pt all around -->
+  <g transform="translate(48, 48)" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif">
+    <!-- Header -->
+    <text x="0" y="24" font-size="24" font-weight="900" fill="#2563EB" letter-spacing="0.5">POOSALA LOKESH</text>
+    <text x="0" y="44" font-size="12" font-weight="700" fill="#0F172A">Full Stack Engineer &amp; Cloud Developer</text>
+    
+    <!-- Contact Info -->
+    <text x="0" y="62" font-size="9" fill="#475569">
+      poosala15@gmail.com  •  Telangana, India  •  github.com/Lokesh-81  •  linkedin.com/in/poosala-lokesh
+    </text>
+
+    <!-- Top Border Line -->
+    <line x1="0" y1="74" x2="499" y2="74" stroke="#E2E8F0" stroke-width="1.5" />
+
+    <!-- 1. PROFESSIONAL SUMMARY -->
+    <g transform="translate(0, 96)">
+      <text x="0" y="0" font-size="10.5" font-weight="800" fill="#2563EB" letter-spacing="1">PROFESSIONAL SUMMARY</text>
+      <line x1="0" y1="5" x2="499" y2="5" stroke="#2563EB" stroke-width="1.2" />
+
+      <text x="0" y="20" font-size="9.5" fill="#1E293B">
+        Results-driven Full Stack Engineer and Google Cloud Certified Professional with proven expertise in building modern, scalable
+      </text>
+      <text x="0" y="34" font-size="9.5" fill="#1E293B">
+        web applications. Skilled in React, Next.js, Node.js, TypeScript, PostgreSQL, and cloud deployments. Strong foundation in
+      </text>
+      <text x="0" y="48" font-size="9.5" fill="#1E293B">
+        production web architectures, responsive front-end engineering, and API integration.
+      </text>
+    </g>
+
+    <!-- 2. WORK EXPERIENCE -->
+    <g transform="translate(0, 172)">
+      <text x="0" y="0" font-size="10.5" font-weight="800" fill="#2563EB" letter-spacing="1">WORK EXPERIENCE</text>
+      <line x1="0" y1="5" x2="499" y2="5" stroke="#2563EB" stroke-width="1.2" />
+
+      <!-- Job 1 -->
+      <g transform="translate(0, 20)">
+        <text x="0" y="0" font-size="10.5" font-weight="700" fill="#0F172A">Web Developer Intern</text>
+        <text x="499" y="0" font-size="9.5" fill="#64748B" text-anchor="end">June 2026 – Sep 2026</text>
+        
+        <text x="0" y="14" font-size="9.5" font-style="italic" fill="#475569">Belvo Company — Mumbai, India (Remote)</text>
+
+        <!-- Bullets -->
+        <circle cx="4" cy="27" r="2" fill="#2563EB" />
+        <text x="14" y="30" font-size="9.5" fill="#1E293B">Engineered modern, responsive front-end web interfaces using React, Next.js, and TypeScript.</text>
+
+        <circle cx="4" cy="43" r="2" fill="#2563EB" />
+        <text x="14" y="46" font-size="9.5" fill="#1E293B">Implemented client-side performance optimizations, achieving high responsiveness and smooth interactive UX.</text>
+
+        <circle cx="4" cy="59" r="2" fill="#2563EB" />
+        <text x="14" y="62" font-size="9.5" fill="#1E293B">Collaborated directly with lead engineers on technical debugging, cross-browser compatibility, and code quality.</text>
+
+        <circle cx="4" cy="75" r="2" fill="#2563EB" />
+        <text x="14" y="78" font-size="9.5" fill="#1E293B">Earned an official commendation Letter of Recommendation (LOR) from CEO Hrishikesh Mishra for excellence.</text>
+      </g>
+    </g>
+
+    <!-- 3. TECHNICAL SKILLS -->
+    <g transform="translate(0, 290)">
+      <text x="0" y="0" font-size="10.5" font-weight="800" fill="#2563EB" letter-spacing="1">TECHNICAL SKILLS &amp; EXPERTISE</text>
+      <line x1="0" y1="5" x2="499" y2="5" stroke="#2563EB" stroke-width="1.2" />
+
+      <g transform="translate(0, 20)" font-size="9.5">
+        <text x="0" y="0" font-weight="700" fill="#0F172A">Frontend:</text>
+        <text x="80" y="0" fill="#1E293B">React, Next.js, TypeScript, JavaScript (ES6+), Tailwind CSS, Framer Motion, HTML5, CSS3</text>
+
+        <text x="0" y="16" font-weight="700" fill="#0F172A">Backend &amp; DB:</text>
+        <text x="80" y="16" fill="#1E293B">Node.js, Express, PostgreSQL, Cloud SQL, Supabase, Firebase Firestore, REST APIs</text>
+
+        <text x="0" y="32" font-weight="700" fill="#0F172A">Cloud &amp; DevOps:</text>
+        <text x="80" y="32" fill="#1E293B">Google Cloud Platform (GCP), Cloud Run, Docker, Git, GitHub Actions, Vercel, Linux</text>
+
+        <text x="0" y="48" font-weight="700" fill="#0F172A">Practices:</text>
+        <text x="80" y="48" fill="#1E293B">Responsive UI/UX, Performance Optimization, Clean Architecture, CI/CD, Agile</text>
+      </g>
+    </g>
+
+    <!-- 4. CERTIFICATIONS & CREDENTIALS -->
+    <g transform="translate(0, 380)">
+      <text x="0" y="0" font-size="10.5" font-weight="800" fill="#2563EB" letter-spacing="1">CERTIFICATIONS &amp; CREDENTIALS</text>
+      <line x1="0" y1="5" x2="499" y2="5" stroke="#2563EB" stroke-width="1.2" />
+
+      <!-- Cert 1 -->
+      <g transform="translate(0, 20)">
+        <text x="0" y="0" font-size="10" font-weight="700" fill="#0F172A">Google Cloud Certified — Professional Cloud Architect</text>
+        <text x="499" y="0" font-size="9" fill="#64748B" text-anchor="end">Issued Sep 2023 | Google Cloud</text>
+        <circle cx="4" cy="11" r="2" fill="#2563EB" />
+        <text x="14" y="14" font-size="9" fill="#334155">Demonstrated ability to design robust, secure, scalable, and highly available Google Cloud architectures.</text>
+      </g>
+
+      <!-- Cert 2 -->
+      <g transform="translate(0, 52)">
+        <text x="0" y="0" font-size="10" font-weight="700" fill="#0F172A">Letter of Recommendation (LOR) — Web Development</text>
+        <text x="499" y="0" font-size="9" fill="#64748B" text-anchor="end">Issued 22-09-2026 | Belvo Company</text>
+        <circle cx="4" cy="11" r="2" fill="#2563EB" />
+        <text x="14" y="14" font-size="9" fill="#334155">Verified commendation by CEO Hrishikesh Mishra for outstanding web development and dedication.</text>
+      </g>
+    </g>
+
+    <!-- 5. FEATURED PROJECTS -->
+    <g transform="translate(0, 470)">
+      <text x="0" y="0" font-size="10.5" font-weight="800" fill="#2563EB" letter-spacing="1">FEATURED PROJECTS</text>
+      <line x1="0" y1="5" x2="499" y2="5" stroke="#2563EB" stroke-width="1.2" />
+
+      <!-- Project 1 -->
+      <g transform="translate(0, 20)">
+        <text x="0" y="0" font-size="10" font-weight="700" fill="#0F172A">Portfolio &amp; Developer Studio CMS</text>
+        <text x="499" y="0" font-size="9" fill="#64748B" text-anchor="end">React • TypeScript • Tailwind • Cloud</text>
+        <circle cx="4" cy="11" r="2" fill="#2563EB" />
+        <text x="14" y="14" font-size="9" fill="#334155">Engineered a complete headless developer portfolio with integrated CMS studio, real-time database, and dynamic analytics.</text>
+      </g>
+
+      <!-- Project 2 -->
+      <g transform="translate(0, 50)">
+        <text x="0" y="0" font-size="10" font-weight="700" fill="#0F172A">Cloud-Native Web Applications</text>
+        <text x="499" y="0" font-size="9" fill="#64748B" text-anchor="end">Next.js • Node.js • Cloud SQL • GCP</text>
+        <circle cx="4" cy="11" r="2" fill="#2563EB" />
+        <text x="14" y="14" font-size="9" fill="#334155">Architected containerized microservices and responsive web platforms deployed on Google Cloud Run with CI/CD.</text>
+      </g>
+    </g>
+
+    <!-- 6. EDUCATION -->
+    <g transform="translate(0, 560)">
+      <text x="0" y="0" font-size="10.5" font-weight="800" fill="#2563EB" letter-spacing="1">EDUCATION</text>
+      <line x1="0" y1="5" x2="499" y2="5" stroke="#2563EB" stroke-width="1.2" />
+
+      <g transform="translate(0, 20)">
+        <text x="0" y="0" font-size="10" font-weight="700" fill="#0F172A">Bachelor of Technology (B.Tech) in Computer Science &amp; Engineering</text>
+        <text x="499" y="0" font-size="9" fill="#64748B" text-anchor="end">Graduation: 2026</text>
+        <text x="0" y="14" font-size="9" font-style="italic" fill="#64748B">Telangana, India</text>
+      </g>
+    </g>
+  </g>
+</svg>
