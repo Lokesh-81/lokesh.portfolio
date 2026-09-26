@@ -337,7 +337,7 @@ export function ExperienceSection({ onNavigate }: ExperienceSectionProps = {}) {
                 )}
 
                 {/* Special Belvo Letter of Recommendation (LOR) Showcase Box */}
-                {exp.id === 'belvo' && (
+                {((exp.id === 'belvo' && exp.lor?.hasLor !== false) || (exp.lor && exp.lor.hasLor)) && (
                   <div className="mt-6 rounded-2xl border border-purple-500/40 bg-gradient-to-br from-purple-950/40 via-[#111827] to-indigo-950/30 p-5 shadow-lg backdrop-blur-md relative overflow-hidden group/lor">
                     <div className="absolute top-0 right-0 w-64 h-64 bg-radial from-purple-500/10 to-transparent pointer-events-none" />
 
@@ -349,16 +349,16 @@ export function ExperienceSection({ onNavigate }: ExperienceSectionProps = {}) {
                         <div>
                           <div className="flex flex-wrap items-center gap-2">
                             <span className="text-sm font-bold text-white tracking-tight flex items-center gap-1.5">
-                              <span>Official Letter of Recommendation (LOR)</span>
+                              <span>Official {exp.lor?.title || 'Letter of Recommendation (LOR)'}</span>
                               <Sparkles className="h-3.5 w-3.5 text-purple-400" />
                             </span>
                             <span className="inline-flex items-center gap-1 rounded-full bg-emerald-500/20 px-2.5 py-0.5 text-[10px] font-medium text-emerald-400 border border-emerald-500/30">
                               <ShieldCheck className="h-3 w-3" />
-                              Issued by CEO
+                              Issued by {exp.lor?.role || 'CEO'}
                             </span>
                           </div>
                           <p className="text-xs text-[#CBD5E1] mt-1 leading-snug">
-                            Issued by <strong className="text-white">Hrishikesh Mishra</strong>, CEO of Belvo Company · Goregaon, Mumbai · Dated 22-09-2026
+                            Issued by <strong className="text-white">{exp.lor?.issuedBy || 'Hrishikesh Mishra'}</strong>, {exp.lor?.role || 'CEO, Belvo'} · {exp.lor?.location || 'Goregaon, Mumbai'} · Dated {exp.lor?.date || '22-09-2026'}
                           </p>
                         </div>
                       </div>

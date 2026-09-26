@@ -20,9 +20,18 @@ import {
 export interface BelvoLorModalProps {
   isOpen: boolean;
   onClose: () => void;
+  pdfUrl?: string;
+  vectorUrl?: string;
+  title?: string;
 }
 
-export function BelvoLorModal({ isOpen, onClose }: BelvoLorModalProps) {
+export function BelvoLorModal({
+  isOpen,
+  onClose,
+  pdfUrl = '/belvo-lor.pdf',
+  vectorUrl = '/belvo-lor-page.svg',
+  title = 'Belvo Company — Letter of Recommendation',
+}: BelvoLorModalProps) {
   const [copiedText, setCopiedText] = useState(false);
   const [zoomLevel, setZoomLevel] = useState<number>(100);
 
@@ -176,7 +185,7 @@ Location: Goregaon, Mumbai`;
 
                 {/* Open in Standalone Tab (Direct browser unblocked PDF) */}
                 <a
-                  href="/belvo-lor.pdf"
+                  href={pdfUrl}
                   target="_blank"
                   rel="noreferrer"
                   className="flex items-center gap-1.5 rounded-xl border border-[#1F2937] bg-[#111827] px-3 py-1.5 text-xs font-medium text-[#CBD5E1] hover:border-purple-400 hover:text-white transition-colors cursor-pointer"
@@ -198,7 +207,7 @@ Location: Goregaon, Mumbai`;
 
                 {/* Download PDF button */}
                 <a
-                  href="/belvo-lor.pdf"
+                  href={pdfUrl}
                   download="Poosala_Lokesh_Belvo_LOR.pdf"
                   className="flex items-center gap-1.5 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 px-3.5 py-1.5 text-xs font-semibold text-white shadow-sm hover:scale-[1.02] active:scale-[0.98] transition-all cursor-pointer"
                   title="Download the official PDF file"
@@ -229,7 +238,7 @@ Location: Goregaon, Mumbai`;
               >
                 <div className="max-w-[760px] w-full bg-white rounded-xl shadow-2xl overflow-hidden border border-slate-200">
                   <img
-                    src="/belvo-lor-page.svg"
+                    src={vectorUrl || '/belvo-lor-page.svg'}
                     alt="Belvo Company Letter of Recommendation - Poosala Lokesh"
                     className="w-full h-auto object-contain select-text"
                   />

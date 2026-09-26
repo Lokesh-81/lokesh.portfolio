@@ -3,7 +3,7 @@
 import React, { useState, useRef } from 'react';
 import { usePortfolio } from '@/lib/portfolio-context';
 import { uploadMediaToSupabase } from '@/lib/supabase';
-import type { ResumeItem } from '@/lib/portfolio-types';
+import type { ResumeItem, ExperienceItem } from '@/lib/portfolio-types';
 import {
   FileText,
   Upload,
@@ -16,7 +16,6 @@ import {
   Download,
   Eye,
   X,
-  Database,
   ShieldCheck,
   Printer,
   ZoomIn,
@@ -24,10 +23,13 @@ import {
   RotateCcw,
   Sparkles,
   FileCheck2,
-  Briefcase,
-  GraduationCap,
   Award,
   Layers,
+  Edit2,
+  RefreshCw,
+  Plus,
+  AlertTriangle,
+  FolderSync,
 } from 'lucide-react';
 
 interface ResumeTabProps {
@@ -47,18 +49,318 @@ export function ResumeTab({ showToast }: ResumeTabProps) {
     saveResume,
     setActiveResumeVersion,
     deleteResume,
+    saveExperience,
   } = usePortfolio();
 
   const [activeSubTab, setActiveSubTab] = useState<'sheet' | 'lor' | 'uploads'>('sheet');
   const [zoomLevel, setZoomLevel] = useState<number>(100);
   const [isUploading, setIsUploading] = useState(false);
   const [copiedId, setCopiedId] = useState<string | null>(null);
+
+  // Resume file input refs
+  const replaceActiveResumeFileRef = useRef<HTMLInputElement>(null);
+  const uploadNewResumeFileRef = useRef<HTMLInputElement>(null);
+  const replaceVersionFileRef = useRef<HTMLInputElement>(null);
+  const replaceLorFileRef = useRef<HTMLInputElement>(null);
+
+  const [replacingVersionId, setReplacingVersionId] = useState<string | null>(null);
+
+  // Resume editing modal
+  const [editingResume, setEditingResume] = useState<ResumeItem | null>(null);
+
+  // Belvo LOR editing modal
+  const [isEditingLor, setIsEditingLor] = useState(false);
+
+  // Preview modal
   const [previewModalDoc, setPreviewModalDoc] = useState<{
     title: string;
     pdfUrl: string;
     vectorUrl?: string;
   } | null>(null);
-  const [showPolicyGuide, setShowPolicyGuide] = useState(false);
+
+  // Find Belvo experience
+  const belvoExp =
+    experiences.find((e) => e.id === 'belvo') ||
+    experiences.find((e) => e.company?.toLowerCase().includes('belvo')) ||
+    experiences[0];
+
+  const hasLor = belvoExp?.lor?.hasLor !== false && !!belvoExp?.lor;
+
+  // State for LOR edit form
+  const [lorFormData, setLorFormData] = useState({
+    title: belvoExp?.lor?.title || 'Letter of Recommendation (LOR)',
+    issuer: belvoExp?.lor?.issuer || 'Belvo Company',
+    issuedBy: belvoExp?.lor?.issuedBy || 'Hrishikesh Mishra',
+    role: belvoExp?.lor?.role || 'CEO, Belvo',
+    date: belvoExp?.lor?.date || '22-09-2026',
+    phone: belvoExp?.lor?.phone || '+918928466820',
+    email: belvoExp?.lor?.email || 'contact.belvo@gmail.com',
+    location: belvoExp?.lor?.location || 'Goregaon, Mumbai',
+    pdfUrl: belvoExp?.lor?.pdfUrl || '/belvo-lor.pdf',
+    vectorUrl: belvoExp?.lor?.vectorUrl || '/belvo-lor-page.svg',
+    skillsVerified: (belvoExp?.lor?.skillsVerified || [
+      'Web development and website implementation',
+      'Front-end development and responsive design',
+      'Debugging and resolving technical issues',
+      'Understanding project requirements and development workflows',
+      'Testing and improving web pages and features',
+      'Collaborating with team members on development tasks',
+    ]).join('\n'),
+  });
+
+  // Open LOR edit modal and sync fields
+  const handleOpenEditLor = () => {
+    if (belvoExp?.lor) {
+      setLorFormData({
+        title: belvoExp.lor.title || 'Letter of Recommendation (LOR)',
+        issuer: belvoExp.lor.issuer || 'Belvo Company',
+        issuedBy: belvoExp.lor.issuedBy || 'Hrishikesh Mishra',
+        role: belvoExp.lor.role || 'CEO, Belvo',
+        date: belvoExp.lor.date || '22-09-2026',
+        phone: belvoExp.lor.phone || '+918928466820',
+        email: belvoExp.lor.email || 'contact.belvo@gmail.com',
+        location: belvoExp.lor.location || 'Goregaon, Mumbai',
+        pdfUrl: belvoExp.lor.pdfUrl || '/belvo-lor.pdf',
+        vectorUrl: belvoExp.lor.vectorUrl || '/belvo-lor-page.svg',
+        skillsVerified: (belvoExp.lor.skillsVerified || []).join('\n'),
+      });
+    }
+    setIsEditingLor(true);
+  };
+
+  // Save LOR changes
+  const handleSaveLor = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!belvoExp) return;
+
+    try {
+      const updatedLor = {
+        hasLor: true,
+        title: lorFormData.title.trim() || 'Letter of Recommendation (LOR)',
+        issuer: lorFormData.issuer.trim() || 'Belvo Company',
+        issuedBy: lorFormData.issuedBy.trim() || 'Hrishikesh Mishra',
+        role: lorFormData.role.trim() || 'CEO, Belvo',
+        date: lorFormData.date.trim() || '22-09-2026',
+        phone: lorFormData.phone.trim() || '+918928466820',
+        email: lorFormData.email.trim() || 'contact.belvo@gmail.com',
+        location: lorFormData.location.trim() || 'Goregaon, Mumbai',
+        pdfUrl: lorFormData.pdfUrl.trim() || '/belvo-lor.pdf',
+        vectorUrl: lorFormData.vectorUrl.trim() || '/belvo-lor-page.svg',
+        skillsVerified: lorFormData.skillsVerified
+          .split('\n')
+          .map((s) => s.trim())
+          .filter(Boolean),
+      };
+
+      const updatedExp: ExperienceItem = {
+        ...belvoExp,
+        lor: updatedLor,
+      };
+
+      await saveExperience(updatedExp);
+      setIsEditingLor(false);
+      showToast('Letter of Recommendation updated successfully!', 'success');
+    } catch {
+      showToast('Failed to update Letter of Recommendation', 'error');
+    }
+  };
+
+  // Delete / Remove LOR
+  const handleDeleteLor = async () => {
+    if (!belvoExp) return;
+    if (
+      !window.confirm(
+        'Are you sure you want to delete / remove the Letter of Recommendation from your portfolio? It can be restored or re-uploaded anytime.'
+      )
+    ) {
+      return;
+    }
+
+    try {
+      const updatedExp: ExperienceItem = {
+        ...belvoExp,
+        lor: {
+          ...(belvoExp.lor || {}),
+          hasLor: false,
+          title: belvoExp.lor?.title || 'Letter of Recommendation (LOR)',
+          issuer: belvoExp.lor?.issuer || 'Belvo Company',
+          issuedBy: belvoExp.lor?.issuedBy || 'Hrishikesh Mishra',
+          role: belvoExp.lor?.role || 'CEO, Belvo',
+          date: belvoExp.lor?.date || '22-09-2026',
+          phone: belvoExp.lor?.phone || '',
+          email: belvoExp.lor?.email || '',
+          location: belvoExp.lor?.location || '',
+          skillsVerified: belvoExp.lor?.skillsVerified || [],
+        },
+      };
+
+      await saveExperience(updatedExp);
+      showToast('Letter of Recommendation has been removed from portfolio view', 'success');
+    } catch {
+      showToast('Failed to remove Letter of Recommendation', 'error');
+    }
+  };
+
+  // Restore / Attach LOR
+  const handleRestoreLor = async () => {
+    if (!belvoExp) return;
+
+    try {
+      const updatedExp: ExperienceItem = {
+        ...belvoExp,
+        lor: {
+          hasLor: true,
+          title: 'Letter of Recommendation (LOR)',
+          issuer: 'Belvo Company',
+          issuedBy: 'Hrishikesh Mishra',
+          role: 'CEO, Belvo',
+          date: '22-09-2026',
+          phone: '+918928466820',
+          email: 'contact.belvo@gmail.com',
+          location: 'Goregaon, Mumbai',
+          pdfUrl: '/belvo-lor.pdf',
+          vectorUrl: '/belvo-lor-page.svg',
+          skillsVerified: [
+            'Web development and website implementation',
+            'Front-end development and responsive design',
+            'Debugging and resolving technical issues',
+            'Understanding project requirements and development workflows',
+            'Testing and improving web pages and features',
+            'Collaborating with team members on development tasks',
+          ],
+        },
+      };
+
+      await saveExperience(updatedExp);
+      showToast('Letter of Recommendation restored and published!', 'success');
+    } catch {
+      showToast('Failed to restore Letter of Recommendation', 'error');
+    }
+  };
+
+  // Upload replacement LOR PDF
+  const handleReplaceLorFile = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file || !belvoExp) return;
+
+    if (!file.name.toLowerCase().endsWith('.pdf')) {
+      showToast('Please upload a valid PDF document for the LOR', 'error');
+      return;
+    }
+
+    setIsUploading(true);
+    try {
+      const res = await uploadMediaToSupabase(file, 'resume');
+      const updatedExp: ExperienceItem = {
+        ...belvoExp,
+        lor: {
+          ...(belvoExp.lor || {}),
+          hasLor: true,
+          title: belvoExp.lor?.title || 'Letter of Recommendation (LOR)',
+          issuer: belvoExp.lor?.issuer || 'Belvo Company',
+          issuedBy: belvoExp.lor?.issuedBy || 'Hrishikesh Mishra',
+          role: belvoExp.lor?.role || 'CEO, Belvo',
+          date: belvoExp.lor?.date || '22-09-2026',
+          phone: belvoExp.lor?.phone || '',
+          email: belvoExp.lor?.email || '',
+          location: belvoExp.lor?.location || '',
+          pdfUrl: res.url,
+          vectorUrl: res.url,
+        },
+      };
+
+      await saveExperience(updatedExp);
+      showToast(`LOR document replaced with "${file.name}"!`, 'success');
+    } catch (err: any) {
+      showToast(err.message || 'Failed to upload replacement LOR PDF', 'error');
+    } finally {
+      setIsUploading(false);
+      if (replaceLorFileRef.current) replaceLorFileRef.current.value = '';
+    }
+  };
+
+  // Upload or replace active resume directly
+  const handleUploadOrReplaceResume = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    if (!file.name.toLowerCase().endsWith('.pdf')) {
+      showToast('Please upload a valid PDF document', 'error');
+      return;
+    }
+
+    setIsUploading(true);
+    try {
+      const res = await uploadMediaToSupabase(file, 'resume');
+      const newVersionNum = (resumes.length + 1).toFixed(1);
+      const newResume: ResumeItem = {
+        id: `resume-${Date.now()}`,
+        title: file.name,
+        url: res.url,
+        version: `v${newVersionNum}`,
+        uploadedAt: new Date().toISOString(),
+        isActive: true,
+      };
+
+      // Set current ones inactive and save new active version
+      await saveResume(newResume);
+      await setActiveResumeVersion(newResume.id);
+      showToast(`Resume replaced with "${file.name}" and set as active!`, 'success');
+    } catch (err: any) {
+      showToast(err.message || 'Resume upload failed', 'error');
+    } finally {
+      setIsUploading(false);
+      if (replaceActiveResumeFileRef.current) replaceActiveResumeFileRef.current.value = '';
+      if (uploadNewResumeFileRef.current) uploadNewResumeFileRef.current.value = '';
+    }
+  };
+
+  // Replace file for a specific resume version
+  const handleReplaceVersionFile = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file || !replacingVersionId) return;
+
+    if (!file.name.toLowerCase().endsWith('.pdf')) {
+      showToast('Please upload a valid PDF document', 'error');
+      return;
+    }
+
+    const targetResume = resumes.find((r) => r.id === replacingVersionId);
+    if (!targetResume) return;
+
+    setIsUploading(true);
+    try {
+      const res = await uploadMediaToSupabase(file, 'resume');
+      const updatedResume: ResumeItem = {
+        ...targetResume,
+        title: file.name,
+        url: res.url,
+        updatedAt: new Date().toISOString(),
+      };
+      await saveResume(updatedResume);
+      showToast(`Updated file for version ${targetResume.version || ''}!`, 'success');
+    } catch (err: any) {
+      showToast(err.message || 'Replacement failed', 'error');
+    } finally {
+      setIsUploading(false);
+      setReplacingVersionId(null);
+      if (replaceVersionFileRef.current) replaceVersionFileRef.current.value = '';
+    }
+  };
+
+  // Save manual edit for a resume
+  const handleSaveResumeEdit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!editingResume) return;
+
+    try {
+      await saveResume(editingResume);
+      showToast('Resume metadata updated!', 'success');
+      setEditingResume(null);
+    } catch {
+      showToast('Failed to update resume', 'error');
+    }
+  };
 
   // Resume plain-text generation for job portals
   const generatePlainTextResume = () => {
@@ -104,53 +406,24 @@ export function ResumeTab({ showToast }: ResumeTabProps) {
   };
 
   const handleCopyLorText = () => {
-    const lorText = `BELVO COMPANY
-Date: 22-09-2026
+    const lorText = `${lorFormData.issuer.toUpperCase()}
+Date: ${lorFormData.date}
 
 Poosala Lokesh
 Web Developer Intern
-Belvo Company
-Goregaon, Mumbai
+${lorFormData.issuer}
+${lorFormData.location}
 
 Dear Poosala Lokesh,
-It is my pleasure to recommend you for successfully completing a 3-month internship as a Web Developer at Belvo.
+It is my pleasure to recommend you for successfully completing your internship at ${lorFormData.issuer}.
 During the internship, Poosala Lokesh demonstrated a strong willingness to learn and actively participated in web development activities...
 
-Hrishikesh Mishra
-CEO, Belvo`;
+${lorFormData.issuedBy}
+${lorFormData.role}`;
     navigator.clipboard.writeText(lorText);
     setCopiedId('lor-text');
-    showToast('Belvo recommendation letter copied to clipboard!', 'success');
+    showToast('Recommendation letter copied to clipboard!', 'success');
     setTimeout(() => setCopiedId(null), 2500);
-  };
-
-  const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
-
-    if (!file.name.toLowerCase().endsWith('.pdf')) {
-      showToast('Please upload a PDF document for your resume', 'error');
-      return;
-    }
-
-    setIsUploading(true);
-    try {
-      const res = await uploadMediaToSupabase(file, 'resume');
-      const newResume: ResumeItem = {
-        id: `resume-${Date.now()}`,
-        title: file.name,
-        url: res.url,
-        version: `v${(resumes.length + 1).toFixed(1)}`,
-        uploadedAt: new Date().toISOString(),
-        isActive: resumes.length === 0,
-      };
-      await saveResume(newResume);
-      showToast('New resume PDF uploaded and saved successfully!', 'success');
-    } catch (err: any) {
-      showToast(err.message || 'Resume upload failed', 'error');
-    } finally {
-      setIsUploading(false);
-    }
   };
 
   const handleSetActive = async (id: string, title: string) => {
@@ -181,6 +454,40 @@ CEO, Belvo`;
 
   return (
     <div className="space-y-6 max-w-5xl">
+      {/* Hidden File Inputs for quick replacements */}
+      <input
+        ref={replaceActiveResumeFileRef}
+        type="file"
+        accept="application/pdf"
+        onChange={handleUploadOrReplaceResume}
+        disabled={isUploading}
+        className="hidden"
+      />
+      <input
+        ref={uploadNewResumeFileRef}
+        type="file"
+        accept="application/pdf"
+        onChange={handleUploadOrReplaceResume}
+        disabled={isUploading}
+        className="hidden"
+      />
+      <input
+        ref={replaceVersionFileRef}
+        type="file"
+        accept="application/pdf"
+        onChange={handleReplaceVersionFile}
+        disabled={isUploading}
+        className="hidden"
+      />
+      <input
+        ref={replaceLorFileRef}
+        type="file"
+        accept="application/pdf"
+        onChange={handleReplaceLorFile}
+        disabled={isUploading}
+        className="hidden"
+      />
+
       {/* Header */}
       <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between border-b border-[#1F2937] pb-5">
         <div>
@@ -190,11 +497,11 @@ CEO, Belvo`;
             </h2>
             <span className="inline-flex items-center gap-1 rounded-full bg-emerald-500/20 px-2 py-0.5 text-[10px] font-medium text-emerald-400 border border-emerald-500/30">
               <ShieldCheck className="h-3 w-3" />
-              Unblocked Native View
+              Replace, Change &amp; Delete Enabled
             </span>
           </div>
           <p className="text-xs text-[#94A3B8] mt-0.5">
-            Interactive ATS Resume Sheet, official recommendation letters (Belvo LOR), and download manager.
+            Full management controls for your ATS Resume, Belvo Letter of Recommendation (LOR), and PDF archives.
           </p>
         </div>
 
@@ -221,6 +528,11 @@ CEO, Belvo`;
           >
             <Award className="h-3.5 w-3.5" />
             <span>Belvo LOR Letter</span>
+            {!hasLor && (
+              <span className="rounded-full bg-red-500/20 text-red-400 text-[9px] px-1.5 py-0.2">
+                Off
+              </span>
+            )}
           </button>
           <button
             onClick={() => setActiveSubTab('uploads')}
@@ -240,19 +552,48 @@ CEO, Belvo`;
       {activeSubTab === 'sheet' && (
         <div className="space-y-4">
           {/* Action Toolbar */}
-          <div className="flex flex-wrap items-center justify-between gap-3 p-3 rounded-2xl border border-[#1F2937] bg-[#0B132B]">
+          <div className="flex flex-wrap items-center justify-between gap-3 p-3.5 rounded-2xl border border-[#1F2937] bg-[#0B132B]">
             <div className="flex items-center gap-3">
               <span className="text-xs font-semibold text-[#E0E7FF] flex items-center gap-1.5">
                 <FileCheck2 className="h-4 w-4 text-[#60A5FA]" />
-                ATS-Optimized Live Document
+                ATS-Optimized Document
               </span>
               <span className="hidden sm:inline-block h-3.5 w-px bg-[#1F2937]" />
               <span className="text-[11px] text-[#94A3B8] hidden sm:inline">
-                Synced with your portfolio profile, experience, skills, and certifications
+                Active Version: <strong className="text-white">{activeResume?.title || 'Poosala_Lokesh_Resume.pdf'}</strong>
               </span>
             </div>
 
             <div className="flex items-center gap-2 flex-wrap">
+              {/* Replace / Change Active Resume Button */}
+              <button
+                type="button"
+                onClick={() => replaceActiveResumeFileRef.current?.click()}
+                disabled={isUploading}
+                className="flex items-center gap-1.5 rounded-xl border border-blue-500/40 bg-blue-600/20 hover:bg-blue-600/30 text-blue-300 px-3 py-1.5 text-xs font-medium transition-colors cursor-pointer shadow-xs"
+                title="Upload a new PDF to replace the current active resume"
+              >
+                {isUploading ? (
+                  <RefreshCw className="h-3.5 w-3.5 animate-spin" />
+                ) : (
+                  <FolderSync className="h-3.5 w-3.5" />
+                )}
+                <span>Replace / Change Resume</span>
+              </button>
+
+              {/* Edit Details */}
+              {activeResume && (
+                <button
+                  type="button"
+                  onClick={() => setEditingResume({ ...activeResume })}
+                  className="flex items-center gap-1.5 rounded-xl border border-[#1F2937] bg-[#111827] px-3 py-1.5 text-xs font-medium text-[#CBD5E1] hover:border-[#60A5FA] hover:text-white transition-colors cursor-pointer"
+                  title="Edit Resume Title or Version"
+                >
+                  <Edit2 className="h-3.5 w-3.5" />
+                  <span>Edit Info</span>
+                </button>
+              )}
+
               {/* Zoom Controls */}
               <div className="flex items-center rounded-xl border border-[#1F2937] bg-[#111827] px-1 py-0.5 text-xs">
                 <button
@@ -302,7 +643,7 @@ CEO, Belvo`;
                 {copiedId === 'resume-text' ? (
                   <>
                     <Check className="h-3.5 w-3.5 text-emerald-400" />
-                    <span className="text-emerald-400">Copied Text</span>
+                    <span className="text-emerald-400">Copied</span>
                   </>
                 ) : (
                   <>
@@ -312,22 +653,10 @@ CEO, Belvo`;
                 )}
               </button>
 
-              {/* Open in Standalone Tab */}
-              <a
-                href="/resume.pdf"
-                target="_blank"
-                rel="noreferrer"
-                className="flex items-center gap-1.5 rounded-xl border border-[#1F2937] bg-[#111827] px-3 py-1.5 text-xs font-medium text-[#CBD5E1] hover:border-[#60A5FA] hover:text-white transition-colors cursor-pointer"
-                title="Open PDF file in a new standalone browser tab"
-              >
-                <ExternalLink className="h-3.5 w-3.5" />
-                <span className="hidden sm:inline">Open Tab</span>
-              </a>
-
               {/* Download Official PDF */}
               <a
-                href="/resume.pdf"
-                download="Poosala_Lokesh_Resume.pdf"
+                href={activeResume?.url || '/resume.pdf'}
+                download={activeResume?.title || 'Poosala_Lokesh_Resume.pdf'}
                 className="flex items-center gap-1.5 rounded-xl bg-gradient-to-r from-[#2563EB] to-[#3B82F6] hover:from-[#1D4ED8] hover:to-[#2563EB] px-3.5 py-1.5 text-xs font-semibold text-white shadow-sm hover:scale-[1.02] active:scale-[0.98] transition-all cursor-pointer"
                 title="Download the official PDF file"
               >
@@ -337,7 +666,7 @@ CEO, Belvo`;
             </div>
           </div>
 
-          {/* Interactive Document Sheet Surface (Clean Native Vector - Immune to Chrome iframe blocks) */}
+          {/* Interactive Document Sheet Surface */}
           <div className="w-full overflow-x-auto rounded-3xl border border-[#1F2937] bg-[#070B18] p-4 sm:p-8 flex justify-center items-start min-h-[780px] custom-scrollbar">
             <div
               className="w-full flex justify-center transition-all duration-150 ease-out"
@@ -361,122 +690,186 @@ CEO, Belvo`;
       {/* SUB-TAB 2: BELVO LOR LETTER */}
       {activeSubTab === 'lor' && (
         <div className="space-y-4">
-          {/* Action Toolbar */}
-          <div className="flex flex-wrap items-center justify-between gap-3 p-3 rounded-2xl border border-[#1F2937] bg-[#0B132B]">
-            <div className="flex items-center gap-3">
-              <span className="text-xs font-semibold text-[#E0E7FF] flex items-center gap-1.5">
-                <Award className="h-4 w-4 text-purple-400" />
-                Belvo Company — Letter of Recommendation
-              </span>
-              <span className="hidden sm:inline-block h-3.5 w-px bg-[#1F2937]" />
-              <span className="text-[11px] text-[#A5B4FC]/80 hidden sm:inline">
-                Issued 22-09-2026 by Hrishikesh Mishra (CEO, Belvo)
-              </span>
-            </div>
+          {/* If LOR is removed / deleted, show Empty State with restore/create button */}
+          {!hasLor ? (
+            <div className="rounded-3xl border border-dashed border-[#1F2937] bg-[#0B132B]/80 p-8 sm:p-12 text-center">
+              <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-purple-500/10 border border-purple-500/30 text-purple-400 mb-4">
+                <Award className="h-7 w-7" />
+              </div>
+              <h3 className="text-base font-bold text-white">
+                Letter of Recommendation is Currently Removed
+              </h3>
+              <p className="text-xs text-[#94A3B8] max-w-md mx-auto mt-1 mb-6 leading-relaxed">
+                The Letter of Recommendation has been detached from your public Belvo experience.
+                You can restore the official Belvo letterhead, upload a replacement PDF, or customize details at any time.
+              </p>
 
-            <div className="flex items-center gap-2 flex-wrap">
-              {/* Zoom Controls */}
-              <div className="flex items-center rounded-xl border border-[#1F2937] bg-[#111827] px-1 py-0.5 text-xs">
+              <div className="flex flex-wrap items-center justify-center gap-3">
                 <button
-                  onClick={() => setZoomLevel((z) => Math.max(z - 15, 70))}
-                  className="p-1.5 text-[#94A3B8] hover:text-white transition-colors cursor-pointer rounded-lg hover:bg-[#1F2937]"
-                  title="Zoom Out"
+                  type="button"
+                  onClick={handleRestoreLor}
+                  className="inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 px-5 py-2.5 text-xs font-semibold text-white shadow-md hover:scale-[1.02] active:scale-[0.98] transition-all cursor-pointer"
                 >
-                  <ZoomOut className="h-3.5 w-3.5" />
+                  <Award className="h-4 w-4" />
+                  <span>Restore Official Belvo LOR</span>
                 </button>
-                <span className="px-2 font-mono text-[11px] text-[#CBD5E1] min-w-[42px] text-center">
-                  {zoomLevel}%
-                </span>
+
                 <button
-                  onClick={() => setZoomLevel((z) => Math.min(z + 15, 150))}
-                  className="p-1.5 text-[#94A3B8] hover:text-white transition-colors cursor-pointer rounded-lg hover:bg-[#1F2937]"
-                  title="Zoom In"
+                  type="button"
+                  onClick={() => replaceLorFileRef.current?.click()}
+                  className="inline-flex items-center gap-2 rounded-xl border border-[#1F2937] bg-[#111827] px-4 py-2.5 text-xs font-medium text-[#E0E7FF] hover:border-purple-400 transition-colors cursor-pointer"
                 >
-                  <ZoomIn className="h-3.5 w-3.5" />
+                  <Upload className="h-4 w-4 text-purple-400" />
+                  <span>Upload Custom LOR PDF</span>
                 </button>
-                {zoomLevel !== 100 && (
+              </div>
+            </div>
+          ) : (
+            <>
+              {/* LOR Action Toolbar with Replace, Change, and Delete */}
+              <div className="flex flex-wrap items-center justify-between gap-3 p-3.5 rounded-2xl border border-[#1F2937] bg-[#0B132B]">
+                <div className="flex items-center gap-3">
+                  <span className="text-xs font-semibold text-[#E0E7FF] flex items-center gap-1.5">
+                    <Award className="h-4 w-4 text-purple-400" />
+                    {lorFormData.issuer} — {lorFormData.title}
+                  </span>
+                  <span className="hidden sm:inline-block h-3.5 w-px bg-[#1F2937]" />
+                  <span className="text-[11px] text-[#A5B4FC]/80 hidden sm:inline">
+                    Issued by <strong className="text-white">{lorFormData.issuedBy}</strong> ({lorFormData.role})
+                  </span>
+                </div>
+
+                <div className="flex items-center gap-2 flex-wrap">
+                  {/* Replace LOR File */}
                   <button
-                    onClick={() => setZoomLevel(100)}
-                    className="p-1.5 text-[#94A3B8] hover:text-white transition-colors cursor-pointer rounded-lg hover:bg-[#1F2937]"
-                    title="Reset Zoom"
+                    type="button"
+                    onClick={() => replaceLorFileRef.current?.click()}
+                    disabled={isUploading}
+                    className="flex items-center gap-1.5 rounded-xl border border-purple-500/40 bg-purple-600/20 hover:bg-purple-600/30 text-purple-300 px-3 py-1.5 text-xs font-medium transition-colors cursor-pointer shadow-xs"
+                    title="Upload a new PDF to replace this Letter of Recommendation"
                   >
-                    <RotateCcw className="h-3.5 w-3.5" />
+                    {isUploading ? (
+                      <RefreshCw className="h-3.5 w-3.5 animate-spin" />
+                    ) : (
+                      <Upload className="h-3.5 w-3.5" />
+                    )}
+                    <span>Replace PDF</span>
                   </button>
-                )}
+
+                  {/* Change / Edit LOR Details */}
+                  <button
+                    type="button"
+                    onClick={handleOpenEditLor}
+                    className="flex items-center gap-1.5 rounded-xl border border-[#1F2937] bg-[#111827] px-3 py-1.5 text-xs font-medium text-[#CBD5E1] hover:border-purple-400 hover:text-white transition-colors cursor-pointer"
+                    title="Change Issuer, Date, Company, or Verified Skills"
+                  >
+                    <Edit2 className="h-3.5 w-3.5 text-purple-400" />
+                    <span>Change Details</span>
+                  </button>
+
+                  {/* Delete LOR */}
+                  <button
+                    type="button"
+                    onClick={handleDeleteLor}
+                    className="flex items-center gap-1.5 rounded-xl border border-red-500/30 bg-red-500/10 hover:bg-red-500/20 text-red-400 px-3 py-1.5 text-xs font-medium transition-colors cursor-pointer"
+                    title="Delete / Remove this Letter of Recommendation from your portfolio"
+                  >
+                    <Trash2 className="h-3.5 w-3.5" />
+                    <span>Delete LOR</span>
+                  </button>
+
+                  {/* Zoom Controls */}
+                  <div className="flex items-center rounded-xl border border-[#1F2937] bg-[#111827] px-1 py-0.5 text-xs">
+                    <button
+                      onClick={() => setZoomLevel((z) => Math.max(z - 15, 70))}
+                      className="p-1.5 text-[#94A3B8] hover:text-white transition-colors cursor-pointer rounded-lg hover:bg-[#1F2937]"
+                      title="Zoom Out"
+                    >
+                      <ZoomOut className="h-3.5 w-3.5" />
+                    </button>
+                    <span className="px-2 font-mono text-[11px] text-[#CBD5E1] min-w-[42px] text-center">
+                      {zoomLevel}%
+                    </span>
+                    <button
+                      onClick={() => setZoomLevel((z) => Math.min(z + 15, 150))}
+                      className="p-1.5 text-[#94A3B8] hover:text-white transition-colors cursor-pointer rounded-lg hover:bg-[#1F2937]"
+                      title="Zoom In"
+                    >
+                      <ZoomIn className="h-3.5 w-3.5" />
+                    </button>
+                    {zoomLevel !== 100 && (
+                      <button
+                        onClick={() => setZoomLevel(100)}
+                        className="p-1.5 text-[#94A3B8] hover:text-white transition-colors cursor-pointer rounded-lg hover:bg-[#1F2937]"
+                        title="Reset Zoom"
+                      >
+                        <RotateCcw className="h-3.5 w-3.5" />
+                      </button>
+                    )}
+                  </div>
+
+                  {/* Print Document */}
+                  <button
+                    onClick={() => window.print()}
+                    className="flex items-center gap-1.5 rounded-xl border border-[#1F2937] bg-[#111827] px-3 py-1.5 text-xs font-medium text-[#CBD5E1] hover:border-purple-400 hover:text-white transition-colors cursor-pointer"
+                    title="Print this letter"
+                  >
+                    <Printer className="h-3.5 w-3.5" />
+                    <span>Print</span>
+                  </button>
+
+                  {/* Copy Letter Text */}
+                  <button
+                    onClick={handleCopyLorText}
+                    className="flex items-center gap-1.5 rounded-xl border border-[#1F2937] bg-[#111827] px-3 py-1.5 text-xs font-medium text-[#CBD5E1] hover:border-purple-400 hover:text-white transition-colors cursor-pointer"
+                    title="Copy LOR content"
+                  >
+                    {copiedId === 'lor-text' ? (
+                      <>
+                        <Check className="h-3.5 w-3.5 text-emerald-400" />
+                        <span className="text-emerald-400">Copied</span>
+                      </>
+                    ) : (
+                      <>
+                        <Copy className="h-3.5 w-3.5" />
+                        <span>Copy Text</span>
+                      </>
+                    )}
+                  </button>
+
+                  {/* Download Official LOR PDF */}
+                  <a
+                    href={lorFormData.pdfUrl}
+                    download="Poosala_Lokesh_Belvo_LOR.pdf"
+                    className="flex items-center gap-1.5 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 px-3.5 py-1.5 text-xs font-semibold text-white shadow-sm hover:scale-[1.02] active:scale-[0.98] transition-all cursor-pointer"
+                    title="Download the official Belvo LOR PDF"
+                  >
+                    <Download className="h-3.5 w-3.5" />
+                    <span>Download LOR PDF</span>
+                  </a>
+                </div>
               </div>
 
-              {/* Print Document */}
-              <button
-                onClick={() => window.print()}
-                className="flex items-center gap-1.5 rounded-xl border border-[#1F2937] bg-[#111827] px-3 py-1.5 text-xs font-medium text-[#CBD5E1] hover:border-purple-400 hover:text-white transition-colors cursor-pointer"
-                title="Print this letter"
-              >
-                <Printer className="h-3.5 w-3.5" />
-                <span>Print</span>
-              </button>
-
-              {/* Copy Letter Text */}
-              <button
-                onClick={handleCopyLorText}
-                className="flex items-center gap-1.5 rounded-xl border border-[#1F2937] bg-[#111827] px-3 py-1.5 text-xs font-medium text-[#CBD5E1] hover:border-purple-400 hover:text-white transition-colors cursor-pointer"
-                title="Copy LOR content"
-              >
-                {copiedId === 'lor-text' ? (
-                  <>
-                    <Check className="h-3.5 w-3.5 text-emerald-400" />
-                    <span className="text-emerald-400">Copied</span>
-                  </>
-                ) : (
-                  <>
-                    <Copy className="h-3.5 w-3.5" />
-                    <span>Copy Text</span>
-                  </>
-                )}
-              </button>
-
-              {/* Open in Standalone Tab */}
-              <a
-                href="/belvo-lor.pdf"
-                target="_blank"
-                rel="noreferrer"
-                className="flex items-center gap-1.5 rounded-xl border border-[#1F2937] bg-[#111827] px-3 py-1.5 text-xs font-medium text-[#CBD5E1] hover:border-purple-400 hover:text-white transition-colors cursor-pointer"
-                title="Open PDF file in a new standalone browser tab"
-              >
-                <ExternalLink className="h-3.5 w-3.5" />
-                <span className="hidden sm:inline">Open Tab</span>
-              </a>
-
-              {/* Download Official LOR PDF */}
-              <a
-                href="/belvo-lor.pdf"
-                download="Poosala_Lokesh_Belvo_LOR.pdf"
-                className="flex items-center gap-1.5 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 px-3.5 py-1.5 text-xs font-semibold text-white shadow-sm hover:scale-[1.02] active:scale-[0.98] transition-all cursor-pointer"
-                title="Download the official Belvo LOR PDF"
-              >
-                <Download className="h-3.5 w-3.5" />
-                <span>Download LOR PDF</span>
-              </a>
-            </div>
-          </div>
-
-          {/* Direct Vector Sheet View */}
-          <div className="w-full overflow-x-auto rounded-3xl border border-[#1F2937] bg-[#070B18] p-4 sm:p-8 flex justify-center items-start min-h-[780px] custom-scrollbar">
-            <div
-              className="w-full flex justify-center transition-all duration-150 ease-out"
-              style={{
-                transform: `scale(${zoomLevel / 100})`,
-                transformOrigin: 'top center',
-              }}
-            >
-              <div className="max-w-[760px] w-full bg-white rounded-2xl shadow-2xl overflow-hidden border border-slate-200">
-                <img
-                  src="/belvo-lor-page.svg"
-                  alt="Belvo Letter of Recommendation - Poosala Lokesh"
-                  className="w-full h-auto object-contain select-text"
-                />
+              {/* Direct Vector Sheet View */}
+              <div className="w-full overflow-x-auto rounded-3xl border border-[#1F2937] bg-[#070B18] p-4 sm:p-8 flex justify-center items-start min-h-[780px] custom-scrollbar">
+                <div
+                  className="w-full flex justify-center transition-all duration-150 ease-out"
+                  style={{
+                    transform: `scale(${zoomLevel / 100})`,
+                    transformOrigin: 'top center',
+                  }}
+                >
+                  <div className="max-w-[760px] w-full bg-white rounded-2xl shadow-2xl overflow-hidden border border-slate-200">
+                    <img
+                      src={lorFormData.vectorUrl || '/belvo-lor-page.svg'}
+                      alt="Belvo Letter of Recommendation - Poosala Lokesh"
+                      className="w-full h-auto object-contain select-text"
+                    />
+                  </div>
+                </div>
               </div>
-            </div>
-          </div>
+            </>
+          )}
         </div>
       )}
 
@@ -512,6 +905,29 @@ CEO, Belvo`;
               </div>
 
               <div className="flex items-center gap-2 flex-wrap">
+                {/* Replace File Button */}
+                <button
+                  type="button"
+                  onClick={() => replaceActiveResumeFileRef.current?.click()}
+                  className="inline-flex items-center gap-1.5 rounded-xl border border-blue-500/40 bg-blue-600/20 px-3.5 py-2 text-xs font-medium text-blue-300 hover:bg-blue-600/30 transition-all cursor-pointer"
+                  title="Replace with a new PDF"
+                >
+                  <Upload className="h-3.5 w-3.5" />
+                  <span>Replace File</span>
+                </button>
+
+                {/* Edit metadata */}
+                {activeResume && (
+                  <button
+                    type="button"
+                    onClick={() => setEditingResume({ ...activeResume })}
+                    className="inline-flex items-center gap-1.5 rounded-xl border border-[#1F2937] bg-[#111827] px-3.5 py-2 text-xs font-medium text-[#E0E7FF] hover:border-[#60A5FA] hover:text-[#60A5FA] transition-all cursor-pointer"
+                  >
+                    <Edit2 className="h-3.5 w-3.5" />
+                    <span>Change Info</span>
+                  </button>
+                )}
+
                 {/* Visual Unblocked Preview */}
                 <button
                   type="button"
@@ -537,18 +953,18 @@ CEO, Belvo`;
                   <span>Download</span>
                 </a>
 
-                <button
-                  type="button"
-                  onClick={() => handleCopyLink(activeResume?.url || '/resume.pdf', 'active')}
-                  className="inline-flex items-center gap-1.5 rounded-xl border border-[#1F2937] bg-[#111827] px-3 py-2 text-xs font-medium text-[#CBD5E1] hover:text-[#E0E7FF] cursor-pointer"
-                  title="Copy link"
-                >
-                  {copiedId === 'active' ? (
-                    <Check className="h-3.5 w-3.5 text-emerald-400" />
-                  ) : (
-                    <Copy className="h-3.5 w-3.5" />
-                  )}
-                </button>
+                {/* Delete active resume (with confirmation) */}
+                {activeResume && (
+                  <button
+                    type="button"
+                    onClick={() => handleDelete(activeResume.id, activeResume.title)}
+                    className="inline-flex items-center gap-1.5 rounded-xl border border-red-500/30 bg-red-500/10 px-3 py-2 text-xs font-medium text-red-400 hover:bg-red-500/20 transition-all cursor-pointer"
+                    title="Delete this resume"
+                  >
+                    <Trash2 className="h-3.5 w-3.5" />
+                    <span>Delete</span>
+                  </button>
+                )}
               </div>
             </div>
           </div>
@@ -563,22 +979,23 @@ CEO, Belvo`;
               Upload a new version to automatically store it in Supabase Storage with instant public CDN links.
             </p>
 
-            <label className="inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-[#2563EB] to-[#3B82F6] hover:from-[#1D4ED8] hover:to-[#2563EB] px-5 py-2.5 text-xs font-semibold text-white shadow-md cursor-pointer transition-all hover:scale-[1.02] active:scale-[0.98]">
+            <button
+              type="button"
+              onClick={() => uploadNewResumeFileRef.current?.click()}
+              disabled={isUploading}
+              className="inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-[#2563EB] to-[#3B82F6] hover:from-[#1D4ED8] hover:to-[#2563EB] px-5 py-2.5 text-xs font-semibold text-white shadow-md cursor-pointer transition-all hover:scale-[1.02] active:scale-[0.98]"
+            >
               <Upload className="h-4 w-4" />
               <span>{isUploading ? 'Uploading to Supabase...' : 'Select PDF File'}</span>
-              <input
-                type="file"
-                accept="application/pdf"
-                onChange={handleFileUpload}
-                disabled={isUploading}
-                className="hidden"
-              />
-            </label>
+            </button>
           </div>
 
           {/* Resume Version History List */}
           <div className="space-y-3">
-            <h3 className="text-sm font-semibold text-[#E0E7FF]">All Resume Versions</h3>
+            <div className="flex items-center justify-between">
+              <h3 className="text-sm font-semibold text-[#E0E7FF]">All Resume Versions</h3>
+              <span className="text-xs text-[#64748B] font-mono">{resumes.length} stored</span>
+            </div>
 
             {resumes.map((r) => {
               const isCurrentActive = r.isActive;
@@ -618,7 +1035,7 @@ CEO, Belvo`;
                     </div>
                   </div>
 
-                  <div className="flex items-center gap-2">
+                  <div className="flex items-center gap-1.5 flex-wrap">
                     {!isCurrentActive && (
                       <button
                         type="button"
@@ -630,6 +1047,30 @@ CEO, Belvo`;
                       </button>
                     )}
 
+                    {/* Replace File for this version */}
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setReplacingVersionId(r.id);
+                        replaceVersionFileRef.current?.click();
+                      }}
+                      className="rounded-lg p-2 text-[#CBD5E1] hover:text-blue-400 hover:bg-[#1F2937] transition-colors cursor-pointer"
+                      title="Replace file for this version"
+                    >
+                      <Upload className="h-4 w-4" />
+                    </button>
+
+                    {/* Change / Edit metadata */}
+                    <button
+                      type="button"
+                      onClick={() => setEditingResume({ ...r })}
+                      className="rounded-lg p-2 text-[#CBD5E1] hover:text-[#60A5FA] hover:bg-[#1F2937] transition-colors cursor-pointer"
+                      title="Change title, version, or URL"
+                    >
+                      <Edit2 className="h-4 w-4" />
+                    </button>
+
+                    {/* Preview */}
                     <button
                       type="button"
                       onClick={() =>
@@ -645,6 +1086,7 @@ CEO, Belvo`;
                       <Eye className="h-4 w-4" />
                     </button>
 
+                    {/* Download */}
                     <a
                       href={r.url}
                       download={r.title}
@@ -654,6 +1096,7 @@ CEO, Belvo`;
                       <Download className="h-4 w-4" />
                     </a>
 
+                    {/* Copy Link */}
                     <button
                       type="button"
                       onClick={() => handleCopyLink(r.url, r.id)}
@@ -667,16 +1110,12 @@ CEO, Belvo`;
                       )}
                     </button>
 
+                    {/* Delete version */}
                     <button
                       type="button"
-                      disabled={isCurrentActive}
                       onClick={() => handleDelete(r.id, r.title)}
-                      className={`rounded-lg p-2 transition-colors ${
-                        isCurrentActive
-                          ? 'opacity-30 cursor-not-allowed text-[#64748B]'
-                          : 'text-[#64748B] hover:text-red-400 hover:bg-[#1F2937] cursor-pointer'
-                      }`}
-                      title={isCurrentActive ? 'Cannot delete the active resume' : 'Delete version'}
+                      className="rounded-lg p-2 text-[#64748B] hover:text-red-400 hover:bg-[#1F2937] transition-colors cursor-pointer"
+                      title="Delete version"
                     >
                       <Trash2 className="h-4 w-4" />
                     </button>
@@ -688,7 +1127,339 @@ CEO, Belvo`;
         </div>
       )}
 
-      {/* SMART UNBLOCKED DOCUMENT PREVIEW MODAL */}
+      {/* MODAL 1: EDIT / CHANGE LOR DETAILS */}
+      {isEditingLor && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-md p-4 overflow-y-auto">
+          <div className="relative w-full max-w-xl rounded-3xl border border-[#1F2937] bg-[#111827] p-6 shadow-2xl my-auto">
+            <div className="flex items-center justify-between border-b border-[#1F2937] pb-4 mb-5">
+              <div className="flex items-center gap-2.5">
+                <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-purple-500/20 text-purple-400">
+                  <Award className="h-5 w-5" />
+                </div>
+                <div>
+                  <h3 className="text-sm font-bold text-white">Change Letter of Recommendation</h3>
+                  <p className="text-[11px] text-[#94A3B8]">
+                    Attached to your Belvo Company experience
+                  </p>
+                </div>
+              </div>
+              <button
+                type="button"
+                onClick={() => setIsEditingLor(false)}
+                className="p-1.5 text-[#64748B] hover:text-white rounded-lg cursor-pointer"
+              >
+                <X className="h-5 w-5" />
+              </button>
+            </div>
+
+            <form onSubmit={handleSaveLor} className="space-y-4">
+              <div className="grid gap-3.5 sm:grid-cols-2">
+                <div>
+                  <label className="block text-xs font-medium text-[#CBD5E1] mb-1">
+                    Document Title
+                  </label>
+                  <input
+                    type="text"
+                    required
+                    value={lorFormData.title}
+                    onChange={(e) => setLorFormData({ ...lorFormData, title: e.target.value })}
+                    className="w-full rounded-xl border border-[#1F2937] bg-[#0B132B] px-3.5 py-2 text-xs text-[#E0E7FF] focus:border-purple-400 focus:outline-none"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-xs font-medium text-[#CBD5E1] mb-1">
+                    Issuing Organization
+                  </label>
+                  <input
+                    type="text"
+                    required
+                    value={lorFormData.issuer}
+                    onChange={(e) => setLorFormData({ ...lorFormData, issuer: e.target.value })}
+                    className="w-full rounded-xl border border-[#1F2937] bg-[#0B132B] px-3.5 py-2 text-xs text-[#E0E7FF] focus:border-purple-400 focus:outline-none"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-xs font-medium text-[#CBD5E1] mb-1">
+                    Signatory Name (Issued By)
+                  </label>
+                  <input
+                    type="text"
+                    required
+                    value={lorFormData.issuedBy}
+                    onChange={(e) => setLorFormData({ ...lorFormData, issuedBy: e.target.value })}
+                    className="w-full rounded-xl border border-[#1F2937] bg-[#0B132B] px-3.5 py-2 text-xs text-[#E0E7FF] focus:border-purple-400 focus:outline-none"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-xs font-medium text-[#CBD5E1] mb-1">
+                    Signatory Role / Title
+                  </label>
+                  <input
+                    type="text"
+                    required
+                    value={lorFormData.role}
+                    onChange={(e) => setLorFormData({ ...lorFormData, role: e.target.value })}
+                    className="w-full rounded-xl border border-[#1F2937] bg-[#0B132B] px-3.5 py-2 text-xs text-[#E0E7FF] focus:border-purple-400 focus:outline-none"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-xs font-medium text-[#CBD5E1] mb-1">
+                    Issue Date
+                  </label>
+                  <input
+                    type="text"
+                    value={lorFormData.date}
+                    onChange={(e) => setLorFormData({ ...lorFormData, date: e.target.value })}
+                    className="w-full rounded-xl border border-[#1F2937] bg-[#0B132B] px-3.5 py-2 text-xs text-[#E0E7FF] focus:border-purple-400 focus:outline-none"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-xs font-medium text-[#CBD5E1] mb-1">
+                    Location
+                  </label>
+                  <input
+                    type="text"
+                    value={lorFormData.location}
+                    onChange={(e) => setLorFormData({ ...lorFormData, location: e.target.value })}
+                    className="w-full rounded-xl border border-[#1F2937] bg-[#0B132B] px-3.5 py-2 text-xs text-[#E0E7FF] focus:border-purple-400 focus:outline-none"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-xs font-medium text-[#CBD5E1] mb-1">
+                    Contact Phone
+                  </label>
+                  <input
+                    type="text"
+                    value={lorFormData.phone}
+                    onChange={(e) => setLorFormData({ ...lorFormData, phone: e.target.value })}
+                    className="w-full rounded-xl border border-[#1F2937] bg-[#0B132B] px-3.5 py-2 text-xs text-[#E0E7FF] focus:border-purple-400 focus:outline-none"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-xs font-medium text-[#CBD5E1] mb-1">
+                    Contact Email
+                  </label>
+                  <input
+                    type="email"
+                    value={lorFormData.email}
+                    onChange={(e) => setLorFormData({ ...lorFormData, email: e.target.value })}
+                    className="w-full rounded-xl border border-[#1F2937] bg-[#0B132B] px-3.5 py-2 text-xs text-[#E0E7FF] focus:border-purple-400 focus:outline-none"
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-xs font-medium text-[#CBD5E1] mb-1">
+                  PDF Download URL / Supabase Asset Path
+                </label>
+                <div className="flex gap-2">
+                  <input
+                    type="text"
+                    required
+                    value={lorFormData.pdfUrl}
+                    onChange={(e) => setLorFormData({ ...lorFormData, pdfUrl: e.target.value })}
+                    className="flex-1 rounded-xl border border-[#1F2937] bg-[#0B132B] px-3.5 py-2 text-xs text-[#E0E7FF] font-mono focus:border-purple-400 focus:outline-none"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => replaceLorFileRef.current?.click()}
+                    className="rounded-xl border border-purple-500/40 bg-purple-600/20 px-3 py-2 text-xs text-purple-300 hover:bg-purple-600/30 transition-colors cursor-pointer"
+                  >
+                    Upload File
+                  </button>
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-xs font-medium text-[#CBD5E1] mb-1">
+                  Verified Skills &amp; Highlights (one per line)
+                </label>
+                <textarea
+                  rows={4}
+                  value={lorFormData.skillsVerified}
+                  onChange={(e) =>
+                    setLorFormData({ ...lorFormData, skillsVerified: e.target.value })
+                  }
+                  className="w-full rounded-xl border border-[#1F2937] bg-[#0B132B] p-3 text-xs text-[#E0E7FF] focus:border-purple-400 focus:outline-none"
+                />
+              </div>
+
+              <div className="flex items-center justify-between pt-4 border-t border-[#1F2937]">
+                <button
+                  type="button"
+                  onClick={handleDeleteLor}
+                  className="inline-flex items-center gap-1.5 rounded-xl border border-red-500/30 bg-red-500/10 px-3.5 py-2 text-xs text-red-400 hover:bg-red-500/20 transition-colors cursor-pointer"
+                >
+                  <Trash2 className="h-3.5 w-3.5" />
+                  <span>Delete LOR</span>
+                </button>
+
+                <div className="flex gap-2">
+                  <button
+                    type="button"
+                    onClick={() => setIsEditingLor(false)}
+                    className="rounded-xl border border-[#1F2937] bg-[#111827] px-4 py-2 text-xs text-[#CBD5E1] hover:bg-[#1F2937] cursor-pointer"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    type="submit"
+                    className="inline-flex items-center gap-2 rounded-xl bg-purple-600 hover:bg-purple-500 px-5 py-2 text-xs font-semibold text-white shadow-md transition-all cursor-pointer"
+                  >
+                    <Check className="h-4 w-4" />
+                    <span>Save Changes</span>
+                  </button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {/* MODAL 2: EDIT / CHANGE RESUME VERSION DETAILS */}
+      {editingResume && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-md p-4">
+          <div className="relative w-full max-w-lg rounded-3xl border border-[#1F2937] bg-[#111827] p-6 shadow-2xl">
+            <div className="flex items-center justify-between border-b border-[#1F2937] pb-4 mb-5">
+              <div className="flex items-center gap-2.5">
+                <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-blue-500/20 text-[#60A5FA]">
+                  <FileText className="h-5 w-5" />
+                </div>
+                <div>
+                  <h3 className="text-sm font-bold text-white">Change Resume Info</h3>
+                  <p className="text-[11px] text-[#94A3B8]">Edit version and document metadata</p>
+                </div>
+              </div>
+              <button
+                type="button"
+                onClick={() => setEditingResume(null)}
+                className="p-1.5 text-[#64748B] hover:text-white rounded-lg cursor-pointer"
+              >
+                <X className="h-5 w-5" />
+              </button>
+            </div>
+
+            <form onSubmit={handleSaveResumeEdit} className="space-y-4">
+              <div>
+                <label className="block text-xs font-medium text-[#CBD5E1] mb-1">
+                  Document Title
+                </label>
+                <input
+                  type="text"
+                  required
+                  value={editingResume.title}
+                  onChange={(e) =>
+                    setEditingResume({ ...editingResume, title: e.target.value })
+                  }
+                  className="w-full rounded-xl border border-[#1F2937] bg-[#0B132B] px-3.5 py-2 text-xs text-[#E0E7FF] focus:border-[#60A5FA] focus:outline-none"
+                />
+              </div>
+
+              <div className="grid gap-3 sm:grid-cols-2">
+                <div>
+                  <label className="block text-xs font-medium text-[#CBD5E1] mb-1">
+                    Version Tag (e.g. v2.0)
+                  </label>
+                  <input
+                    type="text"
+                    value={editingResume.version || ''}
+                    onChange={(e) =>
+                      setEditingResume({ ...editingResume, version: e.target.value })
+                    }
+                    className="w-full rounded-xl border border-[#1F2937] bg-[#0B132B] px-3.5 py-2 text-xs text-[#E0E7FF] focus:border-[#60A5FA] focus:outline-none"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-xs font-medium text-[#CBD5E1] mb-1">
+                    File Size Label
+                  </label>
+                  <input
+                    type="text"
+                    value={editingResume.fileSize || ''}
+                    onChange={(e) =>
+                      setEditingResume({ ...editingResume, fileSize: e.target.value })
+                    }
+                    placeholder="1.2 MB"
+                    className="w-full rounded-xl border border-[#1F2937] bg-[#0B132B] px-3.5 py-2 text-xs text-[#E0E7FF] focus:border-[#60A5FA] focus:outline-none"
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-xs font-medium text-[#CBD5E1] mb-1">
+                  File URL / Supabase Asset Path
+                </label>
+                <input
+                  type="text"
+                  required
+                  value={editingResume.url}
+                  onChange={(e) => setEditingResume({ ...editingResume, url: e.target.value })}
+                  className="w-full rounded-xl border border-[#1F2937] bg-[#0B132B] px-3.5 py-2 text-xs text-[#E0E7FF] font-mono focus:border-[#60A5FA] focus:outline-none"
+                />
+              </div>
+
+              <div className="flex items-center gap-2 pt-2">
+                <input
+                  id="activeResumeCheckbox"
+                  type="checkbox"
+                  checked={editingResume.isActive}
+                  onChange={(e) =>
+                    setEditingResume({ ...editingResume, isActive: e.target.checked })
+                  }
+                  className="rounded border-[#1F2937] text-blue-600 focus:ring-0"
+                />
+                <label
+                  htmlFor="activeResumeCheckbox"
+                  className="text-xs text-[#CBD5E1] cursor-pointer"
+                >
+                  Set as Active Public Resume
+                </label>
+              </div>
+
+              <div className="flex items-center justify-between pt-4 border-t border-[#1F2937]">
+                <button
+                  type="button"
+                  onClick={() => {
+                    handleDelete(editingResume.id, editingResume.title);
+                    setEditingResume(null);
+                  }}
+                  className="inline-flex items-center gap-1.5 rounded-xl border border-red-500/30 bg-red-500/10 px-3.5 py-2 text-xs text-red-400 hover:bg-red-500/20 transition-colors cursor-pointer"
+                >
+                  <Trash2 className="h-3.5 w-3.5" />
+                  <span>Delete</span>
+                </button>
+
+                <div className="flex gap-2">
+                  <button
+                    type="button"
+                    onClick={() => setEditingResume(null)}
+                    className="rounded-xl border border-[#1F2937] bg-[#111827] px-4 py-2 text-xs text-[#CBD5E1] hover:bg-[#1F2937] cursor-pointer"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    type="submit"
+                    className="inline-flex items-center gap-2 rounded-xl bg-[#2563EB] hover:bg-[#1D4ED8] px-5 py-2 text-xs font-semibold text-white shadow-md transition-all cursor-pointer"
+                  >
+                    <Check className="h-4 w-4" />
+                    <span>Save Changes</span>
+                  </button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {/* MODAL 3: SMART UNBLOCKED PREVIEW MODAL */}
       {previewModalDoc && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/85 backdrop-blur-md p-3 sm:p-6">
           <div className="relative flex flex-col w-full max-w-5xl h-[90vh] rounded-3xl border border-[#2A2B3D] bg-[#111827] shadow-2xl overflow-hidden my-auto">
@@ -739,7 +1510,7 @@ CEO, Belvo`;
               </div>
             </div>
 
-            {/* Modal Body - Direct Vector Document Sheet (Immune to Chrome's iframe PDF block) */}
+            {/* Modal Body */}
             <div className="flex-1 w-full overflow-y-auto bg-[#070B18] p-4 sm:p-8 flex justify-center items-start custom-scrollbar">
               <div className="max-w-[760px] w-full bg-white rounded-2xl shadow-2xl overflow-hidden border border-slate-200">
                 <img

@@ -92,6 +92,9 @@ export interface ExperienceItem {
     email: string
     location: string
     skillsVerified?: string[]
+    pdfUrl?: string
+    vectorUrl?: string
+    customNotes?: string
   }
 }
 

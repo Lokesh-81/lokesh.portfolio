@@ -9,6 +9,9 @@ export interface ExperienceLOR {
   email: string
   location: string
   skillsVerified: string[]
+  pdfUrl?: string
+  vectorUrl?: string
+  customNotes?: string
 }
 
 export interface Experience {
@@ -61,7 +64,9 @@ export const experiences: Experience[] = [
         "Understanding project requirements and development workflows",
         "Testing and improving web pages and features",
         "Collaborating with team members on development tasks"
-      ]
+      ],
+      pdfUrl: "/belvo-lor.pdf",
+      vectorUrl: "/belvo-lor-page.svg"
     }
   },
   {

@@ -1,135 +1,190 @@
-# Poosala Lokesh — Portfolio Website
+# Poosala Lokesh — Senior Full Stack & Cloud Developer Portfolio
 
-A modern, high-performance interactive personal portfolio website showcasing full-stack applications, Google Cloud architecture solutions, technical expertise, client endorsements, and verified credentials.
+[![React 19](https://img.shields.io/badge/React-19.0.1-61DAFB?style=flat-square&logo=react&logoColor=black)](https://react.dev)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.x-3178C6?style=flat-square&logo=typescript&logoColor=white)](https://www.typescriptlang.org)
+[![Vite](https://img.shields.io/badge/Vite-8.3-646CFF?style=flat-square&logo=vite&logoColor=white)](https://vitejs.dev)
+[![Tailwind CSS v4](https://img.shields.io/badge/Tailwind_CSS-v4.3-38B2AC?style=flat-square&logo=tailwind-css&logoColor=white)](https://tailwindcss.com)
+[![Google Cloud Certified](https://img.shields.io/badge/Google_Cloud-Certified_Architect-4285F4?style=flat-square&logo=googlecloud&logoColor=white)](https://cloud.google.com/certification)
+[![Supabase](https://img.shields.io/badge/Supabase-Database_%26_Storage-3ECF8E?style=flat-square&logo=supabase&logoColor=white)](https://supabase.com)
+[![Firebase](https://img.shields.io/badge/Firebase-Firestore-FFCA28?style=flat-square&logo=firebase&logoColor=black)](https://firebase.google.com)
+[![Vercel Deployment](https://img.shields.io/badge/Deploy-Vercel-000000?style=flat-square&logo=vercel&logoColor=white)](https://vercel.com)
 
----
-
-## About the Portfolio
-
-This portfolio represents the engineering work, cloud certifications, and technical profile of **Poosala Lokesh**, a Full Stack Developer and Google Cloud Certified Professional Cloud Architect based in Hyderabad, India.
-
-- **Developer:** Poosala Lokesh
-- **Credentials:** Google Cloud Certified Professional Cloud Architect & recipient of 37 Google Cloud Skill Badges
-- **Education:** B.Sc. in Mathematics, Statistics, and Computer Science (MSCS, 2024–2027), Aurora's Degree & PG College
-- **Leadership:** Google Student Ambassador (Google Cloud Community)
-- **Location:** Hyderabad, Telangana, India
-
-### Purpose
-
-The website serves as an interactive platform for prospective clients, engineering teams, and collaborators to explore:
-- Production-ready web applications and generative AI platforms
-- Cloud architecture and scalable distributed system implementations
-- Verified Google Cloud Platform (GCP) credentials and skill badges
-- Direct testimonials from business owners and clients
-- Detailed professional work history and technical capabilities
-- Direct contact, consultation requests, and project inquiry channels
+> Production-grade, cloud-architected developer portfolio and headless CMS studio built with React 19, TypeScript, Tailwind CSS v4, and dual-cloud real-time persistence (Supabase + Firebase Firestore).
 
 ---
 
-## Main Sections
+## 🌟 Key Highlights & Features
 
-The application uses an interactive macOS-inspired **Magnetic Dock** navbar with spring-physics magnification, active indicators, and smooth section transitions:
+- **Integrated Developer Studio CMS (`/studio`)**:
+  - Full-featured, password-protected administrative dashboard to update profile, work experience, projects, skills, education, Google Cloud credentials, and testimonials without touching code.
+  - Multi-tab navigation with instant database persistence and offline local caching.
 
-1. **Hero (`#home`)**  
-   Dynamic introduction with character-by-character text reveal, rotating role loops (Full Stack Developer, Google Cloud Architect, AI Engineer, Creative Problem Solver), spotlight cursor glow, and quick access to the Google Cloud Certified Professional Cloud Architect credential.
+- **Official Belvo Letter of Recommendation (LOR) Showcase**:
+  - Direct vector and PDF document viewer for the official recommendation letter issued by **Hrishikesh Mishra (CEO, Belvo Company)** on 22-09-2026.
+  - Full management controls inside the Studio: Replace PDF, change signatory details, toggle visibility, or delete/re-attach anytime.
+  - Unblocked native vector rendering immune to browser iframe security restrictions.
 
-2. **About (`#about`)**  
-   In-depth overview of engineering philosophy, academic background at Aurora's Degree & PG College, spoken languages (Telugu, English, Hindi, French), and verified GitHub profiles.
+- **Live ATS-Optimized Resume Sheet & Document Manager**:
+  - Dynamic, live A4 sheet generated directly from portfolio data.
+  - One-click **Copy Formatted Plain Text** for rapid job board and ATS applications.
+  - Interactive zoom controls, direct print/save-to-PDF (`window.print()`), and instant PDF downloads (`Poosala_Lokesh_Resume.pdf`).
+  - Version history archive with Supabase storage integration.
 
-3. **Projects / Works (`#work`)**  
-   Filterable showcase of full-stack and cloud projects across categories (All, AI & Full Stack, Cloud & Enterprise, Web & Mobile) featuring architecture overviews, technology stacks, live deployment links, and modal details.
+- **Google Cloud Certified — Professional Cloud Architect**:
+  - Verifiable cloud credential showcase with credential verification links, skills taxonomy, and interactive preview modal.
 
-4. **Skills (`#skills`)**  
-   Interactive multi-category skill matrix covering Frontend Architecture, Backend & Distributed Systems, Cloud Architecture & DevOps, AI Engineering & LLMs, Databases & Caching, and Developer Tools, complemented by a continuous sliding tech stack ticker.
+- **Dual-Cloud Data Persistence**:
+  - **Supabase**: Relational database tables, real-time sync, and S3-compatible cloud storage for PDFs and project media assets.
+  - **Firebase Firestore**: Multi-role security rules and backup cloud synchronization.
 
-5. **Certifications & Skill Badges (`#certifications`)**  
-   Official Google Cloud Certified Professional Cloud Architect showcase with verification links, along with a searchable library of 37 Google Cloud Skill Badges spanning Infrastructure, Security, Data/AI, and DevOps.
+- **Executive Cyberpunk Aesthetics & Responsive Design**:
+  - Tailwind CSS v4 design system with ambient glows, glassmorphism, and hardware-accelerated animations using Framer Motion.
+  - Embedded vector cursive signature with zero layout shifts and offline font data.
+  - Fully responsive across desktop, tablet, and mobile displays.
 
-6. **Experience (`#experience`)**  
-   Chronological timeline of engineering roles, leadership responsibilities, and team accomplishments.
-
-7. **Client Testimonials (`#testimonials`)**  
-   Dedicated section placed right before the contact section featuring an interactive 3D **Orbit Card Stack** with card lifting, spring-fan spreading, and real client reviews from Indira Thakur Photography and Abhishek Aggarwal (Foundarly Business World).
-
-8. **Contact (`#contact`)**  
-   Interactive contact channel supporting project inquiry submission, discussion topic selection, real-time typing indicators, direct phone/WhatsApp communication, and verified social media links.
-
-9. **Studio CMS (`#studio`)**  
-   Integrated administrative Content Management System accessible via secure credential authentication to manage projects, testimonials, media assets, resume versions, site metadata, and incoming inquiries.
-
----
-
-## Key Features
-
-- **Opentype Signature Handwriting Intro:** Vector-perfect cursive SVG signature rendering ("Poosala Lokesh") powered by `opentype.js` and `LastoriaBoldRegular.otf` font geometry, featuring path reveal strokes, ambient glow, and smooth viewport exit.
-- **Componentry Magnetic Dock:** Spring-physics macOS-inspired navigation dock with cursor-distance magnification, active status indicators, tooltips, and badges.
-- **3D Orbit Card Stack:** Centerpiece client testimonials section featuring 3D perspective fan-out, card lift on active selection, and responsive layout.
-- **Live IST Clock:** Prominently visible Indian Standard Time (IST) clock with live pulsing status indicator.
-- **Interactive Spotlight & Glows:** Ambient radial gradients and reactive mouse-following spotlight illumination.
-- **Multi-Language Localization:** Built-in internationalization supporting English, Telugu, Hindi, French, and additional international languages.
-- **Studio Content Management System:** Full in-app studio interface for live data updates, media uploads, and inquiry tracking.
-- **Mobile Responsive:** Fluid layout adaptation across mobile phones, tablets, laptops, and ultra-wide displays.
+- **Multilingual Support (i18n)**:
+  - English, Hindi (हिंदी), Spanish (Español), and French (Français) with instant localized translations.
 
 ---
 
-## Verified Contact & Social Accounts
+## 🛠️ Tech Stack & Architecture
 
-- **GitHub:** [https://github.com/Lokesh-81](https://github.com/Lokesh-81)
-- **LinkedIn:** [https://www.linkedin.com/in/poosala-lokesh/](https://www.linkedin.com/in/poosala-lokesh/)
-- **Instagram:** [https://www.instagram.com/_lokesh81/](https://www.instagram.com/_lokesh81/)
-- **Email:** [poosala15@gmail.com](mailto:poosala15@gmail.com) / [lokes81@myyahoo.com](mailto:lokes81@myyahoo.com)
-- **WhatsApp / Phone:** [+91 8885674172](https://wa.me/918885674172)
-
----
-
-## Tech Stack & Architecture
-
-- **Frontend:** React 19, TypeScript, Tailwind CSS v4, Motion / Framer Motion
-- **Font & Vector Animation:** Opentype.js (`LastoriaBoldRegular.otf`)
-- **Icons & Styling:** Lucide React, Tailwind CSS v4
-- **Backend / CMS:** Supabase (Database, Auth, Storage) & Firebase
-- **Tooling & Build:** Vite, Bun / Node.js, TSX
+| Layer | Technologies |
+|---|---|
+| **Frontend Framework** | [React 19](https://react.dev), [Vite 8](https://vitejs.dev), [TypeScript](https://www.typescriptlang.org) |
+| **Styling & Design** | [Tailwind CSS v4](https://tailwindcss.com), [Lucide React](https://lucide.dev), [Framer Motion](https://www.framer.com/motion/) |
+| **Cloud & Backend** | [Supabase](https://supabase.com) (PostgreSQL & Storage CDN), [Firebase Firestore](https://firebase.google.com) |
+| **Document Engine** | PDF-Lib, Opentype.js, Vector SVG Sheet Renderer |
+| **Hosting & CI/CD** | [Vercel](https://vercel.com) Edge Network, GitHub Actions |
 
 ---
 
-## Local Development
+## 📁 Repository Structure
+
+```text
+├── components/
+│   ├── core/                    # Low-level UI primitives & motion effects
+│   ├── portfolio/               # Section components
+│   │   ├── hero.tsx             # Hero banner with dynamic roles
+│   │   ├── about-section.tsx    # Bio, technical focus & stats
+│   │   ├── experience-section.tsx # Timeline & Belvo LOR showcase
+│   │   ├── certifications-section.tsx # Google Cloud certifications
+│   │   ├── project-card.tsx     # Interactive project display
+│   │   ├── contact-section.tsx  # Inquiries form & social links
+│   │   └── belvo-lor-modal.tsx  # Unblocked LOR document viewer
+│   └── ui/                      # Signature, docks, and utility components
+├── lib/
+│   ├── portfolio-context.tsx    # Global React Context with dual-cloud sync
+│   ├── portfolio-types.ts      # TypeScript interfaces & domain models
+│   ├── supabase.ts              # Supabase client & media storage helpers
+│   ├── firebase.ts              # Firebase Firestore client
+│   └── signature-font.ts        # Embedded font curves for instant signature
+├── public/
+│   ├── belvo-company-logo.svg   # Belvo brand vector asset
+│   ├── belvo-lor-page.svg       # Official Belvo LOR high-res vector sheet
+│   ├── belvo-lor.pdf            # Official Belvo LOR PDF document
+│   ├── resume-page.svg          # High-resolution vector resume sheet
+│   └── resume.pdf               # Downloadable ATS resume PDF
+├── src/
+│   ├── studio/                  # Developer Studio CMS Admin Panel
+│   │   ├── StudioLayout.tsx     # Studio navigation & layout wrapper
+│   │   └── tabs/                # Tab panels (Profile, Experience, Resume, Projects, etc.)
+│   ├── App.tsx                  # Root application router
+│   └── main.tsx                 # Application entry point
+├── package.json                 # Dependencies & project scripts
+├── vite.config.ts               # Vite bundler configuration
+└── README.md                    # Project documentation
+```
+
+---
+
+## 🚀 Getting Started
 
 ### Prerequisites
 
-- Node.js 20+ or Bun
-- npm or bun package manager
+- **Node.js**: `v18.x` or later (LTS recommended)
+- **npm** or **bun** / **yarn** / **pnpm**
 
-### Getting Started
+### Installation
 
-1. **Clone the repository:**
+1. **Clone the repository**:
    ```bash
    git clone https://github.com/Lokesh-81/lokesh.portfolio.git
    cd lokesh.portfolio
    ```
 
-2. **Install dependencies:**
+2. **Install dependencies**:
    ```bash
    npm install
    ```
 
-3. **Start the development server:**
+3. **Configure Environment Variables**:
+   Copy `.env.example` to `.env`:
+   ```bash
+   cp .env.example .env
+   ```
+
+   Fill in your configuration:
+   ```env
+   # Supabase Configuration
+   VITE_SUPABASE_URL=https://your-project.supabase.co
+   VITE_SUPABASE_ANON_KEY=your-supabase-anon-key
+
+   # Firebase Configuration
+   VITE_FIREBASE_API_KEY=your-firebase-api-key
+   VITE_FIREBASE_PROJECT_ID=your-firebase-project-id
+
+   # Studio Admin Credentials
+   VITE_STUDIO_PASSWORD=your-secure-studio-password
+   ```
+
+4. **Run the Development Server**:
    ```bash
    npm run dev
    ```
-   The site will be available at `http://localhost:3000`.
+   Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-4. **Type check & Lint:**
-   ```bash
-   npm run lint
-   ```
-
-5. **Build for production:**
+5. **Build for Production**:
    ```bash
    npm run build
    ```
 
+6. **Type Check & Lint**:
+   ```bash
+   npm run lint
+   ```
+
 ---
 
-## License & Copyright
+## 🌐 Deploying to Vercel
 
-© 2026 Poosala Lokesh. All rights reserved.
+This repository is pre-configured for zero-configuration deployments on **Vercel**:
+
+1. Import the repository in [Vercel](https://vercel.com/new).
+2. Set the **Framework Preset** to `Vite`.
+3. Set the **Build Command** to `npm run build` and **Output Directory** to `dist`.
+4. Add your environment variables in Vercel project settings (`VITE_SUPABASE_URL`, `VITE_SUPABASE_ANON_KEY`, etc.).
+5. Click **Deploy**.
+
+---
+
+## 📄 Credentials & Certifications
+
+- **Google Cloud Certified**: Professional Cloud Architect
+- **Internship**: Web Development Intern & Frontend Lead @ Belvo Company (Mumbai, India)
+- **Education**: Bachelor of Technology (B.Tech) in Computer Science & Engineering (2026)
+
+---
+
+## 📬 Contact & Connect
+
+- **Engineer**: Poosala Lokesh
+- **Email**: [poosala15@gmail.com](mailto:poosala15@gmail.com)
+- **GitHub**: [@Lokesh-81](https://github.com/Lokesh-81)
+- **LinkedIn**: [linkedin.com/in/poosala-lokesh](https://linkedin.com/in/poosala-lokesh)
+
+---
+
+## 📝 License
+
+Distributed under the [MIT License](LICENSE). Built with ❤️ by Poosala Lokesh.

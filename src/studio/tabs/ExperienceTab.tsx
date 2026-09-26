@@ -324,6 +324,118 @@ export function ExperienceTab({ showToast }: ExperienceTabProps) {
                 </div>
               </div>
 
+              {/* Letter of Recommendation (LOR) Section */}
+              <div className="rounded-2xl border border-purple-500/30 bg-purple-950/20 p-4 space-y-3">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    <input
+                      id="hasLorCheckbox"
+                      type="checkbox"
+                      checked={editingExp.lor?.hasLor ?? (editingExp.id === 'belvo')}
+                      onChange={(e) => {
+                        const checked = e.target.checked;
+                        setEditingExp({
+                          ...editingExp,
+                          lor: {
+                            ...(editingExp.lor || {
+                              title: 'Letter of Recommendation (LOR)',
+                              issuer: editingExp.company || 'Company',
+                              issuedBy: 'Hrishikesh Mishra',
+                              role: 'CEO',
+                              date: '22-09-2026',
+                              phone: '+918928466820',
+                              email: 'contact.belvo@gmail.com',
+                              location: editingExp.location || 'Mumbai',
+                              skillsVerified: [],
+                              pdfUrl: '/belvo-lor.pdf',
+                              vectorUrl: '/belvo-lor-page.svg',
+                            }),
+                            hasLor: checked,
+                          },
+                        });
+                      }}
+                      className="rounded border-[#1F2937] text-purple-600 focus:ring-0"
+                    />
+                    <label htmlFor="hasLorCheckbox" className="text-xs font-semibold text-purple-200 cursor-pointer">
+                      Official Letter of Recommendation (LOR)
+                    </label>
+                  </div>
+                  {editingExp.lor?.hasLor && (
+                    <span className="text-[10px] font-mono text-emerald-400 bg-emerald-500/20 px-2 py-0.5 rounded-full">
+                      Attached
+                    </span>
+                  )}
+                </div>
+
+                {editingExp.lor?.hasLor && (
+                  <div className="grid gap-3 sm:grid-cols-2 pt-2 border-t border-purple-500/20">
+                    <div>
+                      <label className="block text-[11px] text-[#CBD5E1] mb-1">Issuer / Signatory Name</label>
+                      <input
+                        type="text"
+                        value={editingExp.lor?.issuedBy || ''}
+                        onChange={(e) =>
+                          setEditingExp({
+                            ...editingExp,
+                            lor: { ...(editingExp.lor as any), issuedBy: e.target.value },
+                          })
+                        }
+                        placeholder="e.g. Hrishikesh Mishra"
+                        className="w-full rounded-xl border border-[#1F2937] bg-[#0B132B] px-3 py-1.5 text-xs text-[#E0E7FF] focus:border-purple-400 focus:outline-none"
+                      />
+                    </div>
+
+                    <div>
+                      <label className="block text-[11px] text-[#CBD5E1] mb-1">Signatory Title / Role</label>
+                      <input
+                        type="text"
+                        value={editingExp.lor?.role || ''}
+                        onChange={(e) =>
+                          setEditingExp({
+                            ...editingExp,
+                            lor: { ...(editingExp.lor as any), role: e.target.value },
+                          })
+                        }
+                        placeholder="e.g. CEO, Belvo"
+                        className="w-full rounded-xl border border-[#1F2937] bg-[#0B132B] px-3 py-1.5 text-xs text-[#E0E7FF] focus:border-purple-400 focus:outline-none"
+                      />
+                    </div>
+
+                    <div>
+                      <label className="block text-[11px] text-[#CBD5E1] mb-1">Issue Date</label>
+                      <input
+                        type="text"
+                        value={editingExp.lor?.date || ''}
+                        onChange={(e) =>
+                          setEditingExp({
+                            ...editingExp,
+                            lor: { ...(editingExp.lor as any), date: e.target.value },
+                          })
+                        }
+                        placeholder="22-09-2026"
+                        className="w-full rounded-xl border border-[#1F2937] bg-[#0B132B] px-3 py-1.5 text-xs text-[#E0E7FF] focus:border-purple-400 focus:outline-none"
+                      />
+                    </div>
+
+                    <div>
+                      <label className="block text-[11px] text-[#CBD5E1] mb-1">Document PDF URL</label>
+                      <input
+                        type="text"
+                        value={editingExp.lor?.pdfUrl || ''}
+                        onChange={(e) =>
+                          setEditingExp({
+                            ...editingExp,
+                            lor: { ...(editingExp.lor as any), pdfUrl: e.target.value },
+                          })
+                        }
+                        placeholder="/belvo-lor.pdf"
+                        className="w-full rounded-xl border border-[#1F2937] bg-[#0B132B] px-3 py-1.5 text-xs text-[#E0E7FF] font-mono focus:border-purple-400 focus:outline-none"
+                      />
+                    </div>
+                  </div>
+                )}
+              </div>
+
               <div className="flex justify-end gap-3 pt-4 border-t border-[#1F2937]">
                 <button
                   type="button"
