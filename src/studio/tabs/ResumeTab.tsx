@@ -27,7 +27,6 @@ import {
   ZoomIn,
   ZoomOut,
   RotateCcw,
-  Sparkles,
   FileCheck2,
   Award,
   Layers,
@@ -548,7 +547,7 @@ ${lorFormData.role}`;
                 : 'text-[#94A3B8] hover:text-[#E0E7FF]'
             }`}
           >
-            <Sparkles className="h-3.5 w-3.5" />
+            <FileText className="h-3.5 w-3.5" />
             <span>Live Resume Sheet</span>
           </button>
           <button

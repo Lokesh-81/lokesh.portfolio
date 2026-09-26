@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import { usePortfolio } from '@/lib/portfolio-context';
-import { Save, Plus, Trash2, RefreshCw, Sparkles, Award } from 'lucide-react';
+import { Save, Plus, Trash2, RefreshCw, Award } from 'lucide-react';
 
 interface HeroTabProps {
   showToast: (msg: string, type?: 'success' | 'error') => void;

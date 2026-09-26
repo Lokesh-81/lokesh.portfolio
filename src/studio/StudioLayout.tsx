@@ -5,7 +5,7 @@ import { usePortfolio } from '@/lib/portfolio-context';
 import {
   LayoutDashboard,
   User,
-  Sparkles,
+  Compass,
   FileText,
   Briefcase,
   History,
@@ -108,7 +108,7 @@ export function StudioLayout({ onExitStudio }: StudioLayoutProps) {
     { id: 'dashboard', label: 'Dashboard', icon: LayoutDashboard, category: 'Overview' },
 
     { id: 'profile', label: 'Profile & Bio', icon: User, category: 'Portfolio Content' },
-    { id: 'hero', label: 'Hero Section', icon: Sparkles, category: 'Portfolio Content' },
+    { id: 'hero', label: 'Hero Section', icon: Compass, category: 'Portfolio Content' },
     { id: 'about', label: 'About & GitHub', icon: FileText, category: 'Portfolio Content' },
     { id: 'projects', label: 'Projects', icon: Briefcase, category: 'Portfolio Content' },
     { id: 'experience', label: 'Work Experience', icon: History, category: 'Portfolio Content' },

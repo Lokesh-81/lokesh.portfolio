@@ -18,7 +18,6 @@ import {
   ArrowUpRight,
   Search,
   SlidersHorizontal,
-  Sparkles,
   Database,
   Cpu,
   Boxes,
@@ -173,7 +172,7 @@ export function CertificationsSection({ onNavigate }: CertificationsSectionProps
 
           <div className="rounded-2xl border border-[#1F2937] bg-[#111827]/70 p-4 flex items-center gap-3 shadow-xs">
             <div className="h-10 w-10 rounded-xl bg-[#C084FC]/15 border border-[#C084FC]/30 flex items-center justify-center shrink-0">
-              <Sparkles className="h-5 w-5 text-[#C084FC]" />
+              <Cpu className="h-5 w-5 text-[#C084FC]" />
             </div>
             <div>
               <div className="text-xl sm:text-2xl font-bold text-[#E0E7FF]">

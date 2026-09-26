@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import { Briefcase, Calendar, MapPin, CheckCircle2, Sparkles, Filter, Code2, Layers } from 'lucide-react';
+import { Briefcase, Calendar, MapPin, CheckCircle2, Filter, Code2, Layers } from 'lucide-react';
 import { usePortfolio } from '@/lib/portfolio-context';
 import type { SkillLevel } from '@/lib/firebase';
 
@@ -33,7 +33,7 @@ export function SkillsExperienceSection() {
         <div className="flex flex-col justify-between gap-6 border-b border-zinc-200/80 pb-10 md:flex-row md:items-end dark:border-zinc-900/80">
           <div>
             <div className="inline-flex items-center gap-2 rounded-full border border-purple-500/30 bg-purple-500/10 px-3 py-1 text-[11px] font-medium text-purple-600 dark:text-purple-300 mb-3">
-              <Sparkles className="h-3 w-3" />
+              <Briefcase className="h-3 w-3" />
               <span>Professional & Platform Track Record</span>
             </div>
             <p className="text-xs uppercase tracking-[0.25em] text-purple-600 font-semibold dark:text-purple-400">

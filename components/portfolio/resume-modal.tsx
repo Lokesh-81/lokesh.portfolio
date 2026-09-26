@@ -8,7 +8,6 @@ import {
   Copy,
   Check,
   Printer,
-  Sparkles,
   ExternalLink,
   ShieldCheck,
   ZoomIn,

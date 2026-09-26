@@ -9,7 +9,7 @@ import { Spotlight } from '@/components/core/spotlight';
 import { TextEffect } from '@/components/core/text-effect';
 import { usePortfolio } from '@/lib/portfolio-context';
 import { useLanguage } from '@/i18n';
-import { FileCheck2, ShieldCheck, Sparkles } from 'lucide-react';
+import { FileCheck2, ShieldCheck } from 'lucide-react';
 import { BelvoLorModal } from '@/components/portfolio/belvo-lor-modal';
 
 export function TestimonialsSection() {
