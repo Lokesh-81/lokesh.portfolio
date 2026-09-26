@@ -18,6 +18,11 @@ import {
 } from 'lucide-react';
 import { usePortfolio } from '@/lib/portfolio-context';
 import { UniversalDocumentViewer } from '@/components/ui/universal-document-viewer';
+import {
+  openDocumentInNewTab,
+  downloadDocument,
+  getCleanDocDisplayName,
+} from '@/lib/document-utils';
 
 export interface BelvoLorModalProps {
   isOpen: boolean;
@@ -199,20 +204,20 @@ Location: Goregaon, Mumbai`;
                   )}
                 </div>
 
-                {/* Open in Standalone Tab (Direct browser unblocked PDF) */}
-                <a
-                  href={currentPdfUrl}
-                  target="_blank"
-                  rel="noreferrer"
+                {/* Open in Standalone Tab (Direct browser unblocked PDF or Blob) */}
+                <button
+                  type="button"
+                  onClick={() => openDocumentInNewTab(currentPdfUrl, currentTitle)}
                   className="flex items-center gap-1.5 rounded-xl border border-[#1F2937] bg-[#111827] px-3 py-1.5 text-xs font-medium text-[#CBD5E1] hover:border-purple-400 hover:text-white transition-colors cursor-pointer"
                   title="Open raw document file in a new standalone tab"
                 >
                   <ExternalLink className="h-3.5 w-3.5" />
                   <span className="hidden sm:inline">Open in Tab</span>
-                </a>
+                </button>
 
                 {/* Print Button */}
                 <button
+                  type="button"
                   onClick={handlePrint}
                   className="flex items-center gap-1.5 rounded-xl border border-[#1F2937] bg-[#111827] px-3 py-1.5 text-xs font-medium text-[#CBD5E1] hover:border-purple-400 hover:text-white transition-colors cursor-pointer"
                   title="Print Document"
@@ -222,15 +227,15 @@ Location: Goregaon, Mumbai`;
                 </button>
 
                 {/* Download PDF button */}
-                <a
-                  href={currentPdfUrl}
-                  download="Poosala_Lokesh_Belvo_LOR.pdf"
+                <button
+                  type="button"
+                  onClick={() => downloadDocument(currentPdfUrl, 'Poosala_Lokesh_Belvo_LOR.pdf')}
                   className="flex items-center gap-1.5 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 px-3.5 py-1.5 text-xs font-semibold text-white shadow-sm hover:scale-[1.02] active:scale-[0.98] transition-all cursor-pointer"
                   title="Download the official document file"
                 >
                   <Download className="h-3.5 w-3.5" />
                   <span>Download PDF</span>
-                </a>
+                </button>
 
                 {/* Close Button */}
                 <button
@@ -268,7 +273,7 @@ Location: Goregaon, Mumbai`;
                 <span>
                   Official Document:{' '}
                   <strong className="text-white font-mono">
-                    {currentPdfUrl.split('/').pop() || 'belvo-lor.pdf'}
+                    {getCleanDocDisplayName(currentPdfUrl, 'Poosala_Lokesh_Belvo_LOR.pdf')}
                   </strong>{' '}
                   (Issued by {currentIssuer} · {currentSignatory}, {currentRole})
                 </span>
@@ -292,13 +297,13 @@ Location: Goregaon, Mumbai`;
                   )}
                 </button>
 
-                <a
-                  href="/belvo-lor.pdf"
-                  download="Poosala_Lokesh_Belvo_LOR.pdf"
+                <button
+                  type="button"
+                  onClick={() => downloadDocument(currentPdfUrl, 'Poosala_Lokesh_Belvo_LOR.pdf')}
                   className="text-xs text-purple-300 hover:text-white underline cursor-pointer"
                 >
                   Download Direct PDF
-                </a>
+                </button>
               </div>
             </div>
           </motion.div>

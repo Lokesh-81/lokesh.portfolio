@@ -19,6 +19,7 @@ import { usePortfolio } from '@/lib/portfolio-context';
 import { useLanguage } from '@/i18n';
 import { BelvoLorModal } from '@/components/portfolio/belvo-lor-modal';
 import { ResumeModal } from '@/components/portfolio/resume-modal';
+import { downloadDocument } from '@/lib/document-utils';
 
 export function AboutSection() {
   const { profile, about, experiences, activeResume } = usePortfolio();
@@ -269,13 +270,18 @@ export function AboutSection() {
                   <FileText className="h-3.5 w-3.5" />
                   <span>View Resume</span>
                 </button>
-                <a
-                  href={activeResume?.url || '/resume.pdf'}
-                  download={activeResume?.title || 'Poosala_Lokesh_Resume.pdf'}
+                <button
+                  type="button"
+                  onClick={() =>
+                    downloadDocument(
+                      activeResume?.url || '/resume.pdf',
+                      activeResume?.title || 'Poosala_Lokesh_Resume.pdf'
+                    )
+                  }
                   className="inline-flex items-center gap-1.5 text-xs font-semibold text-white transition-colors cursor-pointer rounded-xl bg-blue-600 hover:bg-blue-500 px-3 py-1.5 shadow-sm"
                 >
                   <span>Download</span>
-                </a>
+                </button>
               </div>
             </div>
           </div>

@@ -6,6 +6,11 @@ import { uploadMediaToSupabase } from '@/lib/supabase';
 import type { ResumeItem, ExperienceItem } from '@/lib/portfolio-types';
 import { UniversalDocumentViewer } from '@/components/ui/universal-document-viewer';
 import {
+  openDocumentInNewTab,
+  downloadDocument,
+  getCleanDocDisplayName,
+} from '@/lib/document-utils';
+import {
   FileText,
   Upload,
   CheckCircle2,
@@ -703,15 +708,15 @@ ${lorFormData.role}`;
               </button>
 
               {/* Download Official PDF */}
-              <a
-                href={activeResume?.url || '/resume.pdf'}
-                download={activeResume?.title || 'Poosala_Lokesh_Resume.pdf'}
+              <button
+                type="button"
+                onClick={() => downloadDocument(activeResume?.url || '/resume.pdf', activeResume?.title || 'Poosala_Lokesh_Resume.pdf')}
                 className="flex items-center gap-1.5 rounded-xl bg-gradient-to-r from-[#2563EB] to-[#3B82F6] hover:from-[#1D4ED8] hover:to-[#2563EB] px-3.5 py-1.5 text-xs font-semibold text-white shadow-sm hover:scale-[1.02] active:scale-[0.98] transition-all cursor-pointer"
                 title="Download the official PDF file"
               >
                 <Download className="h-3.5 w-3.5" />
                 <span>Download PDF</span>
-              </a>
+              </button>
             </div>
           </div>
 
@@ -898,15 +903,15 @@ ${lorFormData.role}`;
                   </button>
 
                   {/* Download Official LOR PDF */}
-                  <a
-                    href={lorFormData.pdfUrl}
-                    download="Poosala_Lokesh_Belvo_LOR.pdf"
+                  <button
+                    type="button"
+                    onClick={() => downloadDocument(lorFormData.pdfUrl, 'Poosala_Lokesh_Belvo_LOR.pdf')}
                     className="flex items-center gap-1.5 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 px-3.5 py-1.5 text-xs font-semibold text-white shadow-sm hover:scale-[1.02] active:scale-[0.98] transition-all cursor-pointer"
                     title="Download the official Belvo LOR PDF"
                   >
                     <Download className="h-3.5 w-3.5" />
                     <span>Download LOR PDF</span>
-                  </a>
+                  </button>
                 </div>
               </div>
 
@@ -960,7 +965,9 @@ ${lorFormData.role}`;
                     {activeResume?.title || 'Poosala_Lokesh_Resume_2026.pdf'}
                   </h3>
                   <p className="text-xs text-[#94A3B8] font-mono truncate max-w-md mt-0.5">
-                    {activeResume?.url || '/resume.pdf'}
+                    {activeResume?.url?.startsWith('data:')
+                      ? 'Attached Document (PDF Format)'
+                      : activeResume?.url || '/resume.pdf'}
                   </p>
                 </div>
               </div>
@@ -1005,14 +1012,19 @@ ${lorFormData.role}`;
                   <span>Preview</span>
                 </button>
 
-                <a
-                  href={activeResume?.url || '/resume.pdf'}
-                  download={activeResume?.title || 'Poosala_Lokesh_Resume.pdf'}
-                  className="inline-flex items-center gap-1.5 rounded-xl border border-[#1F2937] bg-[#111827] px-3.5 py-2 text-xs font-medium text-[#E0E7FF] hover:border-[#60A5FA] hover:text-[#60A5FA] transition-all"
+                <button
+                  type="button"
+                  onClick={() =>
+                    downloadDocument(
+                      activeResume?.url || '/resume.pdf',
+                      activeResume?.title || 'Poosala_Lokesh_Resume.pdf'
+                    )
+                  }
+                  className="inline-flex items-center gap-1.5 rounded-xl border border-[#1F2937] bg-[#111827] px-3.5 py-2 text-xs font-medium text-[#E0E7FF] hover:border-[#60A5FA] hover:text-[#60A5FA] transition-all cursor-pointer"
                 >
                   <Download className="h-3.5 w-3.5" />
                   <span>Download</span>
-                </a>
+                </button>
 
                 {/* Delete active resume (with confirmation) */}
                 {activeResume && (
@@ -1148,14 +1160,14 @@ ${lorFormData.role}`;
                     </button>
 
                     {/* Download */}
-                    <a
-                      href={r.url}
-                      download={r.title}
+                    <button
+                      type="button"
+                      onClick={() => downloadDocument(r.url, r.title)}
                       className="rounded-lg p-2 text-[#CBD5E1] hover:text-[#60A5FA] hover:bg-[#1F2937] transition-colors cursor-pointer"
                       title="Download"
                     >
                       <Download className="h-4 w-4" />
-                    </a>
+                    </button>
 
                     {/* Copy Link */}
                     <button

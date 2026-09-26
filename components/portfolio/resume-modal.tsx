@@ -18,6 +18,11 @@ import {
 } from 'lucide-react';
 import { usePortfolio } from '@/lib/portfolio-context';
 import { UniversalDocumentViewer } from '@/components/ui/universal-document-viewer';
+import {
+  openDocumentInNewTab,
+  downloadDocument,
+  getCleanDocDisplayName,
+} from '@/lib/document-utils';
 
 export interface ResumeModalProps {
   isOpen: boolean;
@@ -150,18 +155,18 @@ ${educations.map((e) => `• ${e.degree} — ${e.institution} (${e.period || e.e
                   )}
                 </div>
 
-                <a
-                  href={resumeUrl}
-                  target="_blank"
-                  rel="noreferrer"
+                <button
+                  type="button"
+                  onClick={() => openDocumentInNewTab(resumeUrl, resumeTitle)}
                   className="flex items-center gap-1.5 rounded-xl border border-[#1F2937] bg-[#111827] px-3 py-1.5 text-xs font-medium text-[#CBD5E1] hover:border-blue-400 hover:text-white transition-colors cursor-pointer"
                   title="Open in new tab"
                 >
                   <ExternalLink className="h-3.5 w-3.5" />
                   <span className="hidden sm:inline">Open in Tab</span>
-                </a>
+                </button>
 
                 <button
+                  type="button"
                   onClick={handlePrint}
                   className="flex items-center gap-1.5 rounded-xl border border-[#1F2937] bg-[#111827] px-3 py-1.5 text-xs font-medium text-[#CBD5E1] hover:border-blue-400 hover:text-white transition-colors cursor-pointer"
                   title="Print document"
@@ -170,15 +175,15 @@ ${educations.map((e) => `• ${e.degree} — ${e.institution} (${e.period || e.e
                   <span className="hidden md:inline">Print</span>
                 </button>
 
-                <a
-                  href={resumeUrl}
-                  download={resumeTitle}
+                <button
+                  type="button"
+                  onClick={() => downloadDocument(resumeUrl, resumeTitle)}
                   className="flex items-center gap-1.5 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 px-3.5 py-1.5 text-xs font-semibold text-white shadow-sm hover:scale-[1.02] active:scale-[0.98] transition-all cursor-pointer"
                   title="Download the official resume PDF"
                 >
                   <Download className="h-3.5 w-3.5" />
                   <span>Download PDF</span>
-                </a>
+                </button>
 
                 <button
                   onClick={onClose}
@@ -213,7 +218,7 @@ ${educations.map((e) => `• ${e.degree} — ${e.institution} (${e.period || e.e
               <div className="flex items-center gap-2">
                 <span className="h-2 w-2 rounded-full bg-emerald-400 animate-pulse" />
                 <span>
-                  Active Resume File: <strong className="text-white font-mono">{resumeTitle}</strong>
+                  Active Resume File: <strong className="text-white font-mono">{getCleanDocDisplayName(resumeUrl, resumeTitle)}</strong>
                 </span>
               </div>
 
