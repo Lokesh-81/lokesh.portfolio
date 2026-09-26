@@ -1,13 +1,14 @@
 'use client';
 
-import React from 'react';
-import { ArrowRight, Mail } from 'lucide-react';
+import React, { useState } from 'react';
+import { ArrowRight, Mail, FileText } from 'lucide-react';
 import { TextEffect } from '@/components/core/text-effect';
 import { TextLoop } from '@/components/core/text-loop';
 import { GlowEffect } from '@/components/core/glow-effect';
 import { Spotlight } from '@/components/core/spotlight';
 import { useLanguage } from '@/i18n';
 import { usePortfolio } from '@/lib/portfolio-context';
+import { ResumeModal } from '@/components/portfolio/resume-modal';
 import type { Variants } from 'framer-motion';
 
 export interface HeroProps {
@@ -46,7 +47,8 @@ const textEffectVariants: { container: Variants; item: Variants } = {
 
 export function Hero({ onNavigate }: HeroProps) {
   const { t, language } = useLanguage();
-  const { hero, profile } = usePortfolio();
+  const { hero, profile, activeResume } = usePortfolio();
+  const [isResumeModalOpen, setIsResumeModalOpen] = useState(false);
 
   const greetingText = t('hero.greeting', hero?.greeting || "Hello, I'm");
   const nameText = t('hero.name', hero?.name || profile?.displayName || 'Poosala Lokesh.');
@@ -216,10 +218,24 @@ export function Hero({ onNavigate }: HeroProps) {
                   <span>{ctaContactText}</span>
                 </button>
               </div>
+
+              {/* View / Download Official Resume Button */}
+              <button
+                type="button"
+                onClick={() => setIsResumeModalOpen(true)}
+                className="relative inline-flex items-center gap-2 rounded-xl border border-blue-500/40 bg-blue-950/40 px-5 py-3.5 text-sm font-semibold text-blue-200 shadow-xs transition-all hover:border-blue-400 hover:text-white hover:bg-blue-900/40 active:scale-[0.98] cursor-pointer"
+                title="View & Download Official ATS Resume"
+              >
+                <FileText className="h-4 w-4 text-blue-400" />
+                <span>Resume (CV)</span>
+              </button>
             </div>
           </div>
         </div>
       </div>
+
+      {/* Official ATS Resume Modal */}
+      <ResumeModal isOpen={isResumeModalOpen} onClose={() => setIsResumeModalOpen(false)} />
     </div>
   );
 }

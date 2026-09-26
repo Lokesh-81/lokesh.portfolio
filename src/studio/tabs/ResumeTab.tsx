@@ -4,6 +4,7 @@ import React, { useState, useRef } from 'react';
 import { usePortfolio } from '@/lib/portfolio-context';
 import { uploadMediaToSupabase } from '@/lib/supabase';
 import type { ResumeItem, ExperienceItem } from '@/lib/portfolio-types';
+import { UniversalDocumentViewer } from '@/components/ui/universal-document-viewer';
 import {
   FileText,
   Upload,
@@ -53,6 +54,7 @@ export function ResumeTab({ showToast }: ResumeTabProps) {
   } = usePortfolio();
 
   const [activeSubTab, setActiveSubTab] = useState<'sheet' | 'lor' | 'uploads'>('sheet');
+  const [resumeViewMode, setResumeViewMode] = useState<'activeFile' | 'atsSheet'>('activeFile');
   const [zoomLevel, setZoomLevel] = useState<number>(100);
   const [isUploading, setIsUploading] = useState(false);
   const [copiedId, setCopiedId] = useState<string | null>(null);
@@ -107,6 +109,26 @@ export function ResumeTab({ showToast }: ResumeTabProps) {
       'Collaborating with team members on development tasks',
     ]).join('\n'),
   });
+
+  // Keep lorFormData synced whenever experiences or belvoExp updates
+  React.useEffect(() => {
+    if (belvoExp?.lor) {
+      setLorFormData((prev) => ({
+        ...prev,
+        title: belvoExp.lor?.title || prev.title,
+        issuer: belvoExp.lor?.issuer || prev.issuer,
+        issuedBy: belvoExp.lor?.issuedBy || prev.issuedBy,
+        role: belvoExp.lor?.role || prev.role,
+        date: belvoExp.lor?.date || prev.date,
+        phone: belvoExp.lor?.phone || prev.phone,
+        email: belvoExp.lor?.email || prev.email,
+        location: belvoExp.lor?.location || prev.location,
+        pdfUrl: belvoExp.lor?.pdfUrl || prev.pdfUrl,
+        vectorUrl: belvoExp.lor?.vectorUrl || prev.vectorUrl,
+        skillsVerified: (belvoExp.lor?.skillsVerified || prev.skillsVerified.split('\n')).join('\n'),
+      }));
+    }
+  }, [belvoExp?.lor]);
 
   // Open LOR edit modal and sync fields
   const handleOpenEditLor = () => {
@@ -268,6 +290,12 @@ export function ResumeTab({ showToast }: ResumeTabProps) {
           vectorUrl: res.url,
         },
       };
+
+      setLorFormData((prev) => ({
+        ...prev,
+        pdfUrl: res.url,
+        vectorUrl: res.url,
+      }));
 
       await saveExperience(updatedExp);
       showToast(`LOR document replaced with "${file.name}"!`, 'success');
@@ -556,12 +584,33 @@ ${lorFormData.role}`;
             <div className="flex items-center gap-3">
               <span className="text-xs font-semibold text-[#E0E7FF] flex items-center gap-1.5">
                 <FileCheck2 className="h-4 w-4 text-[#60A5FA]" />
-                ATS-Optimized Document
+                Active Document View
               </span>
               <span className="hidden sm:inline-block h-3.5 w-px bg-[#1F2937]" />
-              <span className="text-[11px] text-[#94A3B8] hidden sm:inline">
-                Active Version: <strong className="text-white">{activeResume?.title || 'Poosala_Lokesh_Resume.pdf'}</strong>
-              </span>
+              <div className="flex items-center rounded-xl border border-[#1F2937] bg-[#111827] p-0.5 text-xs">
+                <button
+                  type="button"
+                  onClick={() => setResumeViewMode('activeFile')}
+                  className={`px-2.5 py-1 rounded-lg text-xs font-medium transition-colors cursor-pointer ${
+                    resumeViewMode === 'activeFile'
+                      ? 'bg-[#2563EB] text-white shadow-xs'
+                      : 'text-[#94A3B8] hover:text-[#E0E7FF]'
+                  }`}
+                >
+                  Uploaded PDF File
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setResumeViewMode('atsSheet')}
+                  className={`px-2.5 py-1 rounded-lg text-xs font-medium transition-colors cursor-pointer ${
+                    resumeViewMode === 'atsSheet'
+                      ? 'bg-[#2563EB] text-white shadow-xs'
+                      : 'text-[#94A3B8] hover:text-[#E0E7FF]'
+                  }`}
+                >
+                  Live ATS Sheet
+                </button>
+              </div>
             </div>
 
             <div className="flex items-center gap-2 flex-wrap">
@@ -675,13 +724,24 @@ ${lorFormData.role}`;
                 transformOrigin: 'top center',
               }}
             >
-              <div className="max-w-[760px] w-full bg-white rounded-2xl shadow-2xl overflow-hidden border border-slate-200">
-                <img
-                  src="/resume-page.svg"
-                  alt="Poosala Lokesh - Professional Resume"
-                  className="w-full h-auto object-contain select-text"
-                />
-              </div>
+              {resumeViewMode === 'activeFile' ? (
+                <div className="max-w-[820px] w-full">
+                  <UniversalDocumentViewer
+                    url={activeResume?.url || '/resume.pdf'}
+                    title={activeResume?.title || 'Poosala Lokesh - Active Resume'}
+                    height={820}
+                    fallbackImage="/resume-page.svg"
+                  />
+                </div>
+              ) : (
+                <div className="max-w-[760px] w-full bg-white rounded-2xl shadow-2xl overflow-hidden border border-slate-200">
+                  <img
+                    src="/resume-page.svg"
+                    alt="Poosala Lokesh - Professional Resume"
+                    className="w-full h-auto object-contain select-text"
+                  />
+                </div>
+              )}
             </div>
           </div>
         </div>
@@ -850,7 +910,7 @@ ${lorFormData.role}`;
                 </div>
               </div>
 
-              {/* Direct Vector Sheet View */}
+              {/* Direct Document Sheet / PDF View */}
               <div className="w-full overflow-x-auto rounded-3xl border border-[#1F2937] bg-[#070B18] p-4 sm:p-8 flex justify-center items-start min-h-[780px] custom-scrollbar">
                 <div
                   className="w-full flex justify-center transition-all duration-150 ease-out"
@@ -859,11 +919,12 @@ ${lorFormData.role}`;
                     transformOrigin: 'top center',
                   }}
                 >
-                  <div className="max-w-[760px] w-full bg-white rounded-2xl shadow-2xl overflow-hidden border border-slate-200">
-                    <img
-                      src={lorFormData.vectorUrl || '/belvo-lor-page.svg'}
-                      alt="Belvo Letter of Recommendation - Poosala Lokesh"
-                      className="w-full h-auto object-contain select-text"
+                  <div className="max-w-[820px] w-full">
+                    <UniversalDocumentViewer
+                      url={lorFormData.pdfUrl || lorFormData.vectorUrl || '/belvo-lor-page.svg'}
+                      title={lorFormData.title || 'Belvo Letter of Recommendation'}
+                      height={800}
+                      fallbackImage="/belvo-lor-page.svg"
                     />
                   </div>
                 </div>
@@ -1512,11 +1573,12 @@ ${lorFormData.role}`;
 
             {/* Modal Body */}
             <div className="flex-1 w-full overflow-y-auto bg-[#070B18] p-4 sm:p-8 flex justify-center items-start custom-scrollbar">
-              <div className="max-w-[760px] w-full bg-white rounded-2xl shadow-2xl overflow-hidden border border-slate-200">
-                <img
-                  src={previewModalDoc.vectorUrl || '/resume-page.svg'}
-                  alt={previewModalDoc.title}
-                  className="w-full h-auto object-contain select-text"
+              <div className="max-w-[820px] w-full">
+                <UniversalDocumentViewer
+                  url={previewModalDoc.pdfUrl || previewModalDoc.vectorUrl || '/resume.pdf'}
+                  title={previewModalDoc.title}
+                  height={780}
+                  fallbackImage="/resume-page.svg"
                 />
               </div>
             </div>

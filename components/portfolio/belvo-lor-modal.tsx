@@ -16,6 +16,8 @@ import {
   RotateCcw,
   FileText,
 } from 'lucide-react';
+import { usePortfolio } from '@/lib/portfolio-context';
+import { UniversalDocumentViewer } from '@/components/ui/universal-document-viewer';
 
 export interface BelvoLorModalProps {
   isOpen: boolean;
@@ -28,12 +30,26 @@ export interface BelvoLorModalProps {
 export function BelvoLorModal({
   isOpen,
   onClose,
-  pdfUrl = '/belvo-lor.pdf',
-  vectorUrl = '/belvo-lor-page.svg',
-  title = 'Belvo Company — Letter of Recommendation',
+  pdfUrl,
+  vectorUrl,
+  title,
 }: BelvoLorModalProps) {
+  const { experiences } = usePortfolio();
   const [copiedText, setCopiedText] = useState(false);
   const [zoomLevel, setZoomLevel] = useState<number>(100);
+
+  const belvoExp =
+    experiences.find((e) => e.id === 'belvo') ||
+    experiences.find((e) => e.company?.toLowerCase().includes('belvo')) ||
+    experiences[0];
+
+  const currentPdfUrl = pdfUrl || belvoExp?.lor?.pdfUrl || '/belvo-lor.pdf';
+  const currentVectorUrl = vectorUrl || belvoExp?.lor?.vectorUrl;
+  const currentDocUrl = currentPdfUrl || currentVectorUrl || '/belvo-lor-page.svg';
+  const currentTitle = title || belvoExp?.lor?.title || 'Belvo Company — Letter of Recommendation';
+  const currentIssuer = belvoExp?.lor?.issuer || 'Belvo Company';
+  const currentSignatory = belvoExp?.lor?.issuedBy || 'Hrishikesh Mishra';
+  const currentRole = belvoExp?.lor?.role || 'CEO, Belvo';
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -185,11 +201,11 @@ Location: Goregaon, Mumbai`;
 
                 {/* Open in Standalone Tab (Direct browser unblocked PDF) */}
                 <a
-                  href={pdfUrl}
+                  href={currentPdfUrl}
                   target="_blank"
                   rel="noreferrer"
                   className="flex items-center gap-1.5 rounded-xl border border-[#1F2937] bg-[#111827] px-3 py-1.5 text-xs font-medium text-[#CBD5E1] hover:border-purple-400 hover:text-white transition-colors cursor-pointer"
-                  title="Open raw PDF file in a new standalone tab"
+                  title="Open raw document file in a new standalone tab"
                 >
                   <ExternalLink className="h-3.5 w-3.5" />
                   <span className="hidden sm:inline">Open in Tab</span>
@@ -207,10 +223,10 @@ Location: Goregaon, Mumbai`;
 
                 {/* Download PDF button */}
                 <a
-                  href={pdfUrl}
+                  href={currentPdfUrl}
                   download="Poosala_Lokesh_Belvo_LOR.pdf"
                   className="flex items-center gap-1.5 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 px-3.5 py-1.5 text-xs font-semibold text-white shadow-sm hover:scale-[1.02] active:scale-[0.98] transition-all cursor-pointer"
-                  title="Download the official PDF file"
+                  title="Download the official document file"
                 >
                   <Download className="h-3.5 w-3.5" />
                   <span>Download PDF</span>
@@ -227,22 +243,21 @@ Location: Goregaon, Mumbai`;
               </div>
             </div>
 
-            {/* Document Surface - High-Res Direct Vector Sheet (Never blocked by Chrome iframe sandbox) */}
+            {/* Document Surface - High-Res Direct Vector or PDF Document Viewer */}
             <div className="flex-1 overflow-y-auto p-3 sm:p-6 bg-[#070B18] flex justify-center items-start custom-scrollbar">
               <div
-                className="w-full flex justify-center transition-all duration-150 ease-out"
+                className="w-full max-w-[820px] flex justify-center transition-all duration-150 ease-out"
                 style={{
                   transform: `scale(${zoomLevel / 100})`,
                   transformOrigin: 'top center',
                 }}
               >
-                <div className="max-w-[760px] w-full bg-white rounded-xl shadow-2xl overflow-hidden border border-slate-200">
-                  <img
-                    src={vectorUrl || '/belvo-lor-page.svg'}
-                    alt="Belvo Company Letter of Recommendation - Poosala Lokesh"
-                    className="w-full h-auto object-contain select-text"
-                  />
-                </div>
+                <UniversalDocumentViewer
+                  url={currentDocUrl}
+                  title={currentTitle}
+                  height={800}
+                  fallbackImage="/belvo-lor-page.svg"
+                />
               </div>
             </div>
 
@@ -251,7 +266,11 @@ Location: Goregaon, Mumbai`;
               <div className="flex items-center gap-2">
                 <span className="h-2 w-2 rounded-full bg-emerald-400 animate-pulse" />
                 <span>
-                  Official Document: <strong className="text-white font-mono">belvo-lor.pdf</strong> (Issued by Belvo Company CEO · Goregaon, Mumbai)
+                  Official Document:{' '}
+                  <strong className="text-white font-mono">
+                    {currentPdfUrl.split('/').pop() || 'belvo-lor.pdf'}
+                  </strong>{' '}
+                  (Issued by {currentIssuer} · {currentSignatory}, {currentRole})
                 </span>
               </div>
 

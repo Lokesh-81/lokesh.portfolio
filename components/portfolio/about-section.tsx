@@ -18,11 +18,19 @@ import { Signature } from '@/components/ui/signature';
 import { usePortfolio } from '@/lib/portfolio-context';
 import { useLanguage } from '@/i18n';
 import { BelvoLorModal } from '@/components/portfolio/belvo-lor-modal';
+import { ResumeModal } from '@/components/portfolio/resume-modal';
 
 export function AboutSection() {
-  const { profile, about } = usePortfolio();
+  const { profile, about, experiences, activeResume } = usePortfolio();
   const { t, language } = useLanguage();
   const [isLorModalOpen, setIsLorModalOpen] = useState(false);
+  const [isResumeModalOpen, setIsResumeModalOpen] = useState(false);
+
+  const belvoExp =
+    experiences.find((e) => e.id === 'belvo') ||
+    experiences.find((e) => e.company?.toLowerCase().includes('belvo')) ||
+    experiences[0];
+  const hasLor = belvoExp?.lor?.hasLor !== false && !!belvoExp?.lor;
 
   const displayName = profile?.displayName || profile?.name || 'Poosala Lokesh';
   const location = profile?.location || 'Hyderabad, India';
@@ -202,33 +210,73 @@ export function AboutSection() {
             </div>
 
             {/* Official Letter of Recommendation (Belvo Company) Callout */}
-            <div className="rounded-2xl border border-purple-500/40 bg-purple-950/20 p-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 backdrop-blur-md shadow-xs">
+            {hasLor && (
+              <div className="rounded-2xl border border-purple-500/40 bg-purple-950/20 p-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 backdrop-blur-md shadow-xs">
+                <div className="flex items-center gap-3">
+                  <div className="h-11 w-11 rounded-xl bg-purple-500/20 border border-purple-500/40 flex items-center justify-center shrink-0 text-purple-300">
+                    <FileCheck2 className="h-6 w-6 text-purple-400" />
+                  </div>
+                  <div>
+                    <div className="flex flex-wrap items-center gap-2">
+                      <span className="font-bold text-xs sm:text-sm text-white">
+                        {belvoExp?.lor?.issuer || 'Belvo Company'} — {belvoExp?.lor?.title || 'Letter of Recommendation (LOR)'}
+                      </span>
+                      <span className="text-[10px] font-mono font-semibold px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 flex items-center gap-1">
+                        <ShieldCheck className="h-2.5 w-2.5" />
+                        {belvoExp?.lor?.role || 'CEO Commendation'}
+                      </span>
+                    </div>
+                    <p className="text-[11px] text-[#CBD5E1] mt-0.5 font-mono">
+                      Issued {belvoExp?.lor?.date || '22-09-2026'} by {belvoExp?.lor?.issuedBy || 'Hrishikesh Mishra'} ({belvoExp?.lor?.role || 'CEO, Belvo'}) · {belvoExp?.lor?.location || 'Goregaon, Mumbai'}
+                    </p>
+                  </div>
+                </div>
+                <button
+                  onClick={() => setIsLorModalOpen(true)}
+                  className="inline-flex items-center gap-1.5 text-xs font-semibold text-purple-200 hover:text-white transition-colors cursor-pointer shrink-0 rounded-xl bg-purple-600/30 hover:bg-purple-600/50 border border-purple-500/40 px-3 py-1.5 shadow-sm"
+                >
+                  <FileText className="h-3.5 w-3.5" />
+                  <span>View Official LOR (PDF)</span>
+                </button>
+              </div>
+            )}
+
+            {/* Official Curriculum Vitae / ATS Resume Callout */}
+            <div className="rounded-2xl border border-blue-500/40 bg-blue-950/20 p-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 backdrop-blur-md shadow-xs">
               <div className="flex items-center gap-3">
-                <div className="h-11 w-11 rounded-xl bg-purple-500/20 border border-purple-500/40 flex items-center justify-center shrink-0 text-purple-300">
-                  <FileCheck2 className="h-6 w-6 text-purple-400" />
+                <div className="h-11 w-11 rounded-xl bg-blue-500/20 border border-blue-500/40 flex items-center justify-center shrink-0 text-blue-400">
+                  <FileText className="h-6 w-6" />
                 </div>
                 <div>
                   <div className="flex flex-wrap items-center gap-2">
                     <span className="font-bold text-xs sm:text-sm text-white">
-                      Belvo Company — Letter of Recommendation (LOR)
+                      {activeResume?.title || 'Official Curriculum Vitae (ATS Resume)'}
                     </span>
-                    <span className="text-[10px] font-mono font-semibold px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 flex items-center gap-1">
-                      <ShieldCheck className="h-2.5 w-2.5" />
-                      CEO Commendation
+                    <span className="text-[10px] font-mono font-semibold px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">
+                      {activeResume?.version || 'Active'}
                     </span>
                   </div>
                   <p className="text-[11px] text-[#CBD5E1] mt-0.5 font-mono">
-                    Issued 22-09-2026 by Hrishikesh Mishra (CEO, Belvo) · Web Development Intern
+                    Full Stack Engineer · Google Cloud Certified · Verified Experience &amp; Tech Stack
                   </p>
                 </div>
               </div>
-              <button
-                onClick={() => setIsLorModalOpen(true)}
-                className="inline-flex items-center gap-1.5 text-xs font-semibold text-purple-200 hover:text-white transition-colors cursor-pointer shrink-0 rounded-xl bg-purple-600/30 hover:bg-purple-600/50 border border-purple-500/40 px-3 py-1.5 shadow-sm"
-              >
-                <FileText className="h-3.5 w-3.5" />
-                <span>View Official LOR (PDF)</span>
-              </button>
+              <div className="flex items-center gap-2 shrink-0">
+                <button
+                  onClick={() => setIsResumeModalOpen(true)}
+                  className="inline-flex items-center gap-1.5 text-xs font-semibold text-blue-200 hover:text-white transition-colors cursor-pointer rounded-xl bg-blue-600/30 hover:bg-blue-600/50 border border-blue-500/40 px-3 py-1.5 shadow-sm"
+                >
+                  <FileText className="h-3.5 w-3.5" />
+                  <span>View Resume</span>
+                </button>
+                <a
+                  href={activeResume?.url || '/resume.pdf'}
+                  download={activeResume?.title || 'Poosala_Lokesh_Resume.pdf'}
+                  className="inline-flex items-center gap-1.5 text-xs font-semibold text-white transition-colors cursor-pointer rounded-xl bg-blue-600 hover:bg-blue-500 px-3 py-1.5 shadow-sm"
+                >
+                  <span>Download</span>
+                </a>
+              </div>
             </div>
           </div>
         </div>
@@ -272,6 +320,9 @@ export function AboutSection() {
 
       {/* Official Belvo Letter of Recommendation Viewer Modal */}
       <BelvoLorModal isOpen={isLorModalOpen} onClose={() => setIsLorModalOpen(false)} />
+
+      {/* Official ATS Resume Viewer Modal */}
+      <ResumeModal isOpen={isResumeModalOpen} onClose={() => setIsResumeModalOpen(false)} />
     </div>
   );
 }

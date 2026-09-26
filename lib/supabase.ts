@@ -766,7 +766,16 @@ export async function loadPortfolioDataset() {
       setLocal(CACHE_KEYS.ABOUT, result.about);
     }
     if (expRes.status === 'fulfilled' && expRes.value?.data && expRes.value.data.length > 0) {
-      result.experiences = expRes.value.data;
+      result.experiences = expRes.value.data.map((row: any) => {
+        const existing =
+          result.experiences.find((e) => e.id === row.id) ||
+          initialExperienceData.find((e) => e.id === row.id);
+        return {
+          ...existing,
+          ...row,
+          lor: row.lor !== undefined ? row.lor : existing?.lor,
+        };
+      });
       setLocal(CACHE_KEYS.EXPERIENCE, result.experiences);
     }
     if (eduRes.status === 'fulfilled' && eduRes.value?.data && eduRes.value.data.length > 0) {
