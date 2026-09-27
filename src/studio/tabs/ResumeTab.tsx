@@ -3,6 +3,7 @@
 import React, { useState, useRef } from 'react';
 import { usePortfolio } from '@/lib/portfolio-context';
 import { uploadMediaToSupabase } from '@/lib/supabase';
+import { saveActiveResumeDocument } from '@/lib/document-storage';
 import type { ResumeItem, ExperienceItem } from '@/lib/portfolio-types';
 import { UniversalDocumentViewer } from '@/components/ui/universal-document-viewer';
 import {
@@ -325,14 +326,24 @@ export function ResumeTab({ showToast }: ResumeTabProps) {
     try {
       const res = await uploadMediaToSupabase(file, 'resume');
       const newVersionNum = (resumes.length + 1).toFixed(1);
+      const effectiveUrl = res.url || res.dataUrl || '/resume.pdf';
       const newResume: ResumeItem = {
         id: `resume-${Date.now()}`,
         title: file.name,
-        url: res.url,
+        url: effectiveUrl,
         version: `v${newVersionNum}`,
         uploadedAt: new Date().toISOString(),
         isActive: true,
       };
+
+      if (res.dataUrl) {
+        await saveActiveResumeDocument({
+          name: file.name,
+          dataUrl: res.dataUrl,
+          size: file.size,
+          type: file.type || 'application/pdf',
+        });
+      }
 
       // Set current ones inactive and save new active version atomically
       await saveResume(newResume);
@@ -363,12 +374,21 @@ export function ResumeTab({ showToast }: ResumeTabProps) {
     setIsUploading(true);
     try {
       const res = await uploadMediaToSupabase(file, 'resume');
+      const effectiveUrl = res.url || res.dataUrl || targetResume.url;
       const updatedResume: ResumeItem = {
         ...targetResume,
         title: file.name,
-        url: res.url,
+        url: effectiveUrl,
         updatedAt: new Date().toISOString(),
       };
+      if (res.dataUrl && targetResume.isActive) {
+        await saveActiveResumeDocument({
+          name: file.name,
+          dataUrl: res.dataUrl,
+          size: file.size,
+          type: file.type || 'application/pdf',
+        });
+      }
       await saveResume(updatedResume);
       showToast(`Updated file for version ${targetResume.version || ''}!`, 'success');
     } catch (err: any) {
@@ -728,32 +748,13 @@ ${lorFormData.role}`;
                 transformOrigin: 'top center',
               }}
             >
-              {resumeViewMode === 'activeFile' ? (
-                <div className="max-w-[820px] w-full">
-                  <UniversalDocumentViewer
-                    url={activeResume?.url || '/resume.pdf'}
-                    title={activeResume?.title || 'Poosala Lokesh - Active Resume'}
-                    height={820}
-                    fallbackImage={activeResume?.id === 'res-default' ? '/resume-page.svg' : undefined}
-                  />
-                </div>
-              ) : (
-                <div className="max-w-[760px] w-full bg-white rounded-2xl shadow-2xl overflow-hidden border border-slate-200">
-                  {activeResume?.id === 'res-default' ? (
-                    <img
-                      src="/resume-page.svg"
-                      alt="Poosala Lokesh - Professional Resume"
-                      className="w-full h-auto object-contain select-text"
-                    />
-                  ) : (
-                    <UniversalDocumentViewer
-                      url={activeResume?.url || '/resume.pdf'}
-                      title={activeResume?.title || 'Poosala Lokesh - Active Resume'}
-                      height={820}
-                    />
-                  )}
-                </div>
-              )}
+              <div className="max-w-[820px] w-full">
+                <UniversalDocumentViewer
+                  url={activeResume?.url || '/resume.pdf'}
+                  title={activeResume?.title || 'Poosala Lokesh - Active Resume'}
+                  height={820}
+                />
+              </div>
             </div>
           </div>
         </div>
@@ -1010,7 +1011,6 @@ ${lorFormData.role}`;
                     setPreviewModalDoc({
                       title: activeResume?.title || 'Active Resume',
                       pdfUrl: activeResume?.url || '/resume.pdf',
-                      vectorUrl: activeResume?.id === 'res-default' ? '/resume-page.svg' : undefined,
                     })
                   }
                   className="inline-flex items-center gap-1.5 rounded-xl border border-[#1F2937] bg-[#111827] px-3.5 py-2 text-xs font-medium text-[#E0E7FF] hover:border-[#60A5FA] hover:text-[#60A5FA] transition-all cursor-pointer"
@@ -1157,7 +1157,6 @@ ${lorFormData.role}`;
                         setPreviewModalDoc({
                           title: r.title,
                           pdfUrl: r.url,
-                          vectorUrl: r.id === 'res-default' ? '/resume-page.svg' : undefined,
                         })
                       }
                       className="rounded-lg p-2 text-[#CBD5E1] hover:text-[#60A5FA] hover:bg-[#1F2937] transition-colors cursor-pointer"
@@ -1594,10 +1593,9 @@ ${lorFormData.role}`;
             <div className="flex-1 w-full overflow-y-auto bg-[#070B18] p-4 sm:p-8 flex justify-center items-start custom-scrollbar">
               <div className="max-w-[820px] w-full">
                 <UniversalDocumentViewer
-                  url={previewModalDoc.pdfUrl || previewModalDoc.vectorUrl || '/resume.pdf'}
+                  url={previewModalDoc.pdfUrl || '/resume.pdf'}
                   title={previewModalDoc.title}
                   height={780}
-                  fallbackImage={previewModalDoc.vectorUrl}
                 />
               </div>
             </div>

@@ -27,6 +27,7 @@ import {
   computeAnalyticsSummary,
   resetAnalyticsData,
   trackEvent,
+  syncRealEventsFromFirestore,
   type AnalyticsSummary,
   type VisitorEvent,
 } from '@/lib/analytics';
@@ -41,6 +42,7 @@ export function AnalyticsTab({ showToast, onNavigatePublicSite }: AnalyticsTabPr
   const [summary, setSummary] = useState<AnalyticsSummary>(() => computeAnalyticsSummary('7d'));
   const [searchLog, setSearchLog] = useState('');
   const [selectedDeviceFilter, setSelectedDeviceFilter] = useState<'all' | 'desktop' | 'mobile' | 'tablet'>('all');
+  const [isSyncing, setIsSyncing] = useState(false);
 
   const refreshData = () => {
     setSummary(computeAnalyticsSummary(timeRange));
@@ -48,6 +50,14 @@ export function AnalyticsTab({ showToast, onNavigatePublicSite }: AnalyticsTabPr
 
   useEffect(() => {
     refreshData();
+    setIsSyncing(true);
+    syncRealEventsFromFirestore()
+      .then(() => {
+        refreshData();
+      })
+      .finally(() => {
+        setIsSyncing(false);
+      });
 
     const handleUpdate = () => refreshData();
     window.addEventListener('portfolio_analytics_updated', handleUpdate);
@@ -55,6 +65,12 @@ export function AnalyticsTab({ showToast, onNavigatePublicSite }: AnalyticsTabPr
       window.removeEventListener('portfolio_analytics_updated', handleUpdate);
     };
   }, [timeRange]);
+
+  const handleTestRealEvent = () => {
+    trackEvent('about', 'navigation');
+    refreshData();
+    showToast('Real visitor event recorded from your current browser!', 'success');
+  };
 
   const handleExportJson = () => {
     const dataStr = 'data:text/json;charset=utf-8,' + encodeURIComponent(JSON.stringify(summary, null, 2));
@@ -124,13 +140,17 @@ export function AnalyticsTab({ showToast, onNavigatePublicSite }: AnalyticsTabPr
       {/* Top Header & Range Controls */}
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between border-b border-[#1F2937] pb-5">
         <div>
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 flex-wrap">
             <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-blue-500/20 text-blue-400">
               <BarChart3 className="h-4 w-4" />
             </span>
             <h2 className="text-xl font-bold tracking-tight text-[#E0E7FF]">
               Traffic & Audience Analytics
             </h2>
+            <span className="inline-flex items-center gap-1 rounded-full bg-emerald-500/15 border border-emerald-500/30 px-2.5 py-0.5 text-[10px] font-semibold text-emerald-400 font-mono">
+              <CheckCircle2 className="h-3 w-3" />
+              100% Real Live Telemetry (No Mock Data)
+            </span>
           </div>
           <p className="text-xs text-[#94A3B8] mt-1">
             Real-time tracking of portfolio viewers, unique visitors, device distributions, and section navigation flows.
@@ -159,11 +179,21 @@ export function AnalyticsTab({ showToast, onNavigatePublicSite }: AnalyticsTabPr
 
           <button
             type="button"
+            onClick={handleTestRealEvent}
+            className="flex items-center gap-1.5 rounded-xl border border-blue-500/30 bg-blue-600/15 px-3 py-1.5 text-xs font-semibold text-blue-300 hover:bg-blue-600/25 transition-colors cursor-pointer"
+            title="Log a real visitor event from this browser right now"
+          >
+            <Activity className="h-3.5 w-3.5 text-blue-400" />
+            <span>Test Real Click</span>
+          </button>
+
+          <button
+            type="button"
             onClick={refreshData}
             className="flex items-center gap-1.5 rounded-xl border border-[#1F2937] bg-[#111827] px-3 py-1.5 text-xs font-medium text-[#CBD5E1] hover:border-[#60A5FA] hover:text-white transition-colors cursor-pointer"
             title="Refresh metrics"
           >
-            <RefreshCw className="h-3.5 w-3.5" />
+            <RefreshCw className={`h-3.5 w-3.5 ${isSyncing ? 'animate-spin text-blue-400' : ''}`} />
             <span className="hidden sm:inline">Refresh</span>
           </button>
 

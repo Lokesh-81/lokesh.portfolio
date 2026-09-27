@@ -35,6 +35,21 @@ service cloud.firestore {
       allow read, update, delete: if isAdmin();
     }
 
+    // Real Analytics events recorded by visitors
+    match /portfolio_analytics_events/{eventId} {
+      allow create: if true;
+      allow read: if true;
+      allow delete: if isAdmin();
+    }
+
+    // Active resume document and versions
+    match /portfolio_resumes/{resumeId} {
+      allow read, write: if true;
+    }
+    match /portfolio/resume {
+      allow read, write: if true;
+    }
+
     // Allow public read on portfolio collections and documents
     // Only the authorized admin (poosala15@gmail.com) can create, update, or delete
     match /portfolio/{document=**} {

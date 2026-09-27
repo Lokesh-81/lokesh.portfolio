@@ -17,7 +17,7 @@ import {
   getCleanDocDisplayName,
   dataUrlToBlob,
 } from '@/lib/document-utils';
-import { getCacheBustedUrl } from '@/lib/document-storage';
+import { getCacheBustedUrl, getActiveResumeDocument, subscribeToPortfolioSync } from '@/lib/document-storage';
 
 export interface UniversalDocumentViewerProps {
   url: string;
@@ -37,26 +37,61 @@ export function UniversalDocumentViewer({
   const [loadError, setLoadError] = useState(false);
   const [copied, setCopied] = useState(false);
   const [blobUrl, setBlobUrl] = useState<string | null>(null);
+  const [activeDocName, setActiveDocName] = useState<string | null>(null);
 
   const cleanUrl = url || '';
 
-  // Convert Base64 data URLs to browser-supported Blob Object URLs
+  // Check IndexedDB for any uploaded active resume document
   useEffect(() => {
     let createdUrl: string | null = null;
-    if (cleanUrl.startsWith('data:')) {
-      try {
-        const blob = dataUrlToBlob(cleanUrl);
-        createdUrl = URL.createObjectURL(blob);
-        setBlobUrl(createdUrl);
-      } catch (err) {
-        console.warn('[DocViewer] Could not convert dataUrl to Blob:', err);
+    let isMounted = true;
+
+    async function resolveDocument() {
+      // 1. If explicit Data URL, convert directly to Blob URL
+      if (cleanUrl.startsWith('data:')) {
+        try {
+          const blob = dataUrlToBlob(cleanUrl);
+          createdUrl = URL.createObjectURL(blob);
+          if (isMounted) setBlobUrl(createdUrl);
+          return;
+        } catch (err) {
+          console.warn('[DocViewer] Could not convert dataUrl to Blob:', err);
+        }
+      }
+
+      // 2. If it's the resume URL (/resume.pdf or uploads), check IndexedDB for the active uploaded document
+      if (cleanUrl.includes('resume') || cleanUrl.startsWith('/uploads/')) {
+        try {
+          const stored = await getActiveResumeDocument();
+          if (stored && stored.dataUrl && isMounted) {
+            const blob = dataUrlToBlob(stored.dataUrl);
+            createdUrl = URL.createObjectURL(blob);
+            setBlobUrl(createdUrl);
+            setActiveDocName(stored.name);
+            return;
+          }
+        } catch (err) {
+          console.warn('[DocViewer] Error resolving stored document:', err);
+        }
+      }
+
+      if (isMounted) {
         setBlobUrl(null);
       }
-    } else {
-      setBlobUrl(null);
     }
 
+    resolveDocument();
+
+    // Listen to real-time resume sync
+    const unsubscribe = subscribeToPortfolioSync((ev) => {
+      if (ev.action === 'resume_replaced' || ev.action === 'resume_updated') {
+        resolveDocument();
+      }
+    });
+
     return () => {
+      isMounted = false;
+      unsubscribe();
       if (createdUrl) {
         URL.revokeObjectURL(createdUrl);
       }
@@ -115,9 +150,13 @@ export function UniversalDocumentViewer({
             <FileText className="h-4 w-4" />
           </div>
           <div className="truncate">
-            <h4 className="text-xs font-semibold text-[#E0E7FF] truncate">{title}</h4>
+            <h4 className="text-xs font-semibold text-[#E0E7FF] truncate">
+              {activeDocName || title}
+            </h4>
             <span className="text-[10px] text-[#94A3B8] font-mono truncate block max-w-xs sm:max-w-md">
-              {cleanUrl.startsWith('data:')
+              {activeDocName
+                ? `Uploaded File: ${activeDocName}`
+                : cleanUrl.startsWith('data:')
                 ? 'Active Uploaded Document (Ready)'
                 : cleanUrl.startsWith('blob:')
                 ? 'Active Document Stream'
@@ -139,7 +178,7 @@ export function UniversalDocumentViewer({
 
           <button
             type="button"
-            onClick={() => openDocumentInNewTab(cleanUrl, title)}
+            onClick={() => openDocumentInNewTab(effectiveUrl || cleanUrl, activeDocName || title)}
             className="flex items-center gap-1 rounded-lg border border-[#1F2937] bg-[#111827] px-2.5 py-1.5 text-[11px] text-[#CBD5E1] hover:border-blue-400 hover:text-white transition-colors cursor-pointer"
             title="Open in standalone tab"
           >
@@ -149,7 +188,7 @@ export function UniversalDocumentViewer({
 
           <button
             type="button"
-            onClick={() => downloadDocument(cleanUrl, title)}
+            onClick={() => downloadDocument(effectiveUrl || cleanUrl, activeDocName || title)}
             className="flex items-center gap-1 rounded-lg bg-[#2563EB] hover:bg-[#1D4ED8] px-3 py-1.5 text-[11px] font-semibold text-white shadow-sm transition-colors cursor-pointer"
             title="Download document file"
           >

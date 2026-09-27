@@ -43,6 +43,67 @@ export interface StoredDocument {
   updatedAt: string;
 }
 
+export const ACTIVE_RESUME_DOC_ID = 'active_portfolio_resume';
+const LOCAL_ACTIVE_RESUME_KEY = 'lokesh_active_resume_meta';
+
+/**
+ * Save active resume document both in IndexedDB and in localStorage
+ */
+export async function saveActiveResumeDocument(doc: {
+  name: string;
+  dataUrl: string;
+  size?: number;
+  type?: string;
+}): Promise<boolean> {
+  const payload: StoredDocument = {
+    id: ACTIVE_RESUME_DOC_ID,
+    name: doc.name,
+    dataUrl: doc.dataUrl,
+    size: doc.size || doc.dataUrl.length,
+    type: doc.type || 'application/pdf',
+    updatedAt: new Date().toISOString(),
+  };
+
+  // Save metadata to localStorage
+  if (typeof window !== 'undefined') {
+    try {
+      localStorage.setItem(
+        LOCAL_ACTIVE_RESUME_KEY,
+        JSON.stringify({
+          name: doc.name,
+          size: doc.size,
+          updatedAt: payload.updatedAt,
+          hasPayload: true,
+        })
+      );
+    } catch {}
+  }
+
+  // Save full binary data to IndexedDB
+  const ok = await saveDocumentToDb(payload);
+  broadcastPortfolioSync('resume_replaced', { name: doc.name, updatedAt: payload.updatedAt });
+  return ok;
+}
+
+/**
+ * Retrieve the active resume document from IndexedDB
+ */
+export async function getActiveResumeDocument(): Promise<StoredDocument | null> {
+  return await getDocumentFromDb(ACTIVE_RESUME_DOC_ID);
+}
+
+/**
+ * Check if an active uploaded resume document exists
+ */
+export function hasActiveUploadedResume(): boolean {
+  if (typeof window === 'undefined') return false;
+  try {
+    return !!localStorage.getItem(LOCAL_ACTIVE_RESUME_KEY);
+  } catch {
+    return false;
+  }
+}
+
 /**
  * Save document in IndexedDB
  */

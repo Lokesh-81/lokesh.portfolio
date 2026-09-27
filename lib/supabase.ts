@@ -1,6 +1,6 @@
 import { createClient, type User, type Session } from '@supabase/supabase-js';
 import type { TestimonialItem } from '@/lib/portfolio-types';
-import { saveDocumentToDb, broadcastPortfolioSync } from '@/lib/document-storage';
+import { saveDocumentToDb, broadcastPortfolioSync, saveActiveResumeDocument } from '@/lib/document-storage';
 import {
   initialProfileData,
   initialExperienceData,
@@ -474,7 +474,7 @@ function setLocal<T>(key: string, val: T): void {
 export async function uploadMediaToSupabase(
   file: File,
   folder = 'uploads'
-): Promise<{ url: string; path: string; name: string; size: number; type: string }> {
+): Promise<{ url: string; path: string; name: string; size: number; type: string; dataUrl?: string }> {
   const sanitizedName = file.name.replace(/[^a-zA-Z0-9.-]/g, '_');
   const path = `${folder}/${Date.now()}_${sanitizedName}`;
   let publicUrl = '';
@@ -487,6 +487,18 @@ export async function uploadMediaToSupabase(
     reader.onerror = () => resolve('');
     reader.readAsDataURL(file);
   });
+
+  const isResumeFile = folder === 'resume' || file.name.toLowerCase().endsWith('.pdf');
+
+  // If it's a resume PDF, immediately register as active document in IndexedDB
+  if (isResumeFile && dataUrl) {
+    saveActiveResumeDocument({
+      name: file.name,
+      dataUrl,
+      size: file.size,
+      type: file.type || 'application/pdf',
+    }).catch(() => {});
+  }
 
   // Always back up to IndexedDB for resilient document viewing without quota limits
   if (dataUrl) {
@@ -501,7 +513,7 @@ export async function uploadMediaToSupabase(
   }
 
   // 1. Try local dev-server upload endpoint to overwrite public/resume.pdf and save in public/uploads/
-  if (folder === 'resume' || file.name.toLowerCase().endsWith('.pdf')) {
+  if (isResumeFile) {
     try {
       const resp = await fetch('/api/upload-resume', {
         method: 'POST',
@@ -575,6 +587,7 @@ export async function uploadMediaToSupabase(
     name: file.name,
     size: file.size,
     type: file.type,
+    dataUrl,
   };
 }
 
