@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import {
   FileText,
   ExternalLink,
@@ -15,7 +15,9 @@ import {
   openDocumentInNewTab,
   downloadDocument,
   getCleanDocDisplayName,
+  dataUrlToBlob,
 } from '@/lib/document-utils';
+import { getCacheBustedUrl } from '@/lib/document-storage';
 
 export interface UniversalDocumentViewerProps {
   url: string;
@@ -34,8 +36,43 @@ export function UniversalDocumentViewer({
 }: UniversalDocumentViewerProps) {
   const [loadError, setLoadError] = useState(false);
   const [copied, setCopied] = useState(false);
+  const [blobUrl, setBlobUrl] = useState<string | null>(null);
 
   const cleanUrl = url || '';
+
+  // Convert Base64 data URLs to browser-supported Blob Object URLs
+  useEffect(() => {
+    let createdUrl: string | null = null;
+    if (cleanUrl.startsWith('data:')) {
+      try {
+        const blob = dataUrlToBlob(cleanUrl);
+        createdUrl = URL.createObjectURL(blob);
+        setBlobUrl(createdUrl);
+      } catch (err) {
+        console.warn('[DocViewer] Could not convert dataUrl to Blob:', err);
+        setBlobUrl(null);
+      }
+    } else {
+      setBlobUrl(null);
+    }
+
+    return () => {
+      if (createdUrl) {
+        URL.revokeObjectURL(createdUrl);
+      }
+    };
+  }, [cleanUrl]);
+
+  // Determine effective rendering URL with cache-busting for local assets
+  const effectiveUrl = useMemo(() => {
+    if (!cleanUrl) return '';
+    if (blobUrl) return blobUrl;
+    if (cleanUrl.startsWith('/resume.pdf') && !cleanUrl.includes('cb=') && !cleanUrl.includes('t=')) {
+      return getCacheBustedUrl(cleanUrl);
+    }
+    return cleanUrl;
+  }, [cleanUrl, blobUrl]);
+
   const isImageOrSvg =
     cleanUrl.endsWith('.svg') ||
     cleanUrl.endsWith('.png') ||
@@ -55,10 +92,10 @@ export function UniversalDocumentViewer({
     return (
       <div className={`w-full flex flex-col items-center justify-center ${className}`}>
         <img
-          src={cleanUrl}
+          src={effectiveUrl}
           alt={title}
           onError={() => {
-            if (fallbackImage && cleanUrl !== fallbackImage) {
+            if (fallbackImage && effectiveUrl !== fallbackImage) {
               setLoadError(true);
             }
           }}
@@ -81,9 +118,9 @@ export function UniversalDocumentViewer({
             <h4 className="text-xs font-semibold text-[#E0E7FF] truncate">{title}</h4>
             <span className="text-[10px] text-[#94A3B8] font-mono truncate block max-w-xs sm:max-w-md">
               {cleanUrl.startsWith('data:')
-                ? 'Attached Document (PDF Format)'
+                ? 'Active Uploaded Document (Ready)'
                 : cleanUrl.startsWith('blob:')
-                ? 'Local Document Stream'
+                ? 'Active Document Stream'
                 : cleanUrl}
             </span>
           </div>
@@ -124,15 +161,15 @@ export function UniversalDocumentViewer({
 
       {/* Embedded Document Frame */}
       <div className="w-full relative bg-slate-900/90 flex flex-col items-center justify-center min-h-[500px]">
-        {cleanUrl ? (
+        {effectiveUrl ? (
           <object
-            data={`${cleanUrl}#toolbar=0&navpanes=0`}
+            data={`${effectiveUrl}#toolbar=0&navpanes=0`}
             type="application/pdf"
             className="w-full rounded-b-xl"
             style={{ height: typeof height === 'number' ? `${height}px` : height }}
           >
             <iframe
-              src={`${cleanUrl}#toolbar=0`}
+              src={`${effectiveUrl}#toolbar=0`}
               title={title}
               className="w-full border-0 rounded-b-xl"
               style={{ height: typeof height === 'number' ? `${height}px` : height }}

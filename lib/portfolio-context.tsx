@@ -44,8 +44,10 @@ import {
   type ResumeItem,
   type SiteSettings,
   CACHE_KEYS,
+  getLocal,
   setLocal
 } from "@/lib/supabase"
+import { broadcastPortfolioSync, subscribeToPortfolioSync } from "@/lib/document-storage"
 import type { TestimonialItem } from "@/lib/portfolio-types"
 import { studioAuth, type AdminUser } from "@/lib/studio-auth"
 
@@ -243,9 +245,29 @@ export function PortfolioProvider({ children }: { children: React.ReactNode }) {
     }
     window.addEventListener('portfolio_message_added', handleSync)
     window.addEventListener('storage', handleSync)
+
+    // Listen for real-time portfolio updates (e.g. replaced resume in studio)
+    const unsubscribeSync = subscribeToPortfolioSync((event) => {
+      if (
+        event.action === 'resume_updated' ||
+        event.action === 'resume_activated' ||
+        event.action === 'resume_deleted'
+      ) {
+        const cachedResumes = getLocal<ResumeItem[]>(CACHE_KEYS.RESUMES, defaultResumes);
+        if (cachedResumes && cachedResumes.length > 0) {
+          setResumes(cachedResumes);
+        } else {
+          refreshAll();
+        }
+      } else {
+        refreshAll();
+      }
+    });
+
     return () => {
       window.removeEventListener('portfolio_message_added', handleSync)
       window.removeEventListener('storage', handleSync)
+      unsubscribeSync()
     }
   }, [refreshAll])
 
@@ -699,12 +721,28 @@ export function PortfolioProvider({ children }: { children: React.ReactNode }) {
 
   // RESUME CRUD
   const saveResume = async (item: ResumeItem) => {
-    const exists = resumes.some((r) => r.id === item.id)
-    const updated = exists
-      ? resumes.map((r) => (r.id === item.id ? item : r))
-      : [item, ...resumes]
-    setResumes(updated)
-    setLocal(CACHE_KEYS.RESUMES, updated)
+    setResumes((prev) => {
+      const exists = prev.some((r) => r.id === item.id)
+      let nextList: ResumeItem[]
+
+      if (item.isActive ?? true) {
+        // When saving an active resume, deactivate all other versions atomically
+        const cleanItem = { ...item, isActive: true }
+        nextList = exists
+          ? prev.map((r) => (r.id === item.id ? cleanItem : { ...r, isActive: false }))
+          : [cleanItem, ...prev.map((r) => ({ ...r, isActive: false }))]
+      } else {
+        nextList = exists
+          ? prev.map((r) => (r.id === item.id ? item : r))
+          : [item, ...prev]
+      }
+
+      setLocal(CACHE_KEYS.RESUMES, nextList)
+      return nextList
+    })
+
+    broadcastPortfolioSync('resume_updated', { resumeId: item.id })
+
     try {
       await supabase.from('resumes').upsert([
         {
@@ -723,9 +761,19 @@ export function PortfolioProvider({ children }: { children: React.ReactNode }) {
   }
 
   const deleteResume = async (id: string) => {
-    const updated = resumes.filter((r) => r.id !== id)
-    setResumes(updated)
-    setLocal(CACHE_KEYS.RESUMES, updated)
+    setResumes((prev) => {
+      let nextList = prev.filter((r) => r.id !== id)
+      if (nextList.length === 0) {
+        nextList = [...defaultResumes]
+      } else if (!nextList.some((r) => r.isActive)) {
+        nextList[0] = { ...nextList[0], isActive: true }
+      }
+      setLocal(CACHE_KEYS.RESUMES, nextList)
+      return nextList
+    })
+
+    broadcastPortfolioSync('resume_deleted', { resumeId: id })
+
     try {
       await supabase.from('resumes').delete().eq('id', id)
     } catch {
@@ -734,19 +782,20 @@ export function PortfolioProvider({ children }: { children: React.ReactNode }) {
   }
 
   const setActiveResume = async (id: string) => {
-    const updated = resumes.map((r) => ({
-      ...r,
-      isActive: r.id === id,
-    }))
-    setResumes(updated)
-    setLocal(CACHE_KEYS.RESUMES, updated)
+    setResumes((prev) => {
+      const nextList = prev.map((r) => ({
+        ...r,
+        isActive: r.id === id,
+      }))
+      setLocal(CACHE_KEYS.RESUMES, nextList)
+      return nextList
+    })
+
+    broadcastPortfolioSync('resume_activated', { resumeId: id })
+
     try {
-      for (const r of updated) {
-        await supabase
-          .from('resumes')
-          .update({ is_active: r.id === id, updated_at: new Date().toISOString() })
-          .eq('id', r.id)
-      }
+      await supabase.from('resumes').update({ is_active: false }).neq('id', id)
+      await supabase.from('resumes').update({ is_active: true, updated_at: new Date().toISOString() }).eq('id', id)
     } catch {
       // Offline fallback
     }

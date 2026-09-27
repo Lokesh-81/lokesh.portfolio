@@ -1,5 +1,6 @@
 import { createClient, type User, type Session } from '@supabase/supabase-js';
 import type { TestimonialItem } from '@/lib/portfolio-types';
+import { saveDocumentToDb, broadcastPortfolioSync } from '@/lib/document-storage';
 import {
   initialProfileData,
   initialExperienceData,
@@ -479,33 +480,71 @@ export async function uploadMediaToSupabase(
   let publicUrl = '';
   let storedPath = path;
 
-  // Attempt Supabase Storage upload
-  try {
-    const { data, error } = await supabase.storage
-      .from(STORAGE_BUCKET)
-      .upload(path, file, {
-        cacheControl: '3600',
-        upsert: true,
-      });
+  // Read as Data URL first so we have the binary payload for local & IndexedDB backups
+  const dataUrl = await new Promise<string>((resolve) => {
+    const reader = new FileReader();
+    reader.onload = () => resolve(reader.result as string);
+    reader.onerror = () => resolve('');
+    reader.readAsDataURL(file);
+  });
 
-    if (!error && data) {
-      const { data: publicUrlData } = supabase.storage
-        .from(STORAGE_BUCKET)
-        .getPublicUrl(data.path);
-      publicUrl = publicUrlData.publicUrl;
-      storedPath = data.path;
-    } else {
-      throw new Error(error?.message || 'Storage upload error');
+  // Always back up to IndexedDB for resilient document viewing without quota limits
+  if (dataUrl) {
+    saveDocumentToDb({
+      id: `doc_${Date.now()}_${sanitizedName}`,
+      dataUrl,
+      name: file.name,
+      type: file.type || 'application/pdf',
+      size: file.size,
+      updatedAt: new Date().toISOString(),
+    }).catch(() => {});
+  }
+
+  // 1. Try local dev-server upload endpoint to overwrite public/resume.pdf and save in public/uploads/
+  if (folder === 'resume' || file.name.toLowerCase().endsWith('.pdf')) {
+    try {
+      const resp = await fetch('/api/upload-resume', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ filename: file.name, base64: dataUrl }),
+      });
+      if (resp.ok) {
+        const json = await resp.json();
+        if (json.success && json.url) {
+          publicUrl = json.url;
+          storedPath = json.url;
+        }
+      }
+    } catch {
+      // Dev server middleware not available (e.g. static hosting)
     }
-  } catch (storageErr) {
-    console.warn('[Storage] Supabase storage upload note (falling back to reliable Data URL):', storageErr);
-    // Convert file to Data URL so it is fully usable, downloadable, previewable, and persistent immediately
-    publicUrl = await new Promise<string>((resolve) => {
-      const reader = new FileReader();
-      reader.onload = () => resolve(reader.result as string);
-      reader.onerror = () => resolve(URL.createObjectURL(file));
-      reader.readAsDataURL(file);
-    });
+  }
+
+  // 2. If not uploaded yet, attempt Supabase Storage upload
+  if (!publicUrl) {
+    try {
+      const { data, error } = await supabase.storage
+        .from(STORAGE_BUCKET)
+        .upload(path, file, {
+          cacheControl: '3600',
+          upsert: true,
+        });
+
+      if (!error && data) {
+        const { data: publicUrlData } = supabase.storage
+          .from(STORAGE_BUCKET)
+          .getPublicUrl(data.path);
+        publicUrl = publicUrlData.publicUrl;
+        storedPath = data.path;
+      }
+    } catch {
+      // Supabase storage unavailable
+    }
+  }
+
+  // 3. Fallback to Data URL if neither server endpoint nor Supabase storage was available
+  if (!publicUrl) {
+    publicUrl = dataUrl || URL.createObjectURL(file);
     storedPath = `local/${Date.now()}_${sanitizedName}`;
   }
 

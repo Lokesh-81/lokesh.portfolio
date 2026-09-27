@@ -207,7 +207,7 @@ ${educations.map((e) => `• ${e.degree} — ${e.institution} (${e.period || e.e
                   url={resumeUrl}
                   title={resumeTitle}
                   height={800}
-                  fallbackImage="/resume-page.svg"
+                  fallbackImage={activeResume?.id === 'res-default' ? '/resume-page.svg' : undefined}
                 />
               </div>
             </div>

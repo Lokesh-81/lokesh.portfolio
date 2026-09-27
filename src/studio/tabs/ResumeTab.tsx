@@ -334,9 +334,9 @@ export function ResumeTab({ showToast }: ResumeTabProps) {
         isActive: true,
       };
 
-      // Set current ones inactive and save new active version
+      // Set current ones inactive and save new active version atomically
       await saveResume(newResume);
-      await setActiveResumeVersion(newResume.id);
+      setResumeViewMode('activeFile');
       showToast(`Resume replaced with "${file.name}" and set as active!`, 'success');
     } catch (err: any) {
       showToast(err.message || 'Resume upload failed', 'error');
@@ -734,16 +734,24 @@ ${lorFormData.role}`;
                     url={activeResume?.url || '/resume.pdf'}
                     title={activeResume?.title || 'Poosala Lokesh - Active Resume'}
                     height={820}
-                    fallbackImage="/resume-page.svg"
+                    fallbackImage={activeResume?.id === 'res-default' ? '/resume-page.svg' : undefined}
                   />
                 </div>
               ) : (
                 <div className="max-w-[760px] w-full bg-white rounded-2xl shadow-2xl overflow-hidden border border-slate-200">
-                  <img
-                    src="/resume-page.svg"
-                    alt="Poosala Lokesh - Professional Resume"
-                    className="w-full h-auto object-contain select-text"
-                  />
+                  {activeResume?.id === 'res-default' ? (
+                    <img
+                      src="/resume-page.svg"
+                      alt="Poosala Lokesh - Professional Resume"
+                      className="w-full h-auto object-contain select-text"
+                    />
+                  ) : (
+                    <UniversalDocumentViewer
+                      url={activeResume?.url || '/resume.pdf'}
+                      title={activeResume?.title || 'Poosala Lokesh - Active Resume'}
+                      height={820}
+                    />
+                  )}
                 </div>
               )}
             </div>
@@ -1002,7 +1010,7 @@ ${lorFormData.role}`;
                     setPreviewModalDoc({
                       title: activeResume?.title || 'Active Resume',
                       pdfUrl: activeResume?.url || '/resume.pdf',
-                      vectorUrl: '/resume-page.svg',
+                      vectorUrl: activeResume?.id === 'res-default' ? '/resume-page.svg' : undefined,
                     })
                   }
                   className="inline-flex items-center gap-1.5 rounded-xl border border-[#1F2937] bg-[#111827] px-3.5 py-2 text-xs font-medium text-[#E0E7FF] hover:border-[#60A5FA] hover:text-[#60A5FA] transition-all cursor-pointer"
@@ -1149,7 +1157,7 @@ ${lorFormData.role}`;
                         setPreviewModalDoc({
                           title: r.title,
                           pdfUrl: r.url,
-                          vectorUrl: '/resume-page.svg',
+                          vectorUrl: r.id === 'res-default' ? '/resume-page.svg' : undefined,
                         })
                       }
                       className="rounded-lg p-2 text-[#CBD5E1] hover:text-[#60A5FA] hover:bg-[#1F2937] transition-colors cursor-pointer"
@@ -1589,7 +1597,7 @@ ${lorFormData.role}`;
                   url={previewModalDoc.pdfUrl || previewModalDoc.vectorUrl || '/resume.pdf'}
                   title={previewModalDoc.title}
                   height={780}
-                  fallbackImage="/resume-page.svg"
+                  fallbackImage={previewModalDoc.vectorUrl}
                 />
               </div>
             </div>
