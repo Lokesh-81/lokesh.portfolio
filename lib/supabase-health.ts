@@ -3,13 +3,13 @@
  * 
  * Provides production-safe, low-frequency health checks to prevent Supabase free-tier project pausing.
  * - Client-side: Throttled to max 1 lightweight read check every 24 hours per browser/client.
- * - Server-side: Background timer runs once on start and every 24 hours.
- * - Zero artificial writes or fake records.
+ * - 100% Read-only: executes a lightweight query against PostgreSQL.
+ * - Zero artificial writes, zero fake records, and zero auth session calls.
  */
 
-import { supabase, SUPABASE_URL, SUPABASE_ANON_KEY } from '@/lib/supabase';
+import { supabase } from '@/lib/supabase';
 
-const HEALTH_STORAGE_KEY = 'supabase_last_health_ping_v1';
+const HEALTH_STORAGE_KEY = 'supabase_last_health_ping_v2';
 const HEALTH_INTERVAL_MS = 24 * 60 * 60 * 1000; // 24 hours
 
 export interface SupabaseHealthResult {
@@ -28,13 +28,9 @@ export async function performSupabaseReadCheck(): Promise<SupabaseHealthResult> 
   const start = Date.now();
 
   try {
-    // 1. Attempt lightweight RPC call that executes a SELECT query inside PostgreSQL
-    const { error: rpcError } = await supabase.rpc('studio_admin_verify_session', {
-      p_session_token: 'health_check_ping',
-    });
-
-    // Even if session is invalid (expected), the RPC reached PostgreSQL and executed
-    if (!rpcError || rpcError.message.includes('Session expired') || rpcError.code === 'PGRST202') {
+    // 1. Attempt dedicated public.health_check() SQL function if deployed
+    const { error: rpcError } = await supabase.rpc('health_check');
+    if (!rpcError) {
       return {
         success: true,
         timestamp: new Date().toISOString(),
@@ -43,7 +39,7 @@ export async function performSupabaseReadCheck(): Promise<SupabaseHealthResult> 
       };
     }
 
-    // 2. Fallback to Storage list operation (also queries storage.objects via Postgres)
+    // 2. Fallback to Storage list operation (queries storage.objects table in PostgreSQL)
     const { error: storageError } = await supabase.storage.from('portfolio-media').list('', { limit: 1 });
     if (!storageError) {
       return {
@@ -75,7 +71,7 @@ export async function performSupabaseReadCheck(): Promise<SupabaseHealthResult> 
 /**
  * Client-Side Throttled Health Check
  * Safe for production: avoids duplicate requests across multiple tabs or page reloads.
- * Executes at most once every 24 hours.
+ * Executes at most once every 24 hours per client.
  */
 export async function runClientThrottledHealthCheck(): Promise<SupabaseHealthResult> {
   if (typeof window === 'undefined') {

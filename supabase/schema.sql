@@ -650,6 +650,25 @@ GRANT EXECUTE ON FUNCTION public.studio_admin_change_password(TEXT, TEXT, TEXT) 
 GRANT EXECUTE ON FUNCTION public.studio_admin_update_profile(TEXT, TEXT, TEXT) TO anon, authenticated;
 
 -- ==============================================================================
+-- 17b. Health Check Function (Read-Only Legitimate Keepalive)
+-- ==============================================================================
+CREATE OR REPLACE FUNCTION public.health_check()
+RETURNS JSONB
+LANGUAGE sql
+STABLE
+SECURITY DEFINER
+SET search_path = public
+AS $$
+  SELECT jsonb_build_object(
+    'status', 'ok',
+    'timestamp', NOW(),
+    'version', '1.0.0'
+  );
+$$;
+
+GRANT EXECUTE ON FUNCTION public.health_check() TO anon, authenticated;
+
+-- ==============================================================================
 -- 18. Testimonials Table & Real Database Persistence
 -- ==============================================================================
 CREATE TABLE IF NOT EXISTS public.testimonials (

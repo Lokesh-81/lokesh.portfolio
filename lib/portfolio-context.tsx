@@ -224,8 +224,8 @@ export function PortfolioProvider({ children }: { children: React.ReactNode }) {
 
       // Test Supabase connectivity via minimal read-only check
       try {
-        const { error } = await supabase.rpc('studio_admin_verify_session', { p_session_token: 'ping' })
-        setSupabaseStatus(error && !error.message?.includes('Session expired') ? 'cached' : 'connected')
+        const { error } = await supabase.storage.from('portfolio-media').list('', { limit: 1 })
+        setSupabaseStatus(error ? 'cached' : 'connected')
       } catch {
         setSupabaseStatus('cached')
       }
