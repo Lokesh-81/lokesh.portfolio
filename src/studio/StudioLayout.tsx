@@ -49,10 +49,12 @@ import { MediaTab } from './tabs/MediaTab';
 import { ResumeTab } from './tabs/ResumeTab';
 import { SettingsTab } from './tabs/SettingsTab';
 import { TestimonialsTab } from './tabs/TestimonialsTab';
-import { Quote } from 'lucide-react';
+import { AnalyticsTab } from './tabs/AnalyticsTab';
+import { Quote, BarChart3 } from 'lucide-react';
 
 export type StudioTabId =
   | 'dashboard'
+  | 'analytics'
   | 'profile'
   | 'hero'
   | 'about'
@@ -106,6 +108,7 @@ export function StudioLayout({ onExitStudio }: StudioLayoutProps) {
     category?: string;
   }> = [
     { id: 'dashboard', label: 'Dashboard', icon: LayoutDashboard, category: 'Overview' },
+    { id: 'analytics', label: 'Traffic & Analytics', icon: BarChart3, category: 'Overview' },
 
     { id: 'profile', label: 'Profile & Bio', icon: User, category: 'Portfolio Content' },
     { id: 'hero', label: 'Hero Section', icon: Compass, category: 'Portfolio Content' },
@@ -139,6 +142,13 @@ export function StudioLayout({ onExitStudio }: StudioLayoutProps) {
           <DashboardTab
             onNavigateTab={(t) => setActiveTab(t as StudioTabId)}
             onOpenPublicSite={onExitStudio}
+          />
+        );
+      case 'analytics':
+        return (
+          <AnalyticsTab
+            showToast={showToast}
+            onNavigatePublicSite={onExitStudio}
           />
         );
       case 'profile':

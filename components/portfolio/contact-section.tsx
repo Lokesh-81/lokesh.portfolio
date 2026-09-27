@@ -23,6 +23,7 @@ import { GlowEffect } from '@/components/core/glow-effect';
 import { motion } from 'framer-motion';
 import { usePortfolio } from '@/lib/portfolio-context';
 import { useLanguage } from '@/i18n';
+import { trackEvent } from '@/lib/analytics';
 import { submitContactInquiry } from '@/lib/inquiries';
 
 export function ContactSection() {
@@ -130,6 +131,7 @@ export function ContactSection() {
     setErrorMessage(null);
 
     try {
+      trackEvent('contact', 'contact_click');
       await submitContactInquiry({
         name: form.name,
         email: form.email,

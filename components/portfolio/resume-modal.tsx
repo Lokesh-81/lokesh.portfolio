@@ -22,6 +22,7 @@ import {
   downloadDocument,
   getCleanDocDisplayName,
 } from '@/lib/document-utils';
+import { trackEvent } from '@/lib/analytics';
 
 export interface ResumeModalProps {
   isOpen: boolean;
@@ -43,6 +44,7 @@ export function ResumeModal({ isOpen, onClose }: ResumeModalProps) {
     if (isOpen) {
       document.addEventListener('keydown', handleKeyDown);
       document.body.style.overflow = 'hidden';
+      trackEvent('resume', 'resume_view');
     }
     return () => {
       document.removeEventListener('keydown', handleKeyDown);
@@ -176,7 +178,10 @@ ${educations.map((e) => `• ${e.degree} — ${e.institution} (${e.period || e.e
 
                 <button
                   type="button"
-                  onClick={() => downloadDocument(resumeUrl, resumeTitle)}
+                  onClick={() => {
+                    downloadDocument(resumeUrl, resumeTitle);
+                    trackEvent('resume', 'resume_download');
+                  }}
                   className="flex items-center gap-1.5 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 px-3.5 py-1.5 text-xs font-semibold text-white shadow-sm hover:scale-[1.02] active:scale-[0.98] transition-all cursor-pointer"
                   title="Download the official resume PDF"
                 >

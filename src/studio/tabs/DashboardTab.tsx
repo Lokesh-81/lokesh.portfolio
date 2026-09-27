@@ -2,6 +2,7 @@
 
 import React from 'react';
 import { usePortfolio } from '@/lib/portfolio-context';
+import { computeAnalyticsSummary } from '@/lib/analytics';
 import {
   FolderGit2,
   Cpu,
@@ -19,6 +20,11 @@ import {
   ExternalLink,
   ShieldCheck,
   Languages,
+  BarChart3,
+  Users,
+  Monitor,
+  Smartphone,
+  Activity,
 } from 'lucide-react';
 
 interface DashboardTabProps {
@@ -44,7 +50,22 @@ export function DashboardTab({ onNavigateTab, onOpenPublicSite }: DashboardTabPr
 
   const unreadMessagesCount = messages.filter((m) => m.status === 'new').length;
 
+  const analytics = computeAnalyticsSummary('7d');
+  const totalDeviceViews = analytics.deviceBreakdown.desktop + analytics.deviceBreakdown.mobile + analytics.deviceBreakdown.tablet || 1;
+  const desktopPct = Math.round((analytics.deviceBreakdown.desktop / totalDeviceViews) * 100);
+  const mobilePct = Math.round((analytics.deviceBreakdown.mobile / totalDeviceViews) * 100);
+
   const statCards = [
+    {
+      id: 'analytics',
+      label: 'Traffic & Visitors',
+      value: `${analytics.uniqueVisitors} Visitors`,
+      sub: `${analytics.totalViews} views · ${analytics.liveViewersCount} live now`,
+      icon: BarChart3,
+      color: 'text-[#38BDF8]',
+      bg: 'bg-[#0284C7]/10 border-[#0284C7]/20',
+      tab: 'analytics',
+    },
     {
       id: 'projects',
       label: 'Projects',
@@ -159,6 +180,54 @@ export function DashboardTab({ onNavigateTab, onOpenPublicSite }: DashboardTabPr
             <span>View Public Site</span>
             <ExternalLink className="h-3.5 w-3.5" />
           </button>
+        </div>
+      </div>
+
+      {/* Live Audience & Viewer Analytics Banner */}
+      <div className="rounded-2xl border border-blue-500/30 bg-gradient-to-r from-[#0B132B] via-[#0D1836] to-[#0B132B] p-5 shadow-xl">
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+          <div className="space-y-1">
+            <div className="flex items-center gap-2 flex-wrap">
+              <span className="flex h-6 w-6 items-center justify-center rounded-lg bg-blue-500/20 text-blue-400">
+                <BarChart3 className="h-3.5 w-3.5" />
+              </span>
+              <h3 className="text-sm font-bold text-white tracking-tight">Portfolio Audience & Traffic Insights</h3>
+              <span className="inline-flex items-center gap-1.5 text-[10px] font-semibold text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 px-2.5 py-0.5 rounded-full font-mono">
+                <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                {analytics.liveViewersCount} Live Online
+              </span>
+            </div>
+            <p className="text-xs text-[#94A3B8]">
+              {analytics.totalViews.toLocaleString()} total page impressions across {analytics.uniqueVisitors.toLocaleString()} unique visitors.
+            </p>
+          </div>
+
+          <div className="flex items-center gap-4 flex-wrap">
+            <div className="flex items-center gap-3 border-l border-[#1F2937] pl-4 hidden sm:flex">
+              <div>
+                <span className="text-[10px] text-[#64748B] uppercase font-semibold block">Top Platform</span>
+                <span className="text-xs font-bold text-[#E0E7FF] capitalize flex items-center gap-1">
+                  {desktopPct >= mobilePct ? <Monitor className="h-3 w-3 text-blue-400" /> : <Smartphone className="h-3 w-3 text-purple-400" />}
+                  {desktopPct >= mobilePct ? `Desktop (${desktopPct}%)` : `Mobile (${mobilePct}%)`}
+                </span>
+              </div>
+              <div className="border-l border-[#1F2937] pl-3">
+                <span className="text-[10px] text-[#64748B] uppercase font-semibold block">Top Section</span>
+                <span className="text-xs font-bold text-blue-400 capitalize font-mono">
+                  #{analytics.topSection}
+                </span>
+              </div>
+            </div>
+
+            <button
+              type="button"
+              onClick={() => onNavigateTab('analytics')}
+              className="inline-flex items-center gap-2 rounded-xl bg-blue-600 hover:bg-blue-500 px-4 py-2 text-xs font-semibold text-white shadow-sm transition-all cursor-pointer hover:scale-[1.02] active:scale-[0.98]"
+            >
+              <span>View Full Analytics</span>
+              <ArrowRight className="h-3.5 w-3.5" />
+            </button>
+          </div>
         </div>
       </div>
 

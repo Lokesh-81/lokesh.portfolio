@@ -18,6 +18,7 @@ import { Spotlight } from '@/components/core/spotlight';
 import { Clock } from '@/components/core/sliding-number';
 import { LoadingScreen } from '@/components/portfolio/loading-screen';
 import { StudioApp } from './studio/StudioApp';
+import { trackEvent } from '@/lib/analytics';
 
 type SectionId =
   | 'home'
@@ -87,8 +88,14 @@ function PortfolioContent() {
     }
   }, []);
 
+  // Track initial landing page view
+  useEffect(() => {
+    trackEvent(activeSection || 'home', 'pageview');
+  }, []);
+
   const handleNavigate = (sectionId: string) => {
     if (sectionId === 'studio') {
+      trackEvent('studio', 'navigation');
       setIsStudioRoute(true);
       if (typeof window !== 'undefined') {
         window.history.pushState(null, '', '#studio');
@@ -97,6 +104,7 @@ function PortfolioContent() {
     }
 
     const validSection = sectionId as SectionId;
+    trackEvent(validSection, 'navigation');
     setIsStudioRoute(false);
     setActiveSection(validSection);
     if (typeof window !== 'undefined') {
