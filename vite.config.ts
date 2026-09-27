@@ -72,9 +72,99 @@ function resumeUploadServerPlugin(): Plugin {
   };
 }
 
+function supabaseKeepAliveServerPlugin(): Plugin {
+  const SUPABASE_URL = process.env.VITE_SUPABASE_URL || 'https://xkkwfrwamvictgrhepgg.supabase.co';
+  const SUPABASE_KEY = process.env.VITE_SUPABASE_ANON_KEY || 'sb_publishable_2nLc2vuaV6KJQM5VODAAGg_X2NrdvH6';
+  const INTERVAL_MS = 24 * 60 * 60 * 1000; // 24 hours
+
+  let lastCheck = {
+    success: false,
+    timestamp: null as string | null,
+    latencyMs: 0,
+    statusCode: 0,
+    source: 'rpc',
+    error: null as string | null,
+  };
+
+  async function pingSupabase() {
+    const start = Date.now();
+    try {
+      // Execute read-only RPC call touching PostgreSQL
+      const resp = await fetch(`${SUPABASE_URL}/rest/v1/rpc/studio_admin_verify_session`, {
+        method: 'POST',
+        headers: {
+          apikey: SUPABASE_KEY,
+          Authorization: `Bearer ${SUPABASE_KEY}`,
+          'Content-Type': 'application/json',
+          'x-application-name': 'lokesh-portfolio-healthcheck',
+        },
+        body: JSON.stringify({ p_session_token: 'healthcheck_ping' }),
+      });
+
+      lastCheck = {
+        success: resp.status === 200,
+        timestamp: new Date().toISOString(),
+        latencyMs: Date.now() - start,
+        statusCode: resp.status,
+        source: 'rpc',
+        error: resp.status === 200 ? null : `Status ${resp.status}`,
+      };
+      console.log(`[Supabase Keepalive] Health check completed in ${lastCheck.latencyMs}ms (HTTP ${resp.status})`);
+    } catch (err: any) {
+      lastCheck = {
+        success: false,
+        timestamp: new Date().toISOString(),
+        latencyMs: Date.now() - start,
+        statusCode: 0,
+        source: 'rpc',
+        error: err?.message || 'Network error',
+      };
+      console.warn('[Supabase Keepalive] Health check notice:', err?.message || err);
+    }
+  }
+
+  return {
+    name: 'supabase-keepalive-server',
+    configureServer(server) {
+      // 1. Run initial check on server startup (delayed 4 seconds to let server boot cleanly)
+      setTimeout(pingSupabase, 4000);
+
+      // 2. Schedule regular interval every 24 hours
+      const timer = setInterval(pingSupabase, INTERVAL_MS);
+      if (timer.unref) timer.unref();
+
+      // 3. Mount /api/supabase-health endpoint for monitoring and manual verification
+      server.middlewares.use('/api/supabase-health', async (req, res) => {
+        if (req.method !== 'GET') {
+          res.statusCode = 405;
+          res.setHeader('Content-Type', 'application/json');
+          return res.end(JSON.stringify({ error: 'Method not allowed' }));
+        }
+
+        const url = new URL(req.url || '', `http://${req.headers.host || 'localhost'}`);
+        if (url.searchParams.get('trigger') === 'now') {
+          await pingSupabase();
+        }
+
+        res.statusCode = 200;
+        res.setHeader('Content-Type', 'application/json');
+        res.end(
+          JSON.stringify({
+            status: lastCheck.success ? 'active' : 'idle',
+            project: SUPABASE_URL.replace('https://', '').split('.')[0],
+            url: SUPABASE_URL,
+            interval: '24 hours',
+            lastCheck,
+          })
+        );
+      });
+    },
+  };
+}
+
 export default defineConfig(() => {
   return {
-    plugins: [react(), tailwindcss(), resumeUploadServerPlugin()],
+    plugins: [react(), tailwindcss(), resumeUploadServerPlugin(), supabaseKeepAliveServerPlugin()],
     resolve: {
       alias: {
         '@': path.resolve(import.meta.dirname, '.'),

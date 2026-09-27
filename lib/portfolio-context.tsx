@@ -21,6 +21,7 @@ import {
   certifications as defaultCertifications,
   skillBadges as defaultSkillBadges
 } from "@/lib/data/certifications"
+import { runClientThrottledHealthCheck } from "@/lib/supabase-health"
 import {
   supabase,
   loadPortfolioDataset,
@@ -221,10 +222,10 @@ export function PortfolioProvider({ children }: { children: React.ReactNode }) {
       setTestimonials(data.testimonials || defaultTestimonials)
       setMessages(data.messages)
 
-      // Test Supabase connectivity
+      // Test Supabase connectivity via minimal read-only check
       try {
-        const { error } = await supabase.from('projects').select('id').limit(1)
-        setSupabaseStatus(error ? 'cached' : 'connected')
+        const { error } = await supabase.rpc('studio_admin_verify_session', { p_session_token: 'ping' })
+        setSupabaseStatus(error && !error.message?.includes('Session expired') ? 'cached' : 'connected')
       } catch {
         setSupabaseStatus('cached')
       }
@@ -238,6 +239,9 @@ export function PortfolioProvider({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     refreshAll()
+
+    // Trigger low-frequency client throttled activity check (at most once every 24h)
+    runClientThrottledHealthCheck().catch(() => {})
 
     // Listen for custom events or cross-tab storage changes for immediate sync
     const handleSync = () => {
