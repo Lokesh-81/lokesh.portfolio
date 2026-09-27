@@ -5,7 +5,6 @@ import {
   OrbitCardStack,
   type OrbitStackItem,
 } from '@/components/ui/orbit-card-stack';
-import { Spotlight } from '@/components/core/spotlight';
 import { TextEffect } from '@/components/core/text-effect';
 import { usePortfolio } from '@/lib/portfolio-context';
 import { useLanguage } from '@/i18n';
@@ -140,12 +139,6 @@ export function TestimonialsSection() {
 
   return (
     <div id="testimonials" className="relative min-h-[85vh] w-full px-4 sm:px-8 py-8 sm:py-12">
-      {/* Spotlight for Testimonials Section */}
-      <Spotlight
-        className="bg-[radial-gradient(circle_at_center,rgba(168,85,247,0.18)_0%,rgba(56,189,248,0.12)_40%,transparent_70%)] blur-2xl pointer-events-none"
-        size={450}
-      />
-
       <div className="relative z-10 mx-auto max-w-[1400px]">
         {/* Header following the requested Componentry pattern */}
         <div className="flex flex-col justify-between gap-4 border-b border-[#1F2937] pb-6 md:flex-row md:items-end">

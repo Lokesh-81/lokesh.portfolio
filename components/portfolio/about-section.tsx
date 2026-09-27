@@ -13,7 +13,6 @@ import {
   ShieldCheck,
 } from 'lucide-react';
 import { TextEffect } from '@/components/core/text-effect';
-import { Spotlight } from '@/components/core/spotlight';
 import { Signature } from '@/components/ui/signature';
 import { usePortfolio } from '@/lib/portfolio-context';
 import { useLanguage } from '@/i18n';
@@ -54,12 +53,6 @@ export function AboutSection() {
 
   return (
     <div className="relative min-h-[85vh] w-full px-4 sm:px-8 py-8 sm:py-12">
-      {/* Spotlight on About Section */}
-      <Spotlight
-        className="bg-[radial-gradient(circle_at_center,rgba(96,165,250,0.22)_0%,rgba(192,132,252,0.12)_40%,transparent_70%)] blur-2xl pointer-events-none"
-        size={450}
-      />
-
       <div className="relative z-10 mx-auto max-w-[1400px]">
         {/* Main Grid */}
         <div className="grid gap-10 lg:grid-cols-[0.8fr_1.2fr] items-start border-b border-[#1F2937] pb-12">

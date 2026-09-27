@@ -17,7 +17,6 @@ import {
 import { TextMorph } from '@/components/core/text-morph';
 import { TextShimmer } from '@/components/core/text-shimmer';
 import { TextEffect } from '@/components/core/text-effect';
-import { Spotlight } from '@/components/core/spotlight';
 import { BorderTrail } from '@/components/core/border-trail';
 import { GlowEffect } from '@/components/core/glow-effect';
 import { motion } from 'framer-motion';
@@ -157,12 +156,6 @@ export function ContactSection() {
 
   return (
     <div className="relative min-h-[85vh] w-full px-4 sm:px-8 py-8 sm:py-12">
-      {/* Spotlight on Contact Section */}
-      <Spotlight
-        className="bg-[radial-gradient(circle_at_center,rgba(96,165,250,0.22)_0%,rgba(192,132,252,0.12)_40%,transparent_70%)] blur-2xl pointer-events-none"
-        size={450}
-      />
-
       <div className="relative z-10 mx-auto max-w-[1400px]">
         {/* Section Header with TextEffect */}
         <div className="flex flex-col justify-between gap-4 border-b border-[#1F2937] pb-6 md:flex-row md:items-end">

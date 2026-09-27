@@ -1,7 +1,6 @@
 'use client';
 
 import React from 'react';
-import { Spotlight } from '@/components/core/spotlight';
 import { GlowEffect } from '@/components/core/glow-effect';
 import { ExternalLink, CheckCircle2 } from 'lucide-react';
 import { useLanguage } from '@/i18n';
@@ -72,12 +71,6 @@ export function ProjectCard({ project, onHoverStart, onHoverEnd }: ProjectCardPr
         onMouseLeave={() => onHoverEnd?.()}
         className="relative z-10 flex h-full flex-col justify-between overflow-hidden rounded-2xl border border-[#1F2937] bg-[#111827]/95 p-6 sm:p-7 backdrop-blur-xl shadow-[0_4px_25px_rgba(0,0,0,0.4)] transition-all duration-300 group-hover:border-[#60A5FA]/60 group-hover:shadow-[0_8px_35px_rgba(37,99,235,0.25)]"
       >
-        {/* Spotlight follower effect directly on the card canvas */}
-        <Spotlight
-          className="bg-[radial-gradient(circle_at_center,rgba(96,165,250,0.38)_0%,rgba(192,132,252,0.25)_40%,transparent_70%)] blur-2xl pointer-events-none"
-          size={340}
-        />
-
         <div className="relative z-10 flex h-full flex-col justify-between">
           <div>
             {/* Header with Category and Live Status Badge (no dates, no numbers) */}

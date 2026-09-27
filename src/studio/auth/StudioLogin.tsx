@@ -3,7 +3,6 @@
 import React, { useState } from 'react';
 import { usePortfolio } from '@/lib/portfolio-context';
 import { User, Lock, Eye, EyeOff, ArrowRight, ArrowLeft, ShieldCheck, AlertCircle, CheckCircle2, KeyRound } from 'lucide-react';
-import { Spotlight } from '@/components/core/spotlight';
 
 interface StudioLoginProps {
   onSuccess: () => void;
@@ -62,12 +61,6 @@ export function StudioLogin({ onSuccess, onExit }: StudioLoginProps) {
 
   return (
     <div className="relative min-h-screen w-full flex items-center justify-center bg-[#0B132B] px-4 py-12 text-[#E0E7FF] overflow-hidden">
-      {/* Dynamic Ambient Spotlights */}
-      <Spotlight
-        className="bg-[radial-gradient(circle_at_center,rgba(96,165,250,0.25)_0%,rgba(192,132,252,0.15)_40%,transparent_70%)] blur-3xl pointer-events-none"
-        size={600}
-      />
-
       <div className="relative z-10 w-full max-w-md">
         {/* Back to Portfolio link */}
         <div className="mb-6 flex items-center justify-between">

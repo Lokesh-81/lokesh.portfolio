@@ -1,7 +1,6 @@
 'use client';
 
 import React from 'react';
-import { Spotlight } from '@/components/core/spotlight';
 import { Clock } from '@/components/core/sliding-number';
 import { useLanguage } from '@/i18n';
 
@@ -14,11 +13,6 @@ export function Footer({ onNavigate }: FooterProps) {
 
   return (
     <footer className="relative mt-auto border-t border-[#1F2937] bg-[#0B132B]/95 px-4 sm:px-8 py-8 backdrop-blur-md overflow-hidden">
-      <Spotlight
-        className="bg-[radial-gradient(circle_at_center,rgba(96,165,250,0.15)_0%,rgba(192,132,252,0.08)_40%,transparent_70%)] blur-2xl pointer-events-none"
-        size={400}
-      />
-
       <div className="relative z-10 mx-auto max-w-[1400px]">
         {/* Clean Copyright & Social Navigation Row */}
         <div className="flex flex-col items-center justify-between gap-4 pb-6 sm:flex-row text-xs text-[#64748B]">

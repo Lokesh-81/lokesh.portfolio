@@ -23,7 +23,6 @@ import {
   Boxes,
 } from 'lucide-react';
 import { TextEffect } from '@/components/core/text-effect';
-import { Spotlight } from '@/components/core/spotlight';
 import { GcpBadge } from '@/components/portfolio/gcp-badge';
 import { CertificateModal } from '@/components/portfolio/certificate-modal';
 import { BelvoLorModal } from '@/components/portfolio/belvo-lor-modal';
@@ -99,12 +98,6 @@ export function CertificationsSection({ onNavigate }: CertificationsSectionProps
 
   return (
     <div className="relative min-h-[85vh] w-full px-4 sm:px-8 py-8 sm:py-12">
-      {/* Spotlight on Certifications Section */}
-      <Spotlight
-        className="bg-[radial-gradient(circle_at_center,rgba(66,133,244,0.22)_0%,rgba(249,171,0,0.12)_40%,transparent_70%)] blur-2xl pointer-events-none"
-        size={500}
-      />
-
       <div className="relative z-10 mx-auto max-w-[1400px]">
         {/* Section Header */}
         <div className="flex flex-col justify-between gap-4 border-b border-[#1F2937] pb-6 md:flex-row md:items-end">

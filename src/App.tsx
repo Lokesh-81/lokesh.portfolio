@@ -14,7 +14,6 @@ import { CertificationsSection } from '@/components/portfolio/certifications-sec
 import { ExperienceSection } from '@/components/portfolio/experience-section';
 import { ContactSection } from '@/components/portfolio/contact-section';
 import { Footer } from '@/components/portfolio/footer';
-import { Spotlight } from '@/components/core/spotlight';
 import { Clock } from '@/components/core/sliding-number';
 import { LoadingScreen } from '@/components/portfolio/loading-screen';
 import { StudioApp } from './studio/StudioApp';
@@ -134,12 +133,6 @@ function PortfolioContent() {
       {isLoading && <LoadingScreen onComplete={() => setIsLoading(false)} />}
 
       <div className="relative h-screen w-full overflow-hidden bg-[#0B132B] text-[#E0E7FF] selection:bg-[#2563EB]/40 selection:text-[#E0E7FF] flex flex-col font-sans">
-        {/* Global Mouse-Following Spotlight across whole portfolio background */}
-        <Spotlight
-          className="bg-[radial-gradient(circle_at_center,rgba(96,165,250,0.12)_0%,rgba(192,132,252,0.06)_40%,transparent_70%)] blur-3xl pointer-events-none"
-          size={650}
-        />
-
         {/* 1. Global Componentry Magnetic Dock Navbar - Primary Navigation */}
         <PortfolioDock activeSection={activeSection} onSelectSection={handleNavigate} />
 

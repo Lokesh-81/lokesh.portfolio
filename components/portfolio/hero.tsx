@@ -5,7 +5,6 @@ import { ArrowRight, Mail, FileText } from 'lucide-react';
 import { TextEffect } from '@/components/core/text-effect';
 import { TextLoop } from '@/components/core/text-loop';
 import { GlowEffect } from '@/components/core/glow-effect';
-import { Spotlight } from '@/components/core/spotlight';
 import { useLanguage } from '@/i18n';
 import { usePortfolio } from '@/lib/portfolio-context';
 import { ResumeModal } from '@/components/portfolio/resume-modal';
@@ -77,12 +76,6 @@ export function Hero({ onNavigate }: HeroProps) {
 
   return (
     <div className="relative flex min-h-[90vh] w-full flex-col justify-center px-4 sm:px-8 py-10 sm:py-16">
-      {/* Spotlight on Hero Section */}
-      <Spotlight
-        className="bg-[radial-gradient(circle_at_center,rgba(96,165,250,0.22)_0%,rgba(192,132,252,0.14)_40%,transparent_70%)] blur-2xl pointer-events-none"
-        size={500}
-      />
-
       <div className="mx-auto my-auto w-full max-w-[1400px]">
         <div className="flex flex-col justify-center max-w-4xl">
           {/* Hero Typography & Actions */}
