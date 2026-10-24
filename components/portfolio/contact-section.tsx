@@ -24,6 +24,7 @@ import { usePortfolio } from '@/lib/portfolio-context';
 import { useLanguage } from '@/i18n';
 import { trackEvent } from '@/lib/analytics';
 import { submitContactInquiry } from '@/lib/inquiries';
+import { rateLimiter } from '@/lib/rate-limiter';
 
 export function ContactSection() {
   const { contact, social } = usePortfolio();
@@ -126,11 +127,19 @@ export function ContactSection() {
       return;
     }
 
+    const rlCheck = rateLimiter.check('contact_form');
+    if (!rlCheck.allowed) {
+      setErrorMessage(`Rate limit reached: Please wait ${rlCheck.retryAfterSeconds} seconds before sending another inquiry.`);
+      setStatus('error');
+      return;
+    }
+
     setStatus('submitting');
     setErrorMessage(null);
 
     try {
       trackEvent('contact', 'contact_click');
+      rateLimiter.recordAttempt('contact_form');
       await submitContactInquiry({
         name: form.name,
         email: form.email,

@@ -18,6 +18,8 @@ import { Clock } from '@/components/core/sliding-number';
 import { LoadingScreen } from '@/components/portfolio/loading-screen';
 import { StudioApp } from './studio/StudioApp';
 import { trackEvent } from '@/lib/analytics';
+import { ErrorBoundary } from '@/components/core/error-boundary';
+import { NotFound } from '@/components/ui/not-found';
 
 type SectionId =
   | 'home'
@@ -48,6 +50,8 @@ function PortfolioContent() {
     return false;
   });
 
+  const [isNotFound, setIsNotFound] = useState(false);
+
   // Support direct URL hash and pathname loading on mount and popstate/hashchange
   useEffect(() => {
     if (typeof window !== 'undefined') {
@@ -57,23 +61,30 @@ function PortfolioContent() {
 
         if (path.startsWith('/studio') || hash === 'studio' || hash.startsWith('/studio')) {
           setIsStudioRoute(true);
+          setIsNotFound(false);
           return;
         }
 
         setIsStudioRoute(false);
-        if (
-          [
-            'home',
-            'about',
-            'work',
-            'testimonials',
-            'skills',
-            'certifications',
-            'experience',
-            'contact',
-          ].includes(hash)
-        ) {
+        const validSections = [
+          'home',
+          'about',
+          'work',
+          'testimonials',
+          'skills',
+          'certifications',
+          'experience',
+          'contact',
+        ];
+
+        if (!hash || hash === '') {
+          setIsNotFound(false);
+          setActiveSection('home');
+        } else if (validSections.includes(hash)) {
+          setIsNotFound(false);
           setActiveSection(hash as SectionId);
+        } else if (hash && !validSections.includes(hash)) {
+          setIsNotFound(true);
         }
       };
 
@@ -122,6 +133,17 @@ function PortfolioContent() {
       window.history.pushState(null, '', '/#home');
     }
   };
+
+  if (isNotFound) {
+    return (
+      <NotFound
+        onReturnHome={() => {
+          setIsNotFound(false);
+          handleNavigate('home');
+        }}
+      />
+    );
+  }
 
   if (isStudioRoute) {
     return <StudioApp onExitStudio={handleExitStudio} />;
@@ -186,10 +208,12 @@ function PortfolioContent() {
 
 export default function App() {
   return (
-    <PortfolioProvider>
-      <LanguageProvider>
-        <PortfolioContent />
-      </LanguageProvider>
-    </PortfolioProvider>
+    <ErrorBoundary>
+      <PortfolioProvider>
+        <LanguageProvider>
+          <PortfolioContent />
+        </LanguageProvider>
+      </PortfolioProvider>
+    </ErrorBoundary>
   );
 }

@@ -19,7 +19,10 @@ import {
   CheckCircle2,
   AlertCircle,
   ShieldCheck,
+  Trash2,
+  AlertTriangle,
 } from 'lucide-react';
+import { studioAuthService } from '@/lib/studio-auth';
 
 interface SettingsTabProps {
   showToast: (msg: string, type?: 'success' | 'error') => void;
@@ -64,6 +67,44 @@ export function SettingsTab({ showToast }: SettingsTabProps) {
     type: 'success' | 'error';
     message: string;
   } | null>(null);
+
+  // Account Deletion & Erasure State (Requirement 18)
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [deletePassword, setDeletePassword] = useState('');
+  const [deleteConfirmText, setDeleteConfirmText] = useState('');
+  const [isDeletingAccount, setIsDeletingAccount] = useState(false);
+  const [deleteError, setDeleteError] = useState<string | null>(null);
+
+  const handleDeleteAccount = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setDeleteError(null);
+
+    if (deleteConfirmText.trim().toUpperCase() !== 'DELETE') {
+      setDeleteError('Please type DELETE to confirm account and data erasure.');
+      return;
+    }
+
+    if (!deletePassword) {
+      setDeleteError('Administrator password is required for verification.');
+      return;
+    }
+
+    setIsDeletingAccount(true);
+    try {
+      const res = await studioAuthService.deleteAccountAndData(deletePassword);
+      if (res.success) {
+        showToast('Account credentials and cached data erased successfully.', 'success');
+        logoutStudioAdmin();
+        window.location.href = '/';
+      } else {
+        setDeleteError(res.error || 'Failed to erase account and data.');
+      }
+    } catch (err: any) {
+      setDeleteError(err?.message || 'An unexpected error occurred during erasure.');
+    } finally {
+      setIsDeletingAccount(false);
+    }
+  };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value, type } = e.target as HTMLInputElement;
@@ -515,6 +556,124 @@ export function SettingsTab({ showToast }: SettingsTabProps) {
             <span>Export Full Portfolio JSON Backup</span>
           </button>
         </div>
+      </div>
+
+      {/* Danger Zone: Account Deletion & Data Erasure (Requirement 18) */}
+      <div className="rounded-2xl border border-red-900/40 bg-red-950/10 p-6 space-y-4">
+        <div className="flex items-center gap-2 text-red-400">
+          <AlertTriangle className="h-4 w-4" />
+          <h3 className="text-sm font-semibold text-red-300">Danger Zone: Account Deletion & Data Erasure</h3>
+        </div>
+        <p className="text-xs text-[#94A3B8]">
+          Permanently delete the administrator credentials, invalidate active remote sessions across devices, and clear cached client data in accordance with privacy and retention standards.
+        </p>
+
+        <div>
+          <button
+            type="button"
+            onClick={() => {
+              setShowDeleteModal(true);
+              setDeleteError(null);
+              setDeleteConfirmText('');
+              setDeletePassword('');
+            }}
+            className="inline-flex items-center gap-2 rounded-xl border border-red-500/30 bg-red-500/10 px-4 py-2 text-xs font-semibold text-red-400 hover:bg-red-500/20 hover:border-red-500/50 transition-all cursor-pointer"
+          >
+            <Trash2 className="h-4 w-4" />
+            <span>Delete Account & Erase Local Cache</span>
+          </button>
+        </div>
+
+        {/* Account Deletion Confirmation Modal */}
+        {showDeleteModal && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-4">
+            <div className="w-full max-w-md rounded-2xl border border-red-500/40 bg-[#0F172A] p-6 shadow-2xl space-y-4">
+              <div className="flex items-center gap-3 text-red-400">
+                <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-red-500/10 border border-red-500/20">
+                  <AlertTriangle className="h-5 w-5" />
+                </div>
+                <div>
+                  <h4 className="text-sm font-bold text-white">Confirm Account Deletion</h4>
+                  <p className="text-xs text-[#94A3B8]">This action cannot be undone.</p>
+                </div>
+              </div>
+
+              <div className="rounded-xl border border-red-900/40 bg-red-950/20 p-3 text-xs text-red-300 space-y-1">
+                <p className="font-semibold">What will happen:</p>
+                <ul className="list-disc list-inside space-y-0.5 text-[11px] text-[#CBD5E1]">
+                  <li>All administrator sessions will be revoked.</li>
+                  <li>Local storage credentials, cached tokens, and profile data will be cleared.</li>
+                  <li>You will be immediately logged out and returned to the portfolio.</li>
+                </ul>
+              </div>
+
+              {deleteError && (
+                <div className="flex items-center gap-2 rounded-xl border border-red-500/40 bg-red-500/10 p-3 text-xs text-red-300">
+                  <AlertCircle className="h-4 w-4 shrink-0" />
+                  <span>{deleteError}</span>
+                </div>
+              )}
+
+              <form onSubmit={handleDeleteAccount} className="space-y-3">
+                <div>
+                  <label className="block text-[11px] font-medium text-[#94A3B8] mb-1">
+                    Enter your administrator password to re-authenticate:
+                  </label>
+                  <input
+                    type="password"
+                    required
+                    value={deletePassword}
+                    onChange={(e) => setDeletePassword(e.target.value)}
+                    placeholder="Enter current password (e.g. lokesh81*)"
+                    className="w-full rounded-xl border border-[#1F2937] bg-[#0B132B] px-3 py-2 text-xs text-white placeholder-[#64748B] focus:border-red-500 focus:outline-none"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-[11px] font-medium text-[#94A3B8] mb-1">
+                    Type <span className="font-bold text-red-400">DELETE</span> to confirm:
+                  </label>
+                  <input
+                    type="text"
+                    required
+                    value={deleteConfirmText}
+                    onChange={(e) => setDeleteConfirmText(e.target.value)}
+                    placeholder="DELETE"
+                    className="w-full rounded-xl border border-[#1F2937] bg-[#0B132B] px-3 py-2 text-xs text-white placeholder-[#64748B] focus:border-red-500 focus:outline-none"
+                  />
+                </div>
+
+                <div className="flex items-center justify-end gap-2 pt-2">
+                  <button
+                    type="button"
+                    onClick={() => setShowDeleteModal(false)}
+                    disabled={isDeletingAccount}
+                    className="rounded-xl border border-[#1F2937] bg-[#0B132B] px-4 py-2 text-xs font-medium text-[#CBD5E1] hover:bg-[#1E293B] transition-colors"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    type="submit"
+                    disabled={isDeletingAccount || deleteConfirmText.trim().toUpperCase() !== 'DELETE'}
+                    className="inline-flex items-center gap-1.5 rounded-xl bg-red-600 px-4 py-2 text-xs font-semibold text-white shadow-lg hover:bg-red-700 transition-all disabled:opacity-50 cursor-pointer"
+                  >
+                    {isDeletingAccount ? (
+                      <>
+                        <RefreshCw className="h-3.5 w-3.5 animate-spin" />
+                        <span>Erasing...</span>
+                      </>
+                    ) : (
+                      <>
+                        <Trash2 className="h-3.5 w-3.5" />
+                        <span>Permanently Delete</span>
+                      </>
+                    )}
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

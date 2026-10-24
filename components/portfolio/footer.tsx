@@ -1,8 +1,9 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import { Clock } from '@/components/core/sliding-number';
 import { useLanguage } from '@/i18n';
+import { LegalModal } from '@/components/portfolio/legal-modal';
 
 export interface FooterProps {
   onNavigate?: (section: string) => void;
@@ -10,6 +11,8 @@ export interface FooterProps {
 
 export function Footer({ onNavigate }: FooterProps) {
   const { t } = useLanguage();
+  const [legalOpen, setLegalOpen] = useState(false);
+  const [legalType, setLegalType] = useState<'privacy' | 'terms'>('privacy');
 
   return (
     <footer className="relative mt-auto border-t border-[#1F2937] bg-[#0B132B]/95 px-4 sm:px-8 py-8 backdrop-blur-md overflow-hidden">
@@ -48,16 +51,27 @@ export function Footer({ onNavigate }: FooterProps) {
               LinkedIn
             </a>
             <span className="text-[#334155]">·</span>
-            <a
-              href="https://www.instagram.com/_lokesh81/"
-              target="_blank"
-              rel="noreferrer"
-              className="hover:text-[#F9A8D4] transition-colors"
+            <button
+              onClick={() => { setLegalType('privacy'); setLegalOpen(true); }}
+              className="hover:text-[#60A5FA] transition-colors cursor-pointer"
             >
-              Instagram
-            </a>
+              Privacy Policy
+            </button>
+            <span className="text-[#334155]">·</span>
+            <button
+              onClick={() => { setLegalType('terms'); setLegalOpen(true); }}
+              className="hover:text-[#60A5FA] transition-colors cursor-pointer"
+            >
+              Terms of Service
+            </button>
           </div>
         </div>
+
+        <LegalModal
+          isOpen={legalOpen}
+          onClose={() => setLegalOpen(false)}
+          type={legalType}
+        />
 
         {/* Live IST Clock & Discreet Studio entry */}
         <div className="border-t border-[#1F2937]/50 pt-5 flex items-center justify-between">

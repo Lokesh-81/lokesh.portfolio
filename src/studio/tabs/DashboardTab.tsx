@@ -183,6 +183,67 @@ export function DashboardTab({ onNavigateTab, onOpenPublicSite }: DashboardTabPr
         </div>
       </div>
 
+      {/* Production Readiness & Onboarding Checklist */}
+      <div className="rounded-2xl border border-emerald-500/30 bg-emerald-950/20 p-5 shadow-lg">
+        <div className="flex items-center justify-between mb-3">
+          <div className="flex items-center gap-2">
+            <CheckCircle2 className="h-5 w-5 text-emerald-400" />
+            <h3 className="text-sm font-bold text-white">Production Launch & Onboarding Checklist</h3>
+          </div>
+          <span className="text-[10px] font-mono text-emerald-300 bg-emerald-500/10 border border-emerald-500/20 px-2 py-0.5 rounded-full">
+            All Systems Verified
+          </span>
+        </div>
+        <p className="text-xs text-slate-300 mb-4">
+          Key setup steps to verify your live portfolio, resume, and credentials:
+        </p>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+          <button
+            onClick={() => onNavigateTab('profile')}
+            className="p-3 rounded-xl border border-emerald-500/20 bg-[#0B132B]/80 hover:border-emerald-500/50 text-left transition-all cursor-pointer"
+          >
+            <div className="text-xs font-bold text-emerald-300 flex items-center justify-between">
+              <span>1. Bio & Links</span>
+              <CheckCircle2 className="h-3.5 w-3.5 text-emerald-400" />
+            </div>
+            <p className="text-[11px] text-slate-400 mt-1">Review contact email & social handles</p>
+          </button>
+
+          <button
+            onClick={() => onNavigateTab('experience')}
+            className="p-3 rounded-xl border border-emerald-500/20 bg-[#0B132B]/80 hover:border-emerald-500/50 text-left transition-all cursor-pointer"
+          >
+            <div className="text-xs font-bold text-emerald-300 flex items-center justify-between">
+              <span>2. Belvo LOR</span>
+              <CheckCircle2 className="h-3.5 w-3.5 text-emerald-400" />
+            </div>
+            <p className="text-[11px] text-slate-400 mt-1">CEO Hrishikesh Mishra endorsement</p>
+          </button>
+
+          <button
+            onClick={() => onNavigateTab('testimonials')}
+            className="p-3 rounded-xl border border-emerald-500/20 bg-[#0B132B]/80 hover:border-emerald-500/50 text-left transition-all cursor-pointer"
+          >
+            <div className="text-xs font-bold text-emerald-300 flex items-center justify-between">
+              <span>3. Testimonials</span>
+              <CheckCircle2 className="h-3.5 w-3.5 text-emerald-400" />
+            </div>
+            <p className="text-[11px] text-slate-400 mt-1">Client reviews & recommendations</p>
+          </button>
+
+          <button
+            onClick={() => onNavigateTab('settings')}
+            className="p-3 rounded-xl border border-emerald-500/20 bg-[#0B132B]/80 hover:border-emerald-500/50 text-left transition-all cursor-pointer"
+          >
+            <div className="text-xs font-bold text-emerald-300 flex items-center justify-between">
+              <span>4. Security & Backups</span>
+              <CheckCircle2 className="h-3.5 w-3.5 text-emerald-400" />
+            </div>
+            <p className="text-[11px] text-slate-400 mt-1">Password & database JSON export</p>
+          </button>
+        </div>
+      </div>
+
       {/* Live Audience & Viewer Analytics Banner */}
       <div className="rounded-2xl border border-blue-500/30 bg-gradient-to-r from-[#0B132B] via-[#0D1836] to-[#0B132B] p-5 shadow-xl">
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">

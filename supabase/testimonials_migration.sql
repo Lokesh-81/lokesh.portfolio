@@ -31,6 +31,32 @@ CREATE POLICY "Public Read Testimonials" ON public.testimonials FOR SELECT USING
 DROP POLICY IF EXISTS "Admin All Testimonials" ON public.testimonials;
 CREATE POLICY "Admin All Testimonials" ON public.testimonials FOR ALL TO anon, authenticated USING (true) WITH CHECK (true);
 
+-- Seed Belvo Company CEO (Hrishikesh Mishra) exact testimonial
+INSERT INTO public.testimonials (id, name, role, company, testimonial, project_url, rating, display_order, is_published)
+VALUES (
+  'test-belvo-lor',
+  'Hrishikesh Mishra',
+  'CEO',
+  'Belvo Company',
+  'I had the pleasure of working with Lokesh at Belvo, where he played an important role as a Web Developer. He took ownership of client website projects and helped manage the technical workload, making my responsibilities as a founder much more manageable.
+
+His willingness to take responsibility, handle client requirements, and focus on delivering quality work made him a dependable part of the team. I particularly appreciated his contribution to keeping projects moving forward and reducing the pressure of day-to-day client work.
+
+I highly recommend Lokesh to any organization looking for a dedicated web developer who values responsibility, teamwork, and execution. I wish him continued success in his career!',
+  'https://www.belvo.buzz/',
+  5,
+  0,
+  true
+)
+ON CONFLICT (id) DO UPDATE
+SET name = EXCLUDED.name,
+    role = EXCLUDED.role,
+    company = EXCLUDED.company,
+    testimonial = EXCLUDED.testimonial,
+    project_url = EXCLUDED.project_url,
+    rating = EXCLUDED.rating,
+    is_published = true;
+
 -- Seed Foundarly Business World Owner (Abhishek Aggarwal) exact testimonial
 INSERT INTO public.testimonials (id, name, role, company, testimonial, project_url, rating, display_order, is_published)
 VALUES (
@@ -41,7 +67,7 @@ VALUES (
   'Super fast execution and very satisfying results every single time! Lokesh is highly reliable, technically solid, and always ready to tackle any challenge on the website. A pleasure to work with!',
   'https://foundarlybusinessworld.in',
   5,
-  0,
+  1,
   true
 )
 ON CONFLICT (id) DO UPDATE

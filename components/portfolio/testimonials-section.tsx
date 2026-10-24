@@ -27,7 +27,7 @@ export function TestimonialsSection() {
           role: 'CEO',
           company: 'Belvo Company',
           description:
-            'It is my pleasure to recommend Poosala Lokesh for successfully completing a 3-month internship as a Web Developer at Belvo. During the internship, they demonstrated a strong willingness to learn, adaptability, and a professional attitude while completing assigned tasks. They gained practical exposure to website development, implementation, debugging, and improving web-based solutions. I am pleased to recommend Poosala Lokesh for future opportunities in Web Development and related areas.',
+            'I had the pleasure of working with Lokesh at Belvo, where he played an important role as a Web Developer. He took ownership of client website projects and helped manage the technical workload, making my responsibilities as a founder much more manageable.\n\nHis willingness to take responsibility, handle client requirements, and focus on delivering quality work made him a dependable part of the team. I particularly appreciated his contribution to keeping projects moving forward and reducing the pressure of day-to-day client work.\n\nI highly recommend Lokesh to any organization looking for a dedicated web developer who values responsibility, teamwork, and execution. I wish him continued success in his career!',
           initials: 'HM',
           stat: 'Official LOR',
           accent: '#a855f7',
