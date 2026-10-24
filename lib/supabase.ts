@@ -349,10 +349,10 @@ export const defaultAchievements: AchievementItem[] = [
 ];
 
 export const defaultLanguages: LanguageItem[] = [
-  { id: 'lang-1', language: 'Telugu', proficiency: 'Native / Bilingual', percentage: 100, displayOrder: 0, isEnabled: true },
-  { id: 'lang-2', language: 'English', proficiency: 'Professional Working Proficiency', percentage: 95, displayOrder: 1, isEnabled: true },
-  { id: 'lang-3', language: 'Hindi', proficiency: 'Professional Working Proficiency', percentage: 90, displayOrder: 2, isEnabled: true },
-  { id: 'lang-4', language: 'French', proficiency: 'Elementary / Conversational', percentage: 55, displayOrder: 3, isEnabled: true }
+  { id: 'lang-1', name: 'Telugu', language: 'Telugu', proficiency: 'Native / Bilingual', percentage: 100, displayOrder: 0, sortOrder: 0, isEnabled: true },
+  { id: 'lang-2', name: 'English', language: 'English', proficiency: 'Professional Working Proficiency', percentage: 95, displayOrder: 1, sortOrder: 1, isEnabled: true },
+  { id: 'lang-3', name: 'Hindi', language: 'Hindi', proficiency: 'Professional Working Proficiency', percentage: 90, displayOrder: 2, sortOrder: 2, isEnabled: true },
+  { id: 'lang-4', name: 'French', language: 'French', proficiency: 'Elementary / Conversational', percentage: 55, displayOrder: 3, sortOrder: 3, isEnabled: true }
 ];
 
 export const defaultSocialLinks: SocialLinkItem[] = [
@@ -724,12 +724,49 @@ export async function loadPortfolioDataset() {
     about: getLocal<AboutSettings>(CACHE_KEYS.ABOUT, defaultAboutSettings),
     experiences: getLocal<ExperienceItem[]>(CACHE_KEYS.EXPERIENCE, initialExperienceData),
     educations: getLocal<EducationItem[]>(CACHE_KEYS.EDUCATION, defaultEducations),
-    projects: getLocal<ProjectItem[]>(CACHE_KEYS.PROJECTS, initialProjectsData),
+    projects: (() => {
+      const cached = getLocal<ProjectItem[]>(CACHE_KEYS.PROJECTS, initialProjectsData);
+      const list = Array.isArray(cached) && cached.length > 0 ? cached : initialProjectsData;
+      const hasOldLetters = list.some(
+        (p) => p.id === 'old-letters' || p.name?.toLowerCase() === 'old-letters' || p.title?.toLowerCase() === 'old-letters'
+      );
+      const oldLettersItem = initialProjectsData.find((p) => p.id === 'old-letters');
+      const mergedList = hasOldLetters
+        ? list
+        : oldLettersItem
+        ? [...list, oldLettersItem]
+        : list;
+
+      const normalized = mergedList.map((p, idx) => ({
+        ...p,
+        title: p.title || p.name || 'Untitled Project',
+        name: p.name || p.title || 'Untitled Project',
+        display_order: p.display_order ?? p.sortOrder ?? p.order ?? idx + 1,
+        sortOrder: p.sortOrder ?? p.display_order ?? idx + 1,
+      })).sort((a, b) => (a.display_order ?? 0) - (b.display_order ?? 0));
+      setLocal(CACHE_KEYS.PROJECTS, normalized);
+      return normalized;
+    })(),
     skills: getLocal<TechItem[]>(CACHE_KEYS.SKILLS, initialTechStackData),
     certifications: getLocal<Certification[]>(CACHE_KEYS.CERTIFICATIONS, defaultCertifications),
     skillBadges: getLocal<SkillBadge[]>(CACHE_KEYS.SKILL_BADGES, defaultSkillBadges),
     achievements: getLocal<AchievementItem[]>(CACHE_KEYS.ACHIEVEMENTS, defaultAchievements),
-    languages: getLocal<LanguageItem[]>(CACHE_KEYS.LANGUAGES, defaultLanguages),
+    languages: (() => {
+      const cached = getLocal<LanguageItem[]>(CACHE_KEYS.LANGUAGES, defaultLanguages);
+      const list = Array.isArray(cached) && cached.length > 0 ? cached : defaultLanguages;
+      const normalized = list.map((l, idx) => ({
+        ...l,
+        name: l.name || l.language || (defaultLanguages[idx]?.name ?? 'Language'),
+        language: l.language || l.name || (defaultLanguages[idx]?.language ?? 'Language'),
+        proficiency: l.proficiency || 'Professional Working',
+        percentage: l.percentage ?? 100,
+        displayOrder: l.displayOrder ?? l.display_order ?? idx,
+        display_order: l.display_order ?? l.displayOrder ?? idx,
+        sortOrder: l.sortOrder ?? l.displayOrder ?? idx,
+      })).sort((a, b) => (a.displayOrder ?? 0) - (b.displayOrder ?? 0));
+      setLocal(CACHE_KEYS.LANGUAGES, normalized);
+      return normalized;
+    })(),
     social: getLocal<SocialData>(CACHE_KEYS.SOCIAL, initialSocialData),
     socialLinks: getLocal<SocialLinkItem[]>(CACHE_KEYS.SOCIAL + '_links', defaultSocialLinks),
     contact: getLocal<ContactData>(CACHE_KEYS.CONTACT, initialContactData),
@@ -865,11 +902,11 @@ export async function loadPortfolioDataset() {
       setLocal(CACHE_KEYS.EDUCATION, result.educations);
     }
     if (projRes.status === 'fulfilled' && projRes.value?.data && projRes.value.data.length > 0) {
-      result.projects = projRes.value.data.map((row: any, idx: number) => ({
+      const dbProjects = projRes.value.data.map((row: any, idx: number) => ({
         id: row.id,
         number: row.number || (idx + 1).toString().padStart(2, '0'),
         name: row.name || row.title || 'Untitled Project',
-        title: row.name || row.title || 'Untitled Project',
+        title: row.title || row.name || 'Untitled Project',
         category: row.category || 'Full Stack Applications',
         tagline: row.tagline || '',
         shortDescription: row.short_description || row.shortDescription || row.description || '',
@@ -894,6 +931,28 @@ export async function loadPortfolioDataset() {
         display_order: row.display_order ?? idx + 1,
         sortOrder: row.display_order ?? idx + 1,
       }));
+
+      const hasOldLetters = dbProjects.some(
+        (p: any) => p.id === 'old-letters' || p.name?.toLowerCase() === 'old-letters' || p.title?.toLowerCase() === 'old-letters'
+      );
+      const oldLettersItem = initialProjectsData.find((p) => p.id === 'old-letters');
+      const normalizedOldLetters = oldLettersItem
+        ? {
+            ...oldLettersItem,
+            title: oldLettersItem.title || oldLettersItem.name || 'Old-Letters',
+            name: oldLettersItem.name || oldLettersItem.title || 'Old-Letters',
+            sortOrder: oldLettersItem.sortOrder ?? oldLettersItem.display_order ?? 8,
+            display_order: oldLettersItem.display_order ?? 8,
+          }
+        : null;
+
+      result.projects = (hasOldLetters
+        ? dbProjects
+        : normalizedOldLetters
+        ? [...dbProjects, normalizedOldLetters]
+        : dbProjects
+      ).sort((a: any, b: any) => (a.display_order ?? 0) - (b.display_order ?? 0)) as any;
+
       setLocal(CACHE_KEYS.PROJECTS, result.projects);
     }
     if (skillRes.status === 'fulfilled' && skillRes.value?.data && skillRes.value.data.length > 0) {
@@ -912,13 +971,14 @@ export async function loadPortfolioDataset() {
       result.languages = langRes.value.data.map((row: any, idx: number) => ({
         id: row.id,
         language: row.language || row.name || '',
-        name: row.language || row.name || '',
+        name: row.name || row.language || '',
         proficiency: row.proficiency || 'Professional Working',
         percentage: row.percentage ?? 100,
-        display_order: row.display_order ?? idx + 1,
-        sortOrder: row.display_order ?? idx + 1,
+        display_order: row.display_order ?? idx,
+        displayOrder: row.display_order ?? idx,
+        sortOrder: row.display_order ?? idx,
         isEnabled: row.is_enabled ?? true,
-      }));
+      })).sort((a: any, b: any) => (a.display_order ?? 0) - (b.display_order ?? 0));
       setLocal(CACHE_KEYS.LANGUAGES, result.languages);
     }
     if (socRes.status === 'fulfilled' && socRes.value?.data && socRes.value.data.length > 0) {

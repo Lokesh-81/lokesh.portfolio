@@ -488,6 +488,35 @@ export const initialProjectsData: ProjectItem[] = [
     featured: true,
     visible: true,
     order: 6
+  },
+  {
+    id: "old-letters",
+    number: "08",
+    name: "Old-Letters",
+    title: "Old-Letters",
+    category: "Creative Platform & Correspondence",
+    tagline: "Some things are worth waiting for.",
+    shortDescription: "An elegant digital letter-writing platform that lets people write personal letters, choose stationery, and schedule delivery.",
+    description:
+      "An elegant digital letter-writing platform that lets people write personal letters, choose stationery and templates, schedule delivery, and create meaningful correspondence experiences.",
+    whatIWorkedOn: [
+      "Engineered interactive digital letter composer with customizable stationery styling",
+      "Implemented scheduled delivery mechanics and heartfelt correspondence workflows",
+      "Designed smooth page transitions and tactile writing aesthetics using Motion and Tailwind CSS",
+      "Built responsive full-stack architecture with Vite, React, and TypeScript"
+    ],
+    technologies: ["Vite", "React", "TypeScript", "Tailwind CSS", "Motion"],
+    status: "Live",
+    liveUrl: "https://oldletters.vercel.app/",
+    githubUrl: "https://github.com/Lokesh-81/Old-Letters.git",
+    year: "2026",
+    accentColor: "#f59e0b",
+    gradient: "from-amber-900/40 via-yellow-950/20 to-black/60",
+    featured: true,
+    isFeatured: true,
+    visible: true,
+    isPublished: true,
+    order: 7
   }
 ]
 

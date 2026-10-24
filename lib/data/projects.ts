@@ -2,6 +2,7 @@ export interface Project {
   id: string;
   number: string;
   name: string;
+  title?: string;
   category: string;
   tagline: string;
   description: string;
@@ -9,6 +10,7 @@ export interface Project {
   technologies: string[];
   status: 'Live' | 'In Development';
   liveUrl: string;
+  githubUrl?: string;
   year: string;
   accentColor: string;
   gradient: string;
@@ -265,6 +267,43 @@ export const projects: Project[] = [
           'Conception d’API RESTful fiables basées sur Node.js, Express et MongoDB',
           'Typage strict de bout en bout garantissant l’intégrité des modèles de données',
           'Visualisations de données réactives et indicateurs d’avancement des étapes clés de création',
+        ],
+      },
+    },
+  },
+  {
+    id: 'old-letters',
+    number: '08',
+    name: 'Old-Letters',
+    title: 'Old-Letters',
+    category: 'Creative Platform & Correspondence',
+    tagline: 'Some things are worth waiting for.',
+    description:
+      'An elegant digital letter-writing platform that lets people write personal letters, choose stationery and templates, schedule delivery, and create meaningful correspondence experiences.',
+    whatIWorkedOn: [
+      'Engineered interactive digital letter composer with customizable stationery styling',
+      'Implemented scheduled delivery mechanics and heartfelt correspondence workflows',
+      'Designed smooth page transitions and tactile writing aesthetics using Motion and Tailwind CSS',
+      'Built responsive full-stack architecture with Vite, React, and TypeScript',
+    ],
+    technologies: ['Vite', 'React', 'TypeScript', 'Tailwind CSS', 'Motion'],
+    status: 'Live',
+    liveUrl: 'https://oldletters.vercel.app/',
+    githubUrl: 'https://github.com/Lokesh-81/Old-Letters.git',
+    year: '2026',
+    accentColor: '#f59e0b',
+    gradient: 'from-amber-900/40 via-yellow-950/20 to-black/60',
+    translations: {
+      fr: {
+        name: 'Old-Letters',
+        tagline: 'Certaines choses valent la peine d’attendre.',
+        description:
+          'Une élégante plateforme d’écriture de lettres numériques permettant de rédiger des correspondances personnelles, choisir de la papeterie raffinée, planifier l’envoi et vivre des moments d’échange authentiques.',
+        whatIWorkedOn: [
+          'Développement d’un composeur de lettres interactif avec personnalisation de papeterie',
+          'Intégration d’un système de planification d’envoi différé',
+          'Conception d’animations fluides avec Motion et Tailwind CSS',
+          'Architecture réactive sous Vite, React et TypeScript',
         ],
       },
     },

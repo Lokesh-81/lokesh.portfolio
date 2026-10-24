@@ -37,7 +37,11 @@ export function LanguagesTab({ showToast }: LanguagesTabProps) {
   };
 
   const handleEdit = (lang: LanguageItem) => {
-    setEditingLang({ ...lang });
+    setEditingLang({
+      ...lang,
+      name: lang.name || lang.language || '',
+      language: lang.language || lang.name || '',
+    });
   };
 
   const handleDelete = async (id: string, name: string) => {
@@ -69,15 +73,20 @@ export function LanguagesTab({ showToast }: LanguagesTabProps) {
 
   const handleSaveModal = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!editingLang || !editingLang.name?.trim()) {
+    const langName = editingLang?.name?.trim() || editingLang?.language?.trim();
+    if (!editingLang || !langName) {
       showToast('Language name is required', 'error');
       return;
     }
 
     setIsSaving(true);
     try {
-      await saveLanguage(editingLang as LanguageItem);
-      showToast(`Language "${editingLang.name}" saved!`, 'success');
+      await saveLanguage({
+        ...editingLang,
+        name: langName,
+        language: langName,
+      } as LanguageItem);
+      showToast(`Language "${langName}" saved!`, 'success');
       setEditingLang(null);
     } catch (err: any) {
       showToast('Failed to save language', 'error');
@@ -139,7 +148,7 @@ export function LanguagesTab({ showToast }: LanguagesTabProps) {
 
               <div>
                 <div className="flex items-center gap-2">
-                  <h3 className="text-sm font-semibold text-[#E0E7FF]">{lang.name}</h3>
+                  <h3 className="text-sm font-semibold text-[#E0E7FF]">{lang.name || lang.language || 'Language'}</h3>
                   {lang.nativeName && (
                     <span className="text-xs text-[#60A5FA]">({lang.nativeName})</span>
                   )}

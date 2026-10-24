@@ -187,7 +187,7 @@ export function OrbitCardStack({
                       </div>
 
                       <div className="flex items-center gap-2">
-                        {item.stat && (
+                        {item.stat && item.stat.trim() !== '' && item.stat.toLowerCase() !== 'official lor' && (
                           <span
                             className="hidden sm:inline-flex rounded-full px-2.5 py-0.5 text-[10px] font-mono font-semibold uppercase tracking-wider"
                             style={{

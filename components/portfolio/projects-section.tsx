@@ -43,7 +43,9 @@ export function ProjectsSection() {
       return (
         project.category.includes('Photography') ||
         project.category.includes('Education') ||
-        project.category.includes('EdTech')
+        project.category.includes('EdTech') ||
+        project.category.includes('Creative') ||
+        project.category.includes('Correspondence')
       );
     return true;
   });

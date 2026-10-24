@@ -54,7 +54,11 @@ export function ProjectsTab({ showToast }: ProjectsTabProps) {
   };
 
   const handleEdit = (p: ProjectItem) => {
-    setEditingProject({ ...p });
+    setEditingProject({
+      ...p,
+      title: p.title || p.name || '',
+      name: p.name || p.title || '',
+    });
     setTechInput('');
     setHighlightInput('');
   };
@@ -138,15 +142,20 @@ export function ProjectsTab({ showToast }: ProjectsTabProps) {
 
   const handleSaveModal = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!editingProject || !editingProject.title?.trim()) {
+    const title = editingProject?.title?.trim() || editingProject?.name?.trim();
+    if (!editingProject || !title) {
       showToast('Please provide a project title', 'error');
       return;
     }
 
     setIsSaving(true);
     try {
-      await saveProject(editingProject as ProjectItem);
-      showToast(`Project "${editingProject.title}" saved!`, 'success');
+      await saveProject({
+        ...editingProject,
+        title,
+        name: title,
+      } as ProjectItem);
+      showToast(`Project "${title}" saved!`, 'success');
       setEditingProject(null);
     } catch (err: any) {
       showToast('Failed to save project', 'error');
@@ -218,7 +227,7 @@ export function ProjectsTab({ showToast }: ProjectsTabProps) {
 
               <div>
                 <div className="flex flex-wrap items-center gap-2">
-                  <h3 className="text-sm font-semibold text-[#E0E7FF]">{project.title}</h3>
+                  <h3 className="text-sm font-semibold text-[#E0E7FF]">{project.title || project.name || 'Untitled Project'}</h3>
                   {project.featured && (
                     <span className="inline-flex items-center gap-1 rounded-full bg-amber-500/20 text-amber-400 px-2 py-0.5 text-[10px] font-medium">
                       <Star className="h-3 w-3 fill-amber-400" /> Featured
@@ -325,9 +334,30 @@ export function ProjectsTab({ showToast }: ProjectsTabProps) {
                     onChange={(e) => setEditingProject({ ...editingProject, category: e.target.value })}
                     className="w-full rounded-xl border border-[#1F2937] bg-[#0B132B] px-3.5 py-2 text-xs text-[#E0E7FF] focus:border-[#60A5FA] focus:outline-none"
                   >
-                    <option value="Enterprise Web Platforms">Enterprise Web Platforms</option>
+                    <option value="Creative Platform & Correspondence">Creative Platform & Correspondence</option>
                     <option value="Full Stack Applications">Full Stack Applications</option>
+                    <option value="Enterprise Web Platforms">Enterprise Web Platforms</option>
                     <option value="Cloud Infrastructure & AI Tools">Cloud Infrastructure & AI Tools</option>
+                    <option value="AI & FinTech Platform">AI & FinTech Platform</option>
+                    <option value="Business & Startup Platform">Business & Startup Platform</option>
+                    <option value="Healthcare & Technology">Healthcare & Technology</option>
+                    <option value="Education & EdTech Portal">Education & EdTech Portal</option>
+                    <option value="Photography & Creative Showcase">Photography & Creative Showcase</option>
+                    <option value="Corporate & Global Commerce">Corporate & Global Commerce</option>
+                    {editingProject.category && ![
+                      'Creative Platform & Correspondence',
+                      'Full Stack Applications',
+                      'Enterprise Web Platforms',
+                      'Cloud Infrastructure & AI Tools',
+                      'AI & FinTech Platform',
+                      'Business & Startup Platform',
+                      'Healthcare & Technology',
+                      'Education & EdTech Portal',
+                      'Photography & Creative Showcase',
+                      'Corporate & Global Commerce'
+                    ].includes(editingProject.category) && (
+                      <option value={editingProject.category}>{editingProject.category}</option>
+                    )}
                   </select>
                 </div>
 

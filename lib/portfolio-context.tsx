@@ -446,7 +446,7 @@ export function PortfolioProvider({ children }: { children: React.ReactNode }) {
 
   // PROJECT CRUD
   const saveProject = async (item: ProjectItem) => {
-    const projectName = item.name || item.title || 'Untitled Project'
+    const projectName = item.title?.trim() || item.name?.trim() || 'Untitled Project'
     const projectImage = item.image || item.imageUrl || item.coverImageUrl || ''
     const projectHighlights = item.whatIWorkedOn || item.keyHighlights || []
     const normalizedItem: ProjectItem = {
@@ -655,13 +655,16 @@ export function PortfolioProvider({ children }: { children: React.ReactNode }) {
 
   // LANGUAGE CRUD
   const saveLanguage = async (item: LanguageItem) => {
-    const langName = item.language || item.name || 'Language'
+    const langName = item.name?.trim() || item.language?.trim() || 'Language'
     const normalizedItem: LanguageItem = {
       ...item,
       language: langName,
       name: langName,
       proficiency: item.proficiency || 'Professional Working',
       percentage: item.percentage ?? 100,
+      display_order: item.display_order ?? item.displayOrder ?? item.sortOrder ?? languages.length + 1,
+      displayOrder: item.display_order ?? item.displayOrder ?? item.sortOrder ?? languages.length + 1,
+      sortOrder: item.display_order ?? item.displayOrder ?? item.sortOrder ?? languages.length + 1,
     }
     const exists = languages.some((l) => l.id === item.id)
     const updated = exists
@@ -898,11 +901,20 @@ export function PortfolioProvider({ children }: { children: React.ReactNode }) {
   }
 
   const reorderLanguages = async (items: LanguageItem[]) => {
-    setLanguages(items)
-    setLocal(CACHE_KEYS.LANGUAGES, items)
+    const reordered = items.map((l, idx) => ({
+      ...l,
+      name: l.name || l.language || '',
+      language: l.language || l.name || '',
+      display_order: idx + 1,
+      displayOrder: idx + 1,
+      sortOrder: idx + 1,
+      order: idx + 1,
+    }))
+    setLanguages(reordered)
+    setLocal(CACHE_KEYS.LANGUAGES, reordered)
     try {
-      for (let i = 0; i < items.length; i++) {
-        await supabase.from('languages').update({ display_order: i + 1 }).eq('id', items[i].id)
+      for (let i = 0; i < reordered.length; i++) {
+        await supabase.from('languages').update({ display_order: i + 1 }).eq('id', reordered[i].id)
       }
     } catch {
       // Offline fallback

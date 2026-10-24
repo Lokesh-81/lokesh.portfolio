@@ -25,7 +25,9 @@ import {
   Monitor,
   Smartphone,
   Activity,
+  Eye,
 } from 'lucide-react';
+import { openDocumentInNewTab, getCleanDocDisplayName } from '@/lib/document-utils';
 
 interface DashboardTabProps {
   onNavigateTab: (tab: string) => void;
@@ -49,6 +51,17 @@ export function DashboardTab({ onNavigateTab, onOpenPublicSite }: DashboardTabPr
   } = usePortfolio();
 
   const unreadMessagesCount = messages.filter((m) => m.status === 'new').length;
+
+  const resumeUrl = activeResume?.url || '/resume.pdf';
+  const isBase64Resume = typeof resumeUrl === 'string' && resumeUrl.startsWith('data:');
+  const cleanResumeName =
+    activeResume?.title && !activeResume.title.startsWith('data:')
+      ? activeResume.title
+      : getCleanDocDisplayName(activeResume?.path, 'P.Lokesh_resume.pdf');
+
+  const handleOpenActiveResume = () => {
+    openDocumentInNewTab(resumeUrl, cleanResumeName);
+  };
 
   const analytics = computeAnalyticsSummary('7d');
   const totalDeviceViews = analytics.deviceBreakdown.desktop + analytics.deviceBreakdown.mobile + analytics.deviceBreakdown.tablet || 1;
@@ -360,9 +373,9 @@ export function DashboardTab({ onNavigateTab, onOpenPublicSite }: DashboardTabPr
       </div>
 
       {/* Quick Navigation Cards */}
-      <div className="grid gap-6 md:grid-cols-2">
+      <div className="grid gap-6 md:grid-cols-2 overflow-hidden">
         {/* Active Resume Card */}
-        <div className="rounded-2xl border border-[#1F2937] bg-[#111827]/80 p-6">
+        <div className="rounded-2xl border border-[#1F2937] bg-[#111827]/80 p-6 overflow-hidden">
           <div className="flex items-center justify-between mb-4">
             <div className="flex items-center gap-2.5">
               <FileText className="h-5 w-5 text-[#60A5FA]" />
@@ -376,29 +389,43 @@ export function DashboardTab({ onNavigateTab, onOpenPublicSite }: DashboardTabPr
             </button>
           </div>
 
-          <div className="flex items-center justify-between rounded-xl border border-[#1F2937] bg-[#0B132B] p-3.5">
-            <div className="flex items-center gap-3">
-              <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-[#2563EB]/20 text-[#60A5FA]">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 rounded-xl border border-[#1F2937] bg-[#0B132B] p-3.5 overflow-hidden">
+            <div className="flex items-center gap-3 min-w-0">
+              <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-[#2563EB]/20 text-[#60A5FA]">
                 <FileText className="h-4 w-4" />
               </div>
-              <div>
-                <p className="text-xs font-medium text-[#E0E7FF]">
-                  {activeResume?.title || 'Poosala_Lokesh_Resume_2026.pdf'}
+              <div className="min-w-0 flex-1">
+                <p className="text-xs font-medium text-[#E0E7FF] truncate">
+                  {cleanResumeName}
                 </p>
-                <p className="text-[10px] text-[#64748B]">
-                  Active public link: {activeResume?.url || '/resume.pdf'}
+                <p className="text-[10px] text-[#64748B] flex items-center gap-1.5 truncate">
+                  <span className="font-mono text-slate-400">
+                    {isBase64Resume ? 'Document: Stored PDF' : `Link: ${resumeUrl}`}
+                  </span>
+                  {activeResume?.fileSize && <span>· {activeResume.fileSize}</span>}
                 </p>
               </div>
             </div>
-            <span className="inline-flex items-center gap-1 rounded-full border border-emerald-500/30 bg-emerald-500/10 px-2 py-0.5 text-[10px] font-medium text-emerald-400">
-              <CheckCircle2 className="h-3 w-3" />
-              Live
-            </span>
+            <div className="flex items-center gap-2 shrink-0 self-end sm:self-center">
+              <button
+                type="button"
+                onClick={handleOpenActiveResume}
+                className="inline-flex items-center gap-1.5 rounded-lg border border-[#2563EB]/40 bg-[#2563EB]/15 px-3 py-1.5 text-xs font-semibold text-[#60A5FA] hover:bg-[#2563EB]/30 hover:text-white transition-all cursor-pointer shadow-xs"
+                title="View or Open Resume in New Tab"
+              >
+                <Eye className="h-3.5 w-3.5" />
+                <span>View Resume</span>
+              </button>
+              <span className="inline-flex items-center gap-1 rounded-full border border-emerald-500/30 bg-emerald-500/10 px-2 py-0.5 text-[10px] font-medium text-emerald-400">
+                <CheckCircle2 className="h-3 w-3" />
+                Live
+              </span>
+            </div>
           </div>
         </div>
 
         {/* Recent Inquiries Preview Card */}
-        <div className="rounded-2xl border border-[#1F2937] bg-[#111827]/80 p-6">
+        <div className="rounded-2xl border border-[#1F2937] bg-[#111827]/80 p-6 overflow-hidden">
           <div className="flex items-center justify-between mb-4">
             <div className="flex items-center gap-2.5">
               <Inbox className="h-5 w-5 text-[#F87171]" />
@@ -413,7 +440,7 @@ export function DashboardTab({ onNavigateTab, onOpenPublicSite }: DashboardTabPr
           </div>
 
           {messages.length === 0 ? (
-            <div className="flex flex-col items-center justify-center rounded-xl border border-dashed border-[#1F2937] p-6 text-center text-xs text-[#64748B]">
+            <div className="relative z-10 flex flex-col items-center justify-center rounded-xl border border-dashed border-[#1F2937] bg-[#0B132B]/50 p-6 text-center text-xs text-[#64748B]">
               <Inbox className="h-8 w-8 text-[#334155] mb-2" />
               <span>No contact inquiries received yet.</span>
               <span className="text-[10px] text-[#475569] mt-1">

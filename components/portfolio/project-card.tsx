@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { GlowEffect } from '@/components/core/glow-effect';
-import { ExternalLink, CheckCircle2 } from 'lucide-react';
+import { ExternalLink, CheckCircle2, Github } from 'lucide-react';
 import { useLanguage } from '@/i18n';
 import type { Project } from '@/lib/data/projects';
 
@@ -23,7 +23,7 @@ export function ProjectCard({ project, onHoverStart, onHoverEnd }: ProjectCardPr
   const { t, language } = useLanguage();
 
   const translatedContent = (project.translations as any)?.[language];
-  const projectName = (language !== 'en' && translatedContent?.name) || project.name;
+  const projectName = (language !== 'en' && translatedContent?.name) || project.title || project.name;
   const projectTagline = (language !== 'en' && translatedContent?.tagline) || project.tagline;
   const projectDesc = (language !== 'en' && translatedContent?.description) || project.description;
   const contributions =
@@ -172,7 +172,20 @@ export function ProjectCard({ project, onHoverStart, onHoverEnd }: ProjectCardPr
                 )}
               </div>
 
-              <div className="flex items-center">
+              <div className="flex items-center gap-2">
+                {project.githubUrl && (
+                  <a
+                    href={project.githubUrl}
+                    target="_blank"
+                    rel="noreferrer"
+                    onClick={(e) => e.stopPropagation()}
+                    className="flex items-center justify-center rounded-lg border border-[#1F2937] bg-[#0B132B] p-2 text-[#94A3B8] hover:text-[#60A5FA] hover:border-[#60A5FA] transition-all cursor-pointer"
+                    title="View GitHub Repository"
+                    aria-label={`View ${projectName} GitHub repository`}
+                  >
+                    <Github className="h-3.5 w-3.5" />
+                  </a>
+                )}
                 {project.liveUrl && (
                   <a
                     href={project.liveUrl}
