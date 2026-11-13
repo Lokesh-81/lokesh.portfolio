@@ -19,6 +19,7 @@ import { LoadingScreen } from '@/components/portfolio/loading-screen';
 import { StudioApp } from './studio/StudioApp';
 import { trackEvent } from '@/lib/analytics';
 import { ErrorBoundary } from '@/components/core/error-boundary';
+import NightSceneBacklit from '@/components/core/night-scene-backlit';
 import { NotFound } from '@/components/ui/not-found';
 
 type SectionId =
@@ -154,7 +155,19 @@ function PortfolioContent() {
       {/* Starting Loading Screen with Lokesh Signature handwriting animation */}
       {isLoading && <LoadingScreen onComplete={() => setIsLoading(false)} />}
 
-      <div className="relative h-screen w-full overflow-hidden bg-[#0B132B] text-[#E0E7FF] selection:bg-[#2563EB]/40 selection:text-[#E0E7FF] flex flex-col font-sans">
+      <div className="relative isolate h-screen w-full overflow-hidden bg-[#0B132B] text-[#E0E7FF] selection:bg-[#2563EB]/40 selection:text-[#E0E7FF] flex flex-col font-sans">
+        <NightSceneBacklit
+          background="#0B132B"
+          blossomColor="#CFA0FF"
+          speed={65}
+          petals={105}
+          wind={24}
+          scale={100}
+          glow={42}
+          direction="right"
+          style={{ position: "absolute", inset: 0, zIndex: 0, minWidth: 0, minHeight: 0 }}
+        />
+        <div className="relative z-10 flex min-h-0 flex-1 flex-col">
         {/* 1. Global Componentry Magnetic Dock Navbar - Primary Navigation */}
         <PortfolioDock activeSection={activeSection} onSelectSection={handleNavigate} />
 
@@ -201,6 +214,7 @@ function PortfolioContent() {
             </motion.div>
           </AnimatePresence>
         </main>
+        </div>
       </div>
     </>
   );
