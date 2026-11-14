@@ -141,9 +141,9 @@ export function TestimonialsSection() {
     <div id="testimonials" className="relative min-h-[85vh] w-full px-4 sm:px-8 py-8 sm:py-12">
       <div className="relative z-10 mx-auto max-w-[1400px]">
         {/* Header following the requested Componentry pattern */}
-        <div className="flex flex-col justify-between gap-4 border-b border-[#1F2937] pb-6 md:flex-row md:items-end">
+        <div className="flex flex-col justify-between gap-4 border-b border-[#35263D] pb-6 md:flex-row md:items-end">
           <div>
-            <div className="text-xs uppercase tracking-[0.2em] text-[#60A5FA] font-semibold flex items-center gap-2">
+            <div className="text-xs uppercase tracking-[0.2em] text-[#E8B8D2] font-semibold flex items-center gap-2">
               <TextEffect key={`tag-testimonials-${language}`} per="char" delay={0.05}>
                 {t('testimonials.viewing') || 'Currently viewing'}
               </TextEffect>
@@ -154,7 +154,7 @@ export function TestimonialsSection() {
                 </span>
               )}
             </div>
-            <h2 className="mt-1 text-2xl font-light tracking-tight text-[#E0E7FF] sm:text-4xl md:text-5xl">
+            <h2 className="mt-1 text-2xl font-light tracking-tight text-[#F5EAF5] sm:text-4xl md:text-5xl">
               {activeMember?.name || 'Client'}{' '}
               <span className="instrument italic font-normal text-purple-400">
                 {activeMember?.company ? `— ${activeMember.company}` : ''}
@@ -163,7 +163,7 @@ export function TestimonialsSection() {
           </div>
 
           <div className="flex flex-col sm:flex-row sm:items-center gap-3">
-            <p className="max-w-md text-xs sm:text-sm leading-relaxed text-[#94A3B8]">
+            <p className="max-w-md text-xs sm:text-sm leading-relaxed text-[#BDA9C4]">
               {t('testimonials.subtitle') ||
                 'Genuine endorsements, executive recommendation letters, and direct collaboration feedback from founders and business leaders.'}
             </p>
