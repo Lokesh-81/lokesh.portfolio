@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 export interface LoadingScreenProps {
@@ -11,16 +11,16 @@ export function LoadingScreen({ onComplete }: LoadingScreenProps) {
   const [isVisible, setIsVisible] = useState(true);
   const hasFinished = useRef(false);
 
-  const handleFinish = () => {
+  const handleFinish = useCallback(() => {
     if (hasFinished.current) return;
     hasFinished.current = true;
     setIsVisible(false);
-  };
+  }, []);
 
   useEffect(() => {
     const timer = window.setTimeout(handleFinish, 2800);
     return () => window.clearTimeout(timer);
-  }, []);
+  }, [handleFinish]);
 
   return (
     <AnimatePresence onExitComplete={() => onComplete?.()}>
