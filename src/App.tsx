@@ -155,10 +155,10 @@ function PortfolioContent() {
       {/* Starting Loading Screen with Lokesh Signature handwriting animation */}
       {isLoading && <LoadingScreen onComplete={() => setIsLoading(false)} />}
 
-      <div className="relative isolate h-screen w-full overflow-hidden bg-[#0B132B] text-[#E0E7FF] selection:bg-[#2563EB]/40 selection:text-[#E0E7FF] flex flex-col font-sans">
+      <div className="relative isolate h-screen w-full overflow-hidden bg-[#100B18] text-[#F5EAF5] selection:bg-[#A77BC2]/40 selection:text-[#F5EAF5] flex flex-col font-sans">
         <NightSceneBacklit
-          background="#0B132B"
-          blossomColor="#CFA0FF"
+          background="#100B18"
+          blossomColor="#E8B8D2"
           speed={65}
           petals={105}
           wind={24}
@@ -173,18 +173,18 @@ function PortfolioContent() {
 
         {/* Prominent Live IST Clock Pill - Instantly visible on every section */}
         <div
-          className="fixed top-3 sm:top-5 right-3 sm:right-6 z-40 flex items-center gap-2 rounded-full border border-[#1F2937]/90 bg-[#0B132B]/90 px-3 sm:px-3.5 py-1.5 backdrop-blur-xl shadow-lg"
+          className="fixed top-3 sm:top-5 right-3 sm:right-6 z-40 flex items-center gap-2 rounded-full border border-[#35263D]/90 bg-[#100B18]/90 px-3 sm:px-3.5 py-1.5 backdrop-blur-xl shadow-lg"
           title="Live Indian Standard Time (IST)"
         >
           <span className="relative flex h-2 w-2">
             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
             <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
           </span>
-          <span className="font-mono text-[10px] sm:text-xs font-semibold text-[#60A5FA] tracking-wider uppercase">
+          <span className="font-mono text-[10px] sm:text-xs font-semibold text-[#E8B8D2] tracking-wider uppercase">
             IST
           </span>
-          <span className="text-[#334155]">·</span>
-          <Clock className="text-[#E0E7FF] font-medium text-[11px] sm:text-xs" />
+          <span className="text-[#59445F]">·</span>
+          <Clock className="text-[#F5EAF5] font-medium text-[11px] sm:text-xs" />
         </div>
 
         {/* 2. Active Screen Viewport - Section switching strictly via navbar */}
