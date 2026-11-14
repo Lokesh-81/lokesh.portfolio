@@ -42,7 +42,7 @@ export function MagneticDock({
     <div
       onMouseMove={(e) => mouseX.set(e.pageX)}
       onMouseLeave={() => mouseX.set(Infinity)}
-      className={`relative inline-flex items-center gap-2 rounded-full border border-[#1F2937]/90 bg-[#0B132B]/85 px-3 py-2 shadow-[0_16px_45px_rgba(0,0,0,0.65)] backdrop-blur-2xl ${className}`}
+      className={`relative inline-flex items-center gap-2 rounded-full border border-[#35263D]/90 bg-[#100B18]/85 px-3 py-2 shadow-[0_16px_45px_rgba(0,0,0,0.65)] backdrop-blur-2xl ${className}`}
     >
       {items.map((item) => (
         <DockIconWrapper
@@ -107,10 +107,10 @@ function DockIconWrapper({
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 4, scale: 0.9 }}
             transition={{ duration: 0.15 }}
-            className="pointer-events-none absolute -top-10 z-50 whitespace-nowrap rounded-lg border border-[#334155] bg-[#0F172A]/95 px-2.5 py-1 text-[11px] font-medium text-[#E0E7FF] shadow-lg backdrop-blur-md"
+            className="pointer-events-none absolute -top-10 z-50 whitespace-nowrap rounded-lg border border-[#59445F] bg-[#100B18]/95 px-2.5 py-1 text-[11px] font-medium text-[#F5EAF5] shadow-lg backdrop-blur-md"
           >
             {item.label}
-            <div className="absolute left-1/2 -bottom-1 -translate-x-1/2 border-4 border-transparent border-t-[#334155]" />
+            <div className="absolute left-1/2 -bottom-1 -translate-x-1/2 border-4 border-transparent border-t-[#59445F]" />
           </motion.div>
         )}
       </AnimatePresence>
@@ -126,8 +126,8 @@ function DockIconWrapper({
         aria-label={item.label}
         className={`group relative flex items-center justify-center rounded-2xl transition-colors cursor-pointer ${
           item.isActive
-            ? 'bg-[#2563EB]/25 border border-[#60A5FA]/60 text-[#60A5FA] shadow-[0_0_16px_rgba(96,165,250,0.35)]'
-            : 'bg-[#111827]/70 border border-[#1F2937] text-[#94A3B8] hover:border-[#60A5FA]/40 hover:text-[#E0E7FF] hover:bg-[#1E293B]/80'
+            ? 'bg-[#A77BC2]/25 border border-[#E8B8D2]/60 text-[#E8B8D2] shadow-[0_0_16px_rgba(96,165,250,0.35)]'
+            : 'bg-[#1A1222]/70 border border-[#35263D] text-[#BDA9C4] hover:border-[#E8B8D2]/40 hover:text-[#F5EAF5] hover:bg-[#2A1C33]/80'
         }`}
       >
         <div className="flex h-full w-full items-center justify-center p-2.5">
@@ -147,7 +147,7 @@ function DockIconWrapper({
         {item.isActive && (
           <motion.span
             layoutId="active-dock-dot"
-            className="h-1.5 w-1.5 rounded-full bg-[#60A5FA] shadow-[0_0_6px_#60A5FA]"
+            className="h-1.5 w-1.5 rounded-full bg-[#E8B8D2] shadow-[0_0_6px_#E8B8D2]"
             transition={{ type: 'spring', stiffness: 380, damping: 30 }}
           />
         )}
