@@ -72,7 +72,7 @@ export function Hero({ onNavigate }: HeroProps) {
   };
 
   const rotatingWords = rotatingWordsByLang[language] || rotatingWordsByLang.en;
-  const rotatingColors = ['text-[#60A5FA]', 'text-[#FDE68A]', 'text-[#C084FC]', 'text-[#2DD4BF]'];
+  const rotatingColors = ['text-[#E8B8D2]', 'text-[#E8B8D2]', 'text-[#D8B4E8]', 'text-[#A77BC2]'];
 
   return (
     <div className="relative flex min-h-[90vh] w-full flex-col justify-center px-4 sm:px-8 py-10 sm:py-16">
@@ -81,8 +81,8 @@ export function Hero({ onNavigate }: HeroProps) {
           {/* Hero Typography & Actions */}
           <div className="relative z-10 flex flex-col justify-center">
             {/* 1. Main Heading with TextEffect character-by-character animation */}
-            <h1 className="text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-light tracking-tight text-[#E0E7FF] leading-[1.08]">
-              <span className="block text-[#A5B4FC] font-normal text-3xl sm:text-5xl md:text-6xl mb-1">
+            <h1 className="text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-light tracking-tight text-[#F5EAF5] leading-[1.08]">
+              <span className="block text-[#D8B4E8] font-normal text-3xl sm:text-5xl md:text-6xl mb-1">
                 <TextEffect
                   key={`greet-${language}-${greetingText}`}
                   per="char"
@@ -92,7 +92,7 @@ export function Hero({ onNavigate }: HeroProps) {
                   {greetingText}
                 </TextEffect>
               </span>
-              <span className="block font-bold tracking-tight text-[#E0E7FF]">
+              <span className="block font-bold tracking-tight text-[#F5EAF5]">
                 <TextEffect
                   key={`name-${language}-${nameText}`}
                   per="char"
@@ -105,10 +105,10 @@ export function Hero({ onNavigate }: HeroProps) {
             </h1>
 
             {/* 2. Rotating / Changing Text Loop */}
-            <div className="mt-6 flex flex-wrap items-center gap-2.5 text-lg text-[#CBD5E1] md:text-2xl font-light">
-              <span className="text-[#A5B4FC]/80 font-normal">{imAText}</span>
+            <div className="mt-6 flex flex-wrap items-center gap-2.5 text-lg text-[#DCCFE0] md:text-2xl font-light">
+              <span className="text-[#D8B4E8]/80 font-normal">{imAText}</span>
               <TextLoop
-                className="font-medium text-[#E0E7FF]"
+                className="font-medium text-[#F5EAF5]"
                 interval={2600}
                 variants={{
                   initial: {
@@ -153,19 +153,19 @@ export function Hero({ onNavigate }: HeroProps) {
                     className="h-5 w-5 object-contain"
                     referrerPolicy="no-referrer"
                   />
-                  <span className="text-xs font-semibold text-[#FDE68A] flex items-center gap-1.5">
+                  <span className="text-xs font-semibold text-[#E8B8D2] flex items-center gap-1.5">
                     {hero?.featuredCredentialTitle || 'Google Cloud Certified Professional Cloud Architect'}
                     <span className="text-[10px] font-mono px-1.5 py-0.5 rounded-full bg-[#F9AB00]/20 text-[#F9AB00]">
                       {hero?.featuredCredentialDate || 'Sep 2026'}
                     </span>
                   </span>
-                  <ArrowRight className="h-3 w-3 text-[#FDE68A] group-hover:translate-x-0.5 transition-transform" />
+                  <ArrowRight className="h-3 w-3 text-[#E8B8D2] group-hover:translate-x-0.5 transition-transform" />
                 </button>
               </div>
             )}
 
             {/* 3. Description with TextEffect */}
-            <div className="mt-5 max-w-2xl text-base sm:text-lg leading-relaxed text-[#CBD5E1]">
+            <div className="mt-5 max-w-2xl text-base sm:text-lg leading-relaxed text-[#DCCFE0]">
               <TextEffect
                 key={`bio-${language}-${bioText.slice(0, 20)}`}
                 per="word"
@@ -187,7 +187,7 @@ export function Hero({ onNavigate }: HeroProps) {
                 />
                 <button
                   onClick={() => onNavigate?.('work')}
-                  className="relative inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-[#2563EB] to-[#60A5FA] px-6 py-3.5 text-sm font-semibold text-white shadow-[0_4px_20px_rgba(37,99,235,0.4)] transition-transform hover:scale-[1.02] active:scale-[0.98] cursor-pointer"
+                  className="relative inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-[#A77BC2] to-[#E8B8D2] px-6 py-3.5 text-sm font-semibold text-white shadow-[0_4px_20px_rgba(37,99,235,0.4)] transition-transform hover:scale-[1.02] active:scale-[0.98] cursor-pointer"
                 >
                   <span>{ctaWorkText}</span>
                   <ArrowRight className="h-4 w-4" />
@@ -205,9 +205,9 @@ export function Hero({ onNavigate }: HeroProps) {
                 />
                 <button
                   onClick={() => onNavigate?.('contact')}
-                  className="relative inline-flex items-center gap-2 rounded-xl border border-[#1F2937] bg-[#111827]/90 px-6 py-3.5 text-sm font-semibold text-[#E0E7FF] shadow-xs transition-all hover:border-[#60A5FA] hover:bg-[#1F2937] active:scale-[0.98] cursor-pointer"
+                  className="relative inline-flex items-center gap-2 rounded-xl border border-[#35263D] bg-[#1A1222]/90 px-6 py-3.5 text-sm font-semibold text-[#F5EAF5] shadow-xs transition-all hover:border-[#E8B8D2] hover:bg-[#35263D] active:scale-[0.98] cursor-pointer"
                 >
-                  <Mail className="h-4 w-4 text-[#A5B4FC]" />
+                  <Mail className="h-4 w-4 text-[#D8B4E8]" />
                   <span>{ctaContactText}</span>
                 </button>
               </div>
