@@ -226,23 +226,23 @@ export function ExperienceSection({ onNavigate }: ExperienceSectionProps = {}) {
     <div className="relative min-h-[85vh] w-full px-4 sm:px-8 py-8 sm:py-12">
       <div className="relative z-10 mx-auto max-w-[1400px]">
         {/* Header with TextEffect */}
-        <div className="flex flex-col justify-between gap-4 border-b border-[#1F2937] pb-6 md:flex-row md:items-end">
+        <div className="flex flex-col justify-between gap-4 border-b border-[#35263D] pb-6 md:flex-row md:items-end">
           <div>
-            <div className="text-xs uppercase tracking-[0.2em] text-[#60A5FA] font-semibold">
+            <div className="text-xs uppercase tracking-[0.2em] text-[#E8B8D2] font-semibold">
               <TextEffect key={`tag-${language}`} per="char" delay={0.05}>
                 {t('experience.tag')}
               </TextEffect>
             </div>
-            <h2 className="mt-1 text-3xl font-light tracking-tight text-[#E0E7FF] sm:text-5xl md:text-6xl">
+            <h2 className="mt-1 text-3xl font-light tracking-tight text-[#F5EAF5] sm:text-5xl md:text-6xl">
               <TextEffect key={`title-${language}`} per="word" delay={0.15}>
                 {t('experience.title')}
               </TextEffect>{' '}
-              <span className="instrument italic font-normal text-[#60A5FA]">
+              <span className="instrument italic font-normal text-[#E8B8D2]">
                 {t('experience.titleAccent')}
               </span>
             </h2>
           </div>
-          <div className="max-w-md text-xs sm:text-sm leading-relaxed text-[#CBD5E1]">
+          <div className="max-w-md text-xs sm:text-sm leading-relaxed text-[#DCCFE0]">
             <TextEffect key={`sub-${language}`} per="word" delay={0.25}>
               {t('experience.subtitle')}
             </TextEffect>
@@ -251,8 +251,8 @@ export function ExperienceSection({ onNavigate }: ExperienceSectionProps = {}) {
 
         {/* Quick Navigation / Counter Pill */}
         <div className="mt-6 flex flex-wrap items-center gap-3">
-          <div className="inline-flex items-center gap-1.5 rounded-full border border-[#1F2937] bg-[#111827]/80 px-3.5 py-1.5 text-xs text-[#CBD5E1]">
-            <ScrollText className="h-3.5 w-3.5 text-[#60A5FA]" />
+          <div className="inline-flex items-center gap-1.5 rounded-full border border-[#35263D] bg-[#1A1222]/80 px-3.5 py-1.5 text-xs text-[#DCCFE0]">
+            <ScrollText className="h-3.5 w-3.5 text-[#E8B8D2]" />
             <span>Work History ({experiences.length})</span>
           </div>
         </div>
@@ -271,43 +271,43 @@ export function ExperienceSection({ onNavigate }: ExperienceSectionProps = {}) {
             return (
               <div
                 key={exp.id}
-                className="group relative rounded-2xl border border-[#1F2937] bg-[#111827]/90 p-6 sm:p-7 shadow-xs transition-all hover:border-[#60A5FA] hover:shadow-md"
+                className="group relative rounded-2xl border border-[#35263D] bg-[#1A1222]/90 p-6 sm:p-7 shadow-xs transition-all hover:border-[#E8B8D2] hover:shadow-md"
               >
-                <div className="flex flex-col justify-between gap-3 sm:flex-row sm:items-center border-b border-[#1F2937] pb-4">
+                <div className="flex flex-col justify-between gap-3 sm:flex-row sm:items-center border-b border-[#35263D] pb-4">
                   <div>
-                    <span className="text-xs font-mono uppercase tracking-wider text-[#60A5FA] font-semibold">
+                    <span className="text-xs font-mono uppercase tracking-wider text-[#E8B8D2] font-semibold">
                       {company}
                     </span>
-                    <h3 className="text-xl sm:text-2xl font-bold text-[#E0E7FF] mt-0.5">
+                    <h3 className="text-xl sm:text-2xl font-bold text-[#F5EAF5] mt-0.5">
                       {role}
                     </h3>
                   </div>
 
-                  <div className="flex flex-wrap items-center gap-2 text-xs text-[#CBD5E1]">
-                    <span className="flex items-center gap-1 font-mono rounded-full bg-[#0B132B] px-3 py-1 border border-[#1F2937] text-[#A5B4FC]">
-                      <Calendar className="h-3 w-3 text-[#60A5FA]" />
+                  <div className="flex flex-wrap items-center gap-2 text-xs text-[#DCCFE0]">
+                    <span className="flex items-center gap-1 font-mono rounded-full bg-[#100B18] px-3 py-1 border border-[#35263D] text-[#D8B4E8]">
+                      <Calendar className="h-3 w-3 text-[#E8B8D2]" />
                       {period}
                     </span>
-                    <span className="flex items-center gap-1 rounded-full bg-[#0B132B] px-3 py-1 border border-[#1F2937] text-[#CBD5E1]">
-                      <MapPin className="h-3 w-3 text-[#A5B4FC]/80" />
+                    <span className="flex items-center gap-1 rounded-full bg-[#100B18] px-3 py-1 border border-[#35263D] text-[#DCCFE0]">
+                      <MapPin className="h-3 w-3 text-[#D8B4E8]/80" />
                       {location}
                     </span>
                   </div>
                 </div>
 
-                <p className="mt-4 text-xs sm:text-sm leading-relaxed text-[#CBD5E1]">
+                <p className="mt-4 text-xs sm:text-sm leading-relaxed text-[#DCCFE0]">
                   {description}
                 </p>
 
                 {responsibilities && responsibilities.length > 0 && (
                   <div className="mt-4 space-y-2">
-                    <span className="text-[11px] font-semibold uppercase tracking-wider text-[#A5B4FC]/70">
+                    <span className="text-[11px] font-semibold uppercase tracking-wider text-[#D8B4E8]/70">
                       {t('experience.highlights')}
                     </span>
-                    <ul className="space-y-1.5 text-xs text-[#CBD5E1]">
+                    <ul className="space-y-1.5 text-xs text-[#DCCFE0]">
                       {responsibilities.map((resp, i) => (
                         <li key={i} className="flex items-start gap-2.5">
-                          <CheckCircle2 className="mt-0.5 h-3.5 w-3.5 shrink-0 text-[#60A5FA]" />
+                          <CheckCircle2 className="mt-0.5 h-3.5 w-3.5 shrink-0 text-[#E8B8D2]" />
                           <span>{resp}</span>
                         </li>
                       ))}
@@ -316,11 +316,11 @@ export function ExperienceSection({ onNavigate }: ExperienceSectionProps = {}) {
                 )}
 
                 {exp.technologies && exp.technologies.length > 0 && (
-                  <div className="mt-5 flex flex-wrap gap-1.5 border-t border-[#1F2937] pt-4">
+                  <div className="mt-5 flex flex-wrap gap-1.5 border-t border-[#35263D] pt-4">
                     {exp.technologies.map((tech) => (
                       <span
                         key={tech}
-                        className="rounded-md border border-[#1F2937] bg-[#1F2937]/70 px-2.5 py-0.5 font-mono text-[11px] text-[#E0E7FF]"
+                        className="rounded-md border border-[#35263D] bg-[#35263D]/70 px-2.5 py-0.5 font-mono text-[11px] text-[#F5EAF5]"
                       >
                         {tech}
                       </span>
@@ -330,7 +330,7 @@ export function ExperienceSection({ onNavigate }: ExperienceSectionProps = {}) {
 
                 {/* Special Belvo Letter of Recommendation (LOR) Showcase Box */}
                 {((exp.id === 'belvo' && exp.lor?.hasLor !== false) || (exp.lor && exp.lor.hasLor)) && (
-                  <div className="mt-6 rounded-2xl border border-purple-500/40 bg-gradient-to-br from-purple-950/40 via-[#111827] to-indigo-950/30 p-5 shadow-lg backdrop-blur-md relative overflow-hidden group/lor">
+                  <div className="mt-6 rounded-2xl border border-purple-500/40 bg-gradient-to-br from-purple-950/40 via-[#1A1222] to-indigo-950/30 p-5 shadow-lg backdrop-blur-md relative overflow-hidden group/lor">
                     <div className="absolute top-0 right-0 w-64 h-64 bg-radial from-purple-500/10 to-transparent pointer-events-none" />
 
                     <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 relative z-10">
@@ -348,7 +348,7 @@ export function ExperienceSection({ onNavigate }: ExperienceSectionProps = {}) {
                               Issued by {exp.lor?.role || 'CEO'}
                             </span>
                           </div>
-                          <p className="text-xs text-[#CBD5E1] mt-1 leading-snug">
+                          <p className="text-xs text-[#DCCFE0] mt-1 leading-snug">
                             Issued by <strong className="text-white">{exp.lor?.issuedBy || 'Hrishikesh Mishra'}</strong>, {exp.lor?.role || 'CEO, Belvo'} · {exp.lor?.location || 'Goregaon, Mumbai'} · Dated {exp.lor?.date || '22-09-2026'}
                           </p>
                         </div>
@@ -366,7 +366,7 @@ export function ExperienceSection({ onNavigate }: ExperienceSectionProps = {}) {
                       </div>
                     </div>
 
-                    <div className="mt-4 pt-3.5 border-t border-purple-500/20 text-xs text-[#CBD5E1] leading-relaxed italic bg-purple-950/20 rounded-xl p-3 border border-purple-500/10">
+                    <div className="mt-4 pt-3.5 border-t border-purple-500/20 text-xs text-[#DCCFE0] leading-relaxed italic bg-purple-950/20 rounded-xl p-3 border border-purple-500/10">
                       &ldquo;It is my pleasure to recommend you for successfully completing a 3-month internship as a Web Developer at Belvo. During the internship, Poosala Lokesh demonstrated a strong willingness to learn and actively participated in web development activities... Poosala Lokesh contributed to assigned projects and responsibilities while working with the development team. They showed dedication, adaptability, and a professional attitude while completing assigned tasks and meeting project requirements.&rdquo;
                     </div>
                   </div>
