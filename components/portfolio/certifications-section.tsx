@@ -100,15 +100,15 @@ export function CertificationsSection({ onNavigate }: CertificationsSectionProps
     <div className="relative min-h-[85vh] w-full px-4 sm:px-8 py-8 sm:py-12">
       <div className="relative z-10 mx-auto max-w-[1400px]">
         {/* Section Header */}
-        <div className="flex flex-col justify-between gap-4 border-b border-[#1F2937] pb-6 md:flex-row md:items-end">
+        <div className="flex flex-col justify-between gap-4 border-b border-[#35263D] pb-6 md:flex-row md:items-end">
           <div>
-            <div className="text-xs uppercase tracking-[0.2em] text-[#60A5FA] font-semibold flex items-center gap-2">
+            <div className="text-xs uppercase tracking-[0.2em] text-[#E8B8D2] font-semibold flex items-center gap-2">
               <Award className="h-4 w-4 text-[#F9AB00]" />
               <TextEffect key={`tag-${language}`} per="char" delay={0.05}>
                 {t('certifications.tag') || 'PROFESSIONAL CREDENTIALS'}
               </TextEffect>
             </div>
-            <h2 className="mt-1 text-3xl font-light tracking-tight text-[#E0E7FF] sm:text-5xl md:text-6xl">
+            <h2 className="mt-1 text-3xl font-light tracking-tight text-[#F5EAF5] sm:text-5xl md:text-6xl">
               <TextEffect key={`title-${language}`} per="word" delay={0.15}>
                 {t('certifications.title') || 'Certifications &'}
               </TextEffect>{' '}
@@ -117,7 +117,7 @@ export function CertificationsSection({ onNavigate }: CertificationsSectionProps
               </span>
             </h2>
           </div>
-          <div className="max-w-md text-xs sm:text-sm leading-relaxed text-[#CBD5E1]">
+          <div className="max-w-md text-xs sm:text-sm leading-relaxed text-[#DCCFE0]">
             <TextEffect key={`sub-${language}`} per="word" delay={0.25}>
               {t('certifications.subtitle') ||
                 'Official enterprise certifications and skill badges validating cloud solution architecture, generative AI, cybersecurity, Kubernetes, and smart data analytics on Google Cloud.'}
@@ -127,13 +127,13 @@ export function CertificationsSection({ onNavigate }: CertificationsSectionProps
 
         {/* Global Credentials Quick Stats Banner */}
         <div className="mt-6 grid grid-cols-2 sm:grid-cols-5 gap-3">
-          <div className="rounded-2xl border border-[#1F2937] bg-[#111827]/70 p-4 flex items-center gap-3 shadow-xs">
+          <div className="rounded-2xl border border-[#35263D] bg-[#1A1222]/70 p-4 flex items-center gap-3 shadow-xs">
             <div className="h-10 w-10 rounded-xl bg-[#F9AB00]/15 border border-[#F9AB00]/30 flex items-center justify-center shrink-0">
               <Award className="h-5 w-5 text-[#F9AB00]" />
             </div>
             <div>
-              <div className="text-xl sm:text-2xl font-bold text-[#E0E7FF]">1</div>
-              <div className="text-[11px] text-[#94A3B8] font-mono">
+              <div className="text-xl sm:text-2xl font-bold text-[#F5EAF5]">1</div>
+              <div className="text-[11px] text-[#BDA9C4] font-mono">
                 {t('certifications.stat.cert') || 'Professional Cert'}
               </div>
             </div>
@@ -151,39 +151,39 @@ export function CertificationsSection({ onNavigate }: CertificationsSectionProps
             </div>
           </div>
 
-          <div className="rounded-2xl border border-[#1F2937] bg-[#111827]/70 p-4 flex items-center gap-3 shadow-xs">
+          <div className="rounded-2xl border border-[#35263D] bg-[#1A1222]/70 p-4 flex items-center gap-3 shadow-xs">
             <div className="h-10 w-10 rounded-xl bg-[#4285F4]/15 border border-[#4285F4]/30 flex items-center justify-center shrink-0">
-              <Boxes className="h-5 w-5 text-[#60A5FA]" />
+              <Boxes className="h-5 w-5 text-[#E8B8D2]" />
             </div>
             <div>
-              <div className="text-xl sm:text-2xl font-bold text-[#E0E7FF]">{skillBadges.length}</div>
-              <div className="text-[11px] text-[#94A3B8] font-mono">
+              <div className="text-xl sm:text-2xl font-bold text-[#F5EAF5]">{skillBadges.length}</div>
+              <div className="text-[11px] text-[#BDA9C4] font-mono">
                 {t('certifications.stat.badges') || 'Official Badges'}
               </div>
             </div>
           </div>
 
-          <div className="rounded-2xl border border-[#1F2937] bg-[#111827]/70 p-4 flex items-center gap-3 shadow-xs">
-            <div className="h-10 w-10 rounded-xl bg-[#C084FC]/15 border border-[#C084FC]/30 flex items-center justify-center shrink-0">
-              <Cpu className="h-5 w-5 text-[#C084FC]" />
+          <div className="rounded-2xl border border-[#35263D] bg-[#1A1222]/70 p-4 flex items-center gap-3 shadow-xs">
+            <div className="h-10 w-10 rounded-xl bg-[#D8B4E8]/15 border border-[#D8B4E8]/30 flex items-center justify-center shrink-0">
+              <Cpu className="h-5 w-5 text-[#D8B4E8]" />
             </div>
             <div>
-              <div className="text-xl sm:text-2xl font-bold text-[#E0E7FF]">
+              <div className="text-xl sm:text-2xl font-bold text-[#F5EAF5]">
                 {skillBadges.filter((b) => b.category === 'Machine Learning & AI').length}
               </div>
-              <div className="text-[11px] text-[#94A3B8] font-mono">
+              <div className="text-[11px] text-[#BDA9C4] font-mono">
                 {t('certifications.stat.focus') || 'Cloud & AI'}
               </div>
             </div>
           </div>
 
-          <div className="rounded-2xl border border-[#1F2937] bg-[#111827]/70 p-4 flex items-center gap-3 shadow-xs col-span-2 sm:col-span-1">
+          <div className="rounded-2xl border border-[#35263D] bg-[#1A1222]/70 p-4 flex items-center gap-3 shadow-xs col-span-2 sm:col-span-1">
             <div className="h-10 w-10 rounded-xl bg-emerald-500/15 border border-emerald-500/30 flex items-center justify-center shrink-0">
               <ShieldCheck className="h-5 w-5 text-emerald-400" />
             </div>
             <div>
               <div className="text-xl sm:text-2xl font-bold text-emerald-400">100%</div>
-              <div className="text-[11px] text-[#94A3B8] font-mono">
+              <div className="text-[11px] text-[#BDA9C4] font-mono">
                 {t('certifications.stat.issuedBy') || 'Google & CEO Verified'}
               </div>
             </div>
@@ -191,14 +191,14 @@ export function CertificationsSection({ onNavigate }: CertificationsSectionProps
         </div>
 
         {/* Featured Showcase Card for Google Cloud Certified Professional Cloud Architect */}
-        <div className="mt-8 rounded-3xl border border-[#1F2937] bg-[#111827]/90 p-6 sm:p-9 shadow-2xl backdrop-blur-xl relative overflow-hidden group hover:border-[#60A5FA]/60 transition-all">
+        <div className="mt-8 rounded-3xl border border-[#35263D] bg-[#1A1222]/90 p-6 sm:p-9 shadow-2xl backdrop-blur-xl relative overflow-hidden group hover:border-[#E8B8D2]/60 transition-all">
           {/* Subtle Ambient Backdrop Gradients */}
           <div className="absolute top-0 right-0 w-96 h-96 bg-[radial-gradient(ellipse_at_top_right,rgba(66,133,244,0.15),transparent_70%)] pointer-events-none" />
           <div className="absolute bottom-0 left-0 w-80 h-80 bg-[radial-gradient(ellipse_at_bottom_left,rgba(249,171,0,0.1),transparent_70%)] pointer-events-none" />
 
           <div className="relative z-10 grid gap-8 lg:grid-cols-[320px_1fr] items-start">
             {/* Left Column: Official Badge & Credential Verification Actions */}
-            <div className="flex flex-col items-center text-center p-5 rounded-2xl border border-[#1F2937] bg-[#0B132B]/80 shadow-inner">
+            <div className="flex flex-col items-center text-center p-5 rounded-2xl border border-[#35263D] bg-[#100B18]/80 shadow-inner">
               {/* Badge Visual */}
               <div
                 onClick={() => setIsCertModalOpen(true)}
@@ -206,7 +206,7 @@ export function CertificationsSection({ onNavigate }: CertificationsSectionProps
                 title="Click to view full official certificate"
               >
                 <GcpBadge size={190} className="mx-auto" />
-                <span className="absolute bottom-1 right-1 rounded-full bg-[#111827] border border-[#1F2937] p-1.5 text-[#60A5FA] opacity-0 group-hover/badge:opacity-100 transition-opacity shadow-md">
+                <span className="absolute bottom-1 right-1 rounded-full bg-[#1A1222] border border-[#35263D] p-1.5 text-[#E8B8D2] opacity-0 group-hover/badge:opacity-100 transition-opacity shadow-md">
                   <FileText className="h-3.5 w-3.5" />
                 </span>
               </div>
@@ -218,24 +218,24 @@ export function CertificationsSection({ onNavigate }: CertificationsSectionProps
               </div>
 
               {/* Series ID & Dates */}
-              <div className="mt-4 w-full space-y-2 border-t border-[#1F2937] pt-3 text-left text-xs font-mono text-[#A5B4FC]/80">
+              <div className="mt-4 w-full space-y-2 border-t border-[#35263D] pt-3 text-left text-xs font-mono text-[#D8B4E8]/80">
                 <div className="flex justify-between">
-                  <span className="text-[#64748B]">Series ID:</span>
-                  <span className="text-[#E0E7FF] font-semibold">{cert.seriesId}</span>
+                  <span className="text-[#A78BAF]">Series ID:</span>
+                  <span className="text-[#F5EAF5] font-semibold">{cert.seriesId}</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-[#64748B]">Issued:</span>
-                  <span className="text-[#E0E7FF]">{cert.issueDate}</span>
+                  <span className="text-[#A78BAF]">Issued:</span>
+                  <span className="text-[#F5EAF5]">{cert.issueDate}</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-[#64748B]">Expires:</span>
-                  <span className="text-[#E0E7FF]">{cert.expirationDate}</span>
+                  <span className="text-[#A78BAF]">Expires:</span>
+                  <span className="text-[#F5EAF5]">{cert.expirationDate}</span>
                 </div>
                 <div className="flex justify-between items-center pt-1">
-                  <span className="text-[#64748B]">Verification ID:</span>
+                  <span className="text-[#A78BAF]">Verification ID:</span>
                   <button
                     onClick={() => handleCopy(cert.credentialId || '')}
-                    className="flex items-center gap-1 text-[11px] text-[#60A5FA] hover:text-[#93C5FD] transition-colors cursor-pointer"
+                    className="flex items-center gap-1 text-[11px] text-[#E8B8D2] hover:text-[#E8B8D2] transition-colors cursor-pointer"
                     title="Click to copy full ID"
                   >
                     {copiedId === cert.credentialId ? (
@@ -257,7 +257,7 @@ export function CertificationsSection({ onNavigate }: CertificationsSectionProps
               <div className="mt-5 w-full space-y-2">
                 <button
                   onClick={() => setIsCertModalOpen(true)}
-                  className="flex w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-[#2563EB] to-[#60A5FA] px-4 py-2.5 text-xs font-semibold text-white shadow-md hover:scale-[1.02] active:scale-[0.98] transition-all cursor-pointer"
+                  className="flex w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-[#A77BC2] to-[#E8B8D2] px-4 py-2.5 text-xs font-semibold text-white shadow-md hover:scale-[1.02] active:scale-[0.98] transition-all cursor-pointer"
                 >
                   <FileText className="h-3.5 w-3.5" />
                   <span>View Full Certificate (PDF)</span>
@@ -267,10 +267,10 @@ export function CertificationsSection({ onNavigate }: CertificationsSectionProps
                   href={cert.verificationUrl}
                   target="_blank"
                   rel="noreferrer"
-                  className="flex w-full items-center justify-center gap-2 rounded-xl border border-[#1F2937] bg-[#111827] px-4 py-2 text-xs font-medium text-[#CBD5E1] hover:border-[#60A5FA] hover:text-[#60A5FA] transition-colors cursor-pointer"
+                  className="flex w-full items-center justify-center gap-2 rounded-xl border border-[#35263D] bg-[#1A1222] px-4 py-2 text-xs font-medium text-[#DCCFE0] hover:border-[#E8B8D2] hover:text-[#E8B8D2] transition-colors cursor-pointer"
                 >
                   <span>Verify on Google Directory</span>
-                  <ArrowUpRight className="h-3.5 w-3.5 text-[#64748B]" />
+                  <ArrowUpRight className="h-3.5 w-3.5 text-[#A78BAF]" />
                 </a>
               </div>
             </div>
@@ -283,28 +283,28 @@ export function CertificationsSection({ onNavigate }: CertificationsSectionProps
                   <span className="font-mono text-xs uppercase tracking-wider text-[#F9AB00] font-semibold bg-[#F9AB00]/10 border border-[#F9AB00]/30 px-2.5 py-0.5 rounded-full">
                     {cert.issuer}
                   </span>
-                  <span className="text-xs text-[#64748B]">·</span>
-                  <span className="text-xs text-[#CBD5E1] font-mono">
-                    Candidate: <strong className="text-[#E0E7FF]">{cert.recipient}</strong> ({cert.certifiedAs})
+                  <span className="text-xs text-[#A78BAF]">·</span>
+                  <span className="text-xs text-[#DCCFE0] font-mono">
+                    Candidate: <strong className="text-[#F5EAF5]">{cert.recipient}</strong> ({cert.certifiedAs})
                   </span>
                 </div>
 
-                <h3 className="text-2xl sm:text-3xl font-bold tracking-tight text-[#E0E7FF]">
+                <h3 className="text-2xl sm:text-3xl font-bold tracking-tight text-[#F5EAF5]">
                   {cert.title}
                 </h3>
-                <p className="mt-1 text-sm text-[#A5B4FC]/90">
+                <p className="mt-1 text-sm text-[#D8B4E8]/90">
                   {cert.subtitle}
                 </p>
               </div>
 
               {/* Description */}
-              <p className="text-xs sm:text-sm leading-relaxed text-[#CBD5E1]">
+              <p className="text-xs sm:text-sm leading-relaxed text-[#DCCFE0]">
                 {cert.description}
               </p>
 
               {/* 4 Core Architectural Competency Domains */}
               <div className="space-y-2.5">
-                <h4 className="text-xs uppercase tracking-wider text-[#60A5FA] font-mono font-semibold flex items-center gap-1.5">
+                <h4 className="text-xs uppercase tracking-wider text-[#E8B8D2] font-mono font-semibold flex items-center gap-1.5">
                   <ShieldCheck className="h-3.5 w-3.5" />
                   Verified Architectural Competency Domains
                 </h4>
@@ -316,13 +316,13 @@ export function CertificationsSection({ onNavigate }: CertificationsSectionProps
                     return (
                       <div
                         key={dom.title}
-                        className="rounded-xl border border-[#1F2937] bg-[#0B132B]/60 p-3.5 hover:border-[#60A5FA]/40 transition-colors"
+                        className="rounded-xl border border-[#35263D] bg-[#100B18]/60 p-3.5 hover:border-[#E8B8D2]/40 transition-colors"
                       >
-                        <div className="flex items-center gap-2 text-xs font-bold text-[#E0E7FF] mb-1">
-                          <IconComp className="h-3.5 w-3.5 text-[#60A5FA]" />
+                        <div className="flex items-center gap-2 text-xs font-bold text-[#F5EAF5] mb-1">
+                          <IconComp className="h-3.5 w-3.5 text-[#E8B8D2]" />
                           <span>{dom.title}</span>
                         </div>
-                        <p className="text-[11px] leading-relaxed text-[#CBD5E1]">
+                        <p className="text-[11px] leading-relaxed text-[#DCCFE0]">
                           {dom.description}
                         </p>
                       </div>
@@ -332,15 +332,15 @@ export function CertificationsSection({ onNavigate }: CertificationsSectionProps
               </div>
 
               {/* Technologies Tag Group */}
-              <div className="border-t border-[#1F2937] pt-4">
-                <span className="text-[11px] font-mono uppercase tracking-wider text-[#64748B] block mb-2.5">
+              <div className="border-t border-[#35263D] pt-4">
+                <span className="text-[11px] font-mono uppercase tracking-wider text-[#A78BAF] block mb-2.5">
                   Core GCP Infrastructure & Services Covered
                 </span>
                 <div className="flex flex-wrap gap-1.5">
                   {(cert.technologies || []).map((tech) => (
                     <span
                       key={tech}
-                      className="rounded-md border border-[#1F2937] bg-[#111827] px-2.5 py-1 font-mono text-[11px] text-[#E0E7FF] hover:border-[#60A5FA] hover:text-[#60A5FA] transition-colors"
+                      className="rounded-md border border-[#35263D] bg-[#1A1222] px-2.5 py-1 font-mono text-[11px] text-[#F5EAF5] hover:border-[#E8B8D2] hover:text-[#E8B8D2] transition-colors"
                     >
                       {tech}
                     </span>
@@ -352,13 +352,13 @@ export function CertificationsSection({ onNavigate }: CertificationsSectionProps
         </div>
 
         {/* Featured Showcase Card for Belvo Company Official Letter of Recommendation (LOR) */}
-        <div className="mt-8 rounded-3xl border border-purple-500/40 bg-gradient-to-br from-purple-950/40 via-[#111827] to-[#0B132B] p-6 sm:p-9 shadow-2xl backdrop-blur-xl relative overflow-hidden group hover:border-purple-400/60 transition-all">
+        <div className="mt-8 rounded-3xl border border-purple-500/40 bg-gradient-to-br from-purple-950/40 via-[#1A1222] to-[#100B18] p-6 sm:p-9 shadow-2xl backdrop-blur-xl relative overflow-hidden group hover:border-purple-400/60 transition-all">
           <div className="absolute top-0 right-0 w-96 h-96 bg-[radial-gradient(ellipse_at_top_right,rgba(168,85,247,0.18),transparent_70%)] pointer-events-none" />
           <div className="absolute bottom-0 left-0 w-80 h-80 bg-[radial-gradient(ellipse_at_bottom_left,rgba(99,102,241,0.12),transparent_70%)] pointer-events-none" />
 
           <div className="relative z-10 grid gap-8 lg:grid-cols-[300px_1fr] items-start">
             {/* Left Column: Belvo Badge & Quick Verification */}
-            <div className="flex flex-col items-center text-center p-5 rounded-2xl border border-purple-500/30 bg-[#0B132B]/80 shadow-inner">
+            <div className="flex flex-col items-center text-center p-5 rounded-2xl border border-purple-500/30 bg-[#100B18]/80 shadow-inner">
               <div
                 onClick={() => setIsLorModalOpen(true)}
                 className="cursor-pointer group/badge relative p-4 rounded-2xl bg-white/5 border border-purple-500/20 hover:border-purple-400 transition-all w-full flex flex-col items-center"
@@ -371,7 +371,7 @@ export function CertificationsSection({ onNavigate }: CertificationsSectionProps
                 <span className="font-extrabold text-sm tracking-wider text-purple-300">
                   BELVO COMPANY
                 </span>
-                <span className="text-[10px] text-[#A5B4FC]/70 uppercase tracking-widest font-mono">
+                <span className="text-[10px] text-[#D8B4E8]/70 uppercase tracking-widest font-mono">
                   Goregaon, Mumbai
                 </span>
               </div>
@@ -381,22 +381,22 @@ export function CertificationsSection({ onNavigate }: CertificationsSectionProps
                 <span>Verified Executive Endorsement</span>
               </div>
 
-              <div className="mt-4 w-full space-y-2 border-t border-[#1F2937] pt-3 text-left text-xs font-mono text-[#A5B4FC]/80">
+              <div className="mt-4 w-full space-y-2 border-t border-[#35263D] pt-3 text-left text-xs font-mono text-[#D8B4E8]/80">
                 <div className="flex justify-between">
-                  <span className="text-[#64748B]">Issued By:</span>
-                  <span className="text-[#E0E7FF] font-semibold">Hrishikesh Mishra</span>
+                  <span className="text-[#A78BAF]">Issued By:</span>
+                  <span className="text-[#F5EAF5] font-semibold">Hrishikesh Mishra</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-[#64748B]">Title:</span>
+                  <span className="text-[#A78BAF]">Title:</span>
                   <span className="text-purple-300 font-medium">CEO, Belvo</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-[#64748B]">Date:</span>
-                  <span className="text-[#E0E7FF]">22-09-2026</span>
+                  <span className="text-[#A78BAF]">Date:</span>
+                  <span className="text-[#F5EAF5]">22-09-2026</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-[#64748B]">Tenure:</span>
-                  <span className="text-[#E0E7FF]">3-Month Internship</span>
+                  <span className="text-[#A78BAF]">Tenure:</span>
+                  <span className="text-[#F5EAF5]">3-Month Internship</span>
                 </div>
               </div>
 
@@ -418,21 +418,21 @@ export function CertificationsSection({ onNavigate }: CertificationsSectionProps
                   <span className="font-mono text-xs uppercase tracking-wider text-purple-400 font-semibold bg-purple-500/10 border border-purple-500/30 px-2.5 py-0.5 rounded-full">
                     Letter of Recommendation (LOR)
                   </span>
-                  <span className="text-xs text-[#64748B]">·</span>
-                  <span className="text-xs text-[#CBD5E1] font-mono">
+                  <span className="text-xs text-[#A78BAF]">·</span>
+                  <span className="text-xs text-[#DCCFE0] font-mono">
                     Candidate: <strong className="text-white">Poosala Lokesh</strong> (Web Developer Intern)
                   </span>
                 </div>
 
-                <h3 className="text-2xl sm:text-3xl font-bold tracking-tight text-[#E0E7FF]">
+                <h3 className="text-2xl sm:text-3xl font-bold tracking-tight text-[#F5EAF5]">
                   Belvo Company — Web Development Internship Recommendation
                 </h3>
-                <p className="mt-1 text-sm text-[#A5B4FC]/90">
+                <p className="mt-1 text-sm text-[#D8B4E8]/90">
                   Formally commended by Belvo CEO Hrishikesh Mishra for exemplary engineering, adaptability, and proactive contribution.
                 </p>
               </div>
 
-              <blockquote className="rounded-xl border border-purple-500/20 bg-purple-950/20 p-4 text-xs sm:text-sm text-[#CBD5E1] italic leading-relaxed">
+              <blockquote className="rounded-xl border border-purple-500/20 bg-purple-950/20 p-4 text-xs sm:text-sm text-[#DCCFE0] italic leading-relaxed">
                 &ldquo;During the internship, Poosala Lokesh demonstrated a strong willingness to learn and actively participated in web development activities... They showed dedication, adaptability, and a professional attitude while completing assigned tasks and meeting project requirements. Their ability to learn new concepts and apply technical knowledge in practical situations was appreciable.&rdquo;
               </blockquote>
 
@@ -442,7 +442,7 @@ export function CertificationsSection({ onNavigate }: CertificationsSectionProps
                   Core Professional Competencies Verified in LOR
                 </h4>
 
-                <div className="grid gap-2.5 sm:grid-cols-2 text-xs text-[#CBD5E1]">
+                <div className="grid gap-2.5 sm:grid-cols-2 text-xs text-[#DCCFE0]">
                   {[
                     'Web development and website implementation',
                     'Front-end development and responsive design',
@@ -453,7 +453,7 @@ export function CertificationsSection({ onNavigate }: CertificationsSectionProps
                   ].map((skill, idx) => (
                     <div
                       key={idx}
-                      className="flex items-center gap-2 rounded-lg border border-[#1F2937] bg-[#0B132B]/60 px-3 py-2"
+                      className="flex items-center gap-2 rounded-lg border border-[#35263D] bg-[#100B18]/60 px-3 py-2"
                     >
                       <Check className="h-3.5 w-3.5 text-purple-400 shrink-0" />
                       <span>{skill}</span>
@@ -466,25 +466,25 @@ export function CertificationsSection({ onNavigate }: CertificationsSectionProps
         </div>
 
         {/* Google Cloud Skill Badges Section Header */}
-        <div className="mt-16 pt-8 border-t border-[#1F2937]">
+        <div className="mt-16 pt-8 border-t border-[#35263D]">
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-6">
             <div>
-              <div className="text-xs uppercase tracking-[0.2em] text-[#60A5FA] font-semibold flex items-center gap-2">
+              <div className="text-xs uppercase tracking-[0.2em] text-[#E8B8D2] font-semibold flex items-center gap-2">
                 <Boxes className="h-4 w-4 text-[#4285F4]" />
                 <span>OFFICIAL GOOGLE CLOUD SKILL BADGES</span>
               </div>
-              <h3 className="mt-1 text-2xl sm:text-4xl font-light text-[#E0E7FF] tracking-tight">
+              <h3 className="mt-1 text-2xl sm:text-4xl font-light text-[#F5EAF5] tracking-tight">
                 Skill Badges &{' '}
-                <span className="instrument italic font-normal text-[#60A5FA]">
+                <span className="instrument italic font-normal text-[#E8B8D2]">
                   Hands-On Accreditations.
                 </span>
               </h3>
-              <p className="mt-1.5 text-xs sm:text-sm text-[#94A3B8] max-w-2xl">
+              <p className="mt-1.5 text-xs sm:text-sm text-[#BDA9C4] max-w-2xl">
                 Google Cloud Skill Badges demonstrate tested hands-on ability to complete interactive labs and production tasks on Google Cloud console. Click any badge to view the certificate card.
               </p>
             </div>
 
-            <div className="text-xs font-mono text-[#A5B4FC]/80 px-3.5 py-1.5 rounded-xl bg-[#111827] border border-[#1F2937] self-start md:self-auto shrink-0">
+            <div className="text-xs font-mono text-[#D8B4E8]/80 px-3.5 py-1.5 rounded-xl bg-[#1A1222] border border-[#35263D] self-start md:self-auto shrink-0">
               Showing <strong className="text-white">{filteredBadges.length}</strong> of {skillBadges.length} Badges
             </div>
           </div>
@@ -493,18 +493,18 @@ export function CertificationsSection({ onNavigate }: CertificationsSectionProps
           <div className="space-y-4 mb-8">
             {/* Search Input */}
             <div className="relative max-w-md">
-              <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-[#64748B]" />
+              <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-[#A78BAF]" />
               <input
                 type="text"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder="Search badges (e.g. Gemini, BigQuery, Kubernetes, Security)..."
-                className="w-full rounded-xl border border-[#1F2937] bg-[#111827]/80 pl-10 pr-4 py-2 text-xs sm:text-sm text-[#E0E7FF] placeholder-[#64748B] focus:outline-hidden focus:border-[#60A5FA] transition-colors"
+                className="w-full rounded-xl border border-[#35263D] bg-[#1A1222]/80 pl-10 pr-4 py-2 text-xs sm:text-sm text-[#F5EAF5] placeholder-[#A78BAF] focus:outline-hidden focus:border-[#E8B8D2] transition-colors"
               />
               {searchQuery && (
                 <button
                   onClick={() => setSearchQuery('')}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-[#64748B] hover:text-white"
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-[#A78BAF] hover:text-white"
                 >
                   Clear
                 </button>
@@ -513,7 +513,7 @@ export function CertificationsSection({ onNavigate }: CertificationsSectionProps
 
             {/* Category Filter Pills */}
             <div className="flex flex-wrap items-center gap-2">
-              <span className="text-[11px] font-mono text-[#64748B] uppercase tracking-wider mr-1 hidden sm:inline">
+              <span className="text-[11px] font-mono text-[#A78BAF] uppercase tracking-wider mr-1 hidden sm:inline">
                 Domain:
               </span>
               {CATEGORIES.map((cat) => {
@@ -525,14 +525,14 @@ export function CertificationsSection({ onNavigate }: CertificationsSectionProps
                     onClick={() => setSelectedCategory(cat)}
                     className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium transition-all cursor-pointer ${
                       isSelected
-                        ? 'bg-[#2563EB] text-white shadow-md'
-                        : 'bg-[#111827] text-[#CBD5E1] border border-[#1F2937] hover:border-[#60A5FA]/40 hover:text-white'
+                        ? 'bg-[#A77BC2] text-white shadow-md'
+                        : 'bg-[#1A1222] text-[#DCCFE0] border border-[#35263D] hover:border-[#E8B8D2]/40 hover:text-white'
                     }`}
                   >
                     <span>{cat}</span>
                     <span
                       className={`text-[10px] font-mono px-1.5 py-0.2 rounded-full ${
-                        isSelected ? 'bg-white/20 text-white' : 'bg-[#1F2937] text-[#94A3B8]'
+                        isSelected ? 'bg-white/20 text-white' : 'bg-[#35263D] text-[#BDA9C4]'
                       }`}
                     >
                       {count}
@@ -544,7 +544,7 @@ export function CertificationsSection({ onNavigate }: CertificationsSectionProps
 
             {/* Level Filter Pills */}
             <div className="flex items-center gap-2 text-xs">
-              <span className="text-[11px] font-mono text-[#64748B] uppercase tracking-wider mr-1">
+              <span className="text-[11px] font-mono text-[#A78BAF] uppercase tracking-wider mr-1">
                 Level:
               </span>
               {(['All', 'Introductory', 'Intermediate', 'Advanced'] as const).map((lvl) => (
@@ -553,8 +553,8 @@ export function CertificationsSection({ onNavigate }: CertificationsSectionProps
                   onClick={() => setSelectedLevel(lvl)}
                   className={`px-2.5 py-1 rounded-lg font-mono text-[11px] transition-colors cursor-pointer ${
                     selectedLevel === lvl
-                      ? 'bg-[#1E293B] text-[#60A5FA] border border-[#60A5FA]/40 font-semibold'
-                      : 'text-[#94A3B8] hover:text-white'
+                      ? 'bg-[#2A1C33] text-[#E8B8D2] border border-[#E8B8D2]/40 font-semibold'
+                      : 'text-[#BDA9C4] hover:text-white'
                   }`}
                 >
                   {lvl}
@@ -575,17 +575,17 @@ export function CertificationsSection({ onNavigate }: CertificationsSectionProps
               ))}
             </div>
           ) : (
-            <div className="p-12 text-center rounded-2xl border border-dashed border-[#1F2937] bg-[#111827]/40 text-[#94A3B8]">
-              <Search className="h-8 w-8 mx-auto text-[#64748B] mb-2" />
-              <p className="text-sm font-medium text-[#E0E7FF]">No matching skill badges found</p>
-              <p className="text-xs mt-1 text-[#64748B]">Try clearing your search query or choosing another domain.</p>
+            <div className="p-12 text-center rounded-2xl border border-dashed border-[#35263D] bg-[#1A1222]/40 text-[#BDA9C4]">
+              <Search className="h-8 w-8 mx-auto text-[#A78BAF] mb-2" />
+              <p className="text-sm font-medium text-[#F5EAF5]">No matching skill badges found</p>
+              <p className="text-xs mt-1 text-[#A78BAF]">Try clearing your search query or choosing another domain.</p>
               <button
                 onClick={() => {
                   setSearchQuery('');
                   setSelectedCategory('All');
                   setSelectedLevel('All');
                 }}
-                className="mt-3 text-xs text-[#60A5FA] hover:underline"
+                className="mt-3 text-xs text-[#E8B8D2] hover:underline"
               >
                 Reset filters
               </button>
@@ -595,38 +595,38 @@ export function CertificationsSection({ onNavigate }: CertificationsSectionProps
 
         {/* Bottom Context Info Cards */}
         <div className="mt-16 grid gap-4 sm:grid-cols-3 pb-12">
-          <div className="rounded-2xl border border-[#1F2937] bg-[#111827]/70 p-5 shadow-xs">
-            <span className="text-[10px] font-mono uppercase tracking-wider text-[#60A5FA] font-semibold">
+          <div className="rounded-2xl border border-[#35263D] bg-[#1A1222]/70 p-5 shadow-xs">
+            <span className="text-[10px] font-mono uppercase tracking-wider text-[#E8B8D2] font-semibold">
               Hands-On Validation
             </span>
-            <h4 className="mt-1.5 text-sm font-bold text-[#E0E7FF]">
+            <h4 className="mt-1.5 text-sm font-bold text-[#F5EAF5]">
               Challenge Lab Evaluated
             </h4>
-            <p className="mt-1 text-xs text-[#CBD5E1] leading-relaxed">
+            <p className="mt-1 text-xs text-[#DCCFE0] leading-relaxed">
               Every skill badge requires completing timed, unassisted challenge labs directly in a live Google Cloud sandbox environment.
             </p>
           </div>
 
-          <div className="rounded-2xl border border-[#1F2937] bg-[#111827]/70 p-5 shadow-xs">
-            <span className="text-[10px] font-mono uppercase tracking-wider text-[#60A5FA] font-semibold">
+          <div className="rounded-2xl border border-[#35263D] bg-[#1A1222]/70 p-5 shadow-xs">
+            <span className="text-[10px] font-mono uppercase tracking-wider text-[#E8B8D2] font-semibold">
               Modern AI & Agentic Scope
             </span>
-            <h4 className="mt-1.5 text-sm font-bold text-[#E0E7FF]">
+            <h4 className="mt-1.5 text-sm font-bold text-[#F5EAF5]">
               Gemini, ADK & Multimodal RAG
             </h4>
-            <p className="mt-1 text-xs text-[#CBD5E1] leading-relaxed">
+            <p className="mt-1 text-xs text-[#DCCFE0] leading-relaxed">
               Accredited in cutting-edge Agent Development Kit (ADK), Gemini Multimodal RAG, Document AI, and BigQuery ML predictive intelligence.
             </p>
           </div>
 
-          <div className="rounded-2xl border border-[#1F2937] bg-[#111827]/70 p-5 shadow-xs">
-            <span className="text-[10px] font-mono uppercase tracking-wider text-[#60A5FA] font-semibold">
+          <div className="rounded-2xl border border-[#35263D] bg-[#1A1222]/70 p-5 shadow-xs">
+            <span className="text-[10px] font-mono uppercase tracking-wider text-[#E8B8D2] font-semibold">
               Enterprise Ready
             </span>
-            <h4 className="mt-1.5 text-sm font-bold text-[#E0E7FF]">
+            <h4 className="mt-1.5 text-sm font-bold text-[#F5EAF5]">
               Zero Trust, GKE & DevOps
             </h4>
-            <p className="mt-1 text-xs text-[#CBD5E1] leading-relaxed">
+            <p className="mt-1 text-xs text-[#DCCFE0] leading-relaxed">
               Deep competency spanning Binary Authorization, Security Command Center, VPC networks, Cloud Spanner, and Prometheus telemetry.
             </p>
           </div>
