@@ -54,23 +54,23 @@ export function ProjectsSection() {
     <div className="relative min-h-[85vh] w-full px-4 sm:px-8 py-8 sm:py-12">
       <div className="relative z-10 mx-auto max-w-[1400px]">
         {/* Section Header with TextEffect (No dates, no numbers) */}
-        <div className="flex flex-col justify-between gap-4 border-b border-[#1F2937] pb-6 md:flex-row md:items-end">
+        <div className="flex flex-col justify-between gap-4 border-b border-[#35263D] pb-6 md:flex-row md:items-end">
           <div>
-            <div className="text-xs uppercase tracking-[0.2em] text-[#60A5FA] font-semibold">
+            <div className="text-xs uppercase tracking-[0.2em] text-[#E8B8D2] font-semibold">
               <TextEffect key={`tag-${language}`} per="char" delay={0.05}>
                 {t('work.tag')}
               </TextEffect>
             </div>
-            <h2 className="mt-1 text-3xl font-light tracking-tight text-[#E0E7FF] sm:text-5xl md:text-6xl">
+            <h2 className="mt-1 text-3xl font-light tracking-tight text-[#F5EAF5] sm:text-5xl md:text-6xl">
               <TextEffect key={`title-${language}`} per="word" delay={0.15}>
                 {t('work.title')}
               </TextEffect>{' '}
-              <span className="instrument italic font-normal text-[#60A5FA]">
+              <span className="instrument italic font-normal text-[#E8B8D2]">
                 {t('work.titleAccent')}
               </span>
             </h2>
           </div>
-          <div className="max-w-md text-xs sm:text-sm leading-relaxed text-[#CBD5E1]">
+          <div className="max-w-md text-xs sm:text-sm leading-relaxed text-[#DCCFE0]">
             <TextEffect key={`sub-${language}`} per="word" delay={0.25}>
               {t('work.subtitle')}
             </TextEffect>
@@ -79,8 +79,8 @@ export function ProjectsSection() {
 
         {/* Category Filters */}
         <div className="mt-6 flex flex-wrap items-center gap-2">
-          <span className="mr-1 text-xs text-[#A5B4FC]/80 flex items-center gap-1.5 font-medium">
-            <Filter className="h-3 w-3 text-[#60A5FA]" /> {t('work.filter')}
+          <span className="mr-1 text-xs text-[#D8B4E8]/80 flex items-center gap-1.5 font-medium">
+            <Filter className="h-3 w-3 text-[#E8B8D2]" /> {t('work.filter')}
           </span>
           {categories.map((cat) => (
             <button
@@ -88,8 +88,8 @@ export function ProjectsSection() {
               onClick={() => setSelectedCategory(cat.key)}
               className={`rounded-full px-3.5 py-1 text-xs font-medium transition-all cursor-pointer ${
                 selectedCategory === cat.key
-                  ? 'bg-gradient-to-r from-[#2563EB] to-[#60A5FA] text-white shadow-xs'
-                  : 'border border-[#1F2937] bg-[#111827] text-[#A5B4FC]/80 hover:border-[#60A5FA] hover:text-[#E0E7FF]'
+                  ? 'bg-gradient-to-r from-[#A77BC2] to-[#E8B8D2] text-white shadow-xs'
+                  : 'border border-[#35263D] bg-[#1A1222] text-[#D8B4E8]/80 hover:border-[#E8B8D2] hover:text-[#F5EAF5]'
               }`}
             >
               {cat.label}
