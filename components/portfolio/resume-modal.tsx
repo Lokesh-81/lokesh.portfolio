@@ -101,10 +101,10 @@ ${educations.map((e) => `• ${e.degree} — ${e.institution} (${e.period || e.e
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.96, y: 15 }}
             transition={{ duration: 0.2, ease: 'easeOut' }}
-            className="relative flex flex-col w-full max-w-4xl h-[92vh] rounded-3xl border border-[#1F2937] bg-[#0B132B] shadow-2xl overflow-hidden z-10"
+            className="relative flex flex-col w-full max-w-4xl h-[92vh] rounded-3xl border border-[#35263D] bg-[#100B18] shadow-2xl overflow-hidden z-10"
           >
             {/* Header */}
-            <div className="flex flex-wrap items-center justify-between gap-3 px-4 sm:px-6 py-3.5 border-b border-[#1F2937] bg-[#111827] shrink-0">
+            <div className="flex flex-wrap items-center justify-between gap-3 px-4 sm:px-6 py-3.5 border-b border-[#35263D] bg-[#1A1222] shrink-0">
               <div className="flex items-center gap-3">
                 <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-blue-500/20 text-blue-400">
                   <FileText className="h-5 w-5" />
@@ -118,7 +118,7 @@ ${educations.map((e) => `• ${e.degree} — ${e.institution} (${e.period || e.e
                       Active Resume
                     </span>
                   </div>
-                  <p className="text-[11px] text-[#CBD5E1]">
+                  <p className="text-[11px] text-[#DCCFE0]">
                     Official ATS-formatted curriculum vitae · Poosala Lokesh
                   </p>
                 </div>
@@ -127,20 +127,20 @@ ${educations.map((e) => `• ${e.degree} — ${e.institution} (${e.period || e.e
               {/* Action Buttons */}
               <div className="flex items-center gap-2 flex-wrap">
                 {/* Zoom Controls */}
-                <div className="hidden sm:flex items-center rounded-xl border border-[#1F2937] bg-[#111827] px-1 py-0.5 text-xs">
+                <div className="hidden sm:flex items-center rounded-xl border border-[#35263D] bg-[#1A1222] px-1 py-0.5 text-xs">
                   <button
                     onClick={() => setZoomLevel((z) => Math.max(z - 15, 70))}
-                    className="p-1.5 text-[#94A3B8] hover:text-white transition-colors cursor-pointer rounded-lg hover:bg-[#1F2937]"
+                    className="p-1.5 text-[#BDA9C4] hover:text-white transition-colors cursor-pointer rounded-lg hover:bg-[#35263D]"
                     title="Zoom Out"
                   >
                     <ZoomOut className="h-3.5 w-3.5" />
                   </button>
-                  <span className="px-2 font-mono text-[11px] text-[#CBD5E1] min-w-[42px] text-center">
+                  <span className="px-2 font-mono text-[11px] text-[#DCCFE0] min-w-[42px] text-center">
                     {zoomLevel}%
                   </span>
                   <button
                     onClick={() => setZoomLevel((z) => Math.min(z + 15, 150))}
-                    className="p-1.5 text-[#94A3B8] hover:text-white transition-colors cursor-pointer rounded-lg hover:bg-[#1F2937]"
+                    className="p-1.5 text-[#BDA9C4] hover:text-white transition-colors cursor-pointer rounded-lg hover:bg-[#35263D]"
                     title="Zoom In"
                   >
                     <ZoomIn className="h-3.5 w-3.5" />
@@ -148,7 +148,7 @@ ${educations.map((e) => `• ${e.degree} — ${e.institution} (${e.period || e.e
                   {zoomLevel !== 100 && (
                     <button
                       onClick={() => setZoomLevel(100)}
-                      className="p-1.5 text-[#94A3B8] hover:text-white transition-colors cursor-pointer rounded-lg hover:bg-[#1F2937]"
+                      className="p-1.5 text-[#BDA9C4] hover:text-white transition-colors cursor-pointer rounded-lg hover:bg-[#35263D]"
                       title="Reset Zoom"
                     >
                       <RotateCcw className="h-3.5 w-3.5" />
@@ -159,7 +159,7 @@ ${educations.map((e) => `• ${e.degree} — ${e.institution} (${e.period || e.e
                 <button
                   type="button"
                   onClick={() => openDocumentInNewTab(resumeUrl, resumeTitle)}
-                  className="flex items-center gap-1.5 rounded-xl border border-[#1F2937] bg-[#111827] px-3 py-1.5 text-xs font-medium text-[#CBD5E1] hover:border-blue-400 hover:text-white transition-colors cursor-pointer"
+                  className="flex items-center gap-1.5 rounded-xl border border-[#35263D] bg-[#1A1222] px-3 py-1.5 text-xs font-medium text-[#DCCFE0] hover:border-blue-400 hover:text-white transition-colors cursor-pointer"
                   title="Open in new tab"
                 >
                   <ExternalLink className="h-3.5 w-3.5" />
@@ -169,7 +169,7 @@ ${educations.map((e) => `• ${e.degree} — ${e.institution} (${e.period || e.e
                 <button
                   type="button"
                   onClick={handlePrint}
-                  className="flex items-center gap-1.5 rounded-xl border border-[#1F2937] bg-[#111827] px-3 py-1.5 text-xs font-medium text-[#CBD5E1] hover:border-blue-400 hover:text-white transition-colors cursor-pointer"
+                  className="flex items-center gap-1.5 rounded-xl border border-[#35263D] bg-[#1A1222] px-3 py-1.5 text-xs font-medium text-[#DCCFE0] hover:border-blue-400 hover:text-white transition-colors cursor-pointer"
                   title="Print document"
                 >
                   <Printer className="h-3.5 w-3.5" />
@@ -191,7 +191,7 @@ ${educations.map((e) => `• ${e.degree} — ${e.institution} (${e.period || e.e
 
                 <button
                   onClick={onClose}
-                  className="flex h-8 w-8 items-center justify-center rounded-xl border border-[#1F2937] bg-[#111827] text-[#CBD5E1] hover:bg-[#1F2937] hover:text-white transition-colors cursor-pointer ml-1"
+                  className="flex h-8 w-8 items-center justify-center rounded-xl border border-[#35263D] bg-[#1A1222] text-[#DCCFE0] hover:bg-[#35263D] hover:text-white transition-colors cursor-pointer ml-1"
                   aria-label="Close"
                 >
                   <X className="h-4 w-4" />
@@ -217,7 +217,7 @@ ${educations.map((e) => `• ${e.degree} — ${e.institution} (${e.period || e.e
             </div>
 
             {/* Bottom Bar */}
-            <div className="flex flex-wrap items-center justify-between gap-3 px-4 sm:px-6 py-3 border-t border-[#1F2937] bg-[#0B132B]/95 text-xs text-[#CBD5E1] shrink-0">
+            <div className="flex flex-wrap items-center justify-between gap-3 px-4 sm:px-6 py-3 border-t border-[#35263D] bg-[#100B18]/95 text-xs text-[#DCCFE0] shrink-0">
               <div className="flex items-center gap-2">
                 <span className="h-2 w-2 rounded-full bg-emerald-400 animate-pulse" />
                 <span>
@@ -228,7 +228,7 @@ ${educations.map((e) => `• ${e.degree} — ${e.institution} (${e.period || e.e
               <div className="flex items-center gap-3">
                 <button
                   onClick={handleCopyText}
-                  className="flex items-center gap-1.5 text-xs text-[#CBD5E1] hover:text-white transition-colors cursor-pointer"
+                  className="flex items-center gap-1.5 text-xs text-[#DCCFE0] hover:text-white transition-colors cursor-pointer"
                   title="Copy plain text formatted for job portals"
                 >
                   {copiedText ? (
