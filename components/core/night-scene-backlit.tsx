@@ -777,7 +777,7 @@ export default function NightSceneBacklit(props: NightSceneBacklitProps) {
         petals = 140,
         wind = 30,
         scale = 100,
-        blossomColor = "#CFA0FF",
+        blossomColor = "#E8B8D2",
         glow = 50,
         background = "#000000",
         direction = "left",
