@@ -139,7 +139,7 @@ Location: Goregaon, Mumbai`;
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={onClose}
-            className="fixed inset-0 bg-[#0B132B]/90 backdrop-blur-xl -z-10"
+            className="fixed inset-0 bg-[#100B18]/90 backdrop-blur-xl -z-10"
           />
 
           {/* Modal Container */}
@@ -148,17 +148,17 @@ Location: Goregaon, Mumbai`;
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.94, y: 16 }}
             transition={{ duration: 0.24, ease: [0.16, 1, 0.3, 1] }}
-            className="relative w-full max-w-5xl h-[92vh] rounded-3xl border border-[#2A2B3D] bg-[#111827] shadow-2xl overflow-hidden flex flex-col my-auto"
+            className="relative w-full max-w-5xl h-[92vh] rounded-3xl border border-[#2A2B3D] bg-[#1A1222] shadow-2xl overflow-hidden flex flex-col my-auto"
           >
             {/* Modal Header */}
-            <div className="flex flex-wrap items-center justify-between border-b border-[#1F2937] px-4 sm:px-6 py-3.5 bg-[#0B132B]/95 gap-3 shrink-0">
+            <div className="flex flex-wrap items-center justify-between border-b border-[#35263D] px-4 sm:px-6 py-3.5 bg-[#100B18]/95 gap-3 shrink-0">
               <div className="flex items-center gap-3">
                 <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-purple-500/20 border border-purple-500/40 text-purple-400">
                   <FileCheck2 className="h-5 w-5" />
                 </div>
                 <div>
                   <div className="flex items-center gap-2">
-                    <h3 className="text-sm sm:text-base font-semibold text-[#E0E7FF]">
+                    <h3 className="text-sm sm:text-base font-semibold text-[#F5EAF5]">
                       Belvo Company — Letter of Recommendation
                     </h3>
                     <span className="hidden sm:inline-flex items-center gap-1 rounded-full bg-emerald-500/20 px-2 py-0.5 text-[10px] font-medium text-emerald-400 border border-emerald-500/30">
@@ -166,7 +166,7 @@ Location: Goregaon, Mumbai`;
                       CEO Verified
                     </span>
                   </div>
-                  <p className="text-[11px] font-mono text-[#A5B4FC]/70">
+                  <p className="text-[11px] font-mono text-[#D8B4E8]/70">
                     Official Document · Issued 22-09-2026 by Hrishikesh Mishra, CEO
                   </p>
                 </div>
@@ -175,20 +175,20 @@ Location: Goregaon, Mumbai`;
               {/* Action Controls & Zoom */}
               <div className="flex items-center gap-2 flex-wrap">
                 {/* Zoom Controls */}
-                <div className="hidden sm:flex items-center rounded-xl border border-[#1F2937] bg-[#111827] px-1 py-1 text-xs">
+                <div className="hidden sm:flex items-center rounded-xl border border-[#35263D] bg-[#1A1222] px-1 py-1 text-xs">
                   <button
                     onClick={handleZoomOut}
-                    className="p-1.5 text-[#94A3B8] hover:text-white transition-colors cursor-pointer rounded-lg hover:bg-[#1F2937]"
+                    className="p-1.5 text-[#BDA9C4] hover:text-white transition-colors cursor-pointer rounded-lg hover:bg-[#35263D]"
                     title="Zoom Out"
                   >
                     <ZoomOut className="h-3.5 w-3.5" />
                   </button>
-                  <span className="px-2 font-mono text-[11px] text-[#CBD5E1] min-w-[42px] text-center">
+                  <span className="px-2 font-mono text-[11px] text-[#DCCFE0] min-w-[42px] text-center">
                     {zoomLevel}%
                   </span>
                   <button
                     onClick={handleZoomIn}
-                    className="p-1.5 text-[#94A3B8] hover:text-white transition-colors cursor-pointer rounded-lg hover:bg-[#1F2937]"
+                    className="p-1.5 text-[#BDA9C4] hover:text-white transition-colors cursor-pointer rounded-lg hover:bg-[#35263D]"
                     title="Zoom In"
                   >
                     <ZoomIn className="h-3.5 w-3.5" />
@@ -196,7 +196,7 @@ Location: Goregaon, Mumbai`;
                   {zoomLevel !== 100 && (
                     <button
                       onClick={handleResetZoom}
-                      className="p-1.5 text-[#94A3B8] hover:text-white transition-colors cursor-pointer rounded-lg hover:bg-[#1F2937]"
+                      className="p-1.5 text-[#BDA9C4] hover:text-white transition-colors cursor-pointer rounded-lg hover:bg-[#35263D]"
                       title="Reset Zoom"
                     >
                       <RotateCcw className="h-3.5 w-3.5" />
@@ -208,7 +208,7 @@ Location: Goregaon, Mumbai`;
                 <button
                   type="button"
                   onClick={() => openDocumentInNewTab(currentPdfUrl, currentTitle)}
-                  className="flex items-center gap-1.5 rounded-xl border border-[#1F2937] bg-[#111827] px-3 py-1.5 text-xs font-medium text-[#CBD5E1] hover:border-purple-400 hover:text-white transition-colors cursor-pointer"
+                  className="flex items-center gap-1.5 rounded-xl border border-[#35263D] bg-[#1A1222] px-3 py-1.5 text-xs font-medium text-[#DCCFE0] hover:border-purple-400 hover:text-white transition-colors cursor-pointer"
                   title="Open raw document file in a new standalone tab"
                 >
                   <ExternalLink className="h-3.5 w-3.5" />
@@ -219,7 +219,7 @@ Location: Goregaon, Mumbai`;
                 <button
                   type="button"
                   onClick={handlePrint}
-                  className="flex items-center gap-1.5 rounded-xl border border-[#1F2937] bg-[#111827] px-3 py-1.5 text-xs font-medium text-[#CBD5E1] hover:border-purple-400 hover:text-white transition-colors cursor-pointer"
+                  className="flex items-center gap-1.5 rounded-xl border border-[#35263D] bg-[#1A1222] px-3 py-1.5 text-xs font-medium text-[#DCCFE0] hover:border-purple-400 hover:text-white transition-colors cursor-pointer"
                   title="Print Document"
                 >
                   <Printer className="h-3.5 w-3.5" />
@@ -240,7 +240,7 @@ Location: Goregaon, Mumbai`;
                 {/* Close Button */}
                 <button
                   onClick={onClose}
-                  className="flex h-8 w-8 items-center justify-center rounded-xl border border-[#1F2937] bg-[#111827] text-[#CBD5E1] hover:bg-[#1F2937] hover:text-white transition-colors cursor-pointer ml-1"
+                  className="flex h-8 w-8 items-center justify-center rounded-xl border border-[#35263D] bg-[#1A1222] text-[#DCCFE0] hover:bg-[#35263D] hover:text-white transition-colors cursor-pointer ml-1"
                   aria-label="Close"
                 >
                   <X className="h-4 w-4" />
@@ -267,7 +267,7 @@ Location: Goregaon, Mumbai`;
             </div>
 
             {/* Modal Bottom Bar */}
-            <div className="flex flex-wrap items-center justify-between gap-3 px-4 sm:px-6 py-3 border-t border-[#1F2937] bg-[#0B132B]/95 text-xs text-[#CBD5E1] shrink-0">
+            <div className="flex flex-wrap items-center justify-between gap-3 px-4 sm:px-6 py-3 border-t border-[#35263D] bg-[#100B18]/95 text-xs text-[#DCCFE0] shrink-0">
               <div className="flex items-center gap-2">
                 <span className="h-2 w-2 rounded-full bg-emerald-400 animate-pulse" />
                 <span>
