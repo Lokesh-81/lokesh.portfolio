@@ -167,23 +167,23 @@ export function ContactSection() {
     <div className="relative min-h-[85vh] w-full px-4 sm:px-8 py-8 sm:py-12">
       <div className="relative z-10 mx-auto max-w-[1400px]">
         {/* Section Header with TextEffect */}
-        <div className="flex flex-col justify-between gap-4 border-b border-[#1F2937] pb-6 md:flex-row md:items-end">
+        <div className="flex flex-col justify-between gap-4 border-b border-[#35263D] pb-6 md:flex-row md:items-end">
           <div>
-            <div className="text-xs uppercase tracking-[0.2em] text-[#60A5FA] font-semibold">
+            <div className="text-xs uppercase tracking-[0.2em] text-[#E8B8D2] font-semibold">
               <TextEffect key={`tag-${language}`} per="char" delay={0.05}>
                 {t('contact.tag')}
               </TextEffect>
             </div>
-            <h2 className="mt-1 text-3xl font-light tracking-tight text-[#E0E7FF] sm:text-5xl md:text-6xl">
+            <h2 className="mt-1 text-3xl font-light tracking-tight text-[#F5EAF5] sm:text-5xl md:text-6xl">
               <TextEffect key={`title-${language}`} per="word" delay={0.15}>
                 {t('contact.title')}
               </TextEffect>{' '}
-              <span className="instrument italic font-normal text-[#60A5FA]">
+              <span className="instrument italic font-normal text-[#E8B8D2]">
                 {t('contact.titleAccent')}
               </span>
             </h2>
           </div>
-          <div className="max-w-md text-xs sm:text-sm leading-relaxed text-[#CBD5E1]">
+          <div className="max-w-md text-xs sm:text-sm leading-relaxed text-[#DCCFE0]">
             <TextEffect key={`sub-${language}`} per="word" delay={0.25}>
               {t('contact.subtitle')}
             </TextEffect>
@@ -193,7 +193,7 @@ export function ContactSection() {
         {/* 2-Column Split: Production Contact Form & Direct Verified Channels */}
         <div className="mt-8 grid gap-8 lg:grid-cols-12 items-start pb-12">
           {/* Production Inquiry Form */}
-          <div className="relative rounded-2xl border border-[#1F2937] bg-[#111827]/90 p-6 sm:p-8 shadow-xs lg:col-span-7">
+          <div className="relative rounded-2xl border border-[#35263D] bg-[#1A1222]/90 p-6 sm:p-8 shadow-xs lg:col-span-7">
             {/* Glow effect matching hero buttons that activates when typing in the form */}
             <motion.div
               className="pointer-events-none absolute -inset-0.5 rounded-2xl"
@@ -214,16 +214,16 @@ export function ContactSection() {
               />
             </motion.div>
 
-            <div className="relative z-10 mb-6 flex items-center justify-between border-b border-[#1F2937] pb-4">
+            <div className="relative z-10 mb-6 flex items-center justify-between border-b border-[#35263D] pb-4">
               <div>
-                <h3 className="text-lg font-bold text-[#E0E7FF]">
+                <h3 className="text-lg font-bold text-[#F5EAF5]">
                   {t('contact.formTitle')}
                 </h3>
-                <div className="text-xs text-[#CBD5E1] mt-0.5">
+                <div className="text-xs text-[#DCCFE0] mt-0.5">
                   {t('contact.formDesc')}
                 </div>
               </div>
-              <span className="hidden sm:inline-flex items-center gap-1 rounded-full bg-[#2563EB]/25 px-3 py-1 font-mono text-[11px] font-semibold text-[#60A5FA] border border-[#2563EB]/40">
+              <span className="hidden sm:inline-flex items-center gap-1 rounded-full bg-[#A77BC2]/25 px-3 py-1 font-mono text-[11px] font-semibold text-[#E8B8D2] border border-[#A77BC2]/40">
                 {t('contact.responseBadge')}
               </span>
             </div>
@@ -238,7 +238,7 @@ export function ContactSection() {
 
               <div className="grid gap-4 sm:grid-cols-2">
                 <div>
-                  <label className="block text-xs font-semibold text-[#E0E7FF] mb-1.5">
+                  <label className="block text-xs font-semibold text-[#F5EAF5] mb-1.5">
                     {t('contact.yourName')}
                   </label>
                   <input
@@ -252,12 +252,12 @@ export function ContactSection() {
                     onFocus={handleTypingActivity}
                     placeholder={language === 'fr' ? 'Votre Nom' : 'Your Name'}
                     disabled={status === 'submitting'}
-                    className="w-full rounded-xl border border-[#1F2937] bg-[#0B132B] px-3.5 py-2.5 text-xs sm:text-sm text-[#E0E7FF] placeholder:text-[#64748B] focus:border-[#60A5FA] focus:outline-none transition-all disabled:opacity-60"
+                    className="w-full rounded-xl border border-[#35263D] bg-[#100B18] px-3.5 py-2.5 text-xs sm:text-sm text-[#F5EAF5] placeholder:text-[#A78BAF] focus:border-[#E8B8D2] focus:outline-none transition-all disabled:opacity-60"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-xs font-semibold text-[#E0E7FF] mb-1.5">
+                  <label className="block text-xs font-semibold text-[#F5EAF5] mb-1.5">
                     {t('contact.emailAddress')}
                   </label>
                   <input
@@ -271,32 +271,32 @@ export function ContactSection() {
                     onFocus={handleTypingActivity}
                     placeholder={language === 'fr' ? 'votre.email@exemple.com' : 'your.email@example.com'}
                     disabled={status === 'submitting'}
-                    className="w-full rounded-xl border border-[#1F2937] bg-[#0B132B] px-3.5 py-2.5 text-xs sm:text-sm text-[#E0E7FF] placeholder:text-[#64748B] focus:border-[#60A5FA] focus:outline-none transition-all disabled:opacity-60"
+                    className="w-full rounded-xl border border-[#35263D] bg-[#100B18] px-3.5 py-2.5 text-xs sm:text-sm text-[#F5EAF5] placeholder:text-[#A78BAF] focus:border-[#E8B8D2] focus:outline-none transition-all disabled:opacity-60"
                   />
                 </div>
               </div>
 
               {/* Styled Custom Dropdown */}
               <div className="relative" ref={topicRef}>
-                <label className="block text-xs font-semibold text-[#E0E7FF] mb-1.5">
+                <label className="block text-xs font-semibold text-[#F5EAF5] mb-1.5">
                   {t('contact.topic')}
                 </label>
                 <button
                   type="button"
                   disabled={status === 'submitting'}
                   onClick={() => setIsTopicOpen(!isTopicOpen)}
-                  className="flex w-full items-center justify-between rounded-xl border border-[#1F2937] bg-[#0B132B] px-3.5 py-2.5 text-left text-xs sm:text-sm text-[#E0E7FF] focus:border-[#60A5FA] focus:outline-none transition-all cursor-pointer disabled:opacity-60"
+                  className="flex w-full items-center justify-between rounded-xl border border-[#35263D] bg-[#100B18] px-3.5 py-2.5 text-left text-xs sm:text-sm text-[#F5EAF5] focus:border-[#E8B8D2] focus:outline-none transition-all cursor-pointer disabled:opacity-60"
                 >
                   <span>{form.projectType}</span>
                   <ChevronDown
-                    className={`h-4 w-4 text-[#A5B4FC] transition-transform ${
-                      isTopicOpen ? 'rotate-180 text-[#60A5FA]' : ''
+                    className={`h-4 w-4 text-[#D8B4E8] transition-transform ${
+                      isTopicOpen ? 'rotate-180 text-[#E8B8D2]' : ''
                     }`}
                   />
                 </button>
 
                 {isTopicOpen && (
-                  <div className="absolute left-0 right-0 top-full mt-1 z-30 overflow-hidden rounded-xl border border-[#1F2937] bg-[#0B132B] p-1 shadow-2xl backdrop-blur-xl">
+                  <div className="absolute left-0 right-0 top-full mt-1 z-30 overflow-hidden rounded-xl border border-[#35263D] bg-[#100B18] p-1 shadow-2xl backdrop-blur-xl">
                     {topicOptions.map((topic) => (
                       <button
                         key={topic}
@@ -308,13 +308,13 @@ export function ContactSection() {
                         }}
                         className={`flex w-full items-center justify-between rounded-lg px-3 py-2 text-xs transition-colors cursor-pointer ${
                           form.projectType === topic
-                            ? 'bg-[#2563EB]/25 text-[#60A5FA] font-medium'
-                            : 'text-[#CBD5E1] hover:bg-[#111827] hover:text-[#E0E7FF]'
+                            ? 'bg-[#A77BC2]/25 text-[#E8B8D2] font-medium'
+                            : 'text-[#DCCFE0] hover:bg-[#1A1222] hover:text-[#F5EAF5]'
                         }`}
                       >
                         <span>{topic}</span>
                         {form.projectType === topic && (
-                          <Check className="h-3.5 w-3.5 text-[#60A5FA]" />
+                          <Check className="h-3.5 w-3.5 text-[#E8B8D2]" />
                         )}
                       </button>
                     ))}
@@ -324,7 +324,7 @@ export function ContactSection() {
 
               {/* Message Box with GlowEffect like hero buttons - No covering elements */}
               <div>
-                <label className="block text-xs font-semibold text-[#E0E7FF] mb-1.5">
+                <label className="block text-xs font-semibold text-[#F5EAF5] mb-1.5">
                   {t('contact.yourMessage')}
                 </label>
                 <div className="relative group">
@@ -369,14 +369,14 @@ export function ContactSection() {
                         : 'Tell me about your project, timeline, and goals...'
                     }
                     disabled={status === 'submitting'}
-                    className="relative z-10 w-full resize-none rounded-xl border border-[#1F2937] bg-[#0B132B] p-3.5 text-xs sm:text-sm text-[#E0E7FF] placeholder:text-[#64748B] focus:border-[#60A5FA] focus:outline-none transition-all disabled:opacity-60"
+                    className="relative z-10 w-full resize-none rounded-xl border border-[#35263D] bg-[#100B18] p-3.5 text-xs sm:text-sm text-[#F5EAF5] placeholder:text-[#A78BAF] focus:border-[#E8B8D2] focus:outline-none transition-all disabled:opacity-60"
                   />
                 </div>
               </div>
 
               {/* Animated Submit Button with BorderTrail + TextShimmer + TextMorph */}
               <div className="pt-2">
-                <div className="relative overflow-hidden rounded-xl border border-[#1F2937] bg-[#111827] p-1 shadow-lg">
+                <div className="relative overflow-hidden rounded-xl border border-[#35263D] bg-[#1A1222] p-1 shadow-lg">
                   {/* BorderTrail runs while submitting */}
                   {status === 'submitting' && (
                     <BorderTrail
@@ -395,12 +395,12 @@ export function ContactSection() {
                     disabled={status === 'submitting'}
                     className={`relative z-10 inline-flex w-full items-center justify-center gap-2 rounded-lg px-6 py-3.5 text-sm font-semibold transition-all cursor-pointer ${
                       status === 'submitting'
-                        ? 'bg-gradient-to-r from-[#1D4ED8] to-[#2563EB] text-white cursor-wait opacity-90'
+                        ? 'bg-gradient-to-r from-[#1D4ED8] to-[#A77BC2] text-white cursor-wait opacity-90'
                         : status === 'success'
                         ? 'bg-gradient-to-r from-[#059669] to-[#10B981] text-white shadow-[0_0_25px_rgba(16,185,129,0.4)]'
                         : status === 'error'
                         ? 'bg-gradient-to-r from-[#BE123C] to-[#E11D48] text-white'
-                        : 'bg-gradient-to-r from-[#2563EB] to-[#60A5FA] text-white shadow-[0_4px_20px_rgba(37,99,235,0.4)] hover:shadow-[0_6px_25px_rgba(96,165,250,0.5)] active:scale-[0.99]'
+                        : 'bg-gradient-to-r from-[#A77BC2] to-[#E8B8D2] text-white shadow-[0_4px_20px_rgba(37,99,235,0.4)] hover:shadow-[0_6px_25px_rgba(96,165,250,0.5)] active:scale-[0.99]'
                     }`}
                   >
                     {status === 'submitting' && (
@@ -451,56 +451,56 @@ export function ContactSection() {
               href={whatsappUrl}
               target="_blank"
               rel="noreferrer"
-              className="group relative flex items-center justify-between overflow-hidden rounded-2xl border border-[#2563EB]/40 bg-[#0B132B]/90 p-5 sm:p-6 backdrop-blur-2xl shadow-[0_8px_30px_rgba(0,0,0,0.35)] transition-all duration-300 hover:-translate-y-1 hover:border-[#60A5FA] hover:shadow-[0_12px_40px_rgba(37,99,235,0.4)] active:translate-y-0 active:scale-[0.99] cursor-pointer"
+              className="group relative flex items-center justify-between overflow-hidden rounded-2xl border border-[#A77BC2]/40 bg-[#100B18]/90 p-5 sm:p-6 backdrop-blur-2xl shadow-[0_8px_30px_rgba(0,0,0,0.35)] transition-all duration-300 hover:-translate-y-1 hover:border-[#E8B8D2] hover:shadow-[0_12px_40px_rgba(37,99,235,0.4)] active:translate-y-0 active:scale-[0.99] cursor-pointer"
             >
               {/* Soft blue & lavender ambient glow on hover */}
-              <div className="absolute inset-0 bg-gradient-to-r from-[#2563EB]/20 via-[#C084FC]/15 to-[#60A5FA]/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-xl pointer-events-none" />
+              <div className="absolute inset-0 bg-gradient-to-r from-[#A77BC2]/20 via-[#D8B4E8]/15 to-[#E8B8D2]/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-xl pointer-events-none" />
 
               {/* Subtle top & bottom border highlights */}
-              <div className="absolute inset-x-0 -top-px h-px bg-gradient-to-r from-transparent via-[#60A5FA]/70 to-transparent" />
-              <div className="absolute inset-x-0 -bottom-px h-px bg-gradient-to-r from-transparent via-[#2563EB]/50 to-transparent" />
+              <div className="absolute inset-x-0 -top-px h-px bg-gradient-to-r from-transparent via-[#E8B8D2]/70 to-transparent" />
+              <div className="absolute inset-x-0 -bottom-px h-px bg-gradient-to-r from-transparent via-[#A77BC2]/50 to-transparent" />
 
               <div className="relative z-10 flex items-center gap-3.5">
-                <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-gradient-to-br from-[#2563EB]/30 to-[#60A5FA]/20 border border-[#60A5FA]/40 text-[#60A5FA] group-hover:scale-105 group-hover:border-[#60A5FA] transition-all">
-                  <Phone className="h-5 w-5 text-[#60A5FA]" />
+                <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-gradient-to-br from-[#A77BC2]/30 to-[#E8B8D2]/20 border border-[#E8B8D2]/40 text-[#E8B8D2] group-hover:scale-105 group-hover:border-[#E8B8D2] transition-all">
+                  <Phone className="h-5 w-5 text-[#E8B8D2]" />
                 </div>
                 <div>
-                  <span className="font-mono text-base sm:text-lg font-bold tracking-wider text-[#E0E7FF] group-hover:text-[#60A5FA] transition-colors duration-300 block">
+                  <span className="font-mono text-base sm:text-lg font-bold tracking-wider text-[#F5EAF5] group-hover:text-[#E8B8D2] transition-colors duration-300 block">
                     {phoneNumber}
                   </span>
-                  <span className="text-[11px] text-[#A5B4FC]/70 block font-medium">
+                  <span className="text-[11px] text-[#D8B4E8]/70 block font-medium">
                     Click to chat on WhatsApp
                   </span>
                 </div>
               </div>
 
-              <ArrowUpRight className="relative z-10 h-5 w-5 text-[#64748B] group-hover:text-[#60A5FA] group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all" />
+              <ArrowUpRight className="relative z-10 h-5 w-5 text-[#A78BAF] group-hover:text-[#E8B8D2] group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all" />
             </a>
 
             {/* Direct Email Addresses */}
-            <div className="rounded-2xl border border-[#1F2937] bg-[#111827]/90 p-5 shadow-xs">
-              <span className="text-[10px] font-bold uppercase tracking-wider text-[#A5B4FC]/70 block mb-2.5">
+            <div className="rounded-2xl border border-[#35263D] bg-[#1A1222]/90 p-5 shadow-xs">
+              <span className="text-[10px] font-bold uppercase tracking-wider text-[#D8B4E8]/70 block mb-2.5">
                 {t('contact.emailSection')}
               </span>
               <div className="space-y-2">
                 {[email1, email2].map((em) => (
                   <div
                     key={em}
-                    className="flex items-center justify-between rounded-xl border border-[#1F2937] bg-[#0B132B] p-2.5"
+                    className="flex items-center justify-between rounded-xl border border-[#35263D] bg-[#100B18] p-2.5"
                   >
                     <a
                       href={`mailto:${em}`}
-                      className="font-mono text-xs font-medium text-[#E0E7FF] hover:text-[#60A5FA] transition-colors truncate mr-2"
+                      className="font-mono text-xs font-medium text-[#F5EAF5] hover:text-[#E8B8D2] transition-colors truncate mr-2"
                     >
                       {em}
                     </a>
                     <button
                       onClick={() => copyToClipboard(em)}
-                      className="rounded-lg p-1.5 text-[#A5B4FC]/70 hover:bg-[#1F2937] hover:text-[#E0E7FF] transition-colors cursor-pointer"
+                      className="rounded-lg p-1.5 text-[#D8B4E8]/70 hover:bg-[#35263D] hover:text-[#F5EAF5] transition-colors cursor-pointer"
                       title={t('contact.copyEmail')}
                     >
                       {copiedText === em ? (
-                        <Check className="h-3.5 w-3.5 text-[#2DD4BF]" />
+                        <Check className="h-3.5 w-3.5 text-[#A77BC2]" />
                       ) : (
                         <Copy className="h-3.5 w-3.5" />
                       )}
@@ -511,8 +511,8 @@ export function ContactSection() {
             </div>
 
             {/* GitHub Profiles: BOTH Accounts Displayed Separately */}
-            <div className="rounded-2xl border border-[#1F2937] bg-[#111827]/90 p-5 shadow-xs">
-              <span className="text-[10px] font-bold uppercase tracking-wider text-[#A5B4FC]/70 block mb-2.5">
+            <div className="rounded-2xl border border-[#35263D] bg-[#1A1222]/90 p-5 shadow-xs">
+              <span className="text-[10px] font-bold uppercase tracking-wider text-[#D8B4E8]/70 block mb-2.5">
                 {t('contact.githubSection')}
               </span>
               <div className="space-y-2">
@@ -522,20 +522,20 @@ export function ContactSection() {
                     href={account.url}
                     target="_blank"
                     rel="noreferrer"
-                    className="flex items-center justify-between rounded-xl border border-[#1F2937] bg-[#0B132B] p-2.5 text-xs transition-all hover:border-[#60A5FA] group"
+                    className="flex items-center justify-between rounded-xl border border-[#35263D] bg-[#100B18] p-2.5 text-xs transition-all hover:border-[#E8B8D2] group"
                   >
                     <div className="flex items-center gap-2.5">
-                      <Github className="h-4 w-4 text-[#A5B4FC] group-hover:text-[#60A5FA]" />
+                      <Github className="h-4 w-4 text-[#D8B4E8] group-hover:text-[#E8B8D2]" />
                       <div>
-                        <span className="font-mono font-bold text-[#E0E7FF] group-hover:text-[#60A5FA]">
+                        <span className="font-mono font-bold text-[#F5EAF5] group-hover:text-[#E8B8D2]">
                           github.com/{account.handle}
                         </span>
-                        <span className="block text-[10px] text-[#A5B4FC]/70">
+                        <span className="block text-[10px] text-[#D8B4E8]/70">
                           {account.label}
                         </span>
                       </div>
                     </div>
-                    <ArrowUpRight className="h-4 w-4 text-[#64748B] group-hover:text-[#60A5FA] transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                    <ArrowUpRight className="h-4 w-4 text-[#A78BAF] group-hover:text-[#E8B8D2] transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
                   </a>
                 ))}
               </div>
@@ -547,9 +547,9 @@ export function ContactSection() {
                 href={linkedinUrl}
                 target="_blank"
                 rel="noreferrer"
-                className="flex items-center justify-center gap-2 rounded-xl border border-[#1F2937] bg-[#111827]/90 p-3 text-xs font-semibold text-[#E0E7FF] shadow-xs transition-all hover:border-[#60A5FA] hover:text-[#60A5FA]"
+                className="flex items-center justify-center gap-2 rounded-xl border border-[#35263D] bg-[#1A1222]/90 p-3 text-xs font-semibold text-[#F5EAF5] shadow-xs transition-all hover:border-[#E8B8D2] hover:text-[#E8B8D2]"
               >
-                <Linkedin className="h-4 w-4 text-[#60A5FA]" />
+                <Linkedin className="h-4 w-4 text-[#E8B8D2]" />
                 <span>{t('contact.linkedin')}</span>
               </a>
 
@@ -557,7 +557,7 @@ export function ContactSection() {
                 href={instagramUrl}
                 target="_blank"
                 rel="noreferrer"
-                className="flex items-center justify-center gap-2 rounded-xl border border-[#1F2937] bg-[#111827]/90 p-3 text-xs font-semibold text-[#E0E7FF] shadow-xs transition-all hover:border-[#F9A8D4] hover:text-[#F9A8D4]"
+                className="flex items-center justify-center gap-2 rounded-xl border border-[#35263D] bg-[#1A1222]/90 p-3 text-xs font-semibold text-[#F5EAF5] shadow-xs transition-all hover:border-[#F9A8D4] hover:text-[#F9A8D4]"
               >
                 <Instagram className="h-4 w-4 text-[#F9A8D4]" />
                 <span>{t('contact.instagram')}</span>
