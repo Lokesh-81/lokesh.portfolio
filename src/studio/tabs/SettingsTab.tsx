@@ -55,6 +55,7 @@ export function SettingsTab({ showToast }: SettingsTabProps) {
 
   const [isSaving, setIsSaving] = useState(false);
   const [isTestingDb, setIsTestingDb] = useState(false);
+  const [isSyncing, setIsSyncing] = useState(false);
   const [dbHealth, setDbHealth] = useState<any>(null);
 
   // Security / Admin Password Change State
@@ -103,6 +104,18 @@ export function SettingsTab({ showToast }: SettingsTabProps) {
       setDeleteError(err?.message || 'An unexpected error occurred during erasure.');
     } finally {
       setIsDeletingAccount(false);
+    }
+  };
+
+  const handleForceSync = async () => {
+    setIsSyncing(true);
+    try {
+      await syncFromSupabase();
+      showToast('Supabase sync completed.', 'success');
+    } catch (error) {
+      showToast(error instanceof Error ? error.message : 'Supabase sync failed.', 'error');
+    } finally {
+      setIsSyncing(false);
     }
   };
 
@@ -513,13 +526,11 @@ export function SettingsTab({ showToast }: SettingsTabProps) {
 
           <button
             type="button"
-            onClick={() => {
-              syncFromSupabase();
-              showToast('Sync triggered with Supabase!', 'success');
-            }}
-            className="text-xs text-[#60A5FA] hover:underline cursor-pointer"
+            onClick={handleForceSync}
+            disabled={isSyncing}
+            className="text-xs text-[#60A5FA] hover:underline cursor-pointer disabled:opacity-50"
           >
-            Force Sync
+            {isSyncing ? 'Syncing…' : 'Force Sync'}
           </button>
         </div>
 
