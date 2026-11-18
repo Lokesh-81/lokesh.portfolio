@@ -243,7 +243,7 @@ function PortfolioContent() {
               id="home"
               data-portfolio-section="home"
               className="sticky top-0 w-full min-h-[calc(100svh-4.5rem)]"
-              style={{ zIndex: 1, backgroundColor: 'rgba(16, 11, 24, 0.96)' }}
+              style={{ zIndex: 1, backgroundColor: 'rgba(16, 11, 24, 0.68)', backdropFilter: 'blur(10px)' }}
             >
               <div className="flex min-h-[calc(100svh-4.5rem)] w-full flex-col justify-start">
                 <Hero onNavigate={handleNavigate} />
@@ -254,7 +254,7 @@ function PortfolioContent() {
               id="about"
               data-portfolio-section="about"
               className="sticky top-0 w-full min-h-[calc(100svh-4.5rem)]"
-              style={{ zIndex: 2, backgroundColor: 'rgba(16, 11, 24, 0.96)' }}
+              style={{ zIndex: 2, backgroundColor: 'rgba(16, 11, 24, 0.68)', backdropFilter: 'blur(10px)' }}
             >
               <div className="flex min-h-[calc(100svh-4.5rem)] w-full flex-col justify-start">
                 <AboutSection />
@@ -265,7 +265,7 @@ function PortfolioContent() {
               id="work"
               data-portfolio-section="work"
               className="sticky top-0 w-full min-h-[calc(100svh-4.5rem)]"
-              style={{ zIndex: 3, backgroundColor: 'rgba(16, 11, 24, 0.96)' }}
+              style={{ zIndex: 3, backgroundColor: 'rgba(16, 11, 24, 0.68)', backdropFilter: 'blur(10px)' }}
             >
               <div className="flex min-h-[calc(100svh-4.5rem)] w-full flex-col justify-start">
                 <ProjectsSection />
@@ -276,7 +276,7 @@ function PortfolioContent() {
               id="skills"
               data-portfolio-section="skills"
               className="sticky top-0 w-full min-h-[calc(100svh-4.5rem)]"
-              style={{ zIndex: 4, backgroundColor: 'rgba(16, 11, 24, 0.96)' }}
+              style={{ zIndex: 4, backgroundColor: 'rgba(16, 11, 24, 0.68)', backdropFilter: 'blur(10px)' }}
             >
               <div className="flex min-h-[calc(100svh-4.5rem)] w-full flex-col justify-start">
                 <SkillsSection />
@@ -287,7 +287,7 @@ function PortfolioContent() {
               id="certifications"
               data-portfolio-section="certifications"
               className="sticky top-0 w-full min-h-[calc(100svh-4.5rem)]"
-              style={{ zIndex: 5, backgroundColor: 'rgba(16, 11, 24, 0.96)' }}
+              style={{ zIndex: 5, backgroundColor: 'rgba(16, 11, 24, 0.68)', backdropFilter: 'blur(10px)' }}
             >
               <div className="flex min-h-[calc(100svh-4.5rem)] w-full flex-col justify-start">
                 <CertificationsSection onNavigate={handleNavigate} />
@@ -298,7 +298,7 @@ function PortfolioContent() {
               id="experience"
               data-portfolio-section="experience"
               className="sticky top-0 w-full min-h-[calc(100svh-4.5rem)]"
-              style={{ zIndex: 6, backgroundColor: 'rgba(16, 11, 24, 0.96)' }}
+              style={{ zIndex: 6, backgroundColor: 'rgba(16, 11, 24, 0.68)', backdropFilter: 'blur(10px)' }}
             >
               <div className="flex min-h-[calc(100svh-4.5rem)] w-full flex-col justify-start">
                 <ExperienceSection onNavigate={handleNavigate} />
@@ -309,7 +309,7 @@ function PortfolioContent() {
               id="testimonials"
               data-portfolio-section="testimonials"
               className="sticky top-0 w-full min-h-[calc(100svh-4.5rem)]"
-              style={{ zIndex: 7, backgroundColor: 'rgba(16, 11, 24, 0.96)' }}
+              style={{ zIndex: 7, backgroundColor: 'rgba(16, 11, 24, 0.68)', backdropFilter: 'blur(10px)' }}
             >
               <div className="flex min-h-[calc(100svh-4.5rem)] w-full flex-col justify-start">
                 <TestimonialsSection />
@@ -320,7 +320,7 @@ function PortfolioContent() {
               id="contact"
               data-portfolio-section="contact"
               className="sticky top-0 w-full min-h-[calc(100svh-4.5rem)]"
-              style={{ zIndex: 8, backgroundColor: 'rgba(16, 11, 24, 0.96)' }}
+              style={{ zIndex: 8, backgroundColor: 'rgba(16, 11, 24, 0.68)', backdropFilter: 'blur(10px)' }}
             >
               <div className="flex min-h-[calc(100svh-4.5rem)] w-full flex-col justify-start">
                 <ContactSection />
