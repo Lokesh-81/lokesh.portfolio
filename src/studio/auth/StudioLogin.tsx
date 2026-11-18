@@ -13,9 +13,9 @@ interface StudioLoginProps {
 export function StudioLogin({ onSuccess, onExit }: StudioLoginProps) {
   const { loginStudioAdmin } = usePortfolio();
 
-  const [username, setUsername] = useState('Lokesh');
-  const [password, setPassword] = useState('lokesh81*');
-  const [rememberMe, setRememberMe] = useState(true);
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [rememberMe, setRememberMe] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
@@ -24,7 +24,7 @@ export function StudioLogin({ onSuccess, onExit }: StudioLoginProps) {
   // Password Recovery / OTP State
   const [isRecoveryMode, setIsRecoveryMode] = useState(false);
   const [recoveryStep, setRecoveryStep] = useState<'email' | 'otp'>('email');
-  const [recoveryEmail, setRecoveryEmail] = useState('poosala15@gmail.com');
+  const [recoveryEmail, setRecoveryEmail] = useState('');
   const [recoveryOtp, setRecoveryOtp] = useState('');
   const [newPassword, setNewPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
