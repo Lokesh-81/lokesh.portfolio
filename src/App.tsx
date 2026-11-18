@@ -26,7 +26,6 @@ const sectionIds: SectionId[] = ['home', 'about', 'work', 'skills', 'certificati
 function PortfolioContent() {
   const [isLoading, setIsLoading] = useState(() => typeof window !== 'undefined' && !window.location.pathname.startsWith('/studio') && !window.location.hash.includes('studio'));
   const [activeSection, setActiveSection] = useState<SectionId>('home');
-  const [scrollProgress, setScrollProgress] = useState(0);
   const [isStudioRoute, setIsStudioRoute] = useState(() => typeof window !== 'undefined' && (window.location.pathname.startsWith('/studio') || window.location.hash === '#studio' || window.location.hash.startsWith('#/studio')));
 
   useEffect(() => {
@@ -62,36 +61,6 @@ function PortfolioContent() {
     nodes.forEach((node) => observer.observe(node));
     return () => observer.disconnect();
   }, [isStudioRoute, isLoading]);
-
-  useEffect(() => {
-    if (isStudioRoute || isLoading) return;
-    const revealTargets = Array.from(document.querySelectorAll<HTMLElement>('.editorial-section > div'));
-    revealTargets.forEach((node) => node.classList.add('editorial-reveal'));
-    const revealObserver = new IntersectionObserver((entries, observer) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('is-visible');
-          observer.unobserve(entry.target);
-        }
-      });
-    }, { threshold: 0.12, rootMargin: '0px 0px -7% 0px' });
-    revealTargets.forEach((node) => revealObserver.observe(node));
-    return () => revealObserver.disconnect();
-  }, [isStudioRoute, isLoading]);
-
-  useEffect(() => {
-    const updateProgress = () => {
-      const scrollable = document.documentElement.scrollHeight - window.innerHeight;
-      setScrollProgress(scrollable > 0 ? Math.min(1, Math.max(0, window.scrollY / scrollable)) : 0);
-    };
-    updateProgress();
-    window.addEventListener('scroll', updateProgress, { passive: true });
-    window.addEventListener('resize', updateProgress);
-    return () => {
-      window.removeEventListener('scroll', updateProgress);
-      window.removeEventListener('resize', updateProgress);
-    };
-  }, []);
 
   useEffect(() => { trackEvent('home', 'pageview'); }, []);
 
@@ -136,7 +105,6 @@ function PortfolioContent() {
           direction="right"
           style={{ position: 'fixed', inset: 0, zIndex: 0, minWidth: 0, minHeight: 0, pointerEvents: 'none' }}
         />
-        <div className="editorial-scroll-progress" aria-hidden="true"><span style={{ transform: "scaleX(" + scrollProgress + ")" }} /></div>
         <div className="editorial-content relative z-10">
           <PortfolioDock activeSection={activeSection} onSelectSection={handleNavigate} />
           <div className="editorial-clock fixed right-5 top-5 z-40 hidden items-center gap-2 md:flex" title="Live Indian Standard Time">
