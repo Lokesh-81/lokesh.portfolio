@@ -1,7 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import React, { useEffect, useState } from 'react';
 import { PortfolioProvider } from '@/lib/portfolio-context';
 import { LanguageProvider } from '@/i18n';
 import { PortfolioDock } from '@/components/portfolio/portfolio-dock';
@@ -20,142 +19,81 @@ import { StudioApp } from './studio/StudioApp';
 import { trackEvent } from '@/lib/analytics';
 import { ErrorBoundary } from '@/components/core/error-boundary';
 import NightSceneBacklit from '@/components/core/night-scene-backlit';
-import { NotFound } from '@/components/ui/not-found';
 
-type SectionId =
-  | 'home'
-  | 'about'
-  | 'work'
-  | 'skills'
-  | 'certifications'
-  | 'experience'
-  | 'testimonials'
-  | 'contact';
+type SectionId = 'home' | 'about' | 'work' | 'skills' | 'certifications' | 'experience' | 'testimonials' | 'contact';
+const sectionIds: SectionId[] = ['home', 'about', 'work', 'skills', 'certifications', 'experience', 'testimonials', 'contact'];
 
 function PortfolioContent() {
-  const [isLoading, setIsLoading] = useState(() => {
-    if (typeof window !== 'undefined') {
-      const isStudio = window.location.pathname.startsWith('/studio') || window.location.hash.includes('studio');
-      return !isStudio;
-    }
-    return true;
-  });
-
+  const [isLoading, setIsLoading] = useState(() => typeof window !== 'undefined' && !window.location.pathname.startsWith('/studio') && !window.location.hash.includes('studio'));
   const [activeSection, setActiveSection] = useState<SectionId>('home');
-  const [isStudioRoute, setIsStudioRoute] = useState<boolean>(() => {
-    if (typeof window !== 'undefined') {
-      const isPath = window.location.pathname.startsWith('/studio');
-      const isHash = window.location.hash === '#studio' || window.location.hash.startsWith('#/studio');
-      return isPath || isHash;
-    }
-    return false;
-  });
+  const [isStudioRoute, setIsStudioRoute] = useState(() => typeof window !== 'undefined' && (window.location.pathname.startsWith('/studio') || window.location.hash === '#studio' || window.location.hash.startsWith('#/studio')));
 
-  const [isNotFound, setIsNotFound] = useState(false);
-
-  // Support direct URL hash and pathname loading on mount and popstate/hashchange
   useEffect(() => {
-    if (typeof window !== 'undefined') {
-      const checkRoute = () => {
-        const path = window.location.pathname;
-        const hash = window.location.hash.replace('#', '');
-
-        if (path.startsWith('/studio') || hash === 'studio' || hash.startsWith('/studio')) {
-          setIsStudioRoute(true);
-          setIsNotFound(false);
-          return;
-        }
-
-        setIsStudioRoute(false);
-        const validSections = [
-          'home',
-          'about',
-          'work',
-          'testimonials',
-          'skills',
-          'certifications',
-          'experience',
-          'contact',
-        ];
-
-        if (!hash || hash === '') {
-          setIsNotFound(false);
-          setActiveSection('home');
-        } else if (validSections.includes(hash)) {
-          setIsNotFound(false);
-          setActiveSection(hash as SectionId);
-        } else if (hash && !validSections.includes(hash)) {
-          setIsNotFound(true);
-        }
-      };
-
-      checkRoute();
-      window.addEventListener('hashchange', checkRoute);
-      window.addEventListener('popstate', checkRoute);
-      return () => {
-        window.removeEventListener('hashchange', checkRoute);
-        window.removeEventListener('popstate', checkRoute);
-      };
-    }
+    const route = () => {
+      const hash = window.location.hash.slice(1);
+      const studio = window.location.pathname.startsWith('/studio') || hash === 'studio' || hash.startsWith('/studio');
+      setIsStudioRoute(studio);
+      if (!studio && sectionIds.includes(hash as SectionId)) {
+        setActiveSection(hash as SectionId);
+        window.setTimeout(() => document.getElementById(hash)?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 80);
+      }
+    };
+    route();
+    window.addEventListener('hashchange', route);
+    window.addEventListener('popstate', route);
+    return () => {
+      window.removeEventListener('hashchange', route);
+      window.removeEventListener('popstate', route);
+    };
   }, []);
 
-  // Track initial landing page view
   useEffect(() => {
-    trackEvent(activeSection || 'home', 'pageview');
-  }, []);
+    const nodes = sectionIds.map((id) => document.getElementById(id)).filter(Boolean) as HTMLElement[];
+    if (!nodes.length) return;
+    const observer = new IntersectionObserver((entries) => {
+      const visible = entries.filter((entry) => entry.isIntersecting).sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+      if (visible) {
+        const id = visible.target.id as SectionId;
+        setActiveSection(id);
+        window.history.replaceState(null, '', id === 'home' ? window.location.pathname : `#${id}`);
+      }
+    }, { rootMargin: '-22% 0px -58% 0px', threshold: [0, 0.15, 0.35, 0.6] });
+    nodes.forEach((node) => observer.observe(node));
+    return () => observer.disconnect();
+  }, [isStudioRoute, isLoading]);
+
+  useEffect(() => { trackEvent('home', 'pageview'); }, []);
 
   const handleNavigate = (sectionId: string) => {
     if (sectionId === 'studio') {
       trackEvent('studio', 'navigation');
       setIsStudioRoute(true);
-      if (typeof window !== 'undefined') {
-        window.history.pushState(null, '', '#studio');
-      }
+      window.history.pushState(null, '', '#studio');
       return;
     }
-
-    const validSection = sectionId as SectionId;
-    trackEvent(validSection, 'navigation');
+    if (!sectionIds.includes(sectionId as SectionId)) return;
+    const id = sectionId as SectionId;
+    trackEvent(id, 'navigation');
     setIsStudioRoute(false);
-    setActiveSection(validSection);
-    if (typeof window !== 'undefined') {
-      if (window.location.pathname.startsWith('/studio')) {
-        window.history.pushState(null, '', `/#${validSection}`);
-      } else {
-        window.history.replaceState(null, '', `#${validSection}`);
-      }
-    }
+    setActiveSection(id);
+    window.history.pushState(null, '', id === 'home' ? window.location.pathname : `#${id}`);
+    document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
   };
 
   const handleExitStudio = () => {
     setIsStudioRoute(false);
+    window.history.pushState(null, '', '/');
     setActiveSection('home');
-    if (typeof window !== 'undefined') {
-      window.history.pushState(null, '', '/#home');
-    }
+    window.setTimeout(() => document.getElementById('home')?.scrollIntoView({ behavior: 'smooth' }), 50);
   };
 
-  if (isNotFound) {
-    return (
-      <NotFound
-        onReturnHome={() => {
-          setIsNotFound(false);
-          handleNavigate('home');
-        }}
-      />
-    );
-  }
-
-  if (isStudioRoute) {
-    return <StudioApp onExitStudio={handleExitStudio} />;
-  }
+  if (isStudioRoute) return <StudioApp onExitStudio={handleExitStudio} />;
 
   return (
     <>
-      {/* Starting Loading Screen with Lokesh Signature handwriting animation */}
       {isLoading && <LoadingScreen onComplete={() => setIsLoading(false)} />}
-
-      <div className="relative isolate h-screen w-full overflow-hidden bg-[#100B18] text-[#F5EAF5] selection:bg-[#A77BC2]/40 selection:text-[#F5EAF5] flex flex-col font-sans">
+      <div className="editorial-site relative isolate min-h-screen w-full overflow-x-clip bg-[#100B18] text-[#F5EAF5] selection:bg-[#A77BC2]/40 selection:text-[#F5EAF5]">
+        {/* Preserved original animated background: intentionally unchanged. */}
         <NightSceneBacklit
           background="#100B18"
           blossomColor="#E8B8D2"
@@ -165,55 +103,25 @@ function PortfolioContent() {
           scale={100}
           glow={42}
           direction="right"
-          style={{ position: "absolute", inset: 0, zIndex: 0, minWidth: 0, minHeight: 0 }}
+          style={{ position: 'fixed', inset: 0, zIndex: 0, minWidth: 0, minHeight: 0, pointerEvents: 'none' }}
         />
-        <div className="relative z-10 flex min-h-0 flex-1 flex-col">
-        {/* 1. Global Componentry Magnetic Dock Navbar - Primary Navigation */}
-        <PortfolioDock activeSection={activeSection} onSelectSection={handleNavigate} />
-
-        {/* Prominent Live IST Clock Pill - Instantly visible on every section */}
-        <div
-          className="fixed top-3 sm:top-5 right-3 sm:right-6 z-40 flex items-center gap-2 rounded-full border border-[#35263D]/90 bg-[#100B18]/90 px-3 sm:px-3.5 py-1.5 backdrop-blur-xl shadow-lg"
-          title="Live Indian Standard Time (IST)"
-        >
-          <span className="relative flex h-2 w-2">
-            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-            <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
-          </span>
-          <span className="font-mono text-[10px] sm:text-xs font-semibold text-[#E8B8D2] tracking-wider uppercase">
-            IST
-          </span>
-          <span className="text-[#59445F]">·</span>
-          <Clock className="text-[#F5EAF5] font-medium text-[11px] sm:text-xs" />
-        </div>
-
-        {/* 2. Active Screen Viewport - Section switching strictly via navbar */}
-        <main className="relative flex-1 pt-14 sm:pt-18 h-full w-full overflow-hidden">
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={activeSection}
-              initial={{ opacity: 0, y: 12, filter: 'blur(4px)' }}
-              animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
-              exit={{ opacity: 0, y: -12, filter: 'blur(4px)' }}
-              transition={{ duration: 0.28, ease: [0.16, 1, 0.3, 1] }}
-              className="w-full h-full flex flex-col overflow-y-auto custom-scrollbar"
-            >
-              <div className="flex-1 w-full flex flex-col justify-start">
-                {activeSection === 'home' && <Hero onNavigate={handleNavigate} />}
-                {activeSection === 'about' && <AboutSection />}
-                {activeSection === 'work' && <ProjectsSection />}
-                {activeSection === 'skills' && <SkillsSection />}
-                {activeSection === 'certifications' && <CertificationsSection onNavigate={handleNavigate} />}
-                {activeSection === 'experience' && <ExperienceSection onNavigate={handleNavigate} />}
-                {activeSection === 'testimonials' && <TestimonialsSection />}
-                {activeSection === 'contact' && <ContactSection />}
-              </div>
-
-              {/* Global Footer with Live IST Clock & Links inside the active view */}
-              <Footer onNavigate={handleNavigate} />
-            </motion.div>
-          </AnimatePresence>
-        </main>
+        <div className="editorial-content relative z-10">
+          <PortfolioDock activeSection={activeSection} onSelectSection={handleNavigate} />
+          <div className="editorial-clock fixed right-5 top-5 z-40 hidden items-center gap-2 md:flex" title="Live Indian Standard Time">
+            <span className="editorial-live-dot" />
+            <span>IST</span><span className="opacity-40">/</span><Clock />
+          </div>
+          <main className="editorial-main">
+            <section id="home" className="editorial-section editorial-home"><Hero onNavigate={handleNavigate} /></section>
+            <section id="about" className="editorial-section"><AboutSection /></section>
+            <section id="work" className="editorial-section"><ProjectsSection /></section>
+            <section id="skills" className="editorial-section"><SkillsSection /></section>
+            <section id="certifications" className="editorial-section"><CertificationsSection onNavigate={handleNavigate} /></section>
+            <section id="experience" className="editorial-section"><ExperienceSection onNavigate={handleNavigate} /></section>
+            <section id="testimonials" className="editorial-section"><TestimonialsSection /></section>
+            <section id="contact" className="editorial-section"><ContactSection /></section>
+          </main>
+          <Footer onNavigate={handleNavigate} />
         </div>
       </div>
     </>
@@ -221,13 +129,5 @@ function PortfolioContent() {
 }
 
 export default function App() {
-  return (
-    <ErrorBoundary>
-      <PortfolioProvider>
-        <LanguageProvider>
-          <PortfolioContent />
-        </LanguageProvider>
-      </PortfolioProvider>
-    </ErrorBoundary>
-  );
+  return <ErrorBoundary><PortfolioProvider><LanguageProvider><PortfolioContent /></LanguageProvider></PortfolioProvider></ErrorBoundary>;
 }
