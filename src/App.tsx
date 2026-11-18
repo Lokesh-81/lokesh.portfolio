@@ -1,7 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import React, { useState, useEffect, useRef } from 'react';
 import { PortfolioProvider } from '@/lib/portfolio-context';
 import { LanguageProvider } from '@/i18n';
 import { PortfolioDock } from '@/components/portfolio/portfolio-dock';
@@ -32,6 +31,17 @@ type SectionId =
   | 'testimonials'
   | 'contact';
 
+const SECTION_IDS: SectionId[] = [
+  'home',
+  'about',
+  'work',
+  'skills',
+  'certifications',
+  'experience',
+  'testimonials',
+  'contact',
+];
+
 function PortfolioContent() {
   const [isLoading, setIsLoading] = useState(() => {
     if (typeof window !== 'undefined') {
@@ -50,56 +60,85 @@ function PortfolioContent() {
     }
     return false;
   });
-
   const [isNotFound, setIsNotFound] = useState(false);
+  const mainRef = useRef<HTMLElement | null>(null);
 
-  // Support direct URL hash and pathname loading on mount and popstate/hashchange
+  const scrollToSection = (sectionId: SectionId, behavior: ScrollBehavior = 'smooth') => {
+    const target = document.getElementById(sectionId);
+    target?.scrollIntoView({ behavior, block: 'start' });
+  };
+
+  // Keep direct hash links, browser history, and the Studio route working.
   useEffect(() => {
-    if (typeof window !== 'undefined') {
-      const checkRoute = () => {
-        const path = window.location.pathname;
-        const hash = window.location.hash.replace('#', '');
+    if (typeof window === 'undefined') return;
 
-        if (path.startsWith('/studio') || hash === 'studio' || hash.startsWith('/studio')) {
-          setIsStudioRoute(true);
-          setIsNotFound(false);
-          return;
-        }
+    const checkRoute = () => {
+      const path = window.location.pathname;
+      const hash = window.location.hash.replace('#', '');
 
-        setIsStudioRoute(false);
-        const validSections = [
-          'home',
-          'about',
-          'work',
-          'testimonials',
-          'skills',
-          'certifications',
-          'experience',
-          'contact',
-        ];
+      if (path.startsWith('/studio') || hash === 'studio' || hash.startsWith('/studio')) {
+        setIsStudioRoute(true);
+        setIsNotFound(false);
+        return;
+      }
 
-        if (!hash || hash === '') {
-          setIsNotFound(false);
-          setActiveSection('home');
-        } else if (validSections.includes(hash)) {
-          setIsNotFound(false);
-          setActiveSection(hash as SectionId);
-        } else if (hash && !validSections.includes(hash)) {
-          setIsNotFound(true);
-        }
-      };
+      setIsStudioRoute(false);
 
-      checkRoute();
-      window.addEventListener('hashchange', checkRoute);
-      window.addEventListener('popstate', checkRoute);
-      return () => {
-        window.removeEventListener('hashchange', checkRoute);
-        window.removeEventListener('popstate', checkRoute);
-      };
-    }
+      if (!hash) {
+        setIsNotFound(false);
+        setActiveSection('home');
+        scrollToSection('home', 'auto');
+      } else if (SECTION_IDS.includes(hash as SectionId)) {
+        const sectionId = hash as SectionId;
+        setIsNotFound(false);
+        setActiveSection(sectionId);
+        scrollToSection(sectionId, 'auto');
+      } else {
+        setIsNotFound(true);
+      }
+    };
+
+    checkRoute();
+    window.addEventListener('hashchange', checkRoute);
+    window.addEventListener('popstate', checkRoute);
+    return () => {
+      window.removeEventListener('hashchange', checkRoute);
+      window.removeEventListener('popstate', checkRoute);
+    };
   }, []);
 
-  // Track initial landing page view
+  // Update the dock's active item as the user scrolls through the real page.
+  useEffect(() => {
+    const root = mainRef.current;
+    if (!root || isStudioRoute || typeof IntersectionObserver === 'undefined') return;
+
+    const sections = root.querySelectorAll<HTMLElement>('[data-portfolio-section]');
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const current = entries
+          .filter((entry) => entry.isIntersecting)
+          .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+
+        if (!current) return;
+        const sectionId = (current.target as HTMLElement).dataset.portfolioSection as SectionId;
+        if (!SECTION_IDS.includes(sectionId)) return;
+
+        setActiveSection(sectionId);
+        if (window.location.hash !== `#${sectionId}`) {
+          window.history.replaceState(null, '', `#${sectionId}`);
+        }
+      },
+      {
+        root,
+        rootMargin: '-12% 0px -58% 0px',
+        threshold: [0, 0.2, 0.45, 0.7],
+      },
+    );
+
+    sections.forEach((section) => observer.observe(section));
+    return () => observer.disconnect();
+  }, [isStudioRoute]);
+
   useEffect(() => {
     trackEvent(activeSection || 'home', 'pageview');
   }, []);
@@ -114,10 +153,13 @@ function PortfolioContent() {
       return;
     }
 
+    if (!SECTION_IDS.includes(sectionId as SectionId)) return;
     const validSection = sectionId as SectionId;
     trackEvent(validSection, 'navigation');
     setIsStudioRoute(false);
+    setIsNotFound(false);
     setActiveSection(validSection);
+
     if (typeof window !== 'undefined') {
       if (window.location.pathname.startsWith('/studio')) {
         window.history.pushState(null, '', `/#${validSection}`);
@@ -125,6 +167,8 @@ function PortfolioContent() {
         window.history.replaceState(null, '', `#${validSection}`);
       }
     }
+
+    scrollToSection(validSection);
   };
 
   const handleExitStudio = () => {
@@ -133,6 +177,7 @@ function PortfolioContent() {
     if (typeof window !== 'undefined') {
       window.history.pushState(null, '', '/#home');
     }
+    requestAnimationFrame(() => scrollToSection('home', 'auto'));
   };
 
   if (isNotFound) {
@@ -155,7 +200,7 @@ function PortfolioContent() {
       {/* Starting Loading Screen with Lokesh Signature handwriting animation */}
       {isLoading && <LoadingScreen onComplete={() => setIsLoading(false)} />}
 
-      <div className="relative isolate h-screen w-full overflow-hidden bg-[#100B18] text-[#F5EAF5] selection:bg-[#A77BC2]/40 selection:text-[#F5EAF5] flex flex-col font-sans">
+      <div className="relative isolate flex h-screen w-full flex-col overflow-hidden bg-[#100B18] text-[#F5EAF5] selection:bg-[#A77BC2]/40 selection:text-[#F5EAF5] font-sans">
         <NightSceneBacklit
           background="#100B18"
           blossomColor="#E8B8D2"
@@ -165,55 +210,128 @@ function PortfolioContent() {
           scale={100}
           glow={42}
           direction="right"
-          style={{ position: "absolute", inset: 0, zIndex: 0, minWidth: 0, minHeight: 0 }}
+          style={{ position: 'absolute', inset: 0, zIndex: 0, minWidth: 0, minHeight: 0 }}
         />
+
         <div className="relative z-10 flex min-h-0 flex-1 flex-col">
-        {/* 1. Global Componentry Magnetic Dock Navbar - Primary Navigation */}
-        <PortfolioDock activeSection={activeSection} onSelectSection={handleNavigate} />
+          {/* Existing global navigation stays in place. */}
+          <PortfolioDock activeSection={activeSection} onSelectSection={handleNavigate} />
 
-        {/* Prominent Live IST Clock Pill - Instantly visible on every section */}
-        <div
-          className="fixed top-3 sm:top-5 right-3 sm:right-6 z-40 flex items-center gap-2 rounded-full border border-[#35263D]/90 bg-[#100B18]/90 px-3 sm:px-3.5 py-1.5 backdrop-blur-xl shadow-lg"
-          title="Live Indian Standard Time (IST)"
-        >
-          <span className="relative flex h-2 w-2">
-            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-            <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
-          </span>
-          <span className="font-mono text-[10px] sm:text-xs font-semibold text-[#E8B8D2] tracking-wider uppercase">
-            IST
-          </span>
-          <span className="text-[#59445F]">·</span>
-          <Clock className="text-[#F5EAF5] font-medium text-[11px] sm:text-xs" />
-        </div>
+          {/* Existing live IST clock stays in place. */}
+          <div
+            className="fixed top-3 sm:top-5 right-3 sm:right-6 z-40 flex items-center gap-2 rounded-full border border-[#35263D]/90 bg-[#100B18]/90 px-3 sm:px-3.5 py-1.5 backdrop-blur-xl shadow-lg"
+            title="Live Indian Standard Time (IST)"
+          >
+            <span className="relative flex h-2 w-2">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+              <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+            </span>
+            <span className="font-mono text-[10px] sm:text-xs font-semibold text-[#E8B8D2] tracking-wider uppercase">
+              IST
+            </span>
+            <span className="text-[#59445F]">·</span>
+            <Clock className="text-[#F5EAF5] font-medium text-[11px] sm:text-xs" />
+          </div>
 
-        {/* 2. Active Screen Viewport - Section switching strictly via navbar */}
-        <main className="relative flex-1 pt-14 sm:pt-18 h-full w-full overflow-hidden">
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={activeSection}
-              initial={{ opacity: 0, y: 12, filter: 'blur(4px)' }}
-              animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
-              exit={{ opacity: 0, y: -12, filter: 'blur(4px)' }}
-              transition={{ duration: 0.28, ease: [0.16, 1, 0.3, 1] }}
-              className="w-full h-full flex flex-col overflow-y-auto custom-scrollbar"
+          {/* One continuous vertical page: existing sections, original order, no new cards. */}
+          <main
+            ref={mainRef}
+            aria-label="Portfolio sections"
+            className="relative min-h-0 flex-1 w-full overflow-x-hidden overflow-y-auto custom-scrollbar scroll-smooth pt-14 sm:pt-18"
+          >
+            <section
+              id="home"
+              data-portfolio-section="home"
+              className="sticky top-0 w-full min-h-[calc(100svh-4.5rem)]"
+              style={{ zIndex: 1, backgroundColor: 'rgba(16, 11, 24, 0.68)', backdropFilter: 'blur(10px)' }}
             >
-              <div className="flex-1 w-full flex flex-col justify-start">
-                {activeSection === 'home' && <Hero onNavigate={handleNavigate} />}
-                {activeSection === 'about' && <AboutSection />}
-                {activeSection === 'work' && <ProjectsSection />}
-                {activeSection === 'skills' && <SkillsSection />}
-                {activeSection === 'certifications' && <CertificationsSection onNavigate={handleNavigate} />}
-                {activeSection === 'experience' && <ExperienceSection onNavigate={handleNavigate} />}
-                {activeSection === 'testimonials' && <TestimonialsSection />}
-                {activeSection === 'contact' && <ContactSection />}
+              <div className="flex min-h-[calc(100svh-4.5rem)] w-full flex-col justify-start">
+                <Hero onNavigate={handleNavigate} />
               </div>
+            </section>
 
-              {/* Global Footer with Live IST Clock & Links inside the active view */}
+            <section
+              id="about"
+              data-portfolio-section="about"
+              className="sticky top-0 w-full min-h-[calc(100svh-4.5rem)]"
+              style={{ zIndex: 2, backgroundColor: 'rgba(16, 11, 24, 0.68)', backdropFilter: 'blur(10px)' }}
+            >
+              <div className="flex min-h-[calc(100svh-4.5rem)] w-full flex-col justify-start">
+                <AboutSection />
+              </div>
+            </section>
+
+            <section
+              id="work"
+              data-portfolio-section="work"
+              className="sticky top-0 w-full min-h-[calc(100svh-4.5rem)]"
+              style={{ zIndex: 3, backgroundColor: 'rgba(16, 11, 24, 0.68)', backdropFilter: 'blur(10px)' }}
+            >
+              <div className="flex min-h-[calc(100svh-4.5rem)] w-full flex-col justify-start">
+                <ProjectsSection />
+              </div>
+            </section>
+
+            <section
+              id="skills"
+              data-portfolio-section="skills"
+              className="sticky top-0 w-full min-h-[calc(100svh-4.5rem)]"
+              style={{ zIndex: 4, backgroundColor: 'rgba(16, 11, 24, 0.68)', backdropFilter: 'blur(10px)' }}
+            >
+              <div className="flex min-h-[calc(100svh-4.5rem)] w-full flex-col justify-start">
+                <SkillsSection />
+              </div>
+            </section>
+
+            <section
+              id="certifications"
+              data-portfolio-section="certifications"
+              className="sticky top-0 w-full min-h-[calc(100svh-4.5rem)]"
+              style={{ zIndex: 5, backgroundColor: 'rgba(16, 11, 24, 0.68)', backdropFilter: 'blur(10px)' }}
+            >
+              <div className="flex min-h-[calc(100svh-4.5rem)] w-full flex-col justify-start">
+                <CertificationsSection onNavigate={handleNavigate} />
+              </div>
+            </section>
+
+            <section
+              id="experience"
+              data-portfolio-section="experience"
+              className="sticky top-0 w-full min-h-[calc(100svh-4.5rem)]"
+              style={{ zIndex: 6, backgroundColor: 'rgba(16, 11, 24, 0.68)', backdropFilter: 'blur(10px)' }}
+            >
+              <div className="flex min-h-[calc(100svh-4.5rem)] w-full flex-col justify-start">
+                <ExperienceSection onNavigate={handleNavigate} />
+              </div>
+            </section>
+
+            <section
+              id="testimonials"
+              data-portfolio-section="testimonials"
+              className="sticky top-0 w-full min-h-[calc(100svh-4.5rem)]"
+              style={{ zIndex: 7, backgroundColor: 'rgba(16, 11, 24, 0.68)', backdropFilter: 'blur(10px)' }}
+            >
+              <div className="flex min-h-[calc(100svh-4.5rem)] w-full flex-col justify-start">
+                <TestimonialsSection />
+              </div>
+            </section>
+
+            <section
+              id="contact"
+              data-portfolio-section="contact"
+              className="sticky top-0 w-full min-h-[calc(100svh-4.5rem)]"
+              style={{ zIndex: 8, backgroundColor: 'rgba(16, 11, 24, 0.68)', backdropFilter: 'blur(10px)' }}
+            >
+              <div className="flex min-h-[calc(100svh-4.5rem)] w-full flex-col justify-start">
+                <ContactSection />
+              </div>
+            </section>
+
+            {/* Footer remains last, as it was after the active section. */}
+            <div className="relative z-[9] w-full">
               <Footer onNavigate={handleNavigate} />
-            </motion.div>
-          </AnimatePresence>
-        </main>
+            </div>
+          </main>
         </div>
       </div>
     </>
