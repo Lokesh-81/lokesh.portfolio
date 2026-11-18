@@ -51,7 +51,7 @@ export function ProjectCard({ project, onHoverStart, onHoverEnd }: ProjectCardPr
 
   return (
     <div
-      className={`relative group h-full ${project.liveUrl ? 'cursor-pointer' : ''}`}
+      className={`editorial-project-card relative group h-full ${project.liveUrl ? 'cursor-pointer' : ''}`}
       onClick={handleCardClick}
       onKeyDown={handleKeyDown}
       role={project.liveUrl ? 'link' : undefined}
@@ -69,7 +69,7 @@ export function ProjectCard({ project, onHoverStart, onHoverEnd }: ProjectCardPr
       <div
         onMouseEnter={() => onHoverStart?.(project)}
         onMouseLeave={() => onHoverEnd?.()}
-        className="relative z-10 flex h-full flex-col justify-between overflow-hidden rounded-2xl border border-[#35263D] bg-[#1A1222]/95 p-6 sm:p-7 backdrop-blur-xl shadow-[0_4px_25px_rgba(0,0,0,0.4)] transition-all duration-300 group-hover:border-[#E8B8D2]/60 group-hover:shadow-[0_8px_35px_rgba(37,99,235,0.25)]"
+        className="editorial-project-surface relative z-10 flex h-full flex-col justify-between overflow-hidden rounded-2xl border border-[#35263D] bg-[#1A1222]/95 p-6 sm:p-7 backdrop-blur-xl shadow-[0_4px_25px_rgba(0,0,0,0.4)] transition-all duration-500 group-hover:border-[#E8B8D2]/60"
       >
         <div className="relative z-10 flex h-full flex-col justify-between">
           <div>
@@ -101,7 +101,7 @@ export function ProjectCard({ project, onHoverStart, onHoverEnd }: ProjectCardPr
                 <img
                   src={project.image}
                   alt={project.name}
-                  className="h-full w-full object-cover object-top transition-transform duration-500 group-hover:scale-105"
+                  className="editorial-project-image h-full w-full object-cover object-top transition-transform duration-700 group-hover:scale-[1.045]"
                 />
               </div>
             )}
