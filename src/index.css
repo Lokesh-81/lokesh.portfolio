@@ -208,3 +208,44 @@ body { margin: 0; background: var(--paper); color: var(--ink); }
 .studio-login-screen input { border-color: #ded8ce !important; background: #f8f5ef !important; color: #292721 !important; }
 .studio-login-screen input::placeholder { color: #a59d91 !important; }
 .studio-login-screen button[type="submit"] { background: #292721 !important; color: #fffaf1 !important; }
+
+.portfolio-nav {
+  position: fixed; inset: 0 0 auto; z-index: 70; display: flex; align-items: center; justify-content: space-between;
+  gap: 24px; min-height: 76px; padding: 12px clamp(18px, 4.5vw, 72px);
+  border-bottom: 1px solid rgba(74,62,48,.1); background: rgba(247,244,237,.94);
+  color: #28251f; backdrop-filter: blur(18px);
+}
+.portfolio-wordmark { display: inline-flex; align-items: center; gap: 10px; flex: 0 0 auto; border: 0; background: transparent; color: inherit; text-align: left; cursor: pointer; }
+.portfolio-monogram { display: grid; place-items: center; width: 36px; height: 36px; border: 1px solid #bcae9d; border-radius: 50%; color: #4b4136; font: 600 12px Georgia,serif; }
+.portfolio-wordmark strong, .portfolio-wordmark small { display: block; }
+.portfolio-wordmark strong { font-size: 10px; letter-spacing: .15em; }
+.portfolio-wordmark small { margin-top: 4px; color: #958a7d; font: 8px ui-monospace,monospace; letter-spacing: .12em; }
+.portfolio-nav-links { display: flex; align-items: center; justify-content: center; gap: clamp(12px, 1.7vw, 27px); }
+.portfolio-nav-links button { border: 0; padding: 9px 0; background: transparent; color: #777066; font-size: 10px; font-weight: 600; cursor: pointer; transition: color .18s; white-space: nowrap; }
+.portfolio-nav-links button:hover, .portfolio-nav-links button.active { color: #29251f; }
+.portfolio-nav-links .portfolio-nav-contact { padding: 10px 15px; border: 1px solid #c8b9a8; border-radius: 99px; color: #383128; }
+.portfolio-nav-links .portfolio-nav-contact span { margin-left: 5px; }
+.portfolio-nav-actions { position: relative; flex: 0 0 auto; }
+.portfolio-language-button { display: inline-flex; align-items: center; gap: 7px; padding: 9px 11px; border: 1px solid #ded6ca; border-radius: 99px; background: #fbf9f4; color: #514a40; font-size: 9px; font-weight: 700; cursor: pointer; }
+.portfolio-language-menu { position: absolute; top: calc(100% + 9px); right: 0; width: 220px; max-height: 300px; overflow: auto; padding: 6px; border: 1px solid #e0d8cc; border-radius: 14px; background: #fffdf8; box-shadow: 0 16px 40px #31291d1c; }
+.portfolio-language-menu button { display: flex; align-items: center; justify-content: space-between; width: 100%; padding: 9px 10px; border: 0; border-radius: 8px; background: transparent; color: #39342c; text-align: left; font-size: 11px; cursor: pointer; }
+.portfolio-language-menu button:hover { background: #f1ece3; }
+.portfolio-language-menu small { margin-left: 4px; color: #968c7f; font-size: 9px; }
+.portfolio-mobile-toggle, .portfolio-mobile-menu { display: none; }
+.portfolio-hero-stage { padding-top: 76px; }
+.portfolio-hero-stage > .portfolio-hero-content { padding-top: 30px; }
+@media (max-width: 1050px) {
+  .portfolio-nav { min-height: 68px; padding-inline: 18px; }
+  .portfolio-nav-links { gap: 12px; }
+  .portfolio-nav-links button { font-size: 9px; }
+  .portfolio-wordmark strong { font-size: 9px; }
+}
+@media (max-width: 820px) {
+  .portfolio-nav { min-height: 64px; }
+  .portfolio-nav-links, .portfolio-nav-actions { display: none; }
+  .portfolio-mobile-toggle { display: inline-flex; align-items: center; justify-content: center; width: 39px; height: 39px; border: 1px solid #ded6ca; border-radius: 50%; background: #fbf9f4; color: #39342c; }
+  .portfolio-mobile-menu { position: absolute; top: calc(100% + 8px); left: 12px; right: 12px; display: flex; flex-direction: column; padding: 8px; border: 1px solid #e0d8cc; border-radius: 15px; background: #fffdf8; box-shadow: 0 18px 50px #30291d1c; }
+  .portfolio-mobile-menu button { display: flex; align-items: center; justify-content: space-between; padding: 13px 12px; border: 0; border-radius: 9px; background: transparent; color: #5e574d; text-align: left; font-size: 12px; }
+  .portfolio-mobile-menu button.active { background: #f0eae0; color: #29251f; }
+  .portfolio-hero-stage { padding-top: 64px; }
+}
