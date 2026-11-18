@@ -92,19 +92,7 @@ function PortfolioContent() {
   return (
     <>
       {isLoading && <LoadingScreen onComplete={() => setIsLoading(false)} />}
-      <div className="editorial-site relative isolate min-h-screen w-full overflow-x-clip bg-[#100B18] text-[#F5EAF5] selection:bg-[#A77BC2]/40 selection:text-[#F5EAF5]">
-        {/* Preserved original animated background: intentionally unchanged. */}
-        <NightSceneBacklit
-          background="#100B18"
-          blossomColor="#E8B8D2"
-          speed={65}
-          petals={105}
-          wind={24}
-          scale={100}
-          glow={42}
-          direction="right"
-          style={{ position: 'fixed', inset: 0, zIndex: 0, minWidth: 0, minHeight: 0, pointerEvents: 'none' }}
-        />
+      <div className="editorial-site relative isolate min-h-screen w-full overflow-x-clip bg-[#F5F0E8] text-[#28231F] selection:bg-[#D9B7A4]/40 selection:text-[#28231F]">
         <div className="editorial-content relative z-10">
           <PortfolioDock activeSection={activeSection} onSelectSection={handleNavigate} />
           <div className="editorial-clock fixed right-5 top-5 z-40 hidden items-center gap-2 md:flex" title="Live Indian Standard Time">
@@ -112,7 +100,21 @@ function PortfolioContent() {
             <span>IST</span><span className="opacity-40">/</span><Clock />
           </div>
           <main className="editorial-main">
-            <section id="home" className="editorial-section editorial-home"><Hero onNavigate={handleNavigate} /></section>
+            <section id="home" className="editorial-section editorial-home">
+              {/* Original blossom night scene is intentionally scoped to the hero only. */}
+              <NightSceneBacklit
+                background="#100B18"
+                blossomColor="#E8B8D2"
+                speed={65}
+                petals={105}
+                wind={24}
+                scale={100}
+                glow={42}
+                direction="right"
+                style={{ position: 'absolute', inset: 0, zIndex: 0, width: '100%', height: '100%', pointerEvents: 'none' }}
+              />
+              <Hero onNavigate={handleNavigate} />
+            </section>
             <section id="about" className="editorial-section"><AboutSection /></section>
             <section id="work" className="editorial-section"><ProjectsSection /></section>
             <section id="skills" className="editorial-section"><SkillsSection /></section>
