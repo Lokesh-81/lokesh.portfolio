@@ -284,17 +284,6 @@ function PortfolioContent() {
             </section>
 
             <section
-              id="experience"
-              data-portfolio-section="experience"
-              className="sticky top-0 w-full min-h-[calc(100svh-4.5rem)]"
-              style={{ zIndex: 5 }}
-            >
-              <div className="flex min-h-[calc(100svh-4.5rem)] w-full flex-col justify-start">
-                <ExperienceSection onNavigate={handleNavigate} />
-              </div>
-            </section>
-
-            <section
               id="certifications"
               data-portfolio-section="certifications"
               className="sticky top-0 w-full min-h-[calc(100svh-4.5rem)]"
@@ -302,6 +291,17 @@ function PortfolioContent() {
             >
               <div className="flex min-h-[calc(100svh-4.5rem)] w-full flex-col justify-start">
                 <CertificationsSection onNavigate={handleNavigate} />
+              </div>
+            </section>
+
+            <section
+              id="experience"
+              data-portfolio-section="experience"
+              className="sticky top-0 w-full min-h-[calc(100svh-4.5rem)]"
+              style={{ zIndex: 5 }}
+            >
+              <div className="flex min-h-[calc(100svh-4.5rem)] w-full flex-col justify-start">
+                <ExperienceSection onNavigate={handleNavigate} />
               </div>
             </section>
 
