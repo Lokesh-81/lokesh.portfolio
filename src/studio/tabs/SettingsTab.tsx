@@ -624,7 +624,7 @@ export function SettingsTab({ showToast }: SettingsTabProps) {
                     required
                     value={deletePassword}
                     onChange={(e) => setDeletePassword(e.target.value)}
-                    placeholder="Enter current password (e.g. lokesh81*)"
+                    placeholder="Enter your current administrator password"
                     className="w-full rounded-xl border border-[#1F2937] bg-[#0B132B] px-3 py-2 text-xs text-white placeholder-[#64748B] focus:border-red-500 focus:outline-none"
                   />
                 </div>
