@@ -117,3 +117,13 @@ body { font-family: 'DM Sans', sans-serif; }
  .editorial-reveal, .editorial-reveal.is-visible, .editorial-line-one, .editorial-line-two, .editorial-line-three, .editorial-hero-aside, .editorial-hero-top, .editorial-hero-bottom { opacity:1; transform:none; animation:none; clip-path:none; transition:none; }
  .editorial-section .group, .editorial-section .group img { transition:none; }
 }
+
+/* Project cards: restrained lift, blossom edge-light and image depth. */
+.editorial-project-card { perspective:1000px; isolation:isolate; }
+.editorial-project-surface { transform:translate3d(0,0,0); transition:transform .55s cubic-bezier(.2,.75,.2,1), border-color .4s ease, box-shadow .55s ease; }
+.editorial-project-card:hover .editorial-project-surface, .editorial-project-card:focus-within .editorial-project-surface { transform:translate3d(0,-7px,0); border-color:rgba(232,184,210,.72); box-shadow:0 22px 55px rgba(0,0,0,.24), 0 0 0 1px rgba(232,184,210,.08), 0 12px 34px rgba(167,123,194,.12); }
+.editorial-project-image { transform:scale(1); transition:transform .85s cubic-bezier(.2,.7,.2,1), filter .6s ease; }
+.editorial-project-card:hover .editorial-project-image { transform:scale(1.055); filter:saturate(1.08); }
+.editorial-project-card a svg { transition:transform .3s ease, opacity .3s ease; }
+.editorial-project-card a:hover svg { transform:translate(3px,-3px); }
+@media (prefers-reduced-motion:reduce) { .editorial-project-surface,.editorial-project-image,.editorial-project-card a svg { transition:none !important; } .editorial-project-card:hover .editorial-project-surface,.editorial-project-card:focus-within .editorial-project-surface,.editorial-project-card:hover .editorial-project-image { transform:none; } }
