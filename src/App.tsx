@@ -72,18 +72,6 @@ function PortfolioContent() {
     trackEvent('home', 'pageview');
   }, []);
 
-  useEffect(() => {
-    if (isStudioRoute) return;
-    const nodes = sectionIds.map((id) => document.getElementById(id)).filter(Boolean) as HTMLElement[];
-    if (!nodes.length) return;
-    const observer = new IntersectionObserver((entries) => {
-      const visible = entries.filter((entry) => entry.isIntersecting).sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
-      if (visible) setActiveSection(visible.target.id as SectionId);
-    }, { rootMargin: '-20% 0px -55% 0px', threshold: [0.05, 0.2, 0.45] });
-    nodes.forEach((node) => observer.observe(node));
-    return () => observer.disconnect();
-  }, [isStudioRoute]);
-
   const handleNavigate = useCallback((section: string) => {
     if (section === 'studio') {
       trackEvent('studio', 'navigation');
