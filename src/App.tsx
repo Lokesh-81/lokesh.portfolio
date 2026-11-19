@@ -72,6 +72,22 @@ function PortfolioContent() {
     trackEvent('home', 'pageview');
   }, []);
 
+  useEffect(() => {
+    if (isStudioRoute) return;
+    const updateActiveSection = () => {
+      const marker = window.innerHeight * 0.38;
+      let current: SectionId = 'home';
+      for (const id of sectionIds) {
+        const node = document.getElementById(id);
+        if (node && node.getBoundingClientRect().top <= marker) current = id;
+      }
+      setActiveSection(current);
+    };
+    updateActiveSection();
+    window.addEventListener('scroll', updateActiveSection, { passive: true });
+    return () => window.removeEventListener('scroll', updateActiveSection);
+  }, [isStudioRoute]);
+
   const handleNavigate = useCallback((section: string) => {
     if (section === 'studio') {
       trackEvent('studio', 'navigation');
