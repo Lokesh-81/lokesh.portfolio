@@ -356,3 +356,54 @@ body { margin: 0; background: var(--paper); color: var(--ink); }
 .studio-workspace .studio-eyebrow{color:#986b78!important;letter-spacing:.16em}
 .studio-workspace .studio-page-context{border:1px solid #e7ded3;background:#fff;border-radius:12px;padding:.8rem 1rem}
 .studio-workspace .studio-footer{color:#968a80}
+
+
+/* Editorial section systems */
+.projects-editorial,.skills-editorial,.testimonials-editorial{width:min(1480px,100%);margin:0 auto;padding:clamp(1rem,3vw,2.5rem) 0 4rem;color:#292522}
+.projects-editorial-heading,.skills-editorial-heading,.testimonials-editorial-heading{display:grid;grid-template-columns:1.2fr .8fr;align-items:end;gap:2rem;padding:0 0 2.2rem;border-bottom:1px solid #d9c9bd}
+.projects-editorial-heading h2,.skills-editorial-heading h2,.testimonials-editorial-heading h2{margin:.7rem 0 0;font:500 clamp(2.8rem,6vw,6.2rem)/.98 Georgia,serif;letter-spacing:-.065em;color:#302723}
+.projects-editorial-heading h2 em,.skills-editorial-heading h2 em,.testimonials-editorial-heading h2 em{font-weight:400;color:#a16e7d}
+.projects-editorial-heading p,.skills-editorial-heading p,.testimonials-editorial-heading p{max-width:460px;margin:0 0 .4rem;color:#766b63;font-size:.95rem;line-height:1.8}
+.projects-overline,.skills-overline,.testimonials-overline{display:inline-flex;align-items:center;gap:.55rem;color:#9b6f78;font:600 .64rem ui-monospace,monospace;letter-spacing:.16em}
+.projects-filter-row{display:flex;justify-content:space-between;align-items:center;gap:1.2rem;flex-wrap:wrap;padding:1.3rem 0;border-bottom:1px solid #dfd3c9}
+.projects-filter-row>span,.skills-filter-label{display:inline-flex;align-items:center;gap:.45rem;color:#8a776d;font:600 .62rem ui-monospace,monospace;letter-spacing:.13em}
+.projects-filter-row>div{display:flex;flex-wrap:wrap;gap:.45rem}
+.projects-filter-row button,.skills-category-tabs button{border:1px solid #d8c9bf;border-radius:999px;padding:.55rem .85rem;background:#f8f4ee;color:#655b55;font-size:.73rem;transition:.2s}
+.projects-filter-row button.is-active,.skills-category-tabs button.is-active{border-color:#9d6f7c;background:#9d6f7c;color:#fff}
+.projects-featured-layout{padding-top:1.6rem}
+.projects-featured-label,.projects-remaining-heading,.skills-panel-heading,.skills-library-heading>div>span{display:flex;justify-content:space-between;color:#9b6f78;font:600 .62rem ui-monospace,monospace;letter-spacing:.15em}
+.projects-featured-card{max-width:100%;padding:1rem 0 2.2rem}
+.projects-featured-card>div{max-width:100%}
+.projects-remaining{padding-top:1.6rem;border-top:1px solid #d9c9bd}
+.projects-remaining-heading{margin-bottom:1.2rem}
+.projects-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1.4rem}
+.projects-empty{display:grid;justify-items:center;gap:.8rem;padding:5rem 1rem;color:#8b7b70;text-align:center}
+.projects-empty h3{margin:0;color:#342b27;font:500 2rem Georgia,serif}.projects-empty p{margin:0}.projects-empty button{display:flex;align-items:center;gap:.4rem;color:#986b78}
+.skills-summary-strip{display:grid;grid-template-columns:repeat(3,1fr);margin:1.6rem 0 2.2rem;border-block:1px solid #d9c9bd}
+.skills-summary-strip>div{display:grid;gap:.3rem;padding:1.2rem 1.5rem;border-right:1px solid #d9c9bd}.skills-summary-strip>div:last-child{border:0}
+.skills-summary-strip strong{font:500 clamp(2rem,4vw,3.4rem)/1 Georgia,serif;color:#9d6f7c}.skills-summary-strip span{color:#8b7a70;font:600 .58rem ui-monospace,monospace;letter-spacing:.12em}
+.skills-marquee-panel{padding:1.3rem 1.4rem 1.8rem;border:1px solid #ddcfc5;border-radius:3px;background:#f7f1ea}
+.skills-panel-heading{margin-bottom:1rem}
+.skills-library{margin-top:2.8rem}
+.skills-library-heading{display:flex;align-items:end;justify-content:space-between;gap:1rem;padding-bottom:1rem;border-bottom:1px solid #d9c9bd}
+.skills-library-heading h3{display:flex;align-items:center;gap:.65rem;margin:.55rem 0 0;color:#302723;font:500 1.8rem Georgia,serif}
+.skills-category-tabs{display:flex;flex-wrap:wrap;gap:.5rem;padding:1rem 0}
+.skills-category-tabs button{display:inline-flex;align-items:center;gap:.55rem}.skills-category-tabs small{opacity:.7;font-size:.6rem}
+.skills-directory{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));column-gap:2rem}
+.skills-directory-item{display:flex;align-items:center;gap:1rem;min-width:0;padding:1rem .2rem;border-bottom:1px solid #e2d8cf}
+.skills-item-number{color:#b49b8d;font:600 .62rem ui-monospace,monospace}
+.skills-item-main{flex:1;min-width:0}.skills-item-main h4{margin:0;color:#302723;font-size:.92rem;font-weight:600}.skills-item-main span{display:block;margin-top:.2rem;color:#95847a;font-size:.68rem}
+.skills-level{white-space:nowrap;border-radius:999px;padding:.35rem .55rem;font-size:.6rem}
+.skill-level-core{background:#e8d9dd;color:#895b69}.skill-level-working{background:#e9e1d3;color:#8c7552}.skill-level-familiar{background:#e8e5df;color:#777067}
+.skills-item-arrow{color:#b19a8b}
+.testimonials-editorial-heading>div:last-child{display:grid;justify-items:start;gap:1rem}
+.testimonials-editorial-heading button{display:inline-flex;align-items:center;gap:.6rem;padding:.75rem 1rem;border:1px solid #b9929d;border-radius:3px;color:#875d6b;font-size:.75rem}
+.testimonials-ledger{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1rem;padding-top:1.5rem}
+.testimonial-ledger-card{display:flex;flex-direction:column;min-height:300px;padding:1.4rem;border:1px solid #ded1c8;background:#f8f4ee;transition:transform .25s,border-color .25s,background .25s;cursor:pointer}
+.testimonial-ledger-card:hover,.testimonial-ledger-card.is-selected{transform:translateY(-4px);border-color:#b58c98;background:#fffaf5}
+.testimonial-ledger-top{display:flex;justify-content:space-between;color:#a17a83;font:600 .6rem ui-monospace,monospace;letter-spacing:.12em}
+.testimonial-ledger-card blockquote{flex:1;margin:1.5rem 0;color:#554a43;font:400 clamp(1rem,1.5vw,1.18rem)/1.75 Georgia,serif;white-space:pre-line}
+.testimonial-ledger-card footer{display:flex;align-items:center;gap:.75rem;padding-top:1rem;border-top:1px solid #e4d9d0}
+.testimonial-avatar{display:grid;place-items:center;width:38px;height:38px;border-radius:50%;background:#e8d9dd;color:#895b69;font:600 .75rem ui-monospace,monospace}
+.testimonial-ledger-card footer>div:nth-child(2){display:grid;gap:.2rem;flex:1}.testimonial-ledger-card footer strong{color:#302723;font-size:.8rem}.testimonial-ledger-card footer span{color:#8a7d74;font-size:.66rem}.testimonial-ledger-arrow{color:#a17a83;font-size:1.1rem}
+@media(max-width:760px){.projects-editorial-heading,.skills-editorial-heading,.testimonials-editorial-heading{grid-template-columns:1fr;gap:1rem}.projects-grid,.skills-directory,.testimonials-ledger{grid-template-columns:1fr}.skills-summary-strip>div{padding:.9rem .6rem}.skills-summary-strip span{font-size:.48rem}.projects-editorial-heading h2,.skills-editorial-heading h2,.testimonials-editorial-heading h2{font-size:clamp(2.6rem,12vw,4.5rem)}}
