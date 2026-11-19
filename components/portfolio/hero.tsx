@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { ArrowDownRight, ArrowUpRight, FileText, Mail, Sparkles } from 'lucide-react';
+import { ArrowDownRight, ArrowUpRight, Award, FileText, Mail } from 'lucide-react';
 import { useLanguage } from '@/i18n';
 import { usePortfolio } from '@/lib/portfolio-context';
 import { ResumeModal } from '@/components/portfolio/resume-modal';
@@ -45,7 +45,7 @@ export function Hero({ onNavigate }: HeroProps) {
 
           <motion.p variants={entrance} className="hero-rebuild-greeting">{greeting}</motion.p>
           <motion.h1 variants={entrance} className="hero-rebuild-name">
-            {name}
+            {name.replace(/[.]+$/, '')}
             <span className="hero-rebuild-period">.</span>
           </motion.h1>
 
@@ -89,10 +89,10 @@ export function Hero({ onNavigate }: HeroProps) {
             <span className="hero-side-rule" />
             <span>PERSONAL PORTFOLIO</span>
           </div>
-          {(hero?.showAvailability !== false) && hero?.featuredCredentialTitle && (
+          {hero?.showAvailability !== false && (
             <button type="button" className="hero-credential" onClick={() => onNavigate?.(hero?.featuredCredentialLink || 'certifications')}>
-              <Sparkles size={15} />
-              <span><b>{hero.featuredCredentialTitle}</b><small>{hero.featuredCredentialDate || 'Credential'}</small></span>
+              <Award size={15} />
+              <span><b>{hero?.featuredCredentialTitle || 'Google Cloud Certified Professional Cloud Architect'}</b><small>{hero?.featuredCredentialDate || 'Sep 2026'}</small></span>
               <ArrowUpRight size={15} />
             </button>
           )}
