@@ -1,24 +1,17 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
+import { ArrowUpRight, Filter, FolderOpen } from 'lucide-react';
 import { ProjectCard } from './project-card';
 import { usePortfolio } from '@/lib/portfolio-context';
 import { useLanguage } from '@/i18n';
 import { projects as fallbackProjects, type Project } from '@/lib/data/projects';
-import { Filter } from 'lucide-react';
-import { TextEffect } from '@/components/core/text-effect';
-import { AnimatedGroup } from '@/components/core/animated-group';
 
 export function ProjectsSection() {
   const { projects: contextProjects } = usePortfolio();
-  const { t, language } = useLanguage();
-  const [selectedCategory, setSelectedCategory] = useState<string>('All');
-
-  const allProjects: Project[] =
-    contextProjects && contextProjects.length > 0
-      ? (contextProjects as any)
-      : fallbackProjects;
-
+  const { t } = useLanguage();
+  const [selectedCategory, setSelectedCategory] = useState('All');
+  const allProjects: Project[] = contextProjects?.length ? contextProjects as any : fallbackProjects;
   const categories = [
     { key: 'All', label: t('work.filter.all') },
     { key: 'AI & FinTech', label: t('work.filter.aiFintech') },
@@ -26,115 +19,30 @@ export function ProjectsSection() {
     { key: 'Business & Startups', label: t('work.filter.business') },
     { key: 'Creative & EdTech', label: t('work.filter.creative') },
   ];
-
-  const filteredProjects = allProjects.filter((project) => {
+  const filteredProjects = useMemo(() => allProjects.filter((project) => {
     if (selectedCategory === 'All') return true;
-    if (selectedCategory === 'AI & FinTech')
-      return project.category.includes('AI') || project.category.includes('FinTech');
-    if (selectedCategory === 'Healthcare')
-      return project.category.includes('Healthcare');
-    if (selectedCategory === 'Business & Startups')
-      return (
-        project.category.includes('Business') ||
-        project.category.includes('Startup') ||
-        project.category.includes('Corporate')
-      );
-    if (selectedCategory === 'Creative & EdTech')
-      return (
-        project.category.includes('Photography') ||
-        project.category.includes('Education') ||
-        project.category.includes('EdTech') ||
-        project.category.includes('Creative') ||
-        project.category.includes('Correspondence')
-      );
+    if (selectedCategory === 'AI & FinTech') return project.category.includes('AI') || project.category.includes('FinTech');
+    if (selectedCategory === 'Healthcare') return project.category.includes('Healthcare');
+    if (selectedCategory === 'Business & Startups') return ['Business', 'Startup', 'Corporate'].some((word) => project.category.includes(word));
+    if (selectedCategory === 'Creative & EdTech') return ['Photography', 'Education', 'EdTech', 'Creative', 'Correspondence'].some((word) => project.category.includes(word));
     return true;
-  });
+  }), [allProjects, selectedCategory]);
+  const featured = filteredProjects[0];
+  const remaining = filteredProjects.slice(1);
 
   return (
-    <div className="relative min-h-[85vh] w-full px-4 sm:px-8 py-8 sm:py-12">
-      <div className="relative z-10 mx-auto max-w-[1400px]">
-        {/* Section Header with TextEffect (No dates, no numbers) */}
-        <div className="flex flex-col justify-between gap-4 border-b border-[#35263D] pb-6 md:flex-row md:items-end">
-          <div>
-            <div className="text-xs uppercase tracking-[0.2em] text-[#E8B8D2] font-semibold">
-              <TextEffect key={`tag-${language}`} per="char" delay={0.05}>
-                {t('work.tag')}
-              </TextEffect>
-            </div>
-            <h2 className="mt-1 text-3xl font-light tracking-tight text-[#F5EAF5] sm:text-5xl md:text-6xl">
-              <TextEffect key={`title-${language}`} per="word" delay={0.15}>
-                {t('work.title')}
-              </TextEffect>{' '}
-              <span className="instrument italic font-normal text-[#E8B8D2]">
-                {t('work.titleAccent')}
-              </span>
-            </h2>
-          </div>
-          <div className="max-w-md text-xs sm:text-sm leading-relaxed text-[#DCCFE0]">
-            <TextEffect key={`sub-${language}`} per="word" delay={0.25}>
-              {t('work.subtitle')}
-            </TextEffect>
-          </div>
-        </div>
-
-        {/* Category Filters */}
-        <div className="mt-6 flex flex-wrap items-center gap-2">
-          <span className="mr-1 text-xs text-[#D8B4E8]/80 flex items-center gap-1.5 font-medium">
-            <Filter className="h-3 w-3 text-[#E8B8D2]" /> {t('work.filter')}
-          </span>
-          {categories.map((cat) => (
-            <button
-              key={cat.key}
-              onClick={() => setSelectedCategory(cat.key)}
-              className={`rounded-full px-3.5 py-1 text-xs font-medium transition-all cursor-pointer ${
-                selectedCategory === cat.key
-                  ? 'bg-gradient-to-r from-[#A77BC2] to-[#E8B8D2] text-white shadow-xs'
-                  : 'border border-[#35263D] bg-[#1A1222] text-[#D8B4E8]/80 hover:border-[#E8B8D2] hover:text-[#F5EAF5]'
-              }`}
-            >
-              {cat.label}
-            </button>
-          ))}
-        </div>
-
-        {/* Projects Grid with AnimatedGroup custom variants */}
-        <AnimatedGroup
-          key={selectedCategory}
-          className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3 pb-12"
-          variants={{
-            container: {
-              visible: {
-                transition: {
-                  staggerChildren: 0.05,
-                },
-              },
-            },
-            item: {
-              hidden: {
-                opacity: 0,
-                filter: 'blur(12px)',
-                y: -60,
-                rotateX: 90,
-              },
-              visible: {
-                opacity: 1,
-                filter: 'blur(0px)',
-                y: 0,
-                rotateX: 0,
-                transition: {
-                  type: 'spring',
-                  bounce: 0.3,
-                  duration: 1,
-                },
-              },
-            },
-          }}
-        >
-          {filteredProjects.map((project) => (
-            <ProjectCard key={project.id || project.name} project={project} />
-          ))}
-        </AnimatedGroup>
-      </div>
+    <div className="projects-editorial">
+      <header className="projects-editorial-heading">
+        <div><span className="projects-overline"><FolderOpen size={14} /> SELECTED WORK / {String(filteredProjects.length).padStart(2, '0')} PROJECTS</span>
+          <h2>{t('work.title')} <em>{t('work.titleAccent')}</em></h2></div>
+        <p>{t('work.subtitle')}</p>
+      </header>
+      <div className="projects-filter-row"><span><Filter size={13}/> FILTER BY FIELD</span><div role="group" aria-label="Filter projects">{categories.map((cat) => <button type="button" key={cat.key} onClick={() => setSelectedCategory(cat.key)} className={selectedCategory === cat.key ? 'is-active' : ''}>{cat.label}</button>)}</div></div>
+      {featured ? <div className="projects-featured-layout">
+        <div className="projects-featured-label"><span>FEATURED PROJECT</span><span>01 / {String(filteredProjects.length).padStart(2, '0')}</span></div>
+        <div className="projects-featured-card"><ProjectCard project={featured} /></div>
+        {remaining.length > 0 && <div className="projects-remaining"><div className="projects-remaining-heading"><span>MORE EXPLORATIONS</span><span>{String(remaining.length).padStart(2, '0')} ITEMS</span></div><div className="projects-grid">{remaining.map((project) => <ProjectCard key={project.id || project.name} project={project} />)}</div></div>}
+      </div> : <div className="projects-empty"><FolderOpen size={28}/><h3>No projects in this category</h3><p>Choose another field to explore the work.</p><button onClick={() => setSelectedCategory('All')}>Show all projects <ArrowUpRight size={14}/></button></div>}
     </div>
   );
 }
