@@ -72,11 +72,11 @@ export function ActiveTheoryField() {
     resize();
     draw();
     window.addEventListener('resize', resize);
-    canvas.addEventListener('pointermove', move, { passive: true });
+    window.addEventListener('pointermove', move, { passive: true });
     return () => {
       cancelAnimationFrame(raf);
       window.removeEventListener('resize', resize);
-      canvas.removeEventListener('pointermove', move);
+      window.removeEventListener('pointermove', move);
     };
   }, []);
 
