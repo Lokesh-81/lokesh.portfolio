@@ -204,13 +204,13 @@ export function ContactSection() {
                 ease: 'easeOut',
               }}
             >
-              <GlowEffect
+              {isFormTyping && <GlowEffect
                 colors={['#FF5733', '#33FF57', '#3357FF', '#F1C40F']}
                 mode="colorShift"
                 blur="soft"
                 duration={3}
                 scale={0.99}
-              />
+              />}
             </motion.div>
 
             <div className="relative z-10 mb-8 flex flex-wrap items-center justify-between gap-4 border-b border-[#d8d0c2] pb-5">
@@ -222,7 +222,7 @@ export function ContactSection() {
                   {t('contact.formDesc')}
                 </div>
               </div>
-              <span className="hidden sm:inline-flex items-center gap-1 rounded-full bg-[#A77BC2]/25 px-3 py-1 font-mono text-[11px] font-semibold text-[#E8B8D2] border border-[#A77BC2]/40">
+              <span className="hidden sm:inline-flex items-center gap-1 rounded-full bg-[#f0eafa] px-3 py-1 font-mono text-[11px] font-semibold text-[#514d45] border border-[#29251f]/30">
                 {t('contact.responseBadge')}
               </span>
             </div>
@@ -255,7 +255,7 @@ export function ContactSection() {
                 </div>
 
                 <div>
-                  <label className="block text-xs font-semibold text-[#F5EAF5] mb-1.5">
+                  <label className="block text-xs font-semibold text-[#29251f] mb-1.5">
                     {t('contact.emailAddress')}
                   </label>
                   <input
@@ -335,12 +335,12 @@ export function ContactSection() {
                       ease: 'easeOut',
                     }}
                   >
-                    <GlowEffect
+                    {isTextareaTyping && <GlowEffect
                       colors={['#FF5733', '#33FF57', '#3357FF', '#F1C40F']}
                       mode="colorShift"
                       blur="soft"
                       duration={3}
-                    />
+                    />}
                   </motion.div>
                   <textarea
                     rows={6}
