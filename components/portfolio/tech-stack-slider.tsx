@@ -223,7 +223,7 @@ export function TechStackSlider() {
         {[...row1Technologies, ...row1Technologies].map((tech, index) => (
           <div
             key={`${tech.name}-${index}`}
-            className="tech-stack-card group flex h-[82px] w-[260px] shrink-0 items-center gap-4 rounded-2xl border-2 border-[#29251f] bg-[#fffdf7] px-4 shadow-[3px_3px_0_#29251f] transition-transform hover:-translate-y-0.5"
+            className="tech-stack-card flex h-[82px] w-[260px] shrink-0 items-center gap-4 rounded-2xl border-2 border-[#29251f] bg-[#fffdf7] px-4 shadow-[3px_3px_0_#29251f] transition-transform hover:-translate-y-0.5"
           >
             <div className="tech-stack-card__icon flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-[#ded8cc] bg-white p-1.5">
               {tech.icon}
@@ -246,7 +246,7 @@ export function TechStackSlider() {
           {[...row2Technologies, ...row2Technologies].map((tech, index) => (
             <div
               key={`${tech.name}-${index}`}
-              className="tech-stack-card group flex h-[82px] w-[260px] shrink-0 items-center gap-4 rounded-2xl border-2 border-[#29251f] bg-[#fffdf7] px-4 shadow-[3px_3px_0_#29251f] transition-transform hover:-translate-y-0.5"
+              className="tech-stack-card flex h-[82px] w-[260px] shrink-0 items-center gap-4 rounded-2xl border-2 border-[#29251f] bg-[#fffdf7] px-4 shadow-[3px_3px_0_#29251f] transition-transform hover:-translate-y-0.5"
             >
               <div className="tech-stack-card__icon flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-[#ded8cc] bg-white p-1.5">
                 {tech.icon}
