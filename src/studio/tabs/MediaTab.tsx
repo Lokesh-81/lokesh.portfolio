@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import { usePortfolio } from '@/lib/portfolio-context';
 import { uploadMediaToSupabase } from '@/lib/supabase';
+import { StudioDropzone } from '../StudioDropzone';
 import type { MediaItem } from '@/lib/portfolio-types';
 import {
   Upload,
@@ -28,9 +29,8 @@ export function MediaTab({ showToast }: MediaTabProps) {
   const [searchQuery, setSearchQuery] = useState('');
   const [filterType, setFilterType] = useState<'all' | 'image' | 'document'>('all');
 
-  const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const files = e.target.files;
-    if (!files || files.length === 0) return;
+  const handleFileUpload = async (files: File[]) => {
+    if (!files.length) return;
 
     setIsUploading(true);
     let successCount = 0;
@@ -98,17 +98,9 @@ export function MediaTab({ showToast }: MediaTabProps) {
             Upload and host images, diagrams, certificates, and assets in Supabase Storage with instant public CDN URLs.
           </p>
         </div>
-        <label className="inline-flex items-center gap-2 rounded-xl bg-[#2563EB] px-4 py-2.5 text-xs font-semibold text-white shadow-md hover:bg-[#1D4ED8] transition-all cursor-pointer">
-          <Upload className="h-4 w-4" />
-          <span>{isUploading ? 'Uploading to Supabase...' : 'Upload Files'}</span>
-          <input
-            type="file"
-            multiple
-            onChange={handleFileUpload}
-            disabled={isUploading}
-            className="hidden"
-          />
-        </label>
+        <div className="w-full sm:w-[min(440px,100%)]">
+          <StudioDropzone multiple accept="image/*,.pdf,.doc,.docx,.svg" title={isUploading ? 'Uploading files…' : 'Drop images or documents here'} description="Or browse files · Multiple files supported" disabled={isUploading} onFiles={handleFileUpload} />
+        </div>
       </div>
 
       {/* Filter and Search Bar */}
