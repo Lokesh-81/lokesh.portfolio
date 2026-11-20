@@ -1217,3 +1217,23 @@ html,body{background:var(--sk-paper)!important;color:var(--sk-ink)!important}
 @media(max-width:640px) {
   .portfolio-tech-marquee .tech-stack-card {flex-basis:224px!important;width:224px!important;min-width:224px!important;max-width:224px!important;}
 }
+
+
+/* Contact layout: the old 12-column span utilities conflicted with the
+   two-column override and caused the form to collapse into a narrow strip. */
+.portfolio-shell main #contact .contact-layout {
+  display:grid!important;width:100%!important;max-width:100%!important;min-width:0!important;
+  grid-template-columns:minmax(0,1.8fr) minmax(300px,1fr)!important;
+  gap:32px!important;align-items:start!important;
+}
+.portfolio-shell main #contact .contact-layout>.contact-form-panel,
+.portfolio-shell main #contact .contact-layout>.contact-direct-panel {
+  grid-column:auto!important;grid-row:auto!important;
+  width:100%!important;min-width:0!important;max-width:none!important;
+  justify-self:stretch!important;align-self:start!important;
+}
+.portfolio-shell main #contact .contact-form-panel {box-sizing:border-box!important;}
+.portfolio-shell main #contact .contact-direct-panel {box-sizing:border-box!important;}
+@media(max-width:900px) {
+  .portfolio-shell main #contact .contact-layout {grid-template-columns:minmax(0,1fr)!important;gap:24px!important;}
+}
