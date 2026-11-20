@@ -1,190 +1,166 @@
-# Poosala Lokesh — Senior Full Stack & Cloud Developer Portfolio
+# P. Lokesh — Full-Stack Developer
 
-[![React 19](https://img.shields.io/badge/React-19.0.1-61DAFB?style=flat-square&logo=react&logoColor=black)](https://react.dev)
-[![TypeScript](https://img.shields.io/badge/TypeScript-5.x-3178C6?style=flat-square&logo=typescript&logoColor=white)](https://www.typescriptlang.org)
-[![Vite](https://img.shields.io/badge/Vite-8.3-646CFF?style=flat-square&logo=vite&logoColor=white)](https://vitejs.dev)
-[![Tailwind CSS v4](https://img.shields.io/badge/Tailwind_CSS-v4.3-38B2AC?style=flat-square&logo=tailwind-css&logoColor=white)](https://tailwindcss.com)
-[![Google Cloud Certified](https://img.shields.io/badge/Google_Cloud-Certified_Architect-4285F4?style=flat-square&logo=googlecloud&logoColor=white)](https://cloud.google.com/certification)
-[![Supabase](https://img.shields.io/badge/Supabase-Database_%26_Storage-3ECF8E?style=flat-square&logo=supabase&logoColor=white)](https://supabase.com)
-[![Firebase](https://img.shields.io/badge/Firebase-Firestore-FFCA28?style=flat-square&logo=firebase&logoColor=black)](https://firebase.google.com)
-[![Vercel Deployment](https://img.shields.io/badge/Deploy-Vercel-000000?style=flat-square&logo=vercel&logoColor=white)](https://vercel.com)
+A personal portfolio showcasing my projects, development experience, technical skills, certifications, and the work I enjoy building.
 
-> Production-grade, cloud-architected developer portfolio and headless CMS studio built with React 19, TypeScript, Tailwind CSS v4, and dual-cloud real-time persistence (Supabase + Firebase Firestore).
+[![React](https://img.shields.io/badge/React-19-61DAFB?style=flat-square&logo=react&logoColor=black)](https://react.dev/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-7-3178C6?style=flat-square&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
+[![Vite](https://img.shields.io/badge/Vite-8-646CFF?style=flat-square&logo=vite&logoColor=white)](https://vite.dev/)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-4-06B6D4?style=flat-square&logo=tailwindcss&logoColor=white)](https://tailwindcss.com/)
+[![Supabase](https://img.shields.io/badge/Supabase-Backend-3FCF8E?style=flat-square&logo=supabase&logoColor=white)](https://supabase.com/)
+[![Vercel](https://img.shields.io/badge/Deployed_on-Vercel-000000?style=flat-square&logo=vercel&logoColor=white)](https://vercel.com/)
 
----
-
-## 🌟 Key Highlights & Features
-
-- **Integrated Developer Studio CMS (`/studio`)**:
-  - Full-featured, password-protected administrative dashboard to update profile, work experience, projects, skills, education, Google Cloud credentials, and testimonials without touching code.
-  - Multi-tab navigation with instant database persistence and offline local caching.
-
-- **Official Belvo Letter of Recommendation (LOR) Showcase**:
-  - Direct vector and PDF document viewer for the official recommendation letter issued by **Hrishikesh Mishra (CEO, Belvo Company)** on 22-09-2026.
-  - Full management controls inside the Studio: Replace PDF, change signatory details, toggle visibility, or delete/re-attach anytime.
-  - Unblocked native vector rendering immune to browser iframe security restrictions.
-
-- **Live ATS-Optimized Resume Sheet & Document Manager**:
-  - Dynamic, live A4 sheet generated directly from portfolio data.
-  - One-click **Copy Formatted Plain Text** for rapid job board and ATS applications.
-  - Interactive zoom controls, direct print/save-to-PDF (`window.print()`), and instant PDF downloads (`Poosala_Lokesh_Resume.pdf`).
-  - Version history archive with Supabase storage integration.
-
-- **Google Cloud Certified — Professional Cloud Architect**:
-  - Verifiable cloud credential showcase with credential verification links, skills taxonomy, and interactive preview modal.
-
-- **Dual-Cloud Data Persistence**:
-  - **Supabase**: Relational database tables, real-time sync, and S3-compatible cloud storage for PDFs and project media assets.
-  - **Firebase Firestore**: Multi-role security rules and backup cloud synchronization.
-
-- **Executive Cyberpunk Aesthetics & Responsive Design**:
-  - Tailwind CSS v4 design system with ambient glows, glassmorphism, and hardware-accelerated animations using Framer Motion.
-  - Embedded vector cursive signature with zero layout shifts and offline font data.
-  - Fully responsive across desktop, tablet, and mobile displays.
-
-- **Multilingual Support (i18n)**:
-  - English, Hindi (हिंदी), Spanish (Español), and French (Français) with instant localized translations.
+**Live portfolio:** [lokesh-portfolio-drab.vercel.app](https://lokesh-portfolio-drab.vercel.app/)
 
 ---
 
-## 🛠️ Tech Stack & Architecture
+## About
 
-| Layer | Technologies |
-|---|---|
-| **Frontend Framework** | [React 19](https://react.dev), [Vite 8](https://vitejs.dev), [TypeScript](https://www.typescriptlang.org) |
-| **Styling & Design** | [Tailwind CSS v4](https://tailwindcss.com), [Lucide React](https://lucide.dev), [Framer Motion](https://www.framer.com/motion/) |
-| **Cloud & Backend** | [Supabase](https://supabase.com) (PostgreSQL & Storage CDN), [Firebase Firestore](https://firebase.google.com) |
-| **Document Engine** | PDF-Lib, Opentype.js, Vector SVG Sheet Renderer |
-| **Hosting & CI/CD** | [Vercel](https://vercel.com) Edge Network, GitHub Actions |
+I'm **P. Lokesh**, a Full-Stack Developer based in **Hyderabad, India**. I build responsive web applications and practical digital products, working across frontend interfaces, backend APIs, databases, and AI integrations.
 
----
+I enjoy taking an idea from an early concept to a working product, with attention to usability, maintainability, and the details that make an experience feel complete.
 
-## 📁 Repository Structure
+## Education
 
-```text
-├── components/
-│   ├── core/                    # Low-level UI primitives & motion effects
-│   ├── portfolio/               # Section components
-│   │   ├── hero.tsx             # Hero banner with dynamic roles
-│   │   ├── about-section.tsx    # Bio, technical focus & stats
-│   │   ├── experience-section.tsx # Timeline & Belvo LOR showcase
-│   │   ├── certifications-section.tsx # Google Cloud certifications
-│   │   ├── project-card.tsx     # Interactive project display
-│   │   ├── contact-section.tsx  # Inquiries form & social links
-│   │   └── belvo-lor-modal.tsx  # Unblocked LOR document viewer
-│   └── ui/                      # Signature, docks, and utility components
-├── lib/
-│   ├── portfolio-context.tsx    # Global React Context with dual-cloud sync
-│   ├── portfolio-types.ts      # TypeScript interfaces & domain models
-│   ├── supabase.ts              # Supabase client & media storage helpers
-│   ├── firebase.ts              # Firebase Firestore client
-│   └── signature-font.ts        # Embedded font curves for instant signature
-├── public/
-│   ├── belvo-company-logo.svg   # Belvo brand vector asset
-│   ├── belvo-lor-page.svg       # Official Belvo LOR high-res vector sheet
-│   ├── belvo-lor.pdf            # Official Belvo LOR PDF document
-│   ├── resume-page.svg          # High-resolution vector resume sheet
-│   └── resume.pdf               # Downloadable ATS resume PDF
-├── src/
-│   ├── studio/                  # Developer Studio CMS Admin Panel
-│   │   ├── StudioLayout.tsx     # Studio navigation & layout wrapper
-│   │   └── tabs/                # Tab panels (Profile, Experience, Resume, Projects, etc.)
-│   ├── App.tsx                  # Root application router
-│   └── main.tsx                 # Application entry point
-├── package.json                 # Dependencies & project scripts
-├── vite.config.ts               # Vite bundler configuration
-└── README.md                    # Project documentation
+- **B.Sc. — Mathematics, Statistics and Computer Science (MSCS)**
+- Wesley Degree College, Osmania University
+- Currently pursuing my degree; expected graduation: **2027**
+
+## Experience & Community
+
+- **Belvo** — Web Development Intern; contributed to web products and client-facing applications, working with modern frontend technologies and backend integrations.
+- **Google Student Ambassador** — 2025; took part in student-focused technology and developer community activities.
+
+## Selected Work
+
+Some of the products and websites I've worked on:
+
+| Project | What it is |
+| --- | --- |
+| [Lumora AI](https://www.lumoraai.in/) | AI-powered stock and investment research application. |
+| [Old-Letters](https://oldletters.vercel.app/) | A digital letter-writing experience built around delayed delivery and meaningful messages. |
+| [Naivaidya](https://naivaidya-naivaidya.vercel.app/) | Healthcare-focused product concept for medicine delivery and doctor consultation workflows. |
+| [Foundarly](https://www.foundarlybusinessworld.in/) | Business and startup-focused digital platform. |
+| [Anatara Global](https://anatara-global.vercel.app/) | Website project for an education-focused organisation. |
+| Indira Thakur Photography | Photography portfolio website. |
+
+More details and additional work are available on the [live portfolio](https://lokesh-portfolio-drab.vercel.app/).
+
+## Technical Skills
+
+**Frontend**
+- HTML, CSS, JavaScript, TypeScript
+- React, Next.js, Vite
+- Tailwind CSS, Shadcn UI, Radix UI
+- Framer Motion, GSAP, Three.js
+- React Hook Form, Zod
+
+**Backend & APIs**
+- Node.js, Express.js, Python
+- REST APIs, CRUD operations
+- Authentication, JWT, OAuth
+- File uploads and API integrations
+
+**Databases & Cloud**
+- MongoDB, MySQL, Supabase, Firebase
+- Google Cloud Platform (GCP)
+- Vercel, Netlify, Render
+
+**AI & Developer Tools**
+- Gemini, OpenAI and Groq APIs
+- Prompt engineering and AI feature integration
+- Git, GitHub, VS Code, Postman, npm, Figma
+
+**Additional foundations**
+- C, C++, Java, SQL
+- Power BI and Microsoft Fabric fundamentals
+
+## Certifications
+
+- **Google Cloud — Professional Cloud Architect**
+- Google Cloud skill badges across areas including AI, security, data analytics, infrastructure, databases, and application development.
+
+## This Portfolio
+
+This repository contains the source code for my personal portfolio. The site includes:
+
+- Sections for profile, selected projects, skills, experience, certifications, testimonials, and contact.
+- A multilingual interface.
+- An integrated Studio area for managing portfolio content.
+- Responsive layouts and motion-enhanced interactions.
+- Resume and credential presentation.
+- Cloud-backed data and media integrations.
+
+### Tech Stack
+
+| Area | Technologies |
+| --- | --- |
+| UI | React 19, TypeScript |
+| Build tooling | Vite 8 |
+| Styling | Tailwind CSS 4 |
+| Motion & icons | Framer Motion, Motion, Lucide React |
+| Backend integrations | Supabase, Firebase, REST APIs |
+| Documents | PDF-Lib, OpenType.js |
+| Deployment | Vercel |
+
+## Run Locally
+
+### Requirements
+
+- Node.js (current LTS recommended)
+- npm
+
+### Setup
+
+```bash
+git clone https://github.com/Lokesh-81/lokesh.portfolio.git
+cd lokesh.portfolio
+npm install
 ```
 
----
+Create a local `.env` file and add the environment variables required by the integrations you intend to run. Never commit private keys, service-role keys, passwords, or other secrets.
 
-## 🚀 Getting Started
+Typical configuration keys used by this project include:
 
-### Prerequisites
+```env
+VITE_SUPABASE_URL=
+VITE_SUPABASE_ANON_KEY=
+GEMINI_API_KEY=
+APP_URL=
+CRON_SECRET=
+```
 
-- **Node.js**: `v18.x` or later (LTS recommended)
-- **npm** or **bun** / **yarn** / **pnpm**
+Some integrations are optional or depend on the deployment environment. Check the relevant source files and deployment settings for the exact configuration required.
 
-### Installation
+### Development
 
-1. **Clone the repository**:
-   ```bash
-   git clone https://github.com/Lokesh-81/lokesh.portfolio.git
-   cd lokesh.portfolio
-   ```
+```bash
+npm run dev
+```
 
-2. **Install dependencies**:
-   ```bash
-   npm install
-   ```
+The Vite development server runs at [http://localhost:3000](http://localhost:3000).
 
-3. **Configure Environment Variables**:
-   Copy `.env.example` to `.env`:
-   ```bash
-   cp .env.example .env
-   ```
+### Production build
 
-   Fill in your configuration:
-   ```env
-   # Supabase Configuration
-   VITE_SUPABASE_URL=https://your-project.supabase.co
-   VITE_SUPABASE_ANON_KEY=your-supabase-anon-key
+```bash
+npm run build
+npm run preview
+```
 
-   # Firebase Configuration
-   VITE_FIREBASE_API_KEY=your-firebase-api-key
-   VITE_FIREBASE_PROJECT_ID=your-firebase-project-id
+### Type checking
 
-   # Studio Admin Credentials
-   VITE_STUDIO_PASSWORD=your-secure-studio-password
-   ```
+```bash
+npm run lint
+```
 
-4. **Run the Development Server**:
-   ```bash
-   npm run dev
-   ```
-   Open [http://localhost:3000](http://localhost:3000) in your browser.
+## Connect
 
-5. **Build for Production**:
-   ```bash
-   npm run build
-   ```
-
-6. **Type Check & Lint**:
-   ```bash
-   npm run lint
-   ```
+- **Portfolio:** [lokesh-portfolio-drab.vercel.app](https://lokesh-portfolio-drab.vercel.app/)
+- **GitHub:** [Lokesh-81](https://github.com/Lokesh-81)
+- **GitHub:** [lokeshnaivaidya-max](https://github.com/lokeshnaivaidya-max)
+- **LinkedIn:** [P. Lokesh](https://www.linkedin.com/in/poosala-lokesh/)
+- **Email:** [poosala15@gmail.com](mailto:poosala15@gmail.com)
+- **Instagram:** [@_lokesh81](https://www.instagram.com/_lokesh81/)
 
 ---
 
-## 🌐 Deploying to Vercel
-
-This repository is pre-configured for zero-configuration deployments on **Vercel**:
-
-1. Import the repository in [Vercel](https://vercel.com/new).
-2. Set the **Framework Preset** to `Vite`.
-3. Set the **Build Command** to `npm run build` and **Output Directory** to `dist`.
-4. Add your environment variables in Vercel project settings (`VITE_SUPABASE_URL`, `VITE_SUPABASE_ANON_KEY`, etc.).
-5. Click **Deploy**.
-
----
-
-## 📄 Credentials & Certifications
-
-- **Google Cloud Certified**: Professional Cloud Architect
-- **Internship**: Web Development Intern & Frontend Lead @ Belvo Company (Mumbai, India)
-- **Education**: Bachelor of Technology (B.Tech) in Computer Science & Engineering (2026)
-
----
-
-## 📬 Contact & Connect
-
-- **Engineer**: Poosala Lokesh
-- **Email**: [poosala15@gmail.com](mailto:poosala15@gmail.com)
-- **GitHub**: [@Lokesh-81](https://github.com/Lokesh-81)
-- **LinkedIn**: [linkedin.com/in/poosala-lokesh](https://linkedin.com/in/poosala-lokesh)
-
----
-
-## 📝 License
-
-Distributed under the [MIT License](LICENSE). Built with ❤️ by Poosala Lokesh.
+Built with care by **P. Lokesh**.
