@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import { usePortfolio } from '@/lib/portfolio-context';
 import { uploadMediaToSupabase } from '@/lib/supabase';
 import { toGoogleDriveImageUrl } from '../google-drive';
+import { StudioDropzone } from '../StudioDropzone';
 import { Save, Upload, User, CheckCircle2, AlertCircle, RefreshCw } from 'lucide-react';
 
 interface ProfileTabProps {
@@ -39,8 +40,7 @@ export function ProfileTab({ showToast }: ProfileTabProps) {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>, field: 'photoUrl' | 'heroImage') => {
-    const file = e.target.files?.[0];
+  const handleImageUpload = async (file: File | undefined, field: 'photoUrl' | 'heroImage') => {
     if (!file) return;
 
     setIsUploading(true);
@@ -116,17 +116,15 @@ export function ProfileTab({ showToast }: ProfileTabProps) {
           <div className="space-y-2 flex-1">
             <label className="block text-xs font-medium text-[#CBD5E1]">Profile Photo (Supabase Storage)</label>
             <div className="flex flex-wrap items-center gap-3">
-              <label className="inline-flex items-center gap-2 rounded-xl border border-[#1F2937] bg-[#0B132B] px-4 py-2 text-xs font-medium text-[#CBD5E1] hover:border-[#60A5FA] hover:text-[#60A5FA] cursor-pointer transition-all">
-                <Upload className="h-3.5 w-3.5" />
-                <span>{isUploading ? 'Uploading to Supabase...' : 'Upload Image'}</span>
-                <input
-                  type="file"
-                  accept="image/*"
-                  onChange={(e) => handleImageUpload(e, 'photoUrl')}
-                  className="hidden"
-                  disabled={isUploading}
-                />
-              </label>
+              <StudioDropzone
+                accept="image/*"
+                title={isUploading ? 'Uploading profile photo…' : 'Drop profile photo here'}
+                description="Drag & drop an image, or browse files"
+                disabled={isUploading}
+                compact
+                onFiles={(files) => void handleImageUpload(files[0], 'photoUrl')}
+                className="flex-1"
+              />
               {formData.photoUrl && (
                 <button
                   type="button"
