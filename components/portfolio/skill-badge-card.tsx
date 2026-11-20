@@ -23,7 +23,7 @@ export function SkillBadgeCard({
     <div
       onClick={onClick}
       className={cn(
-        'group relative bg-white rounded-2xl border border-[#E2E8F0] shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col justify-between overflow-hidden cursor-pointer select-none text-center',
+        'skill-badge-card group relative bg-white rounded-2xl border border-[#E2E8F0] shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col justify-between overflow-hidden cursor-pointer select-none text-center',
         size === 'sm' && 'p-4 min-h-[190px]',
         size === 'md' && 'p-5 sm:p-6 min-h-[220px]',
         size === 'lg' && 'p-6 sm:p-8 min-h-[260px]',
