@@ -215,10 +215,10 @@ export function ContactSection() {
 
             <div className="relative z-10 mb-8 flex flex-wrap items-center justify-between gap-4 border-b border-[#d8d0c2] pb-5">
               <div>
-                <h3 className="text-lg font-bold text-[#F5EAF5]">
+                <h3 className="text-lg font-bold text-[#24221f]">
                   {t('contact.formTitle')}
                 </h3>
-                <div className="text-xs text-[#DCCFE0] mt-0.5">
+                <div className="text-xs text-[#696257] mt-0.5">
                   {t('contact.formDesc')}
                 </div>
               </div>
@@ -237,7 +237,7 @@ export function ContactSection() {
 
               <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
                 <div>
-                  <label className="block text-xs font-semibold text-[#F5EAF5] mb-1.5">
+                  <label className="block text-xs font-semibold text-[#29251f] mb-1.5">
                     {t('contact.yourName')}
                   </label>
                   <input
@@ -301,7 +301,6 @@ export function ContactSection() {
                         onClick={() => {
                           setForm({ ...form, projectType: topic });
                           setIsTopicOpen(false);
-                          handleTypingActivity();
                         }}
                         className={`flex min-h-11 w-full items-center justify-between rounded-md px-4 py-3 text-sm transition-colors cursor-pointer ${
                           form.projectType === topic
@@ -347,11 +346,6 @@ export function ContactSection() {
                     rows={6}
                     required
                     value={form.message}
-                    
-                    onBlur={() => {
-                      setIsTextareaFocused(false);
-                      setIsTextareaTyping(false);
-                    }}
                     onChange={(e) => {
                       setForm({ ...form, message: e.target.value });
                       setIsTextareaTyping(true);
@@ -363,7 +357,7 @@ export function ContactSection() {
                         : 'Tell me about your project, timeline, and goals...'
                     }
                     disabled={status === 'submitting'}
-                    className="relative z-10 w-full min-h-[200px] resize-y rounded-2xl border-2 border-[#b8ad9e] bg-white p-5 text-sm leading-7 text-[#24221f] placeholder:text-[#777064] focus:border-[#5c4b79] focus:outline-none focus:ring-4 focus:ring-[#d9cdf8]/70 transition-all disabled:opacity-60"
+                    className="contact-input relative z-10 w-full min-h-[200px] resize-y rounded-2xl border-2 border-[#b8ad9e] bg-white p-5 text-sm leading-7 text-[#24221f] placeholder:text-[#777064] focus:border-[#5c4b79] focus:outline-none focus:ring-4 focus:ring-[#d9cdf8]/70 transition-all disabled:opacity-60"
                   />
                 </div>
               </div>
