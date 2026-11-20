@@ -184,7 +184,7 @@ const row2Technologies: TechLogoItem[] = [
   },
   {
     name: 'Gemini AI API',
-    description: 'Connects apps to Google's AI models',
+    description: "Connects apps to Google AI models",
     category: 'AI / LLMs',
     icon: (
       <svg className="h-6 w-6 text-[#5c4b79]" viewBox="0 0 24 24" fill="currentColor">
