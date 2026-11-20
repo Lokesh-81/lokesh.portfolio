@@ -353,7 +353,7 @@ export function CertificationsSection({ onNavigate }: CertificationsSectionProps
         </div>
 
         {/* Featured Showcase Card for Belvo Company Official Letter of Recommendation (LOR) */}
-        <div className="mt-8 rounded-3xl border border-purple-500/40 bg-gradient-to-br from-purple-950/40 via-[#1A1222] to-[#100B18] p-6 sm:p-9 shadow-2xl backdrop-blur-xl relative overflow-hidden group hover:border-purple-400/60 transition-all">
+        <div className="belvo-lor-showcase mt-8 rounded-3xl border border-purple-500/40 bg-gradient-to-br from-purple-950/40 via-[#1A1222] to-[#100B18] p-6 sm:p-9 shadow-2xl backdrop-blur-xl relative overflow-hidden group hover:border-purple-400/60 transition-all">
           <div className="absolute top-0 right-0 w-96 h-96 bg-[radial-gradient(ellipse_at_top_right,rgba(168,85,247,0.18),transparent_70%)] pointer-events-none" />
           <div className="absolute bottom-0 left-0 w-80 h-80 bg-[radial-gradient(ellipse_at_bottom_left,rgba(99,102,241,0.12),transparent_70%)] pointer-events-none" />
 
