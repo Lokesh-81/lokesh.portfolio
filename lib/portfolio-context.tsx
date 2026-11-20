@@ -597,24 +597,21 @@ export function PortfolioProvider({ children }: { children: React.ReactNode }) {
     const updated = exists
       ? certifications.map((c) => (c.id === item.id ? item : c))
       : [...certifications, item]
+
+    // Commit to the remote database first. Only update the UI/cache after Supabase confirms it.
+    await persistSupabaseWrite(supabase.from('certifications').upsert([{
+      ...item,
+      expiry_date: null,
+    }]))
     setCertifications(updated)
     setLocal(CACHE_KEYS.CERTIFICATIONS, updated)
-    try {
-      await persistSupabaseWrite(supabase.from('certifications').upsert([item]))
-    } catch (error) {
-      throw error;
-    }
   }
 
   const deleteCertification = async (id: string) => {
     const updated = certifications.filter((c) => c.id !== id)
+    await persistSupabaseWrite(supabase.from('certifications').delete().eq('id', id))
     setCertifications(updated)
     setLocal(CACHE_KEYS.CERTIFICATIONS, updated)
-    try {
-      await persistSupabaseWrite(supabase.from('certifications').delete().eq('id', id))
-    } catch (error) {
-      throw error;
-    }
   }
 
   // SKILL BADGE CRUD
