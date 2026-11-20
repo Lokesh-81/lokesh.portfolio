@@ -228,7 +228,6 @@ export function ContactSection() {
                     value={form.email}
                     onChange={(e) => {
                       setForm({ ...form, email: e.target.value });
-                      handleTypingActivity();
                     }}
                     placeholder={language === 'fr' ? 'votre.email@exemple.com' : 'your.email@example.com'}
                     disabled={status === 'submitting'}
@@ -282,7 +281,7 @@ export function ContactSection() {
                 )}
               </div>
 
-              {/* Message Box with GlowEffect like hero buttons - No covering elements */}
+              {/* Message Box */}
               <div>
                 <label className="block text-xs font-semibold text-[#F5EAF5] mb-1.5">
                   {t('contact.yourMessage')}
