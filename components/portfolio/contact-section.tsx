@@ -164,7 +164,7 @@ export function ContactSection() {
   };
 
   return (
-    <div className="relative min-h-[85vh] w-full px-4 sm:px-8 py-8 sm:py-12">
+    <div className="contact-sketchbook relative min-h-[85vh] w-full px-4 sm:px-8 py-8 sm:py-12">
       <div className="relative z-10 mx-auto max-w-[1400px]">
         {/* Section Header with TextEffect */}
         <div className="flex flex-col justify-between gap-4 border-b border-[#35263D] pb-6 md:flex-row md:items-end">
