@@ -1002,3 +1002,101 @@ html,body{background:var(--sk-paper)!important;color:var(--sk-ink)!important}
   flex-basis:208px!important;width:208px!important;min-width:208px!important;
   gap:16px!important;padding-left:14px!important;padding-right:14px!important;
 }
+
+
+/* FINAL structural corrections — target the real DOM nesting in App.tsx. */
+/* Contact: .portfolio-contact-stage is the section; .contact-sketchbook is inside it. */
+.portfolio-shell main #contact .contact-sketchbook { width:100%!important;max-width:none!important;padding:28px 0 12px!important; }
+.portfolio-shell main #contact .contact-sketchbook>.relative.z-10.mx-auto {
+  width:100%!important;max-width:1400px!important;margin:0 auto!important;
+}
+.portfolio-shell main #contact .contact-form-panel {
+  width:100%!important;min-width:0!important;max-width:none!important;
+  padding:clamp(24px,3vw,42px)!important;
+  border:2px solid #24221f!important;border-radius:18px!important;
+  background:#fffdf7!important;box-shadow:5px 5px 0 #24221f!important;
+}
+.portfolio-shell main #contact .contact-form-panel form {
+  display:flex!important;flex-direction:column!important;gap:24px!important;
+  width:100%!important;padding:0!important;margin:0!important;
+  border:0!important;border-radius:0!important;box-shadow:none!important;
+  background:transparent!important;transform:none!important;
+}
+.portfolio-shell main #contact .contact-form-panel form>div,
+.portfolio-shell main #contact .contact-form-panel form>div.grid {
+  width:100%!important;min-width:0!important;margin:0!important;
+}
+.portfolio-shell main #contact .contact-form-panel form>div.grid {
+  display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:22px!important;
+}
+.portfolio-shell main #contact .contact-form-panel form label {
+  display:block!important;margin:0 0 9px!important;color:#24221f!important;
+  font-size:13px!important;font-weight:700!important;
+}
+.portfolio-shell main #contact .contact-form-panel form input,
+.portfolio-shell main #contact .contact-form-panel form textarea,
+.portfolio-shell main #contact .contact-form-panel form .contact-topic-field>button {
+  display:block!important;box-sizing:border-box!important;width:100%!important;max-width:none!important;
+  min-height:58px!important;padding:15px 18px!important;
+  border:1.5px solid #8d8579!important;border-radius:12px!important;
+  background:#fff!important;color:#24221f!important;box-shadow:none!important;
+  font:500 15px/1.5 Inter,Arial,sans-serif!important;
+}
+.portfolio-shell main #contact .contact-form-panel form textarea {
+  min-height:190px!important;height:auto!important;resize:vertical!important;padding:17px 18px!important;
+}
+.portfolio-shell main #contact .contact-form-panel form input::placeholder,
+.portfolio-shell main #contact .contact-form-panel form textarea::placeholder {
+  color:#777064!important;opacity:1!important;
+}
+.portfolio-shell main #contact .contact-form-panel form input:focus,
+.portfolio-shell main #contact .contact-form-panel form textarea:focus,
+.portfolio-shell main #contact .contact-form-panel form .contact-topic-field>button:focus {
+  outline:3px solid rgba(53,91,229,.18)!important;border-color:#355be5!important;box-shadow:none!important;
+}
+.portfolio-shell main #contact .contact-form-panel .contact-topic-menu {
+  background:#fffdf7!important;border:1.5px solid #24221f!important;
+  border-radius:12px!important;box-shadow:4px 4px 0 #24221f!important;
+}
+.portfolio-shell main #contact .contact-form-panel .contact-topic-menu button {
+  min-height:48px!important;border:0!important;border-radius:7px!important;
+  color:#24221f!important;background:transparent!important;box-shadow:none!important;
+}
+.portfolio-shell main #contact .contact-form-panel .contact-topic-menu button:hover { background:#f0eafa!important; }
+.portfolio-shell main #contact .contact-form-panel form button[type="submit"] {
+  width:100%!important;min-height:58px!important;border:1.5px solid #24221f!important;
+  border-radius:12px!important;background:#ffe17a!important;color:#24221f!important;
+  box-shadow:3px 3px 0 #24221f!important;
+}
+.portfolio-shell main #contact .contact-direct-panel { width:100%!important;min-width:0!important; }
+.portfolio-shell main #contact .contact-direct-panel>a,
+.portfolio-shell main #contact .contact-direct-panel>div {
+  border-radius:12px!important;background:#fffdf7!important;color:#24221f!important;
+  border:1.5px solid #24221f!important;box-shadow:3px 3px 0 #24221f!important;
+}
+.portfolio-shell main #contact .contact-direct-panel :is(span,a,strong,p) { color:#24221f!important;opacity:1!important; }
+@media(max-width:767px) {
+  .portfolio-shell main #contact .contact-form-panel { padding:22px!important; }
+  .portfolio-shell main #contact .contact-form-panel form>div.grid { grid-template-columns:1fr!important; }
+}
+
+/* Hero: remove the stacked 100vh + 92px top padding that pushed it below the fold. */
+.portfolio-shell main #home {
+  min-height:calc(100svh - 82px)!important;height:auto!important;
+  display:flex!important;align-items:center!important;padding:0!important;
+}
+.portfolio-shell main #home>.portfolio-hero-content {
+  width:100%!important;max-width:none!important;margin:0!important;padding:0!important;
+}
+.portfolio-shell main #home .hero-rebuild {
+  min-height:calc(100svh - 112px)!important;height:auto!important;
+  padding:24px clamp(24px,6vw,92px) 34px!important;
+  margin:0 auto!important;align-items:center!important;
+}
+@media(max-width:900px) {
+  .portfolio-shell main #home { min-height:calc(100svh - 72px)!important; }
+  .portfolio-shell main #home .hero-rebuild { min-height:auto!important;padding:18px 24px 30px!important; }
+}
+@media(max-width:600px) {
+  .portfolio-shell main #home .hero-rebuild { padding:14px 22px 28px!important; }
+}
