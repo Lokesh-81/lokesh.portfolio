@@ -53,11 +53,6 @@ import { broadcastPortfolioSync, subscribeToPortfolioSync } from "@/lib/document
 import type { TestimonialItem } from "@/lib/portfolio-types"
 import { studioAuth, type AdminUser } from "@/lib/studio-auth"
 
-async function persistSupabaseWrite(query: PromiseLike<{ error: { message: string; code?: string } | null }>): Promise<void> {
-  const { error } = await query;
-  if (error) throw new Error(`Supabase save failed (${error.code || 'database'}): ${error.message}`);
-}
-
 export interface PortfolioContextValue {
   // Core Portfolio Entities
   profile: ProfileData
@@ -292,9 +287,9 @@ export function PortfolioProvider({ children }: { children: React.ReactNode }) {
     setProfile(updated)
     setLocal(CACHE_KEYS.PROFILE, updated)
     try {
-      await persistSupabaseWrite(supabase.from('profiles').upsert([updated])
-    } catch (error) {
-      throw error;
+      await supabase.from('profiles').upsert([updated])
+    } catch {
+      // Offline / Pre-migration fallback
     }
   }
 
@@ -304,9 +299,9 @@ export function PortfolioProvider({ children }: { children: React.ReactNode }) {
     setHero(updated)
     setLocal(CACHE_KEYS.HERO, updated)
     try {
-      await persistSupabaseWrite(supabase.from('hero_settings').upsert([updated])
-    } catch (error) {
-      throw error;
+      await supabase.from('hero_settings').upsert([updated])
+    } catch {
+      // Offline fallback
     }
   }
 
@@ -316,9 +311,9 @@ export function PortfolioProvider({ children }: { children: React.ReactNode }) {
     setAbout(updated)
     setLocal(CACHE_KEYS.ABOUT, updated)
     try {
-      await persistSupabaseWrite(supabase.from('about_settings').upsert([updated])
-    } catch (error) {
-      throw error;
+      await supabase.from('about_settings').upsert([updated])
+    } catch {
+      // Offline fallback
     }
   }
 
@@ -335,9 +330,9 @@ export function PortfolioProvider({ children }: { children: React.ReactNode }) {
     setContact(updated)
     setLocal(CACHE_KEYS.CONTACT, updated)
     try {
-      await persistSupabaseWrite(supabase.from('contact_settings').upsert([updated])
-    } catch (error) {
-      throw error;
+      await supabase.from('contact_settings').upsert([updated])
+    } catch {
+      // Offline fallback
     }
   }
 
@@ -347,9 +342,9 @@ export function PortfolioProvider({ children }: { children: React.ReactNode }) {
     setSiteSettings(updated)
     setLocal(CACHE_KEYS.SITE_SETTINGS, updated)
     try {
-      await persistSupabaseWrite(supabase.from('site_settings').upsert([updated])
-    } catch (error) {
-      throw error;
+      await supabase.from('site_settings').upsert([updated])
+    } catch {
+      // Offline fallback
     }
   }
 
@@ -362,9 +357,9 @@ export function PortfolioProvider({ children }: { children: React.ReactNode }) {
     setExperiences(updated)
     setLocal(CACHE_KEYS.EXPERIENCE, updated)
     try {
-      await persistSupabaseWrite(supabase.from('experiences').upsert([item])
-    } catch (error) {
-      throw error;
+      await supabase.from('experiences').upsert([item])
+    } catch {
+      // Offline fallback
     }
   }
 
@@ -373,9 +368,9 @@ export function PortfolioProvider({ children }: { children: React.ReactNode }) {
     setExperiences(updated)
     setLocal(CACHE_KEYS.EXPERIENCE, updated)
     try {
-      await persistSupabaseWrite(supabase.from('experiences').delete().eq('id', id)
-    } catch (error) {
-      throw error;
+      await supabase.from('experiences').delete().eq('id', id)
+    } catch {
+      // Offline fallback
     }
   }
 
@@ -384,9 +379,9 @@ export function PortfolioProvider({ children }: { children: React.ReactNode }) {
     setExperiences(reordered)
     setLocal(CACHE_KEYS.EXPERIENCE, reordered)
     try {
-      await persistSupabaseWrite(supabase.from('experiences').upsert(reordered)
-    } catch (error) {
-      throw error;
+      await supabase.from('experiences').upsert(reordered)
+    } catch {
+      // Offline fallback
     }
   }
 
@@ -408,7 +403,7 @@ export function PortfolioProvider({ children }: { children: React.ReactNode }) {
     setEducations(updated)
     setLocal(CACHE_KEYS.EDUCATION, updated)
     try {
-      await persistSupabaseWrite(supabase.from('educations').upsert([
+      await supabase.from('educations').upsert([
         {
           id: normalizedItem.id,
           institution: normalizedItem.institution,
@@ -426,8 +421,8 @@ export function PortfolioProvider({ children }: { children: React.ReactNode }) {
           updated_at: new Date().toISOString(),
         },
       ])
-    } catch (error) {
-      throw error;
+    } catch {
+      // Offline fallback
     }
   }
 
@@ -436,9 +431,9 @@ export function PortfolioProvider({ children }: { children: React.ReactNode }) {
     setEducations(updated)
     setLocal(CACHE_KEYS.EDUCATION, updated)
     try {
-      await persistSupabaseWrite(supabase.from('educations').delete().eq('id', id)
-    } catch (error) {
-      throw error;
+      await supabase.from('educations').delete().eq('id', id)
+    } catch {
+      // Offline fallback
     }
   }
 
@@ -447,11 +442,11 @@ export function PortfolioProvider({ children }: { children: React.ReactNode }) {
     setEducations(reordered)
     setLocal(CACHE_KEYS.EDUCATION, reordered)
     try {
-      for (let i = 0)))))))))); i < reordered.length; i++) {
-        await persistSupabaseWrite(supabase.from('educations').update({ display_order: i + 1 }).eq('id', reordered[i].id)
+      for (let i = 0; i < reordered.length; i++) {
+        await supabase.from('educations').update({ display_order: i + 1 }).eq('id', reordered[i].id)
       }
-    } catch (error) {
-      throw error;
+    } catch {
+      // Offline fallback
     }
   }
 
@@ -479,7 +474,7 @@ export function PortfolioProvider({ children }: { children: React.ReactNode }) {
     setProjects(updated)
     setLocal(CACHE_KEYS.PROJECTS, updated)
     try {
-      await persistSupabaseWrite(supabase.from('projects').upsert([
+      await supabase.from('projects').upsert([
         {
           id: normalizedItem.id,
           number: normalizedItem.number || `0${projects.length + 1}`,
@@ -505,8 +500,8 @@ export function PortfolioProvider({ children }: { children: React.ReactNode }) {
           updated_at: new Date().toISOString(),
         },
       ])
-    } catch (error) {
-      throw error;
+    } catch {
+      // Offline fallback
     }
   }
 
@@ -515,9 +510,9 @@ export function PortfolioProvider({ children }: { children: React.ReactNode }) {
     setProjects(updated)
     setLocal(CACHE_KEYS.PROJECTS, updated)
     try {
-      await persistSupabaseWrite(supabase.from('projects').delete().eq('id', id)
-    } catch (error) {
-      throw error;
+      await supabase.from('projects').delete().eq('id', id)
+    } catch {
+      // Offline fallback
     }
   }
 
@@ -542,11 +537,11 @@ export function PortfolioProvider({ children }: { children: React.ReactNode }) {
     setProjects(reordered)
     setLocal(CACHE_KEYS.PROJECTS, reordered)
     try {
-      for (let i = 0))); i < reordered.length; i++) {
-        await persistSupabaseWrite(supabase.from('projects').update({ display_order: i + 1 }).eq('id', reordered[i].id)
+      for (let i = 0; i < reordered.length; i++) {
+        await supabase.from('projects').update({ display_order: i + 1 }).eq('id', reordered[i].id)
       }
-    } catch (error) {
-      throw error;
+    } catch {
+      // Offline fallback
     }
   }
 
@@ -559,9 +554,9 @@ export function PortfolioProvider({ children }: { children: React.ReactNode }) {
     setTechnologies(updated)
     setLocal(CACHE_KEYS.SKILLS, updated)
     try {
-      await persistSupabaseWrite(supabase.from('skills').upsert([item])
-    } catch (error) {
-      throw error;
+      await supabase.from('skills').upsert([item])
+    } catch {
+      // Offline fallback
     }
   }
 
@@ -570,9 +565,9 @@ export function PortfolioProvider({ children }: { children: React.ReactNode }) {
     setTechnologies(updated)
     setLocal(CACHE_KEYS.SKILLS, updated)
     try {
-      await persistSupabaseWrite(supabase.from('skills').delete().eq('id', id)
-    } catch (error) {
-      throw error;
+      await supabase.from('skills').delete().eq('id', id)
+    } catch {
+      // Offline fallback
     }
   }
 
@@ -580,9 +575,9 @@ export function PortfolioProvider({ children }: { children: React.ReactNode }) {
     setTechnologies(items)
     setLocal(CACHE_KEYS.SKILLS, items)
     try {
-      await persistSupabaseWrite(supabase.from('skills').upsert(items)
-    } catch (error) {
-      throw error;
+      await supabase.from('skills').upsert(items)
+    } catch {
+      // Offline fallback
     }
   }
 
@@ -595,9 +590,9 @@ export function PortfolioProvider({ children }: { children: React.ReactNode }) {
     setCertifications(updated)
     setLocal(CACHE_KEYS.CERTIFICATIONS, updated)
     try {
-      await persistSupabaseWrite(supabase.from('certifications').upsert([item])
-    } catch (error) {
-      throw error;
+      await supabase.from('certifications').upsert([item])
+    } catch {
+      // Offline fallback
     }
   }
 
@@ -606,9 +601,9 @@ export function PortfolioProvider({ children }: { children: React.ReactNode }) {
     setCertifications(updated)
     setLocal(CACHE_KEYS.CERTIFICATIONS, updated)
     try {
-      await persistSupabaseWrite(supabase.from('certifications').delete().eq('id', id)
-    } catch (error) {
-      throw error;
+      await supabase.from('certifications').delete().eq('id', id)
+    } catch {
+      // Offline fallback
     }
   }
 
@@ -621,9 +616,9 @@ export function PortfolioProvider({ children }: { children: React.ReactNode }) {
     setSkillBadges(updated)
     setLocal(CACHE_KEYS.SKILL_BADGES, updated)
     try {
-      await persistSupabaseWrite(supabase.from('skill_badges').upsert([item])
-    } catch (error) {
-      throw error;
+      await supabase.from('skill_badges').upsert([item])
+    } catch {
+      // Offline fallback
     }
   }
 
@@ -632,9 +627,9 @@ export function PortfolioProvider({ children }: { children: React.ReactNode }) {
     setSkillBadges(updated)
     setLocal(CACHE_KEYS.SKILL_BADGES, updated)
     try {
-      await persistSupabaseWrite(supabase.from('skill_badges').delete().eq('id', id)
-    } catch (error) {
-      throw error;
+      await supabase.from('skill_badges').delete().eq('id', id)
+    } catch {
+      // Offline fallback
     }
   }
 
@@ -647,9 +642,9 @@ export function PortfolioProvider({ children }: { children: React.ReactNode }) {
     setAchievements(updated)
     setLocal(CACHE_KEYS.ACHIEVEMENTS, updated)
     try {
-      await persistSupabaseWrite(supabase.from('achievements').upsert([item])
-    } catch (error) {
-      throw error;
+      await supabase.from('achievements').upsert([item])
+    } catch {
+      // Offline fallback
     }
   }
 
@@ -658,9 +653,9 @@ export function PortfolioProvider({ children }: { children: React.ReactNode }) {
     setAchievements(updated)
     setLocal(CACHE_KEYS.ACHIEVEMENTS, updated)
     try {
-      await persistSupabaseWrite(supabase.from('achievements').delete().eq('id', id)
-    } catch (error) {
-      throw error;
+      await supabase.from('achievements').delete().eq('id', id)
+    } catch {
+      // Offline fallback
     }
   }
 
@@ -684,7 +679,7 @@ export function PortfolioProvider({ children }: { children: React.ReactNode }) {
     setLanguages(updated)
     setLocal(CACHE_KEYS.LANGUAGES, updated)
     try {
-      await persistSupabaseWrite(supabase.from('languages').upsert([
+      await supabase.from('languages').upsert([
         {
           id: normalizedItem.id,
           language: normalizedItem.language,
@@ -695,8 +690,8 @@ export function PortfolioProvider({ children }: { children: React.ReactNode }) {
           created_at: new Date().toISOString(),
         },
       ])
-    } catch (error) {
-      throw error;
+    } catch {
+      // Offline fallback
     }
   }
 
@@ -705,9 +700,9 @@ export function PortfolioProvider({ children }: { children: React.ReactNode }) {
     setLanguages(updated)
     setLocal(CACHE_KEYS.LANGUAGES, updated)
     try {
-      await persistSupabaseWrite(supabase.from('languages').delete().eq('id', id)
-    } catch (error) {
-      throw error;
+      await supabase.from('languages').delete().eq('id', id)
+    } catch {
+      // Offline fallback
     }
   }
 
@@ -720,9 +715,9 @@ export function PortfolioProvider({ children }: { children: React.ReactNode }) {
     setSocialLinks(updated)
     setLocal(CACHE_KEYS.SOCIAL + '_links', updated)
     try {
-      await persistSupabaseWrite(supabase.from('social_links').upsert([item])
-    } catch (error) {
-      throw error;
+      await supabase.from('social_links').upsert([item])
+    } catch {
+      // Offline fallback
     }
   }
 
@@ -731,9 +726,9 @@ export function PortfolioProvider({ children }: { children: React.ReactNode }) {
     setSocialLinks(updated)
     setLocal(CACHE_KEYS.SOCIAL + '_links', updated)
     try {
-      await persistSupabaseWrite(supabase.from('social_links').delete().eq('id', id)
-    } catch (error) {
-      throw error;
+      await supabase.from('social_links').delete().eq('id', id)
+    } catch {
+      // Offline fallback
     }
   }
 
@@ -762,7 +757,7 @@ export function PortfolioProvider({ children }: { children: React.ReactNode }) {
     broadcastPortfolioSync('resume_updated', { resumeId: item.id })
 
     try {
-      await persistSupabaseWrite(supabase.from('resumes').upsert([
+      await supabase.from('resumes').upsert([
         {
           id: item.id,
           title: item.title,
@@ -773,8 +768,8 @@ export function PortfolioProvider({ children }: { children: React.ReactNode }) {
           updated_at: new Date().toISOString(),
         }
       ])
-    } catch (error) {
-      throw error;
+    } catch {
+      // Offline fallback
     }
   }
 
@@ -793,9 +788,9 @@ export function PortfolioProvider({ children }: { children: React.ReactNode }) {
     broadcastPortfolioSync('resume_deleted', { resumeId: id })
 
     try {
-      await persistSupabaseWrite(supabase.from('resumes').delete().eq('id', id)
-    } catch (error) {
-      throw error;
+      await supabase.from('resumes').delete().eq('id', id)
+    } catch {
+      // Offline fallback
     }
   }
 
@@ -812,10 +807,10 @@ export function PortfolioProvider({ children }: { children: React.ReactNode }) {
     broadcastPortfolioSync('resume_activated', { resumeId: id })
 
     try {
-      await persistSupabaseWrite(supabase.from('resumes').update({ is_active: false }).neq('id', id)
-      await persistSupabaseWrite(supabase.from('resumes').update({ is_active: true, updated_at: new Date().toISOString() }).eq('id', id)
-    } catch (error) {
-      throw error;
+      await supabase.from('resumes').update({ is_active: false }).neq('id', id)
+      await supabase.from('resumes').update({ is_active: true, updated_at: new Date().toISOString() }).eq('id', id)
+    } catch {
+      // Offline fallback
     }
   }
 
@@ -828,7 +823,7 @@ export function PortfolioProvider({ children }: { children: React.ReactNode }) {
     setTestimonials(updated)
     setLocal(CACHE_KEYS.TESTIMONIALS, updated)
     try {
-      await persistSupabaseWrite(supabase.from('testimonials').upsert([
+      await supabase.from('testimonials').upsert([
         {
           id: item.id,
           name: item.name,
@@ -843,8 +838,8 @@ export function PortfolioProvider({ children }: { children: React.ReactNode }) {
           updated_at: new Date().toISOString(),
         }
       ])
-    } catch (error) {
-      throw error;
+    } catch {
+      // Offline fallback
     }
   }
 
@@ -853,9 +848,9 @@ export function PortfolioProvider({ children }: { children: React.ReactNode }) {
     setTestimonials(updated)
     setLocal(CACHE_KEYS.TESTIMONIALS, updated)
     try {
-      await persistSupabaseWrite(supabase.from('testimonials').delete().eq('id', id)
-    } catch (error) {
-      throw error;
+      await supabase.from('testimonials').delete().eq('id', id)
+    } catch {
+      // Offline fallback
     }
   }
 
@@ -864,14 +859,14 @@ export function PortfolioProvider({ children }: { children: React.ReactNode }) {
     setTestimonials(ordered)
     setLocal(CACHE_KEYS.TESTIMONIALS, ordered)
     try {
-      for (let i = 0)))))))))))))))))))); i < ordered.length; i++) {
-        await persistSupabaseWrite(supabase
+      for (let i = 0; i < ordered.length; i++) {
+        await supabase
           .from('testimonials')
           .update({ display_order: i, updated_at: new Date().toISOString() })
           .eq('id', ordered[i].id)
       }
-    } catch (error) {
-      throw error;
+    } catch {
+      // Offline fallback
     }
   }
 
@@ -881,9 +876,9 @@ export function PortfolioProvider({ children }: { children: React.ReactNode }) {
     setMessages(updated)
     setLocal(CACHE_KEYS.MESSAGES, updated)
     try {
-      await persistSupabaseWrite(supabase.from('contact_messages').update({ status }).eq('id', id)
-    } catch (error) {
-      throw error;
+      await supabase.from('contact_messages').update({ status }).eq('id', id)
+    } catch {
+      // Offline fallback
     }
   }
 
@@ -892,9 +887,9 @@ export function PortfolioProvider({ children }: { children: React.ReactNode }) {
     setMessages(updated)
     setLocal(CACHE_KEYS.MESSAGES, updated)
     try {
-      await persistSupabaseWrite(supabase.from('contact_messages').delete().eq('id', id)
-    } catch (error) {
-      throw error;
+      await supabase.from('contact_messages').delete().eq('id', id)
+    } catch {
+      // Offline fallback
     }
   }
 
@@ -903,11 +898,11 @@ export function PortfolioProvider({ children }: { children: React.ReactNode }) {
     setAchievements(items)
     setLocal(CACHE_KEYS.ACHIEVEMENTS, items)
     try {
-      for (let i = 0))); i < items.length; i++) {
-        await persistSupabaseWrite(supabase.from('achievements').update({ display_order: i + 1 }).eq('id', items[i].id)
+      for (let i = 0; i < items.length; i++) {
+        await supabase.from('achievements').update({ display_order: i + 1 }).eq('id', items[i].id)
       }
-    } catch (error) {
-      throw error;
+    } catch {
+      // Offline fallback
     }
   }
 
@@ -924,11 +919,11 @@ export function PortfolioProvider({ children }: { children: React.ReactNode }) {
     setLanguages(reordered)
     setLocal(CACHE_KEYS.LANGUAGES, reordered)
     try {
-      for (let i = 0); i < reordered.length; i++) {
-        await persistSupabaseWrite(supabase.from('languages').update({ display_order: i + 1 }).eq('id', reordered[i].id)
+      for (let i = 0; i < reordered.length; i++) {
+        await supabase.from('languages').update({ display_order: i + 1 }).eq('id', reordered[i].id)
       }
-    } catch (error) {
-      throw error;
+    } catch {
+      // Offline fallback
     }
   }
 
@@ -936,11 +931,11 @@ export function PortfolioProvider({ children }: { children: React.ReactNode }) {
     setSocialLinks(items)
     setLocal(CACHE_KEYS.SOCIAL + '_links', items)
     try {
-      for (let i = 0); i < items.length; i++) {
-        await persistSupabaseWrite(supabase.from('social_links').update({ display_order: i + 1 }).eq('id', items[i].id)
+      for (let i = 0; i < items.length; i++) {
+        await supabase.from('social_links').update({ display_order: i + 1 }).eq('id', items[i].id)
       }
-    } catch (error) {
-      throw error;
+    } catch {
+      // Offline fallback
     }
   }
 
@@ -950,7 +945,7 @@ export function PortfolioProvider({ children }: { children: React.ReactNode }) {
     setMediaItems(updated)
     setLocal(CACHE_KEYS.MEDIA || 'portfolio_cache_media', updated)
     try {
-      await persistSupabaseWrite(supabase.from('media').insert({
+      await supabase.from('media').insert({
         id: item.id,
         name: item.name,
         url: item.url,
@@ -958,8 +953,8 @@ export function PortfolioProvider({ children }: { children: React.ReactNode }) {
         mime_type: item.mimeType,
         bucket: item.bucket || 'portfolio-media',
       })
-    } catch (error) {
-      throw error;
+    } catch {
+      // Offline fallback
     }
   }
 
@@ -968,9 +963,9 @@ export function PortfolioProvider({ children }: { children: React.ReactNode }) {
     setMediaItems(updated)
     setLocal(CACHE_KEYS.MEDIA || 'portfolio_cache_media', updated)
     try {
-      await persistSupabaseWrite(supabase.from('media').delete().eq('id', id)
-    } catch (error) {
-      throw error;
+      await supabase.from('media').delete().eq('id', id)
+    } catch {
+      // Offline fallback
     }
   }
 
@@ -1005,7 +1000,7 @@ export function PortfolioProvider({ children }: { children: React.ReactNode }) {
     usernameOrPass: string,
     passwordInput?: string,
     rememberMe: boolean = false
-  ): Promise<{ success: boolean))); error?: string }> => {
+  ): Promise<{ success: boolean; error?: string }> => {
     setIsAuthLoading(true)
     try {
       const username = passwordInput !== undefined ? usernameOrPass : 'Lokesh'
