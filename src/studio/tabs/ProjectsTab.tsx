@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import { usePortfolio } from '@/lib/portfolio-context';
 import { uploadMediaToSupabase } from '@/lib/supabase';
+import { toGoogleDriveImageUrl } from '../google-drive';
 import type { ProjectItem } from '@/lib/portfolio-types';
 import {
   Plus,
@@ -215,7 +216,7 @@ export function ProjectsTab({ showToast }: ProjectsTabProps) {
               <div className="flex h-12 w-16 shrink-0 items-center justify-center overflow-hidden rounded-xl border border-[#1F2937] bg-[#0B132B]">
                 {project.imageUrl ? (
                   <img
-                    src={project.imageUrl}
+                    src={toGoogleDriveImageUrl(project.imageUrl)}
                     alt={project.title}
                     className="h-full w-full object-cover"
                     referrerPolicy="no-referrer"
@@ -437,8 +438,8 @@ export function ProjectsTab({ showToast }: ProjectsTabProps) {
                   <input
                     type="text"
                     value={editingProject.imageUrl || ''}
-                    onChange={(e) => setEditingProject({ ...editingProject, imageUrl: e.target.value })}
-                    placeholder="Or paste image URL"
+                    onChange={(e) => setEditingProject({ ...editingProject, imageUrl: toGoogleDriveImageUrl(e.target.value) })}
+                    placeholder="Paste image URL or Google Drive sharing link"
                     className="flex-1 rounded-xl border border-[#1F2937] bg-[#0B132B] px-3 py-2 text-xs text-[#E0E7FF] focus:border-[#60A5FA] focus:outline-none"
                   />
                 </div>
