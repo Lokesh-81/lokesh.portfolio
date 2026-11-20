@@ -1133,45 +1133,51 @@ html,body{background:var(--sk-paper)!important;color:var(--sk-ink)!important}
 }
 
 
-/* Stable tech ticker layout: each duplicated track is content-sized and each card owns its own columns. */
-.skills-marquee-panel .tech-stack-slider {
+
+
+/* Override legacy ticker selectors with the actual current card DOM. */
+.portfolio-shell main .skills-editorial .skills-marquee-panel .tech-stack-slider {
   display:block!important;width:100%!important;min-width:0!important;overflow:hidden!important;
 }
-.skills-marquee-panel .tech-stack-slider > .group {
+.portfolio-shell main .skills-editorial .skills-marquee-panel .tech-stack-slider > .group {
   display:flex!important;width:100%!important;min-width:0!important;overflow:hidden!important;
 }
-.skills-marquee-panel .tech-stack-slider > .group > div {
+.portfolio-shell main .skills-editorial .skills-marquee-panel .tech-stack-slider > .group > div {
   display:flex!important;flex:0 0 max-content!important;width:max-content!important;min-width:max-content!important;
   justify-content:flex-start!important;align-items:center!important;gap:12px!important;overflow:visible!important;
 }
-.skills-marquee-panel .tech-stack-slider .tech-stack-card {
+.portfolio-shell main .skills-editorial .skills-marquee-panel .tech-stack-slider .group > div > .tech-stack-card {
   box-sizing:border-box!important;position:relative!important;display:flex!important;flex:0 0 260px!important;
   width:260px!important;min-width:260px!important;height:82px!important;min-height:82px!important;
   align-items:center!important;justify-content:flex-start!important;gap:14px!important;padding:10px 14px!important;
-  overflow:hidden!important;
+  overflow:hidden!important;background:#fffdf7!important;border:2px solid #29251f!important;
+  border-radius:16px!important;box-shadow:3px 3px 0 #29251f!important;
 }
-.skills-marquee-panel .tech-stack-slider .tech-stack-card__icon {
+.portfolio-shell main .skills-editorial .skills-marquee-panel .tech-stack-slider .group > div > .tech-stack-card > .tech-stack-card__icon {
   position:relative!important;display:flex!important;flex:0 0 44px!important;width:44px!important;min-width:44px!important;
   height:44px!important;min-height:44px!important;align-items:center!important;justify-content:center!important;
   padding:6px!important;overflow:visible!important;
 }
-.skills-marquee-panel .tech-stack-slider .tech-stack-card__icon svg {
+.portfolio-shell main .skills-editorial .skills-marquee-panel .tech-stack-slider .group > div > .tech-stack-card .tech-stack-card__icon svg {
   display:block!important;flex:none!important;width:28px!important;height:28px!important;max-width:28px!important;
-  max-height:28px!important;position:static!important;transform:none!important;
+  max-height:28px!important;position:static!important;transform:none!important;opacity:1!important;visibility:visible!important;
 }
-.skills-marquee-panel .tech-stack-slider .tech-stack-card__content {
+.portfolio-shell main .skills-editorial .skills-marquee-panel .tech-stack-slider .group > div > .tech-stack-card > .tech-stack-card__content {
   position:relative!important;display:flex!important;flex:1 1 auto!important;flex-direction:column!important;
   align-items:flex-start!important;justify-content:center!important;gap:2px!important;width:auto!important;
   min-width:0!important;max-width:none!important;overflow:hidden!important;transform:none!important;
 }
-.skills-marquee-panel .tech-stack-slider .tech-stack-card__content span {
+.portfolio-shell main .skills-editorial .skills-marquee-panel .tech-stack-slider .group > div > .tech-stack-card .tech-stack-card__content > span {
   position:static!important;display:block!important;width:100%!important;max-width:100%!important;
   white-space:nowrap!important;overflow:hidden!important;text-overflow:ellipsis!important;
   line-height:1.25!important;transform:none!important;opacity:1!important;visibility:visible!important;
+  color:#24221f!important;
 }
-.skills-marquee-panel .tech-stack-slider .tech-stack-card__name {font-size:12px!important;font-weight:750!important;color:#24221f!important;}
-.skills-marquee-panel .tech-stack-slider .tech-stack-card__category {font-size:9px!important;letter-spacing:.08em!important;color:#8d596c!important;}
-.skills-marquee-panel .tech-stack-slider .tech-stack-card__description {font-size:10px!important;color:#696257!important;margin-top:2px!important;}
+.portfolio-shell main .skills-editorial .skills-marquee-panel .tech-stack-slider .tech-stack-card__name {font-size:12px!important;font-weight:750!important;}
+.portfolio-shell main .skills-editorial .skills-marquee-panel .tech-stack-slider .tech-stack-card__category {font-size:9px!important;letter-spacing:.08em!important;color:#8d596c!important;}
+.portfolio-shell main .skills-editorial .skills-marquee-panel .tech-stack-slider .tech-stack-card__description {font-size:10px!important;color:#696257!important;margin-top:2px!important;}
 @media(max-width:640px) {
-  .skills-marquee-panel .tech-stack-slider .tech-stack-card {flex-basis:236px!important;width:236px!important;min-width:236px!important;}
+ .portfolio-shell main .skills-editorial .skills-marquee-panel .tech-stack-slider .group > div > .tech-stack-card {
+  flex-basis:236px!important;width:236px!important;min-width:236px!important;
+ }
 }
