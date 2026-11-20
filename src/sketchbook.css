@@ -872,3 +872,54 @@ html,body{background:var(--sk-paper)!important;color:var(--sk-ink)!important}
 .skills-marquee-panel .tech-stack-slider .group>div>div>div:last-child span {
   color:#24221f!important;opacity:1!important;visibility:visible!important;
 }
+
+
+/* The component now owns this class; keep both duplicated marquee tracks unclipped internally. */
+.tech-stack-slider { display:block!important;width:100%!important;min-width:0!important;overflow:hidden!important; }
+.tech-stack-slider>div { width:max-content!important;min-width:100%!important;overflow:visible!important; }
+.tech-stack-slider>div>div { display:flex!important;align-items:center!important;gap:14px!important;overflow:visible!important; }
+.tech-stack-slider>div>div>div { flex:0 0 192px!important;width:192px!important;min-width:192px!important;height:68px!important;min-height:68px!important;overflow:visible!important; }
+.tech-stack-slider .tech-brand-image {
+ display:block!important;flex:0 0 30px!important;width:30px!important;height:30px!important;
+ min-width:30px!important;min-height:30px!important;max-width:30px!important;max-height:30px!important;
+ object-fit:contain!important;object-position:center!important;overflow:visible!important;
+ opacity:1!important;visibility:visible!important;
+}
+.tech-stack-slider>div>div>div>div:first-child {
+ display:flex!important;align-items:center!important;justify-content:center!important;
+ flex:0 0 42px!important;width:42px!important;min-width:42px!important;
+ height:42px!important;min-height:42px!important;overflow:visible!important;padding:5px!important;
+}
+.tech-stack-slider>div>div>div>div:last-child { min-width:0!important;overflow:hidden!important; }
+.tech-stack-slider>div>div>div>div:last-child span:first-child { color:#24221f!important;font-size:13px!important;font-weight:750!important;opacity:1!important; }
+.tech-stack-slider>div>div>div>div:last-child span:last-child { color:#696257!important;opacity:1!important; }
+
+/* Explicitly style every contact field; don't rely on broad legacy Tailwind selectors. */
+.contact-sketchbook .contact-form-panel {
+ width:100%!important;max-width:none!important;min-width:0!important;
+ padding:clamp(28px,3.5vw,48px)!important;border-radius:24px!important;
+ background:#fffdf7!important;border:2px solid #29251f!important;
+ box-shadow:5px 5px 0 #29251f!important;
+}
+.contact-sketchbook .contact-form-panel form { width:100%!important;gap:28px!important; }
+.contact-sketchbook .contact-form-panel form>div.grid { width:100%!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:24px!important; }
+.contact-sketchbook .contact-form-panel form>div:not(.grid) { width:100%!important; }
+.contact-sketchbook .contact-form-panel form input.contact-input,
+.contact-sketchbook .contact-form-panel form textarea.contact-input,
+.contact-sketchbook .contact-form-panel form button.contact-input {
+ box-sizing:border-box!important;display:block!important;width:100%!important;max-width:none!important;
+ min-height:64px!important;padding:17px 21px!important;border-radius:20px!important;
+ background:#fff!important;color:#24221f!important;border:2px solid #aaa092!important;
+ font-size:15px!important;line-height:1.55!important;opacity:1!important;
+}
+.contact-sketchbook .contact-form-panel form textarea.contact-input { min-height:220px!important;height:auto!important;border-radius:22px!important; }
+.contact-sketchbook .contact-form-panel form label { margin-bottom:10px!important;color:#29251f!important;font-size:14px!important;font-weight:750!important; }
+.contact-sketchbook .contact-form-panel form input.contact-input::placeholder,
+.contact-sketchbook .contact-form-panel form textarea.contact-input::placeholder { color:#777064!important;opacity:1!important; }
+.contact-sketchbook .contact-form-panel form button[type=submit] { width:100%!important;min-height:62px!important;border-radius:18px!important; }
+.contact-sketchbook .contact-form-panel .contact-topic-menu { border-radius:18px!important; }
+.contact-sketchbook .contact-form-panel .contact-topic-menu button { min-height:54px!important;border-radius:13px!important;padding:14px 16px!important; }
+@media(max-width:767px){
+ .contact-sketchbook .contact-form-panel { padding:22px!important; }
+ .contact-sketchbook .contact-form-panel form>div.grid { grid-template-columns:minmax(0,1fr)!important; }
+}
