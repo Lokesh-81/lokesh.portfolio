@@ -1,11 +1,11 @@
 'use client';
 
 import React from 'react';
-import { InfiniteSlider } from '@/components/core/infinite-slider';
 
 export interface TechLogoItem {
   name: string;
   category: string;
+  description: string;
   icon: React.ReactNode;
 }
 
@@ -13,9 +13,10 @@ export interface TechLogoItem {
 const row1Technologies: TechLogoItem[] = [
   {
     name: 'React',
+    description: 'Builds interactive user interfaces',
     category: 'Frontend',
     icon: (
-      <svg className="h-6 w-6 text-[#E8B8D2]" viewBox="-11.5 -10.23174 23 20.46348" fill="currentColor">
+      <svg className="h-6 w-6 text-[#24221f]" viewBox="-11.5 -10.23174 23 20.46348" fill="currentColor">
         <circle cx="0" cy="0" r="2.05" fill="#E8B8D2" />
         <g stroke="#E8B8D2" strokeWidth="1" fill="none">
           <ellipse rx="11" ry="4.2" />
@@ -27,9 +28,10 @@ const row1Technologies: TechLogoItem[] = [
   },
   {
     name: 'Next.js',
+    description: 'React framework for full-stack web apps',
     category: 'Framework',
     icon: (
-      <svg className="h-6 w-6 fill-current text-[#F5EAF5]" viewBox="0 0 180 180">
+      <svg className="h-6 w-6 fill-current text-[#24221f]" viewBox="0 0 180 180">
         <mask height="180" id="mask0_next" maskUnits="userSpaceOnUse" width="180" x="0" y="0" style={{ maskType: 'alpha' }}>
           <circle cx="90" cy="90" fill="black" r="90" />
         </mask>
@@ -43,6 +45,7 @@ const row1Technologies: TechLogoItem[] = [
   },
   {
     name: 'TypeScript',
+    description: 'Adds type safety to JavaScript',
     category: 'Language',
     icon: (
       <svg className="h-6 w-6" viewBox="0 0 128 128">
@@ -53,9 +56,10 @@ const row1Technologies: TechLogoItem[] = [
   },
   {
     name: 'Node.js',
+    description: 'Runs JavaScript on the server',
     category: 'Runtime',
     icon: (
-      <svg className="h-6 w-6 text-[#A77BC2]" viewBox="0 0 32 32" fill="currentColor">
+      <svg className="h-6 w-6 text-[#5c4b79]" viewBox="0 0 32 32" fill="currentColor">
         <path d="M16 1.5L2.5 9.3v15.6L16 32.7l13.5-7.8V9.3L16 1.5zm0 3.2l10.8 6.2v12.5L16 29.7 5.2 23.4V10.9L16 4.7z" />
         <circle cx="16" cy="17" r="4.5" />
       </svg>
@@ -63,24 +67,27 @@ const row1Technologies: TechLogoItem[] = [
   },
   {
     name: 'Tailwind CSS',
+    description: 'Styles layouts with utility classes',
     category: 'Styling',
     icon: (
-      <svg className="h-6 w-6 text-[#38bdf8]" viewBox="0 0 24 24" fill="currentColor">
+      <svg className="h-6 w-6 text-[#1596c0]" viewBox="0 0 24 24" fill="currentColor">
         <path d="M12.001,4.8c-3.2,0-5.2,1.6-6,4.8c1.2-1.6,2.6-2.2,4.2-1.8c0.913,0.228,1.565,0.89,2.288,1.624 C13.666,10.618,15.027,12,18.001,12c3.2,0,5.2-1.6,6-4.8c-1.2,1.6-2.6,2.2-4.2,1.8c-0.913-0.228-1.565-0.89-2.288-1.624 C16.337,6.182,14.976,4.8,12.001,4.8z M6.001,12c-3.2,0-5.2,1.6-6,4.8c1.2-1.6,2.6-2.2,4.2-1.8c0.913,0.228,1.565,0.89,2.288,1.624 c1.177,1.194,2.538,2.576,5.512,2.576c3.2,0,5.2-1.6,6-4.8c-1.2,1.6-2.6,2.2-4.2,1.8c-0.913-0.228-1.565-0.89-2.288-1.624 C10.337,13.382,8.976,12,6.001,12z" />
       </svg>
     ),
   },
   {
     name: 'Supabase',
+    description: 'Backend, database and authentication',
     category: 'Database & Auth',
     icon: (
-      <svg className="h-6 w-6 text-[#3ecf8e]" viewBox="0 0 24 24" fill="currentColor">
+      <svg className="h-6 w-6 text-[#16845a]" viewBox="0 0 24 24" fill="currentColor">
         <path d="M21.362 9.354H12V.396a.396.396 0 0 0-.716-.233L.412 13.914a.792.792 0 0 0 .616 1.282H12v8.958a.396.396 0 0 0 .716.233l10.872-13.75a.792.792 0 0 0-.226-1.283z" />
       </svg>
     ),
   },
   {
     name: 'Python',
+    description: 'Automation, scripting and AI workflows',
     category: 'Language & AI',
     icon: (
       <svg className="h-6 w-6" viewBox="0 0 110 110">
@@ -91,15 +98,17 @@ const row1Technologies: TechLogoItem[] = [
   },
   {
     name: 'Git',
+    description: 'Tracks code changes and versions',
     category: 'VCS',
     icon: (
-      <svg className="h-6 w-6 text-[#FB7185]" viewBox="0 0 24 24" fill="currentColor">
+      <svg className="h-6 w-6 text-[#b94b39]" viewBox="0 0 24 24" fill="currentColor">
         <path d="M21.62 10.38l-8-8a2.29 2.29 0 0 0-3.24 0l-1.6 1.6 2.53 2.53a2.72 2.72 0 0 1 3.45 3.45l2.44 2.44a2.71 2.71 0 1 1-1.62 1.62l-2.28-2.28v5.1a2.71 2.71 0 1 1-2.29 0v-5.4a2.68 2.68 0 0 1-1.46-1.46L6.82 12l-.44.44a2.29 2.29 0 0 0 0 3.24l8 8a2.29 2.29 0 0 0 3.24 0l4-4a2.29 2.29 0 0 0 0-3.3z" />
       </svg>
     ),
   },
   {
     name: 'Vite',
+    description: 'Fast development and build tooling',
     category: 'Build Tool',
     icon: (
       <svg className="h-6 w-6" viewBox="0 0 32 32">
@@ -113,33 +122,37 @@ const row1Technologies: TechLogoItem[] = [
 const row2Technologies: TechLogoItem[] = [
   {
     name: 'Express.js',
+    description: 'Builds backend routes and APIs',
     category: 'Backend',
     icon: (
-      <svg className="h-6 w-6 fill-current text-[#DCCFE0]" viewBox="0 0 24 24">
+      <svg className="h-6 w-6 fill-current text-[#24221f]" viewBox="0 0 24 24">
         <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z" />
       </svg>
     ),
   },
   {
     name: 'Firebase',
+    description: 'Hosted database, auth and app services',
     category: 'Cloud & Auth',
     icon: (
-      <svg className="h-6 w-6 text-[#E8B8D2]" viewBox="0 0 24 24" fill="currentColor">
+      <svg className="h-6 w-6 text-[#24221f]" viewBox="0 0 24 24" fill="currentColor">
         <path d="M3.89 15.672L6.255.945a.777.777 0 0 1 1.436-.254l3.292 6.188L3.89 15.672zm16.488-.135L17.712 2.87a.778.778 0 0 0-1.455-.078L13.1 8.878l7.278 6.66zM4.685 17.07l7.03 3.974a.776.776 0 0 0 .762 0l7.04-3.974-7.42-6.79-7.412 6.79z" />
       </svg>
     ),
   },
   {
     name: 'MongoDB',
+    description: 'Stores application data as documents',
     category: 'Database',
     icon: (
-      <svg className="h-6 w-6 text-[#A77BC2]" viewBox="0 0 24 24" fill="currentColor">
+      <svg className="h-6 w-6 text-[#5c4b79]" viewBox="0 0 24 24" fill="currentColor">
         <path d="M12 0C12 0 6 5.5 6 12.8c0 4.2 2.8 7.8 6 9.2 3.2-1.4 6-5 6-9.2C18 5.5 12 0 12 0zm.6 20.3c-.4.2-.8.3-1.2.3-.4 0-.8-.1-1.2-.3l-.2-.1v-7.8c0-.3.2-.5.5-.5s.5.2.5.5v6.5l.6.4c.5.3 1.1.2 1.4-.3.2-.3.2-.7 0-1l-1.4-2.1v-6.9c0-.3.2-.5.5-.5s.5.2.5.5v5.3l1.8 2.7c.9 1.4.7 3.3-.5 4.4-.6.5-1.3.8-2 .8z" />
       </svg>
     ),
   },
   {
     name: 'JavaScript',
+    description: 'Powers interactive web functionality',
     category: 'Language',
     icon: (
       <svg className="h-6 w-6" viewBox="0 0 128 128">
@@ -150,36 +163,49 @@ const row2Technologies: TechLogoItem[] = [
   },
   {
     name: 'Framer Motion',
+    description: 'Creates animations and transitions',
     category: 'Animation',
     icon: (
-      <svg className="h-6 w-6 text-[#D8B4E8]" viewBox="0 0 24 24" fill="currentColor">
+      <svg className="h-6 w-6 text-[#5c4b79]" viewBox="0 0 24 24" fill="currentColor">
         <path d="M4 0h16v8h-8zM4 8h8l8 8H4zM4 16h8v8z" />
       </svg>
     ),
   },
   {
     name: 'GitHub',
+    description: 'Hosts code and team collaboration',
     category: 'DevOps',
     icon: (
-      <svg className="h-6 w-6 fill-current text-[#DCCFE0]" viewBox="0 0 24 24">
+      <svg className="h-6 w-6 fill-current text-[#24221f]" viewBox="0 0 24 24">
         <path fillRule="evenodd" clipRule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" />
       </svg>
     ),
   },
   {
     name: 'Gemini AI API',
+    description: "Connects apps to Google AI models",
     category: 'AI / LLMs',
     icon: (
-      <svg className="h-6 w-6 text-[#D8B4E8]" viewBox="0 0 24 24" fill="currentColor">
-        <path d="M12 2L14.4 8.6L21 11L14.4 13.4L12 20L9.6 13.4L3 11L9.6 8.6L12 2Z" />
+      <svg className="h-7 w-7" viewBox="0 0 24 24" fill="url(#gemini-brand-gradient)">
+        <defs>
+          <linearGradient id="gemini-brand-gradient" x1="2" y1="22" x2="22" y2="2" gradientUnits="userSpaceOnUse">
+            <stop offset="0" stopColor="#4285F4" />
+            <stop offset="0.28" stopColor="#34A853" />
+            <stop offset="0.55" stopColor="#FBBC04" />
+            <stop offset="0.78" stopColor="#EA4335" />
+            <stop offset="1" stopColor="#4285F4" />
+          </linearGradient>
+        </defs>
+        <path d="M11.04 19.32Q12 21.51 12 24q0-2.49.93-4.68.96-2.19 2.58-3.81t3.81-2.55Q21.51 12 24 12q-2.49 0-4.68-.93a12.3 12.3 0 0 1-3.81-2.58 12.3 12.3 0 0 1-2.58-3.81Q12 2.49 12 0q0 2.49-.96 4.68-.93 2.19-2.55 3.81a12.3 12.3 0 0 1-3.81 2.58Q2.49 12 0 12q2.49 0 4.68.96 2.19.93 3.81 2.55t2.55 3.81" />
       </svg>
     ),
   },
   {
     name: 'REST APIs',
+    description: 'Lets separate services exchange data',
     category: 'Architecture',
     icon: (
-      <svg className="h-6 w-6 text-[#E8B8D2]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+      <svg className="h-6 w-6 text-[#24221f]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
         <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" />
         <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" />
       </svg>
@@ -187,9 +213,10 @@ const row2Technologies: TechLogoItem[] = [
   },
   {
     name: 'Vercel',
+    description: 'Deploys websites and web applications',
     category: 'Deployment',
     icon: (
-      <svg className="h-6 w-6 fill-current text-[#F5EAF5]" viewBox="0 0 24 24">
+      <svg className="h-6 w-6 fill-current text-[#24221f]" viewBox="0 0 24 24">
         <path d="M12 1L24 22H0L12 1Z" />
       </svg>
     ),
@@ -198,50 +225,52 @@ const row2Technologies: TechLogoItem[] = [
 
 export function TechStackSlider() {
   return (
-    <div className="w-full overflow-hidden py-1">
+    <div className="portfolio-tech-marquee w-full min-w-0 py-3">
       {/* Single compact forward Infinite Scroll line for footer */}
-      <InfiniteSlider gap={12} duration={28}>
-        {row1Technologies.map((tech) => (
+      <div className="tech-marquee-row">
+        <div className="tech-marquee-track tech-marquee-track-forward">
+        {[...row1Technologies, ...row1Technologies].map((tech, index) => (
           <div
-            key={tech.name}
-            className="group flex h-11 w-44 shrink-0 items-center gap-2.5 rounded-xl border border-[#35263D] bg-[#1A1222]/90 px-3 shadow-xs backdrop-blur-md transition-all hover:border-[#E8B8D2]"
+            key={`${tech.name}-${index}`}
+            className="tech-stack-card flex h-[82px] w-[260px] shrink-0 items-center gap-4 rounded-2xl border-2 border-[#29251f] bg-[#fffdf7] px-4 shadow-[3px_3px_0_#29251f] transition-transform hover:-translate-y-0.5"
           >
-            <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-[#35263D]/70 p-1 group-hover:scale-105 transition-transform">
+            <div className="tech-stack-card__icon flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-[#ded8cc] bg-white p-1.5">
               {tech.icon}
             </div>
-            <div className="min-w-0">
-              <span className="block truncate text-xs font-semibold text-[#F5EAF5] group-hover:text-[#E8B8D2] transition-colors">
+            <div className="tech-stack-card__content min-w-0 flex-1">
+              <span className="tech-stack-card__name block text-xs font-semibold text-[#24221f]">
                 {tech.name}
               </span>
-              <span className="block truncate text-[9px] font-mono uppercase text-[#A78BAF]">
-                {tech.category}
-              </span>
+              <span className="tech-stack-card__category block text-[10px] font-mono uppercase tracking-wide text-[#696257]">{tech.category}</span>
+              <span className="tech-stack-card__description mt-1 block text-[10px] leading-tight text-[#696257]">{tech.description}</span>
             </div>
           </div>
         ))}
-      </InfiniteSlider>
+      </div>
+      </div>
 
       <div className="mt-2">
-        <InfiniteSlider gap={12} reverse duration={30}>
-          {row2Technologies.map((tech) => (
+        <div className="tech-marquee-row">
+          <div className="tech-marquee-track tech-marquee-track-reverse">
+          {[...row2Technologies, ...row2Technologies].map((tech, index) => (
             <div
-              key={tech.name}
-              className="group flex h-11 w-44 shrink-0 items-center gap-2.5 rounded-xl border border-[#35263D] bg-[#1A1222]/90 px-3 shadow-xs backdrop-blur-md transition-all hover:border-[#D8B4E8]"
+              key={`${tech.name}-${index}`}
+              className="tech-stack-card flex h-[82px] w-[260px] shrink-0 items-center gap-4 rounded-2xl border-2 border-[#29251f] bg-[#fffdf7] px-4 shadow-[3px_3px_0_#29251f] transition-transform hover:-translate-y-0.5"
             >
-              <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-[#35263D]/70 p-1 group-hover:scale-105 transition-transform">
+              <div className="tech-stack-card__icon flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-[#ded8cc] bg-white p-1.5">
                 {tech.icon}
               </div>
-              <div className="min-w-0">
-                <span className="block truncate text-xs font-semibold text-[#F5EAF5] group-hover:text-[#D8B4E8] transition-colors">
+              <div className="tech-stack-card__content min-w-0 flex-1">
+                <span className="tech-stack-card__name block text-xs font-semibold text-[#24221f]">
                   {tech.name}
                 </span>
-                <span className="block truncate text-[9px] font-mono uppercase text-[#A78BAF]">
-                  {tech.category}
-                </span>
+                <span className="tech-stack-card__category block text-[10px] font-mono uppercase tracking-wide text-[#696257]">{tech.category}</span>
+                <span className="tech-stack-card__description mt-1 block text-[10px] leading-tight text-[#696257]">{tech.description}</span>
               </div>
             </div>
           ))}
-        </InfiniteSlider>
+        </div>
+        </div>
       </div>
     </div>
   );

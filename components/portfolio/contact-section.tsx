@@ -18,8 +18,6 @@ import { TextMorph } from '@/components/core/text-morph';
 import { TextShimmer } from '@/components/core/text-shimmer';
 import { TextEffect } from '@/components/core/text-effect';
 import { BorderTrail } from '@/components/core/border-trail';
-import { GlowEffect } from '@/components/core/glow-effect';
-import { motion } from 'framer-motion';
 import { usePortfolio } from '@/lib/portfolio-context';
 import { useLanguage } from '@/i18n';
 import { trackEvent } from '@/lib/analytics';
@@ -52,6 +50,13 @@ export function ContactSection() {
   ];
 
   const [copiedText, setCopiedText] = useState<string | null>(null);
+  const [isTyping, setIsTyping] = useState(false);
+  const typingTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const handleTyping = () => {
+    setIsTyping(true);
+    if (typingTimerRef.current) clearTimeout(typingTimerRef.current);
+    typingTimerRef.current = setTimeout(() => setIsTyping(false), 850);
+  };
 
   const [form, setForm] = useState({
     name: '',
@@ -61,20 +66,6 @@ export function ContactSection() {
   });
   const [status, setStatus] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle');
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
-  const [isTextareaFocused, setIsTextareaFocused] = useState(false);
-  const [isTextareaTyping, setIsTextareaTyping] = useState(false);
-  const [isFormTyping, setIsFormTyping] = useState(false);
-  const typingTimerRef = useRef<NodeJS.Timeout | null>(null);
-
-  const handleTypingActivity = () => {
-    setIsFormTyping(true);
-    if (typingTimerRef.current) clearTimeout(typingTimerRef.current);
-    typingTimerRef.current = setTimeout(() => {
-      setIsFormTyping(false);
-      setIsTextareaTyping(false);
-    }, 2500);
-  };
-
   // Custom Dark Dropdown state for Discussion Topic
   const [isTopicOpen, setIsTopicOpen] = useState(false);
   const topicRef = useRef<HTMLDivElement>(null);
@@ -164,7 +155,7 @@ export function ContactSection() {
   };
 
   return (
-    <div className="relative min-h-[85vh] w-full px-4 sm:px-8 py-8 sm:py-12">
+    <div className="contact-sketchbook relative min-h-[85vh] w-full px-4 sm:px-8 py-8 sm:py-12">
       <div className="relative z-10 mx-auto max-w-[1400px]">
         {/* Section Header with TextEffect */}
         <div className="flex flex-col justify-between gap-4 border-b border-[#35263D] pb-6 md:flex-row md:items-end">
@@ -191,44 +182,24 @@ export function ContactSection() {
         </div>
 
         {/* 2-Column Split: Production Contact Form & Direct Verified Channels */}
-        <div className="mt-8 grid gap-8 lg:grid-cols-12 items-start pb-12">
+        <div className="mt-10 grid grid-cols-1 items-start gap-10 pb-16 lg:grid-cols-12">
           {/* Production Inquiry Form */}
-          <div className="relative rounded-2xl border border-[#35263D] bg-[#1A1222]/90 p-6 sm:p-8 shadow-xs lg:col-span-7">
-            {/* Glow effect matching hero buttons that activates when typing in the form */}
-            <motion.div
-              className="pointer-events-none absolute -inset-0.5 rounded-2xl"
-              animate={{
-                opacity: isFormTyping || isTextareaFocused ? 1 : 0,
-              }}
-              transition={{
-                duration: 0.25,
-                ease: 'easeOut',
-              }}
-            >
-              <GlowEffect
-                colors={['#FF5733', '#33FF57', '#3357FF', '#F1C40F']}
-                mode="colorShift"
-                blur="soft"
-                duration={3}
-                scale={0.99}
-              />
-            </motion.div>
-
-            <div className="relative z-10 mb-6 flex items-center justify-between border-b border-[#35263D] pb-4">
+          <div className={`contact-form-panel relative min-w-0 w-full rounded-xl border border-[#29251f] bg-[#fffdf7] p-7 sm:p-9 lg:col-span-8${isTyping ? " is-typing" : ""}`}>
+            <div className="relative z-10 mb-8 flex flex-wrap items-center justify-between gap-4 border-b border-[#d8d0c2] pb-5">
               <div>
-                <h3 className="text-lg font-bold text-[#F5EAF5]">
+                <h3 className="text-lg font-bold text-[#24221f]">
                   {t('contact.formTitle')}
                 </h3>
-                <div className="text-xs text-[#DCCFE0] mt-0.5">
+                <div className="text-xs text-[#696257] mt-0.5">
                   {t('contact.formDesc')}
                 </div>
               </div>
-              <span className="hidden sm:inline-flex items-center gap-1 rounded-full bg-[#A77BC2]/25 px-3 py-1 font-mono text-[11px] font-semibold text-[#E8B8D2] border border-[#A77BC2]/40">
+              <span className="hidden sm:inline-flex items-center gap-1 rounded-full bg-[#f0eafa] px-3 py-1 font-mono text-[11px] font-semibold text-[#514d45] border border-[#29251f]/30">
                 {t('contact.responseBadge')}
               </span>
             </div>
 
-            <form onSubmit={handleSubmit} className="relative z-10 space-y-4">
+            <form onSubmit={handleSubmit} className="relative z-10 flex flex-col gap-7">
               {errorMessage && (
                 <div className="flex items-center gap-2 rounded-xl border border-rose-500/30 bg-rose-950/40 p-3 text-xs text-rose-300">
                   <AlertCircle className="h-4 w-4 shrink-0 text-rose-400" />
@@ -236,9 +207,9 @@ export function ContactSection() {
                 </div>
               )}
 
-              <div className="grid gap-4 sm:grid-cols-2">
+              <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
                 <div>
-                  <label className="block text-xs font-semibold text-[#F5EAF5] mb-1.5">
+                  <label className="block text-xs font-semibold text-[#29251f] mb-1.5">
                     {t('contact.yourName')}
                   </label>
                   <input
@@ -247,17 +218,16 @@ export function ContactSection() {
                     value={form.name}
                     onChange={(e) => {
                       setForm({ ...form, name: e.target.value });
-                      handleTypingActivity();
+                      handleTyping();
                     }}
-                    onFocus={handleTypingActivity}
                     placeholder={language === 'fr' ? 'Votre Nom' : 'Your Name'}
                     disabled={status === 'submitting'}
-                    className="w-full rounded-xl border border-[#35263D] bg-[#100B18] px-3.5 py-2.5 text-xs sm:text-sm text-[#F5EAF5] placeholder:text-[#A78BAF] focus:border-[#E8B8D2] focus:outline-none transition-all disabled:opacity-60"
+                    className="contact-input w-full min-h-[62px] rounded-[20px] border-2 border-[#b8ad9e] bg-white px-5 py-4 text-[15px] leading-6 text-[#24221f] placeholder:text-[#777064] focus:border-[#5c4b79] focus:outline-none focus:ring-4 focus:ring-[#d9cdf8]/70 transition-all disabled:opacity-60"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-xs font-semibold text-[#F5EAF5] mb-1.5">
+                  <label className="block text-xs font-semibold text-[#29251f] mb-1.5">
                     {t('contact.emailAddress')}
                   </label>
                   <input
@@ -266,18 +236,17 @@ export function ContactSection() {
                     value={form.email}
                     onChange={(e) => {
                       setForm({ ...form, email: e.target.value });
-                      handleTypingActivity();
+                      handleTyping();
                     }}
-                    onFocus={handleTypingActivity}
                     placeholder={language === 'fr' ? 'votre.email@exemple.com' : 'your.email@example.com'}
                     disabled={status === 'submitting'}
-                    className="w-full rounded-xl border border-[#35263D] bg-[#100B18] px-3.5 py-2.5 text-xs sm:text-sm text-[#F5EAF5] placeholder:text-[#A78BAF] focus:border-[#E8B8D2] focus:outline-none transition-all disabled:opacity-60"
+                    className="contact-input w-full min-h-[62px] rounded-[20px] border-2 border-[#b8ad9e] bg-white px-5 py-4 text-[15px] leading-6 text-[#24221f] placeholder:text-[#777064] focus:border-[#5c4b79] focus:outline-none focus:ring-4 focus:ring-[#d9cdf8]/70 transition-all disabled:opacity-60"
                   />
                 </div>
               </div>
 
               {/* Styled Custom Dropdown */}
-              <div className="relative" ref={topicRef}>
+              <div className="contact-topic-field relative w-full" ref={topicRef}>
                 <label className="block text-xs font-semibold text-[#F5EAF5] mb-1.5">
                   {t('contact.topic')}
                 </label>
@@ -285,7 +254,7 @@ export function ContactSection() {
                   type="button"
                   disabled={status === 'submitting'}
                   onClick={() => setIsTopicOpen(!isTopicOpen)}
-                  className="flex w-full items-center justify-between rounded-xl border border-[#35263D] bg-[#100B18] px-3.5 py-2.5 text-left text-xs sm:text-sm text-[#F5EAF5] focus:border-[#E8B8D2] focus:outline-none transition-all cursor-pointer disabled:opacity-60"
+                  className="contact-input flex min-h-[62px] w-full items-center justify-between rounded-[20px] border-2 border-[#b8ad9e] bg-white px-5 py-4 text-left text-[15px] leading-6 text-[#24221f] focus:border-[#5c4b79] focus:outline-none focus:ring-4 focus:ring-[#d9cdf8]/70 transition-all cursor-pointer disabled:opacity-60"
                 >
                   <span>{form.projectType}</span>
                   <ChevronDown
@@ -296,7 +265,7 @@ export function ContactSection() {
                 </button>
 
                 {isTopicOpen && (
-                  <div className="absolute left-0 right-0 top-full mt-1 z-30 overflow-hidden rounded-xl border border-[#35263D] bg-[#100B18] p-1 shadow-2xl backdrop-blur-xl">
+                  <div className="contact-topic-menu absolute left-0 right-0 top-full z-30 mt-2 w-full overflow-hidden rounded-lg border border-[#29251f] bg-white p-2 shadow-[4px_4px_0_#29251f]">
                     {topicOptions.map((topic) => (
                       <button
                         key={topic}
@@ -304,9 +273,8 @@ export function ContactSection() {
                         onClick={() => {
                           setForm({ ...form, projectType: topic });
                           setIsTopicOpen(false);
-                          handleTypingActivity();
                         }}
-                        className={`flex w-full items-center justify-between rounded-lg px-3 py-2 text-xs transition-colors cursor-pointer ${
+                        className={`flex min-h-11 w-full items-center justify-between rounded-md px-4 py-3 text-sm transition-colors cursor-pointer ${
                           form.projectType === topic
                             ? 'bg-[#A77BC2]/25 text-[#E8B8D2] font-medium'
                             : 'text-[#DCCFE0] hover:bg-[#1A1222] hover:text-[#F5EAF5]'
@@ -322,46 +290,19 @@ export function ContactSection() {
                 )}
               </div>
 
-              {/* Message Box with GlowEffect like hero buttons - No covering elements */}
+              {/* Message Box */}
               <div>
                 <label className="block text-xs font-semibold text-[#F5EAF5] mb-1.5">
                   {t('contact.yourMessage')}
                 </label>
                 <div className="relative group">
-                  {/* Glow on message box when focused or typing */}
-                  <motion.div
-                    className="pointer-events-none absolute -inset-0.5 rounded-xl"
-                    animate={{
-                      opacity: isTextareaFocused || isTextareaTyping ? 1 : 0,
-                    }}
-                    transition={{
-                      duration: 0.2,
-                      ease: 'easeOut',
-                    }}
-                  >
-                    <GlowEffect
-                      colors={['#FF5733', '#33FF57', '#3357FF', '#F1C40F']}
-                      mode="colorShift"
-                      blur="soft"
-                      duration={3}
-                    />
-                  </motion.div>
                   <textarea
-                    rows={4}
+                    rows={6}
                     required
                     value={form.message}
-                    onFocus={() => {
-                      setIsTextareaFocused(true);
-                      handleTypingActivity();
-                    }}
-                    onBlur={() => {
-                      setIsTextareaFocused(false);
-                      setIsTextareaTyping(false);
-                    }}
                     onChange={(e) => {
                       setForm({ ...form, message: e.target.value });
-                      setIsTextareaTyping(true);
-                      handleTypingActivity();
+                      handleTyping();
                     }}
                     placeholder={
                       language === 'fr'
@@ -369,7 +310,7 @@ export function ContactSection() {
                         : 'Tell me about your project, timeline, and goals...'
                     }
                     disabled={status === 'submitting'}
-                    className="relative z-10 w-full resize-none rounded-xl border border-[#35263D] bg-[#100B18] p-3.5 text-xs sm:text-sm text-[#F5EAF5] placeholder:text-[#A78BAF] focus:border-[#E8B8D2] focus:outline-none transition-all disabled:opacity-60"
+                    className="contact-input relative z-10 w-full min-h-[200px] resize-y rounded-2xl border-2 border-[#b8ad9e] bg-white p-5 text-sm leading-7 text-[#24221f] placeholder:text-[#777064] focus:border-[#5c4b79] focus:outline-none focus:ring-4 focus:ring-[#d9cdf8]/70 transition-all disabled:opacity-60"
                   />
                 </div>
               </div>
@@ -445,7 +386,7 @@ export function ContactSection() {
           </div>
 
           {/* Clean Direct Channels & Verified Accounts */}
-          <div className="space-y-4 lg:col-span-5">
+          <div className="contact-direct-panel min-w-0 space-y-5 lg:col-span-4">
             {/* Attractive High-End Phone Card (Clickable to WhatsApp: https://wa.me/918885674172) */}
             <a
               href={whatsappUrl}

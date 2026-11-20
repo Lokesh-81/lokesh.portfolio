@@ -198,58 +198,18 @@ export function UniversalDocumentViewer({
         </div>
       </div>
 
-      {/* Embedded Document Frame */}
-      <div className="w-full relative bg-slate-900/90 flex flex-col items-center justify-center min-h-[500px]">
+      {/* Direct PDF iframe: browser-native viewer, with standalone actions above. */}
+      <div className="w-full relative bg-[#f5f2e9] flex flex-col items-center justify-center min-h-[500px]">
         {effectiveUrl ? (
-          <object
-            data={`${effectiveUrl}#toolbar=0&navpanes=0`}
-            type="application/pdf"
-            className="w-full rounded-b-xl"
+          <iframe
+            src={`${effectiveUrl}#toolbar=1&navpanes=0&view=FitH`}
+            title={title}
+            className="w-full border-0 bg-white"
             style={{ height: typeof height === 'number' ? `${height}px` : height }}
-          >
-            <iframe
-              src={`${effectiveUrl}#toolbar=0`}
-              title={title}
-              className="w-full border-0 rounded-b-xl"
-              style={{ height: typeof height === 'number' ? `${height}px` : height }}
-            >
-              {/* Fallback card if browser refuses inline iframe/object */}
-              <div className="p-8 text-center flex flex-col items-center justify-center space-y-4">
-                <div className="h-16 w-16 rounded-2xl bg-blue-500/20 text-blue-400 flex items-center justify-center">
-                  <FileText className="h-8 w-8" />
-                </div>
-                <div>
-                  <h3 className="text-base font-bold text-white">{title}</h3>
-                  <p className="text-xs text-slate-400 max-w-sm mt-1">
-                    Your browser has restricted inline PDF previews. You can view or download the replaced document directly using the buttons below.
-                  </p>
-                </div>
-                <div className="flex items-center gap-3">
-                  <button
-                    type="button"
-                    onClick={() => openDocumentInNewTab(cleanUrl, title)}
-                    className="inline-flex items-center gap-2 rounded-xl bg-blue-600 px-4 py-2 text-xs font-semibold text-white hover:bg-blue-500 transition-colors cursor-pointer"
-                  >
-                    <Eye className="h-4 w-4" />
-                    <span>View Replaced Document</span>
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => downloadDocument(cleanUrl, title)}
-                    className="inline-flex items-center gap-2 rounded-xl border border-slate-700 bg-slate-800 px-4 py-2 text-xs font-medium text-slate-200 hover:bg-slate-700 transition-colors cursor-pointer"
-                  >
-                    <Download className="h-4 w-4" />
-                    <span>Download PDF</span>
-                  </button>
-                </div>
-              </div>
-            </iframe>
-          </object>
+            loading="eager"
+          />
         ) : (
-          <div className="p-12 text-center text-slate-500 text-xs flex flex-col items-center">
-            <AlertCircle className="h-8 w-8 mb-2 text-amber-500/60" />
-            <span>No document URL has been provided or attached yet.</span>
-          </div>
+          <div className="p-12 text-center text-stone-600 text-xs">Document URL is unavailable.</div>
         )}
       </div>
     </div>

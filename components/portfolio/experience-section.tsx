@@ -271,7 +271,7 @@ export function ExperienceSection({ onNavigate }: ExperienceSectionProps = {}) {
             return (
               <div
                 key={exp.id}
-                className="group relative rounded-2xl border border-[#35263D] bg-[#1A1222]/90 p-6 sm:p-7 shadow-xs transition-all hover:border-[#E8B8D2] hover:shadow-md"
+                className="experience-card group relative rounded-2xl border border-[#35263D] bg-[#1A1222]/90 p-6 sm:p-7 shadow-xs transition-all hover:border-[#E8B8D2] hover:shadow-md"
               >
                 <div className="flex flex-col justify-between gap-3 sm:flex-row sm:items-center border-b border-[#35263D] pb-4">
                   <div>
@@ -330,7 +330,7 @@ export function ExperienceSection({ onNavigate }: ExperienceSectionProps = {}) {
 
                 {/* Special Belvo Letter of Recommendation (LOR) Showcase Box */}
                 {((exp.id === 'belvo' && exp.lor?.hasLor !== false) || (exp.lor && exp.lor.hasLor)) && (
-                  <div className="mt-6 rounded-2xl border border-purple-500/40 bg-gradient-to-br from-purple-950/40 via-[#1A1222] to-indigo-950/30 p-5 shadow-lg backdrop-blur-md relative overflow-hidden group/lor">
+                  <div className="experience-belvo-lor mt-6 rounded-2xl border border-purple-500/40 bg-gradient-to-br from-purple-950/40 via-[#1A1222] to-indigo-950/30 p-5 shadow-lg relative overflow-hidden group/lor">
                     <div className="absolute top-0 right-0 w-64 h-64 bg-radial from-purple-500/10 to-transparent pointer-events-none" />
 
                     <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 relative z-10">
@@ -340,7 +340,7 @@ export function ExperienceSection({ onNavigate }: ExperienceSectionProps = {}) {
                         </div>
                         <div>
                           <div className="flex flex-wrap items-center gap-2">
-                            <span className="text-sm font-bold text-white tracking-tight flex items-center gap-1.5">
+                            <span className="experience-lor-title text-sm font-bold text-white tracking-tight flex items-center gap-1.5">
                               <span>Official {exp.lor?.title || 'Letter of Recommendation (LOR)'}</span>
                             </span>
                             <span className="inline-flex items-center gap-1 rounded-full bg-emerald-500/20 px-2.5 py-0.5 text-[10px] font-medium text-emerald-400 border border-emerald-500/30">
@@ -348,7 +348,7 @@ export function ExperienceSection({ onNavigate }: ExperienceSectionProps = {}) {
                               Issued by {exp.lor?.role || 'CEO'}
                             </span>
                           </div>
-                          <p className="text-xs text-[#DCCFE0] mt-1 leading-snug">
+                          <p className="experience-lor-meta text-xs text-[#DCCFE0] mt-1 leading-snug">
                             Issued by <strong className="text-white">{exp.lor?.issuedBy || 'Hrishikesh Mishra'}</strong>, {exp.lor?.role || 'CEO, Belvo'} · {exp.lor?.location || 'Goregaon, Mumbai'} · Dated {exp.lor?.date || '22-09-2026'}
                           </p>
                         </div>
@@ -366,7 +366,7 @@ export function ExperienceSection({ onNavigate }: ExperienceSectionProps = {}) {
                       </div>
                     </div>
 
-                    <div className="mt-4 pt-3.5 border-t border-purple-500/20 text-xs text-[#DCCFE0] leading-relaxed italic bg-purple-950/20 rounded-xl p-3 border border-purple-500/10">
+                    <div className="experience-lor-quote mt-4 pt-3.5 border-t border-purple-500/20 text-xs text-[#DCCFE0] leading-relaxed italic rounded-xl p-3 border">
                       &ldquo;It is my pleasure to recommend you for successfully completing a 3-month internship as a Web Developer at Belvo. During the internship, Poosala Lokesh demonstrated a strong willingness to learn and actively participated in web development activities... Poosala Lokesh contributed to assigned projects and responsibilities while working with the development team. They showed dedication, adaptability, and a professional attitude while completing assigned tasks and meeting project requirements.&rdquo;
                     </div>
                   </div>
