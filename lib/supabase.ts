@@ -944,7 +944,33 @@ export async function loadPortfolioDataset() {
       setLocal(CACHE_KEYS.SKILLS, result.skills);
     }
     if (certRes.status === 'fulfilled' && certRes.value?.data && certRes.value.data.length > 0) {
-      result.certifications = certRes.value.data;
+      result.certifications = certRes.value.data.map((row: any) => ({
+        id: row.id,
+        title: row.title || row.badge_title || 'Certification',
+        badgeTitle: row.badge_title || '',
+        subtitle: row.subtitle || '',
+        recipient: row.recipient || '',
+        certifiedAs: row.certified_as || '',
+        issuer: row.issuer || 'Google Cloud',
+        issuerLogo: row.issuer_logo || '',
+        seriesId: row.series_id || '',
+        issueDate: row.issue_date || '',
+        expirationDate: '',
+        credentialId: row.credential_id || '',
+        verificationUrl: row.verification_url || '',
+        credentialUrl: row.verification_url || '',
+        signatory: row.signatory || {},
+        status: row.status || 'Active',
+        badgeImage: row.badge_image || '',
+        badgeUrl: row.badge_image || '',
+        featured: row.is_featured ?? true,
+        description: row.description || '',
+        domains: row.domains || [],
+        technologies: row.technologies || [],
+        examScope: row.exam_scope || [],
+        display_order: row.display_order ?? 0,
+        sortOrder: row.display_order ?? 0,
+      }));
       setLocal(CACHE_KEYS.CERTIFICATIONS, result.certifications);
     }
     if (achRes.status === 'fulfilled' && achRes.value?.data && achRes.value.data.length > 0) {
