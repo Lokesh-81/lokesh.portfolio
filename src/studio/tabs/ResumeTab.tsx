@@ -4,6 +4,7 @@ import React, { useState, useRef } from 'react';
 import { usePortfolio } from '@/lib/portfolio-context';
 import { uploadMediaToSupabase } from '@/lib/supabase';
 import { getGoogleDriveFileId, toGoogleDrivePreviewUrl } from '../google-drive';
+import { StudioDropzone } from '../StudioDropzone';
 import { saveActiveResumeDocument } from '@/lib/document-storage';
 import type { ResumeItem, ExperienceItem } from '@/lib/portfolio-types';
 import { UniversalDocumentViewer } from '@/components/ui/universal-document-viewer';
@@ -267,8 +268,7 @@ export function ResumeTab({ showToast }: ResumeTabProps) {
   };
 
   // Upload replacement LOR PDF
-  const handleReplaceLorFile = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
+  const handleReplaceLorFile = async (file: File | undefined) => {
     if (!file || !belvoExp) return;
 
     if (!file.name.toLowerCase().endsWith('.pdf')) {
@@ -314,8 +314,7 @@ export function ResumeTab({ showToast }: ResumeTabProps) {
   };
 
   // Upload or replace active resume directly
-  const handleUploadOrReplaceResume = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
+  const handleUploadOrReplaceResume = async (file: File | undefined) => {
     if (!file) return;
 
     if (!file.name.toLowerCase().endsWith('.pdf')) {
@@ -360,8 +359,7 @@ export function ResumeTab({ showToast }: ResumeTabProps) {
   };
 
   // Replace file for a specific resume version
-  const handleReplaceVersionFile = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
+  const handleReplaceVersionFile = async (file: File | undefined) => {
     if (!file || !replacingVersionId) return;
 
     if (!file.name.toLowerCase().endsWith('.pdf')) {
@@ -512,7 +510,7 @@ ${lorFormData.role}`;
         ref={replaceActiveResumeFileRef}
         type="file"
         accept="application/pdf"
-        onChange={handleUploadOrReplaceResume}
+        onChange={(event) => void handleUploadOrReplaceResume(event.target.files?.[0])}
         disabled={isUploading}
         className="hidden"
       />
@@ -528,7 +526,7 @@ ${lorFormData.role}`;
         ref={replaceVersionFileRef}
         type="file"
         accept="application/pdf"
-        onChange={handleReplaceVersionFile}
+        onChange={(event) => void handleReplaceVersionFile(event.target.files?.[0])}
         disabled={isUploading}
         className="hidden"
       />
@@ -536,7 +534,7 @@ ${lorFormData.role}`;
         ref={replaceLorFileRef}
         type="file"
         accept="application/pdf"
-        onChange={handleReplaceLorFile}
+        onChange={(event) => void handleReplaceLorFile(event.target.files?.[0])}
         disabled={isUploading}
         className="hidden"
       />
@@ -820,13 +818,9 @@ ${lorFormData.role}`;
                     onClick={() => replaceLorFileRef.current?.click()}
                     disabled={isUploading}
                     className="flex items-center gap-1.5 rounded-xl border border-purple-500/40 bg-purple-600/20 hover:bg-purple-600/30 text-purple-300 px-3 py-1.5 text-xs font-medium transition-colors cursor-pointer shadow-xs"
-                    title="Upload a new PDF to replace this Letter of Recommendation"
+                    title="Choose a PDF to replace this Letter of Recommendation"
                   >
-                    {isUploading ? (
-                      <RefreshCw className="h-3.5 w-3.5 animate-spin" />
-                    ) : (
-                      <Upload className="h-3.5 w-3.5" />
-                    )}
+                    <Upload className="h-3.5 w-3.5" />
                     <span>Replace PDF</span>
                   </button>
 
@@ -923,6 +917,14 @@ ${lorFormData.role}`;
                   </button>
                 </div>
               </div>
+              <StudioDropzone
+                accept="application/pdf,.pdf"
+                title={isUploading ? 'Uploading LOR…' : 'Drop Belvo LOR PDF here'}
+                description="Drag & drop a PDF, or browse files"
+                disabled={isUploading}
+                compact
+                onFiles={(files) => void handleReplaceLorFile(files[0])}
+              />
 
               {/* Direct Document Sheet / PDF View */}
               <div className="w-full overflow-x-auto rounded-3xl border border-[#1F2937] bg-[#070B18] p-4 sm:p-8 flex justify-center items-start min-h-[780px] custom-scrollbar">
@@ -1060,15 +1062,14 @@ ${lorFormData.role}`;
               Upload a new version to automatically store it in Supabase Storage with instant public CDN links.
             </p>
 
-            <button
-              type="button"
-              onClick={() => uploadNewResumeFileRef.current?.click()}
+            <StudioDropzone
+              accept="application/pdf,.pdf"
+              title={isUploading ? 'Uploading resume…' : 'Drop your resume PDF here'}
+              description="Drag & drop a PDF, or browse files · Uploads to Supabase Storage"
               disabled={isUploading}
-              className="inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-[#2563EB] to-[#3B82F6] hover:from-[#1D4ED8] hover:to-[#2563EB] px-5 py-2.5 text-xs font-semibold text-white shadow-md cursor-pointer transition-all hover:scale-[1.02] active:scale-[0.98]"
-            >
-              <Upload className="h-4 w-4" />
-              <span>{isUploading ? 'Uploading to Supabase...' : 'Select PDF File'}</span>
-            </button>
+              onFiles={(files) => void handleUploadOrReplaceResume(files[0])}
+              className="mx-auto max-w-2xl"
+            />
           </div>
 
           {/* Resume Version History List */}
