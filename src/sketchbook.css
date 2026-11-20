@@ -267,3 +267,95 @@ html,body{background:var(--sk-paper)!important;color:var(--sk-ink)!important}
 @media (prefers-reduced-motion: reduce) {
   .portfolio-shell .portfolio-section * { animation: none !important; transition: none !important; }
 }
+
+
+/* Certifications: no legacy dark credential panels on the Sketchbook site. */
+.certifications-sketchbook { color:var(--sk-ink)!important; }
+.certifications-sketchbook h2,.certifications-sketchbook h3,.certifications-sketchbook h4,
+.certifications-sketchbook strong { color:var(--sk-ink)!important; }
+.certifications-sketchbook p,.certifications-sketchbook li { color:#454039!important; }
+.certifications-sketchbook>div>div:first-child { border-color:#292622!important; }
+.certifications-sketchbook>div>div:nth-child(2)>div,
+.certifications-sketchbook>div>div:nth-child(3),
+.certifications-sketchbook>div>section {
+  color:var(--sk-ink)!important;
+}
+.certifications-sketchbook .rounded-3xl {
+  background:#fffdf5!important;
+  background-image:none!important;
+  border:2px solid #24221f!important;
+  border-radius:7px!important;
+  box-shadow:5px 5px 0 #24221f!important;
+  color:var(--sk-ink)!important;
+}
+.certifications-sketchbook .rounded-2xl,
+.certifications-sketchbook .rounded-xl {
+  background:#f4efe3!important;
+  border-color:#c9bdad!important;
+  color:#292622!important;
+}
+.certifications-sketchbook .rounded-3xl :is(h3,h4,strong),
+.certifications-sketchbook .rounded-2xl :is(h3,h4,strong),
+.certifications-sketchbook .rounded-xl :is(h3,h4,strong) { color:#211f1c!important; }
+.certifications-sketchbook .rounded-3xl :is(p,span,div),
+.certifications-sketchbook .rounded-2xl :is(p,span,div),
+.certifications-sketchbook .rounded-xl :is(p,span,div) { color:#48423b; }
+.certifications-sketchbook [class*="bg-gradient-to-br"],
+.certifications-sketchbook [class*="bg-purple-950"],
+.certifications-sketchbook [class*="bg-[#1A1222"],
+.certifications-sketchbook [class*="bg-[#100B18"],
+.certifications-sketchbook [class*="bg-[#080D1A"] {
+  background:#fffdf5!important;background-image:none!important;color:#292622!important;
+}
+.certifications-sketchbook [class*="text-[#F5EAF5"],
+.certifications-sketchbook [class*="text-[#DCCFE0"],
+.certifications-sketchbook [class*="text-[#D8B4E8"],
+.certifications-sketchbook [class*="text-[#A78BAF"],
+.certifications-sketchbook [class*="text-purple-300"],
+.certifications-sketchbook [class*="text-purple-400"],
+.certifications-sketchbook [class*="text-white"] { color:#292622!important; }
+.certifications-sketchbook [class*="border-[#35263D"],
+.certifications-sketchbook [class*="border-purple-500"] { border-color:#c9bdad!important; }
+.certifications-sketchbook [class*="text-[#E8B8D2"] { color:#9b536b!important; }
+.certifications-sketchbook [class*="text-[#F9AB00"] { color:#946000!important; }
+.certifications-sketchbook input {
+  background:#fff!important;color:#292622!important;border:1.5px solid #292622!important;
+}
+.certifications-sketchbook input::placeholder { color:#777067!important; }
+.certifications-sketchbook button[class*="bg-gradient-to-r"] {
+  background:var(--sk-yellow)!important;color:#211f1c!important;border:1.5px solid #211f1c!important;
+  box-shadow:3px 3px 0 #211f1c!important;
+}
+.certifications-sketchbook button[class*="bg-purple"],
+.certifications-sketchbook button[class*="bg-[#A77BC2"] {
+  background:var(--sk-lilac)!important;color:#211f1c!important;border:1.5px solid #211f1c!important;
+}
+.certifications-sketchbook .grid > .group,
+.certifications-sketchbook .grid > div:has(> .group) { transition:transform .25s ease,box-shadow .25s ease; }
+.certifications-sketchbook .grid > .group:hover { transform:translateY(-5px) rotate(-.5deg);box-shadow:4px 5px 0 #211f1c!important; }
+.certifications-sketchbook .grid .bg-white {
+  background:#fff!important;border:1.5px solid #292622!important;box-shadow:3px 3px 0 #292622!important;
+}
+.certifications-sketchbook .grid .bg-white :is(h3,p,span) { color:#292622!important; }
+.certifications-sketchbook .grid .bg-white .text-\[\#9AA0A6\] { color:#5f5a53!important; }
+.certifications-sketchbook .grid .bg-white .text-\[\#5F6368\] { color:#55514b!important; }
+.certifications-sketchbook .grid .bg-white .text-\[\#202124\] { color:#202124!important; }
+.certifications-sketchbook .grid .bg-white .text-\[\#1A73E8\] { color:#2457ad!important; }
+.certifications-sketchbook .text-\[\#BDA9C4\],
+.certifications-sketchbook .text-\[\#D8B4E8\] { color:#514b43!important; }
+.certifications-sketchbook .text-\[\#F5EAF5\] { color:#24221f!important; }
+.certifications-sketchbook .text-\[\#DCCFE0\] { color:#48423b!important; }
+.certifications-sketchbook .text-\[\#A78BAF\] { color:#71665d!important; }
+.certifications-sketchbook .text-purple-300,
+.certifications-sketchbook .text-purple-400 { color:#81506f!important; }
+.certifications-sketchbook .bg-purple-500\/10,
+.certifications-sketchbook .bg-purple-600\/20 { background:#eee4f7!important; }
+.certifications-sketchbook .bg-emerald-500\/10 { background:#e4f3e8!important; }
+.certifications-sketchbook .text-emerald-400 { color:#247a45!important; }
+.certifications-sketchbook .text-emerald-400 span { color:#247a45!important; }
+
+/* Light certificate / LOR viewer surfaces as well. */
+.certifications-sketchbook~.fixed .bg-\[\#1A1222\],
+.certifications-sketchbook~.fixed .bg-\[\#100B18\],
+.certifications-sketchbook~.fixed .bg-\[\#080D1A\] { background:#f8f6e9!important;color:#292622!important; }
+@media(prefers-reduced-motion:reduce){.certifications-sketchbook *{animation:none!important;transition:none!important}}
