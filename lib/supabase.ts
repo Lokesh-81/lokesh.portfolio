@@ -512,52 +512,34 @@ export async function uploadMediaToSupabase(
     }).catch(() => {});
   }
 
-  // 1. Try local dev-server upload endpoint to overwrite public/resume.pdf and save in public/uploads/
-  if (isResumeFile) {
-    try {
-      const resp = await fetch('/api/upload-resume', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ filename: file.name, base64: dataUrl }),
+  // Store files remotely only. Never report a local Data URL as a successful CMS upload.
+  let storageErrorMessage = '';
+  try {
+    const { data, error } = await supabase.storage
+      .from(STORAGE_BUCKET)
+      .upload(path, file, {
+        cacheControl: '3600',
+        upsert: true,
+        contentType: file.type || 'application/octet-stream',
       });
-      if (resp.ok) {
-        const json = await resp.json();
-        if (json.success && json.url) {
-          publicUrl = json.url;
-          storedPath = json.url;
-        }
-      }
-    } catch {
-      // Dev server middleware not available (e.g. static hosting)
-    }
-  }
 
-  // 2. If not uploaded yet, attempt Supabase Storage upload
-  if (!publicUrl) {
-    try {
-      const { data, error } = await supabase.storage
+    if (error) {
+      storageErrorMessage = error.message;
+    } else if (data) {
+      const { data: publicUrlData } = supabase.storage
         .from(STORAGE_BUCKET)
-        .upload(path, file, {
-          cacheControl: '3600',
-          upsert: true,
-        });
-
-      if (!error && data) {
-        const { data: publicUrlData } = supabase.storage
-          .from(STORAGE_BUCKET)
-          .getPublicUrl(data.path);
-        publicUrl = publicUrlData.publicUrl;
-        storedPath = data.path;
-      }
-    } catch {
-      // Supabase storage unavailable
+        .getPublicUrl(data.path);
+      publicUrl = publicUrlData.publicUrl;
+      storedPath = data.path;
     }
+  } catch (error: any) {
+    storageErrorMessage = error?.message || 'Unknown Supabase Storage error';
   }
 
-  // 3. Fallback to Data URL if neither server endpoint nor Supabase storage was available
   if (!publicUrl) {
-    publicUrl = dataUrl || URL.createObjectURL(file);
-    storedPath = `local/${Date.now()}_${sanitizedName}`;
+    throw new Error(
+      `Supabase Storage upload failed: ${storageErrorMessage || 'No public file URL was returned'}. Check that the project is active, the portfolio-media bucket exists, and the Studio upload policies are applied.`
+    );
   }
 
   const mediaItem: MediaItem = {
@@ -573,13 +555,6 @@ export async function uploadMediaToSupabase(
   // Record in local cache
   const cached = getLocal<MediaItem[]>(CACHE_KEYS.MEDIA, []);
   setLocal(CACHE_KEYS.MEDIA, [mediaItem, ...cached]);
-
-  // Attempt database record insertion
-  try {
-    await supabase.from('media').insert([mediaItem]);
-  } catch {
-    // Ignore if table not created yet
-  }
 
   return {
     url: publicUrl,
