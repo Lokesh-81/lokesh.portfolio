@@ -219,7 +219,7 @@ const row2Technologies: TechLogoItem[] = [
 
 export function TechStackSlider() {
   return (
-    <div className="w-full overflow-hidden py-1">
+    <div className="tech-stack-slider w-full min-w-0 overflow-hidden py-3">
       {/* Single compact forward Infinite Scroll line for footer */}
       <InfiniteSlider gap={12} duration={28}>
         {row1Technologies.map((tech) => (
