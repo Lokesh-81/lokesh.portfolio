@@ -30,6 +30,7 @@ export function MediaTab({ showToast }: MediaTabProps) {
   const [searchQuery, setSearchQuery] = useState('');
   const [filterType, setFilterType] = useState<'all' | 'image' | 'document'>('all');
   const [driveUrl, setDriveUrl] = useState('');
+  const [driveLinkType, setDriveLinkType] = useState<'image' | 'document'>('document');
 
   const handleFileUpload = async (files: File[]) => {
     if (!files.length) return;
@@ -68,12 +69,12 @@ export function MediaTab({ showToast }: MediaTabProps) {
     if (!value) return;
     try {
       const parsed = new URL(value);
-      if (parsed.protocol !== 'https:' || !/(^|\\.)drive\\.google\\.com$|(^|\\.)docs\\.google\\.com$/i.test(parsed.hostname)) {
+      if (parsed.protocol !== 'https:' || !(parsed.hostname === 'drive.google.com' || parsed.hostname.endsWith('.drive.google.com') || parsed.hostname === 'docs.google.com' || parsed.hostname.endsWith('.docs.google.com'))) {
         showToast('Paste a valid Google Drive sharing link', 'error');
         return;
       }
-      const name = parsed.pathname.match(/\\/d\\/([^/]+)/)?.[1] || parsed.searchParams.get('id') || 'Google Drive file';
-      const isImage = /\\.(png|jpe?g|gif|webp|svg)(\\?|$)/i.test(value) || /[?&]export=view/i.test(value);
+      const name = parsed.pathname.match(new RegExp('/d/([^/]+)'))?.[1] || parsed.searchParams.get('id') || 'Google Drive file';
+      const isImage = driveLinkType === 'image';
       await addMediaItem({ id: 'drive-' + Date.now(), name, url: isImage ? toGoogleDriveImageUrl(value) : value, mimeType: isImage ? 'image/*' : 'application/octet-stream', bucket: 'google-drive', createdAt: new Date().toISOString() });
       setDriveUrl('');
       showToast('Google Drive link added to Media Library', 'success');
@@ -119,10 +120,14 @@ export function MediaTab({ showToast }: MediaTabProps) {
         <div className="w-full sm:w-[min(440px,100%)] space-y-2">
           <StudioDropzone multiple accept="image/*,.pdf,.doc,.docx,.svg" title={isUploading ? 'Uploading files…' : 'Drop images or documents here'} description="Or browse files · Multiple files supported" disabled={isUploading} onFiles={handleFileUpload} />
           <div className="flex flex-col gap-2 sm:flex-row">
+            <select value={driveLinkType} onChange={(event) => setDriveLinkType(event.target.value as 'image' | 'document')} aria-label="Google Drive asset type" className="rounded-xl border border-[#D8CDBB] bg-white px-3 py-2.5 text-sm text-[#29251F]">
+              <option value="image">Image / thumbnail</option>
+              <option value="document">Document / other file</option>
+            </select>
             <input value={driveUrl} onChange={(event) => setDriveUrl(event.target.value)} onKeyDown={(event) => { if (event.key === 'Enter') { event.preventDefault(); void handleAddDriveLink(); } }} placeholder="Paste a public Google Drive link…" aria-label="Google Drive sharing URL" className="min-w-0 flex-1 rounded-xl border border-[#D8CDBB] bg-white px-3 py-2.5 text-sm text-[#29251F] placeholder:text-[#887F72] focus:border-[#9B6A83] focus:outline-none" />
             <button type="button" onClick={() => void handleAddDriveLink()} className="rounded-xl border-2 border-[#29251F] bg-[#FFE27A] px-4 py-2.5 text-sm font-bold text-[#29251F] shadow-[3px_3px_0_#29251F]">Add Drive link</button>
           </div>
-          <p className="text-xs text-[#6F675C]">Set Google Drive access to “Anyone with the link” so the asset can load publicly.</p>
+          <p className="text-xs text-[#6F675C]">Choose Image for thumbnails or Document for PDFs/files. Set Drive access to “Anyone with the link” so assets load publicly.</p>
         </div>
       </div>
 
