@@ -121,3 +121,149 @@ html,body{background:var(--sk-paper)!important;color:var(--sk-ink)!important}
 .portfolio-section.sk-revealed>.portfolio-section-kicker,.portfolio-contact-stage.sk-revealed>.portfolio-section-kicker{animation:sk-kicker-in .55s cubic-bezier(.2,.75,.25,1) both}
 .portfolio-section.sk-revealed>div:not(.portfolio-section-kicker),.portfolio-contact-stage.sk-revealed>div:not(.portfolio-section-kicker){animation:sk-content-in .72s .08s cubic-bezier(.2,.75,.25,1) both}
 .portfolio-section.sk-revealed .projects-filter-row,.portfolio-section.sk-revealed .projects-featured-layout,.portfolio-section.sk-revealed .skills-summary-strip,.portfolio-section.sk-revealed .skills-library,.portfolio-section.sk-revealed .skills-marquee-panel{animation:sk-content-in .7s .16s ease-out both}
+
+
+/* Final light-theme lock: overrides the legacy Active Theory dark palette. */
+.portfolio-shell,
+.portfolio-shell .portfolio-editorial,
+.portfolio-shell .portfolio-section,
+.portfolio-shell .portfolio-section:nth-of-type(even),
+.portfolio-shell .portfolio-contact-stage {
+  background: var(--sk-paper) !important;
+  background-image: none !important;
+  color: var(--sk-ink) !important;
+}
+.portfolio-shell .portfolio-section,
+.portfolio-shell .portfolio-contact-stage { border-color: rgba(23,23,25,.2) !important; }
+.portfolio-shell .portfolio-section :is(h1,h2,h3,h4,h5,strong),
+.portfolio-shell .portfolio-contact-stage :is(h1,h2,h3,h4,h5,strong) { color: var(--sk-ink) !important; }
+.portfolio-shell .portfolio-section :is(p,li,label,small),
+.portfolio-shell .portfolio-contact-stage :is(p,li,label,small) { color: #403d37 !important; }
+.portfolio-shell .portfolio-section :is(span,div),
+.portfolio-shell .portfolio-contact-stage :is(span,div) { --tw-text-opacity: 1; }
+.portfolio-shell .projects-editorial,
+.portfolio-shell .skills-editorial,
+.portfolio-shell .testimonials-editorial { color: var(--sk-ink) !important; }
+.portfolio-shell .projects-editorial-heading h2,
+.portfolio-shell .skills-editorial-heading h2,
+.portfolio-shell .testimonials-editorial-heading h2 { color: var(--sk-ink) !important; }
+.portfolio-shell .projects-editorial-heading h2 em,
+.portfolio-shell .skills-editorial-heading h2 em,
+.portfolio-shell .testimonials-editorial-heading h2 em { color: #a94f70 !important; }
+.portfolio-shell .projects-editorial-heading p,
+.portfolio-shell .skills-editorial-heading p,
+.portfolio-shell .testimonials-editorial-heading p { color: #4c4942 !important; }
+.portfolio-shell .projects-overline,
+.portfolio-shell .skills-overline,
+.portfolio-shell .testimonials-overline,
+.portfolio-shell .projects-featured-label,
+.portfolio-shell .projects-remaining-heading,
+.portfolio-shell .skills-panel-heading,
+.portfolio-shell .skills-library-heading>div>span { color: #79515d !important; }
+.portfolio-shell .projects-filter-row>span,
+.portfolio-shell .skills-filter-label { color: #514b42 !important; }
+.portfolio-shell .projects-filter-row button,
+.portfolio-shell .skills-category-tabs button {
+  background: #fffdf5 !important;
+  color: #38342f !important;
+  border: 1.7px solid #25231f !important;
+  border-radius: 5px !important;
+  box-shadow: 2px 2px 0 rgba(23,23,25,.22) !important;
+}
+.portfolio-shell .projects-filter-row button.is-active,
+.portfolio-shell .skills-category-tabs button.is-active {
+  background: var(--sk-lilac) !important;
+  color: #211b2b !important;
+  border-color: #211b2b !important;
+}
+.portfolio-shell .projects-filter-row button:hover,
+.portfolio-shell .skills-category-tabs button:hover {
+  transform: translateY(-3px) rotate(-1deg) !important;
+  box-shadow: 4px 5px 0 var(--sk-ink) !important;
+}
+.portfolio-shell .projects-featured-card { background: var(--sk-yellow) !important; }
+.portfolio-shell .projects-grid>*:nth-child(4n+1) { background: #fffdf5 !important; }
+.portfolio-shell .projects-grid>*:nth-child(4n+2) { background: var(--sk-mint) !important; }
+.portfolio-shell .projects-grid>*:nth-child(4n+3) { background: var(--sk-lilac) !important; }
+.portfolio-shell .projects-grid>*:nth-child(4n) { background: var(--sk-sky) !important; }
+.portfolio-shell .portfolio-section [class*="bg-[#070D1E"],
+.portfolio-shell .portfolio-section [class*="bg-[#090A10"],
+.portfolio-shell .portfolio-section [class*="bg-[#0B132B"],
+.portfolio-shell .portfolio-section [class*="bg-[#0D0E16"],
+.portfolio-shell .portfolio-section [class*="bg-[#100B18"],
+.portfolio-shell .portfolio-section [class*="bg-[#111827"],
+.portfolio-shell .portfolio-section [class*="bg-[#1A1222"],
+.portfolio-shell .portfolio-section [class*="bg-[#211727"],
+.portfolio-shell .portfolio-contact-stage [class*="bg-[#070D1E"],
+.portfolio-shell .portfolio-contact-stage [class*="bg-[#090A10"],
+.portfolio-shell .portfolio-contact-stage [class*="bg-[#0B132B"],
+.portfolio-shell .portfolio-contact-stage [class*="bg-[#0D0E16"],
+.portfolio-shell .portfolio-contact-stage [class*="bg-[#100B18"],
+.portfolio-shell .portfolio-contact-stage [class*="bg-[#111827"],
+.portfolio-shell .portfolio-contact-stage [class*="bg-[#1A1222"] {
+  background: #fffdf5 !important;
+  background-image: none !important;
+  color: var(--sk-ink) !important;
+}
+.portfolio-shell .portfolio-section [class*="text-[#F5EAF5"],
+.portfolio-shell .portfolio-section [class*="text-[#E0E7FF"],
+.portfolio-shell .portfolio-section [class*="text-[#CBD5E1"],
+.portfolio-shell .portfolio-section [class*="text-white"],
+.portfolio-shell .portfolio-contact-stage [class*="text-[#F5EAF5"],
+.portfolio-shell .portfolio-contact-stage [class*="text-[#E0E7FF"],
+.portfolio-shell .portfolio-contact-stage [class*="text-[#CBD5E1"],
+.portfolio-shell .portfolio-contact-stage [class*="text-white"] { color: var(--sk-ink) !important; }
+.portfolio-shell .portfolio-section [class*="text-[#94A3B8"],
+.portfolio-shell .portfolio-section [class*="text-[#DCCFE0"],
+.portfolio-shell .portfolio-contact-stage [class*="text-[#94A3B8"],
+.portfolio-shell .portfolio-contact-stage [class*="text-[#DCCFE0"] { color: #514d45 !important; }
+.portfolio-shell .testimonial-ledger-card { background: #fffdf5 !important; border: 1.7px solid var(--sk-ink) !important; box-shadow: 4px 4px 0 var(--sk-ink) !important; }
+.portfolio-shell .testimonial-ledger-card blockquote,
+.portfolio-shell .testimonial-ledger-card footer strong { color: var(--sk-ink) !important; }
+.portfolio-shell .skills-marquee-panel,
+.portfolio-shell .skills-library { background: #fffdf5 !important; border: 1.7px solid var(--sk-ink) !important; box-shadow: 4px 4px 0 var(--sk-ink) !important; padding: 1.2rem !important; }
+.portfolio-shell .skills-item-main h4 { color: var(--sk-ink) !important; }
+.portfolio-shell .skills-item-main span,
+.portfolio-shell .skills-directory-item .skills-item-number { color: #5b554d !important; }
+.portfolio-shell>footer { background: #eee9da !important; color: var(--sk-ink) !important; }
+.portfolio-shell>footer * { color: var(--sk-ink) !important; }
+
+/* Motion belongs to the interface too: filters, cards, lists and testimonials. */
+.portfolio-shell .projects-grid>*,
+.portfolio-shell .testimonial-ledger-card,
+.portfolio-shell .skills-directory-item,
+.portfolio-shell .skills-summary-strip>div,
+.portfolio-shell .projects-featured-card {
+  transition: transform .28s cubic-bezier(.2,.8,.2,1), box-shadow .28s ease, background-color .28s ease !important;
+}
+.portfolio-shell .projects-grid>*:hover,
+.portfolio-shell .testimonial-ledger-card:hover,
+.portfolio-shell .skills-directory-item:hover {
+  transform: translateY(-5px) rotate(-.35deg) !important;
+}
+.portfolio-shell .skills-directory-item:hover { background: rgba(255,225,122,.28) !important; }
+.portfolio-shell .portfolio-section.sk-revealed .projects-grid>*,
+.portfolio-shell .portfolio-section.sk-revealed .testimonial-ledger-card,
+.portfolio-shell .portfolio-section.sk-revealed .skills-directory-item {
+  animation: sk-card-enter .62s cubic-bezier(.2,.75,.25,1) both;
+}
+.portfolio-shell .portfolio-section.sk-revealed .projects-grid>*:nth-child(2),
+.portfolio-shell .portfolio-section.sk-revealed .testimonial-ledger-card:nth-child(2),
+.portfolio-shell .portfolio-section.sk-revealed .skills-directory-item:nth-child(2) { animation-delay: .08s; }
+.portfolio-shell .portfolio-section.sk-revealed .projects-grid>*:nth-child(3),
+.portfolio-shell .portfolio-section.sk-revealed .testimonial-ledger-card:nth-child(3),
+.portfolio-shell .portfolio-section.sk-revealed .skills-directory-item:nth-child(3) { animation-delay: .16s; }
+.portfolio-shell .portfolio-section.sk-revealed .projects-grid>*:nth-child(4),
+.portfolio-shell .portfolio-section.sk-revealed .testimonial-ledger-card:nth-child(4),
+.portfolio-shell .portfolio-section.sk-revealed .skills-directory-item:nth-child(4) { animation-delay: .24s; }
+.portfolio-shell .portfolio-section.sk-revealed .projects-featured-card { animation: sk-card-enter .72s .12s cubic-bezier(.2,.75,.25,1) both; }
+.portfolio-shell .portfolio-section.sk-revealed .projects-filter-row button { animation: sk-filter-pop .42s cubic-bezier(.2,.8,.2,1) both; }
+.portfolio-shell .portfolio-section.sk-revealed .projects-filter-row button:nth-child(2) { animation-delay: .05s; }
+.portfolio-shell .portfolio-section.sk-revealed .projects-filter-row button:nth-child(3) { animation-delay: .1s; }
+.portfolio-shell .portfolio-section.sk-revealed .projects-filter-row button:nth-child(4) { animation-delay: .15s; }
+.portfolio-shell .portfolio-section.sk-revealed .projects-filter-row button:nth-child(5) { animation-delay: .2s; }
+@keyframes sk-card-enter { from { opacity: 0; transform: translateY(18px) rotate(-1deg); } to { opacity: 1; transform: translateY(0) rotate(0); } }
+@keyframes sk-filter-pop { from { opacity: 0; transform: translateY(9px) scale(.96); } to { opacity: 1; transform: translateY(0) scale(1); } }
+@media (prefers-reduced-motion: reduce) {
+  .portfolio-shell .portfolio-section * { animation: none !important; transition: none !important; }
+}
