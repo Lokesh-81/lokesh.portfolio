@@ -505,3 +505,33 @@ html,body{background:var(--sk-paper)!important;color:var(--sk-ink)!important}
 .contact-sketchbook>div>div>div:last-child :is(span,a,button){color:#24221f!important}
 .contact-sketchbook>div>div>div:last-child a{overflow-wrap:anywhere}
 @media(prefers-reduced-motion:reduce){.hero-architecture,.skills-marquee-panel .group>div{animation:none!important}}
+
+
+/* Final visibility details for cards, counts and continuous toolkit rows. */
+.skills-marquee-panel .group>div.animate-infinite-slider{animation:sk-tech-marquee 28s linear infinite!important}
+.skills-marquee-panel .group>div.animate-infinite-slider-reverse{animation:sk-tech-marquee-reverse 30s linear infinite!important}
+@keyframes sk-tech-marquee{from{transform:translateX(0)}to{transform:translateX(-100%)}}
+@keyframes sk-tech-marquee-reverse{from{transform:translateX(-100%)}to{transform:translateX(0)}}
+.skills-marquee-panel .group:hover>div{animation-play-state:paused!important}
+.skills-marquee-panel .group>div>div{background:#fffdf5!important;border:1.5px solid #24221f!important;box-shadow:2px 2px 0 #24221f!important}
+.skills-marquee-panel .group>div>div :is(span){color:#24221f!important}
+.skills-marquee-panel .group>div>div svg{color:#355be5!important}
+.projects-grid .project-card-content{background:#fffdf5!important;background-image:none!important;color:#24221f!important;border:1.7px solid #24221f!important;border-radius:7px!important;box-shadow:4px 4px 0 #24221f!important;backdrop-filter:none!important}
+.projects-grid .project-card-content :is(h3,strong){color:#24221f!important}
+.projects-grid .project-card-content :is(p,li,span){color:#49433c!important}
+.projects-grid .project-card-content .project-tech-chip{display:inline-flex!important;align-items:center!important;background:#e9e2d6!important;color:#24221f!important;border:1px solid #8f8579!important;border-radius:4px!important;padding:4px 7px!important;font:600 10px/1.2 ui-monospace,monospace!important;opacity:1!important}
+.projects-grid .project-card-content .project-tech-more{background:#ffe17a!important;border-color:#24221f!important;color:#24221f!important}
+.projects-grid .project-card-content a[class*="bg-gradient"]{background:#ffe17a!important;color:#24221f!important;border:1.5px solid #24221f!important;box-shadow:2px 2px 0 #24221f!important}
+.projects-grid .project-card-content a[class*="bg-gradient"] *{color:#24221f!important}
+.projects-grid .project-card-content a[class*="bg-[#100B18"]{background:#f1ecdf!important;color:#24221f!important}
+.projects-grid .project-card-content [class*="text-[#F5EAF5"],
+.projects-grid .project-card-content [class*="text-[#DCCFE0"],
+.projects-grid .project-card-content [class*="text-[#D8B4E8"],
+.projects-grid .project-card-content [class*="text-[#E8B8D2"]{color:#49433c!important}
+.credential-stat-value{font-size:28px!important;line-height:1.2!important;color:#24221f!important}
+.credential-category-count{font-size:11px!important;line-height:1!important;color:#24221f!important}
+.belvo-certification-showcase .belvo-lor-thumbnail{padding:0!important}
+.belvo-certification-showcase .belvo-lor-thumbnail iframe{pointer-events:none!important}
+.belvo-certification-showcase .belvo-lor-thumbnail:focus-visible{outline:3px solid #355be5!important;outline-offset:4px!important}
+.belvo-pdf-frame{height:calc(92vh - 150px)!important;min-height:600px!important;max-height:100%!important}
+@media(prefers-reduced-motion:reduce){.skills-marquee-panel .group>div.animate-infinite-slider,.skills-marquee-panel .group>div.animate-infinite-slider-reverse{animation:none!important}}
