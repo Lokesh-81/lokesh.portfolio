@@ -69,7 +69,7 @@ export function ProjectCard({ project, onHoverStart, onHoverEnd }: ProjectCardPr
       <div
         onMouseEnter={() => onHoverStart?.(project)}
         onMouseLeave={() => onHoverEnd?.()}
-        className="relative z-10 flex h-full flex-col justify-between overflow-hidden rounded-2xl border border-[#35263D] bg-[#1A1222]/95 p-6 sm:p-7 backdrop-blur-xl shadow-[0_4px_25px_rgba(0,0,0,0.4)] transition-all duration-300 group-hover:border-[#E8B8D2]/60 group-hover:shadow-[0_8px_35px_rgba(37,99,235,0.25)]"
+        className="project-card-content relative z-10 flex h-full flex-col justify-between overflow-hidden rounded-2xl border border-[#35263D] bg-[#1A1222]/95 p-6 sm:p-7 backdrop-blur-xl shadow-[0_4px_25px_rgba(0,0,0,0.4)] transition-all duration-300 group-hover:border-[#E8B8D2]/60 group-hover:shadow-[0_8px_35px_rgba(37,99,235,0.25)]"
       >
         <div className="relative z-10 flex h-full flex-col justify-between">
           <div>
@@ -160,13 +160,13 @@ export function ProjectCard({ project, onHoverStart, onHoverEnd }: ProjectCardPr
                 {project.technologies.slice(0, 4).map((tech) => (
                   <span
                     key={tech}
-                    className="rounded-md border border-[#35263D] bg-[#35263D]/70 px-2 py-0.5 font-mono text-[11px] text-[#F5EAF5]"
+                    className="project-tech-chip rounded-md border border-[#35263D] bg-[#35263D]/70 px-2 py-0.5 font-mono text-[11px] text-[#F5EAF5]"
                   >
                     {tech}
                   </span>
                 ))}
                 {project.technologies.length > 4 && (
-                  <span className="rounded-md bg-[#A77BC2]/25 px-1.5 py-0.5 font-mono text-[10px] text-[#E8B8D2] font-semibold">
+                  <span className="project-tech-chip project-tech-more rounded-md bg-[#A77BC2]/25 px-1.5 py-0.5 font-mono text-[10px] text-[#E8B8D2] font-semibold">
                     +{project.technologies.length - 4}
                   </span>
                 )}
