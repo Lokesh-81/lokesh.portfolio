@@ -257,7 +257,7 @@ Location: Goregaon, Mumbai`;
                 }}
               >
                 <iframe
-                  src={`${currentPdfUrl}#toolbar=1&navpanes=0&view=FitH`}
+                  src={`${currentDocUrl}#toolbar=1&navpanes=0&view=FitH`}
                   title={currentTitle}
                   className="belvo-pdf-frame"
                   loading="eager"
