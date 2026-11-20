@@ -68,9 +68,9 @@ export function ProfileTab({ showToast }: ProfileTabProps) {
   };
 
   return (
-    <form onSubmit={handleSave} className="space-y-8 max-w-4xl">
+    <form onSubmit={handleSave} className="studio-profile-editor">
       {/* Header */}
-      <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between border-b border-[#1F2937] pb-5">
+      <div className="studio-editor-heading">
         <div>
           <h2 className="text-xl font-bold tracking-tight text-[#E0E7FF]">Personal Profile</h2>
           <p className="text-xs text-[#94A3B8]">
@@ -88,7 +88,7 @@ export function ProfileTab({ showToast }: ProfileTabProps) {
       </div>
 
       {/* Avatar & Photo Card */}
-      <div className="rounded-2xl border border-[#1F2937] bg-[#111827]/70 p-6 space-y-4">
+      <div className="studio-profile-panel">
         <h3 className="text-sm font-semibold text-[#E0E7FF]">Profile & Visual Assets</h3>
         <p className="text-xs text-[#94A3B8]">
           Upload an authentic photo. If no photo is uploaded, your personalized placeholder badge will be used safely.

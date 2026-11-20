@@ -2,13 +2,12 @@
 
 import React, { useState, useMemo } from 'react';
 import {
-  OrbitCardStack,
   type OrbitStackItem,
 } from '@/components/ui/orbit-card-stack';
 import { TextEffect } from '@/components/core/text-effect';
 import { usePortfolio } from '@/lib/portfolio-context';
 import { useLanguage } from '@/i18n';
-import { FileCheck2, ShieldCheck } from 'lucide-react';
+import { FileCheck2 } from 'lucide-react';
 import { BelvoLorModal } from '@/components/portfolio/belvo-lor-modal';
 
 export function TestimonialsSection() {
@@ -138,59 +137,18 @@ export function TestimonialsSection() {
     activeMember?.stat === 'Official LOR';
 
   return (
-    <div id="testimonials" className="relative min-h-[85vh] w-full px-4 sm:px-8 py-8 sm:py-12">
-      <div className="relative z-10 mx-auto max-w-[1400px]">
-        {/* Header following the requested Componentry pattern */}
-        <div className="flex flex-col justify-between gap-4 border-b border-[#35263D] pb-6 md:flex-row md:items-end">
-          <div>
-            <div className="text-xs uppercase tracking-[0.2em] text-[#E8B8D2] font-semibold flex items-center gap-2">
-              <TextEffect key={`tag-testimonials-${language}`} per="char" delay={0.05}>
-                {t('testimonials.viewing') || 'Currently viewing'}
-              </TextEffect>
-              {isBelvoActive && (
-                <span className="inline-flex items-center gap-1 rounded-full bg-purple-500/20 text-purple-300 border border-purple-500/30 px-2 py-0.2 text-[10px] font-mono">
-                  <ShieldCheck className="h-3 w-3 text-emerald-400" />
-                  Belvo CEO Recommendation Letter
-                </span>
-              )}
-            </div>
-            <h2 className="mt-1 text-2xl font-light tracking-tight text-[#F5EAF5] sm:text-4xl md:text-5xl">
-              {activeMember?.name || 'Client'}{' '}
-              <span className="instrument italic font-normal text-purple-400">
-                {activeMember?.company ? `— ${activeMember.company}` : ''}
-              </span>
-            </h2>
-          </div>
-
-          <div className="flex flex-col sm:flex-row sm:items-center gap-3">
-            <p className="max-w-md text-xs sm:text-sm leading-relaxed text-[#BDA9C4]">
-              {t('testimonials.subtitle') ||
-                'Genuine endorsements, executive recommendation letters, and direct collaboration feedback from founders and business leaders.'}
-            </p>
-
-            <button
-              onClick={() => setIsLorModalOpen(true)}
-              className="inline-flex items-center justify-center gap-2 rounded-xl bg-purple-600/30 hover:bg-purple-600/50 border border-purple-500/40 px-3.5 py-2 text-xs font-semibold text-purple-200 transition-all cursor-pointer shrink-0 shadow-sm"
-            >
-              <FileCheck2 className="h-3.5 w-3.5 text-purple-400" />
-              <span>View Belvo LOR</span>
-            </button>
-          </div>
-        </div>
-
-        {/* 3D Orbit Card Stack in the requested container height */}
-        <div className="mt-6 h-[580px] sm:h-[620px] w-full flex items-center justify-center">
-          <OrbitCardStack
-            items={stackItems}
-            defaultActiveIndex={defaultIndex}
-            spread={150}
-            lift={40}
-            onActiveChange={(item) => setActiveMember(item)}
-          />
-        </div>
+    <div className="testimonials-editorial">
+      <header className="testimonials-editorial-heading">
+        <div><span className="testimonials-overline">WORDS / FROM THE PEOPLE</span><h2>Good work. <em>Good people.</em></h2></div>
+        <div><p>{t('testimonials.subtitle') || 'A few words from the people and teams I have had the chance to work with.'}</p><button type="button" onClick={() => setIsLorModalOpen(true)}><FileCheck2 size={15}/> View Belvo recommendation <span>↗</span></button></div>
+      </header>
+      <div className="testimonials-ledger">
+        {stackItems.map((item, index) => <article className={`testimonial-ledger-card ${isBelvoActive && item.name === activeMember?.name ? 'is-selected' : ''}`} key={item.id || item.name} onClick={() => setActiveMember(item)}>
+          <div className="testimonial-ledger-top"><span>{String(index + 1).padStart(2, '0')} / RECOMMENDATION</span><span>{'★'.repeat(Math.min(5, item.rating || 5))}</span></div>
+          <blockquote>“{item.description}”</blockquote>
+          <footer><div className="testimonial-avatar">{item.initials}</div><div><strong>{item.name}</strong><span>{[item.role, item.company].filter(Boolean).join(' · ')}</span></div><span className="testimonial-ledger-arrow">↗</span></footer>
+        </article>)}
       </div>
-
-      {/* Belvo Letter of Recommendation Modal */}
       <BelvoLorModal isOpen={isLorModalOpen} onClose={() => setIsLorModalOpen(false)} />
     </div>
   );

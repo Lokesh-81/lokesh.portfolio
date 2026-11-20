@@ -165,9 +165,9 @@ export function ProjectsTab({ showToast }: ProjectsTabProps) {
   };
 
   return (
-    <div className="space-y-6 max-w-5xl">
+    <div className="studio-project-editor">
       {/* Header */}
-      <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between border-b border-[#1F2937] pb-5">
+      <div className="studio-editor-heading">
         <div>
           <h2 className="text-xl font-bold tracking-tight text-[#E0E7FF]">Portfolio Projects</h2>
           <p className="text-xs text-[#94A3B8]">
@@ -184,11 +184,11 @@ export function ProjectsTab({ showToast }: ProjectsTabProps) {
       </div>
 
       {/* Projects List */}
-      <div className="space-y-3">
+      <div className="studio-project-list">
         {projects.map((project, idx) => (
           <div
             key={project.id}
-            className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 rounded-2xl border border-[#1F2937] bg-[#111827]/70 p-4 hover:border-[#60A5FA]/40 transition-all shadow-xs"
+            className="studio-project-row"
           >
             <div className="flex items-start sm:items-center gap-3">
               {/* Reorder Buttons */}
@@ -300,8 +300,8 @@ export function ProjectsTab({ showToast }: ProjectsTabProps) {
 
       {/* Edit / New Modal */}
       {editingProject && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/75 p-4 backdrop-blur-sm overflow-y-auto">
-          <div className="relative w-full max-w-2xl rounded-3xl border border-[#1F2937] bg-[#111827] p-6 shadow-2xl max-h-[90vh] overflow-y-auto">
+        <div className="studio-project-modal-backdrop">
+          <div className="studio-project-modal">
             <div className="flex items-center justify-between border-b border-[#1F2937] pb-4 mb-5">
               <h3 className="text-base font-bold text-[#E0E7FF]">
                 {editingProject.id?.startsWith('project-') ? 'Create New Project' : 'Edit Project'}

@@ -1,36 +1,14 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { usePortfolio } from '@/lib/portfolio-context';
 import {
-  LayoutDashboard,
-  User,
-  Compass,
-  FileText,
-  Briefcase,
-  History,
-  GraduationCap,
-  Cpu,
-  Award,
-  Trophy,
-  Languages,
-  Share2,
-  Phone,
-  Inbox,
-  Image as ImageIcon,
-  FileCheck2,
-  Settings,
-  LogOut,
-  ExternalLink,
-  Menu,
-  X,
-  RefreshCw,
-  Database,
-  CheckCircle,
-  AlertCircle,
+  LayoutDashboard, User, Compass, FileText, Briefcase, History, GraduationCap, Cpu,
+  Award, Trophy, Languages, Share2, Phone, Inbox, Image as ImageIcon, FileCheck2,
+  Settings, LogOut, ExternalLink, Menu, X, RefreshCw, Database, CheckCircle,
+  AlertCircle, Quote, BarChart3, Search, ChevronRight, PanelLeftClose, Command,
 } from 'lucide-react';
 
-// Tabs
 import { DashboardTab } from './tabs/DashboardTab';
 import { ProfileTab } from './tabs/ProfileTab';
 import { HeroTab } from './tabs/HeroTab';
@@ -50,381 +28,200 @@ import { ResumeTab } from './tabs/ResumeTab';
 import { SettingsTab } from './tabs/SettingsTab';
 import { TestimonialsTab } from './tabs/TestimonialsTab';
 import { AnalyticsTab } from './tabs/AnalyticsTab';
-import { Quote, BarChart3 } from 'lucide-react';
 
 export type StudioTabId =
-  | 'dashboard'
-  | 'analytics'
-  | 'profile'
-  | 'hero'
-  | 'about'
-  | 'projects'
-  | 'experience'
-  | 'education'
-  | 'skills'
-  | 'certifications'
-  | 'achievements'
-  | 'testimonials'
-  | 'languages'
-  | 'social'
-  | 'contact'
-  | 'messages'
-  | 'media'
-  | 'resume'
-  | 'settings';
+  | 'dashboard' | 'analytics' | 'profile' | 'hero' | 'about' | 'projects'
+  | 'experience' | 'education' | 'skills' | 'certifications' | 'achievements'
+  | 'testimonials' | 'languages' | 'social' | 'contact' | 'messages' | 'media'
+  | 'resume' | 'settings';
 
-interface StudioLayoutProps {
-  onExitStudio: () => void;
-}
+interface StudioLayoutProps { onExitStudio: () => void; }
+
+const navGroups = [
+  {
+    label: 'Workspace',
+    items: [
+      { id: 'dashboard', label: 'Overview', icon: LayoutDashboard, description: 'Your portfolio at a glance' },
+      { id: 'analytics', label: 'Analytics', icon: BarChart3, description: 'Traffic and engagement' },
+      { id: 'messages', label: 'Inbox', icon: Inbox, description: 'Visitor messages' },
+    ],
+  },
+  {
+    label: 'Build your portfolio',
+    items: [
+      { id: 'profile', label: 'Profile', icon: User, description: 'Identity and biography' },
+      { id: 'hero', label: 'Homepage', icon: Compass, description: 'Hero content and introduction' },
+      { id: 'about', label: 'About', icon: FileText, description: 'Story and profile details' },
+      { id: 'projects', label: 'Projects', icon: Briefcase, description: 'Case studies and links' },
+      { id: 'experience', label: 'Experience', icon: History, description: 'Roles and work history' },
+      { id: 'education', label: 'Education', icon: GraduationCap, description: 'Academic background' },
+      { id: 'skills', label: 'Skills', icon: Cpu, description: 'Tools and capabilities' },
+      { id: 'certifications', label: 'Certifications', icon: Award, description: 'Credentials and badges' },
+      { id: 'achievements', label: 'Achievements', icon: Trophy, description: 'Awards and milestones' },
+      { id: 'testimonials', label: 'Testimonials', icon: Quote, description: 'Recommendations' },
+      { id: 'languages', label: 'Languages', icon: Languages, description: 'Spoken languages' },
+      { id: 'social', label: 'Social links', icon: Share2, description: 'External profiles' },
+      { id: 'contact', label: 'Contact details', icon: Phone, description: 'Ways to reach you' },
+    ],
+  },
+  {
+    label: 'Assets & settings',
+    items: [
+      { id: 'media', label: 'Media library', icon: ImageIcon, description: 'Images and uploaded assets' },
+      { id: 'resume', label: 'Resume & documents', icon: FileCheck2, description: 'Manage downloadable files' },
+      { id: 'settings', label: 'Settings', icon: Settings, description: 'SEO, security and data' },
+    ],
+  },
+] as const;
 
 export function StudioLayout({ onExitStudio }: StudioLayoutProps) {
-  const {
-    profile,
-    messages,
-    isSupabaseConnected,
-    syncFromSupabase,
-    logoutStudioAdmin,
-    adminUser,
-  } = usePortfolio();
-
+  const { profile, messages, isSupabaseConnected, syncFromSupabase, logoutStudioAdmin, adminUser } = usePortfolio();
   const [activeTab, setActiveTab] = useState<StudioTabId>('dashboard');
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
+  const [search, setSearch] = useState('');
   const [toast, setToast] = useState<{ msg: string; type: 'success' | 'error' } | null>(null);
+  const [isSyncing, setIsSyncing] = useState(false);
 
   const unreadMessagesCount = messages.filter((m) => m.status === 'new').length;
+  const activeItem = navGroups.flatMap((g) => g.items).find((item) => item.id === activeTab);
+  const filteredGroups = useMemo(() => navGroups.map((group) => ({
+    ...group,
+    items: group.items.filter((item) => {
+      const q = search.trim().toLowerCase();
+      return !q || item.label.toLowerCase().includes(q) || item.description.toLowerCase().includes(q);
+    }),
+  })).filter((group) => group.items.length), [search]);
 
   const showToast = (msg: string, type: 'success' | 'error' = 'success') => {
     setToast({ msg, type });
-    setTimeout(() => {
-      setToast(null);
-    }, 3500);
+    window.setTimeout(() => setToast(null), 3500);
   };
 
-  const navItems: Array<{
-    id: StudioTabId;
-    label: string;
-    icon: React.ComponentType<{ className?: string }>;
-    badge?: number;
-    category?: string;
-  }> = [
-    { id: 'dashboard', label: 'Dashboard', icon: LayoutDashboard, category: 'Overview' },
-    { id: 'analytics', label: 'Traffic & Analytics', icon: BarChart3, category: 'Overview' },
+  const chooseTab = (id: string) => {
+    setActiveTab(id as StudioTabId);
+    setIsMobileMenuOpen(false);
+  };
 
-    { id: 'profile', label: 'Profile & Bio', icon: User, category: 'Portfolio Content' },
-    { id: 'hero', label: 'Hero Section', icon: Compass, category: 'Portfolio Content' },
-    { id: 'about', label: 'About & GitHub', icon: FileText, category: 'Portfolio Content' },
-    { id: 'projects', label: 'Projects', icon: Briefcase, category: 'Portfolio Content' },
-    { id: 'experience', label: 'Work Experience', icon: History, category: 'Portfolio Content' },
-    { id: 'education', label: 'Education', icon: GraduationCap, category: 'Portfolio Content' },
-    { id: 'skills', label: 'Tech Stack & Skills', icon: Cpu, category: 'Portfolio Content' },
-    { id: 'certifications', label: 'Certifications', icon: Award, category: 'Portfolio Content' },
-    { id: 'achievements', label: 'Achievements', icon: Trophy, category: 'Portfolio Content' },
-    { id: 'testimonials', label: 'Testimonials', icon: Quote, category: 'Portfolio Content' },
-    { id: 'languages', label: 'Languages', icon: Languages, category: 'Portfolio Content' },
-    { id: 'social', label: 'Social Links', icon: Share2, category: 'Portfolio Content' },
-    { id: 'contact', label: 'Contact Settings', icon: Phone, category: 'Portfolio Content' },
-
-    { id: 'messages', label: 'Inquiries & Inbox', icon: Inbox, badge: unreadMessagesCount, category: 'Operations' },
-    { id: 'media', label: 'Media Library', icon: ImageIcon, category: 'Operations' },
-    { id: 'resume', label: 'Documents & Resumes', icon: FileCheck2, category: 'Operations' },
-    { id: 'settings', label: 'Settings & SEO', icon: Settings, category: 'Operations' },
-  ];
+  const handleSync = async () => {
+    setIsSyncing(true);
+    try {
+      await syncFromSupabase();
+      showToast('Sync request completed. Refresh the page if updated content is not visible.', 'success');
+    } catch (error) {
+      showToast(error instanceof Error ? error.message : 'Could not sync with Supabase.', 'error');
+    } finally {
+      setIsSyncing(false);
+    }
+  };
 
   const handleLogout = async () => {
-    await logoutStudioAdmin();
-    showToast('Logged out of Admin Studio');
+    try {
+      await logoutStudioAdmin();
+      showToast('You have been signed out.');
+    } catch {
+      showToast('Unable to sign out. Please try again.', 'error');
+    }
   };
 
   const renderActiveTab = () => {
     switch (activeTab) {
-      case 'dashboard':
-        return (
-          <DashboardTab
-            onNavigateTab={(t) => setActiveTab(t as StudioTabId)}
-            onOpenPublicSite={onExitStudio}
-          />
-        );
-      case 'analytics':
-        return (
-          <AnalyticsTab
-            showToast={showToast}
-            onNavigatePublicSite={onExitStudio}
-          />
-        );
-      case 'profile':
-        return <ProfileTab showToast={showToast} />;
-      case 'hero':
-        return <HeroTab showToast={showToast} />;
-      case 'about':
-        return <AboutTab showToast={showToast} />;
-      case 'projects':
-        return <ProjectsTab showToast={showToast} />;
-      case 'experience':
-        return <ExperienceTab showToast={showToast} />;
-      case 'education':
-        return <EducationTab showToast={showToast} />;
-      case 'skills':
-        return <SkillsTab showToast={showToast} />;
-      case 'certifications':
-        return <CertificationsTab showToast={showToast} />;
-      case 'achievements':
-        return <AchievementsTab showToast={showToast} />;
-      case 'testimonials':
-        return <TestimonialsTab showToast={showToast} />;
-      case 'languages':
-        return <LanguagesTab showToast={showToast} />;
-      case 'social':
-        return <SocialLinksTab showToast={showToast} />;
-      case 'contact':
-        return <ContactTab showToast={showToast} />;
-      case 'messages':
-        return <MessagesTab showToast={showToast} />;
-      case 'media':
-        return <MediaTab showToast={showToast} />;
-      case 'resume':
-        return <ResumeTab showToast={showToast} />;
-      case 'settings':
-        return <SettingsTab showToast={showToast} />;
-      default:
-        return (
-          <DashboardTab
-            onNavigateTab={(t) => setActiveTab(t as StudioTabId)}
-            onOpenPublicSite={onExitStudio}
-          />
-        );
+      case 'dashboard': return <DashboardTab onNavigateTab={chooseTab} onOpenPublicSite={onExitStudio} />;
+      case 'analytics': return <AnalyticsTab showToast={showToast} onNavigatePublicSite={onExitStudio} />;
+      case 'profile': return <ProfileTab showToast={showToast} />;
+      case 'hero': return <HeroTab showToast={showToast} />;
+      case 'about': return <AboutTab showToast={showToast} />;
+      case 'projects': return <ProjectsTab showToast={showToast} />;
+      case 'experience': return <ExperienceTab showToast={showToast} />;
+      case 'education': return <EducationTab showToast={showToast} />;
+      case 'skills': return <SkillsTab showToast={showToast} />;
+      case 'certifications': return <CertificationsTab showToast={showToast} />;
+      case 'achievements': return <AchievementsTab showToast={showToast} />;
+      case 'testimonials': return <TestimonialsTab showToast={showToast} />;
+      case 'languages': return <LanguagesTab showToast={showToast} />;
+      case 'social': return <SocialLinksTab showToast={showToast} />;
+      case 'contact': return <ContactTab showToast={showToast} />;
+      case 'messages': return <MessagesTab showToast={showToast} />;
+      case 'media': return <MediaTab showToast={showToast} />;
+      case 'resume': return <ResumeTab showToast={showToast} />;
+      case 'settings': return <SettingsTab showToast={showToast} />;
+      default: return <DashboardTab onNavigateTab={chooseTab} onOpenPublicSite={onExitStudio} />;
     }
   };
 
+  const SidebarContent = ({ mobile = false }: { mobile?: boolean }) => (
+    <>
+      <div className="studio-brand">
+        <div className="studio-brand-mark">PL</div>
+        <div className="min-w-0">
+          <div className="studio-brand-title">LOKESH / STUDIO</div>
+          <div className="studio-brand-subtitle">Portfolio control room</div>
+        </div>
+        {mobile && <button className="studio-icon-button ml-auto" onClick={() => setIsMobileMenuOpen(false)} aria-label="Close menu"><X size={18} /></button>}
+      </div>
+      <div className="studio-sidebar-search">
+        <Search size={15} />
+        <input value={search} onChange={(e) => setSearch(e.target.value)} placeholder="Find a setting or page..." aria-label="Search Studio pages" />
+        <kbd>/</kbd>
+      </div>
+      <nav className="studio-nav">
+        {filteredGroups.map((group) => (
+          <div className="studio-nav-group" key={group.label}>
+            <div className="studio-nav-heading">{group.label}</div>
+            {group.items.map((item) => {
+              const Icon = item.icon;
+              const selected = activeTab === item.id;
+              const badge = item.id === 'messages' ? unreadMessagesCount : 0;
+              return (
+                <button key={item.id} type="button" onClick={() => chooseTab(item.id)} className={`studio-nav-item ${selected ? 'is-active' : ''}`} title={item.description}>
+                  <Icon size={17} strokeWidth={1.8} />
+                  <span>{item.label}</span>
+                  {badge > 0 && <b>{badge}</b>}
+                  {selected && <ChevronRight className="studio-nav-chevron" size={15} />}
+                </button>
+              );
+            })}
+          </div>
+        ))}
+        {filteredGroups.length === 0 && <p className="studio-empty-search">No matching pages. Try another term.</p>}
+      </nav>
+      <div className="studio-sidebar-bottom">
+        <div className="studio-account">
+          <div className="studio-avatar">{(adminUser?.username || 'L').slice(0, 1).toUpperCase()}</div>
+          <div className="min-w-0 flex-1"><div className="studio-account-name">{adminUser?.username || 'Administrator'}</div><div className="studio-account-role">Administrator access</div></div>
+          <button className="studio-icon-button" onClick={handleLogout} title="Sign out" aria-label="Sign out"><LogOut size={16} /></button>
+        </div>
+      </div>
+    </>
+  );
+
   return (
-    <div className="flex h-screen w-full overflow-hidden bg-[#070D1E] text-[#E0E7FF] font-sans">
-      {/* Toast */}
-      {toast && (
-        <div
-          className={`fixed top-4 right-4 z-50 flex items-center gap-2 rounded-2xl px-4 py-3 text-xs font-semibold shadow-2xl backdrop-blur-xl border transition-all ${
-            toast.type === 'error'
-              ? 'bg-red-500/90 border-red-400 text-white'
-              : 'bg-emerald-600/90 border-emerald-400 text-white'
-          }`}
-        >
-          {toast.type === 'error' ? <AlertCircle className="h-4 w-4" /> : <CheckCircle className="h-4 w-4" />}
-          <span>{toast.msg}</span>
-        </div>
-      )}
+    <div className={`studio-workspace ${isSidebarCollapsed ? 'sidebar-collapsed' : ''}`}>
+      {toast && <div className={`studio-toast ${toast.type}`}>{toast.type === 'error' ? <AlertCircle size={17} /> : <CheckCircle size={17} />}<span>{toast.msg}</span></div>}
+      <aside className="studio-sidebar hidden lg:flex"><SidebarContent /></aside>
+      {isMobileMenuOpen && <div className="studio-mobile-overlay lg:hidden" onClick={() => setIsMobileMenuOpen(false)}><aside className="studio-sidebar studio-mobile-sidebar" onClick={(e) => e.stopPropagation()}><SidebarContent mobile /></aside></div>}
 
-      {/* Sidebar Desktop */}
-      <aside className="hidden lg:flex w-64 shrink-0 flex-col border-r border-[#1F2937] bg-[#0B132B]/95 backdrop-blur-xl">
-        {/* Studio Branding */}
-        <div className="flex h-16 items-center justify-between px-5 border-b border-[#1F2937]">
-          <div className="flex items-center gap-2.5">
-            <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-gradient-to-tr from-[#2563EB] to-[#60A5FA] shadow-md font-bold text-white text-sm">
-              PL
-            </div>
-            <div>
-              <h1 className="text-xs font-bold tracking-wider text-[#E0E7FF] uppercase">
-                Studio CMS
-              </h1>
-              <p className="text-[10px] text-[#60A5FA] font-mono">Poosala Lokesh</p>
-            </div>
+      <div className="studio-main">
+        <header className="studio-topbar">
+          <div className="flex items-center gap-3 min-w-0">
+            <button className="studio-icon-button lg:hidden" onClick={() => setIsMobileMenuOpen(true)} aria-label="Open navigation"><Menu size={19} /></button>
+            <button className="studio-icon-button hidden lg:inline-flex" onClick={() => setIsSidebarCollapsed((v) => !v)} aria-label="Toggle sidebar"><PanelLeftClose size={18} /></button>
+            <div className="studio-breadcrumb"><span>Studio</span><ChevronRight size={14} /><strong>{activeItem?.label || 'Overview'}</strong></div>
           </div>
-          <span className="rounded-md bg-[#2563EB]/20 px-1.5 py-0.5 text-[9px] font-mono text-[#60A5FA] border border-[#2563EB]/30">
-            PRO
-          </span>
-        </div>
-
-        {/* Navigation items */}
-        <nav className="flex-1 overflow-y-auto px-3 py-4 space-y-6 custom-scrollbar">
-          {['Overview', 'Portfolio Content', 'Operations'].map((category) => {
-            const items = navItems.filter((i) => i.category === category);
-            return (
-              <div key={category} className="space-y-1">
-                <p className="px-3 text-[10px] font-semibold uppercase tracking-wider text-[#64748B]">
-                  {category}
-                </p>
-                {items.map((item) => {
-                  const Icon = item.icon;
-                  const isActive = activeTab === item.id;
-                  return (
-                    <button
-                      key={item.id}
-                      onClick={() => setActiveTab(item.id)}
-                      className={`group flex w-full items-center justify-between rounded-xl px-3 py-2 text-xs font-medium transition-all cursor-pointer ${
-                        isActive
-                          ? 'bg-[#2563EB] text-white shadow-md'
-                          : 'text-[#94A3B8] hover:bg-[#111827] hover:text-[#E0E7FF]'
-                      }`}
-                    >
-                      <div className="flex items-center gap-2.5">
-                        <Icon className={`h-4 w-4 ${isActive ? 'text-white' : 'text-[#64748B] group-hover:text-[#60A5FA]'}`} />
-                        <span>{item.label}</span>
-                      </div>
-                      {item.badge !== undefined && item.badge > 0 && (
-                        <span className="rounded-full bg-red-500 px-1.5 py-0.2 text-[10px] font-bold text-white">
-                          {item.badge}
-                        </span>
-                      )}
-                    </button>
-                  );
-                })}
-              </div>
-            );
-          })}
-        </nav>
-
-        {/* Sidebar Footer */}
-        <div className="border-t border-[#1F2937] p-3 space-y-2">
-          {/* Supabase status */}
-          <div className="flex items-center justify-between rounded-xl bg-[#070D1E] px-3 py-2 text-[11px]">
-            <div className="flex items-center gap-2">
-              <span className={`h-2 w-2 rounded-full ${isSupabaseConnected ? 'bg-emerald-400' : 'bg-amber-400'}`} />
-              <span className="text-[#94A3B8]">
-                {isSupabaseConnected ? 'Supabase Connected' : 'Local Storage'}
-              </span>
-            </div>
-            <button
-              onClick={() => {
-                syncFromSupabase();
-                showToast('Sync completed');
-              }}
-              title="Force sync"
-              className="text-[#64748B] hover:text-[#60A5FA] cursor-pointer"
-            >
-              <RefreshCw className="h-3.5 w-3.5" />
-            </button>
-          </div>
-
-          <div className="flex items-center justify-between pt-1">
-            <button
-              onClick={onExitStudio}
-              className="inline-flex items-center gap-1.5 text-xs text-[#94A3B8] hover:text-[#60A5FA] cursor-pointer px-2 py-1"
-            >
-              <ExternalLink className="h-3.5 w-3.5" />
-              <span>Public Site</span>
-            </button>
-            <button
-              onClick={handleLogout}
-              className="inline-flex items-center gap-1.5 text-xs text-red-400 hover:text-red-300 cursor-pointer px-2 py-1"
-            >
-              <LogOut className="h-3.5 w-3.5" />
-              <span>Sign Out</span>
-            </button>
-          </div>
-        </div>
-      </aside>
-
-      {/* Mobile Drawer */}
-      {isMobileMenuOpen && (
-        <div className="fixed inset-0 z-50 flex lg:hidden bg-black/80 backdrop-blur-sm">
-          <div className="relative flex w-72 flex-col bg-[#0B132B] p-4 border-r border-[#1F2937]">
-            <div className="flex items-center justify-between pb-4 border-b border-[#1F2937]">
-              <div className="flex items-center gap-2">
-                <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-[#2563EB] text-white font-bold text-xs">
-                  PL
-                </div>
-                <span className="font-bold text-xs uppercase text-[#E0E7FF]">Studio CMS</span>
-              </div>
-              <button
-                onClick={() => setIsMobileMenuOpen(false)}
-                className="p-1.5 text-[#64748B] hover:text-white"
-              >
-                <X className="h-5 w-5" />
-              </button>
-            </div>
-
-            <nav className="flex-1 overflow-y-auto py-4 space-y-1">
-              {navItems.map((item) => {
-                const Icon = item.icon;
-                const isActive = activeTab === item.id;
-                return (
-                  <button
-                    key={item.id}
-                    onClick={() => {
-                      setActiveTab(item.id);
-                      setIsMobileMenuOpen(false);
-                    }}
-                    className={`flex w-full items-center justify-between rounded-xl px-3 py-2 text-xs font-medium ${
-                      isActive ? 'bg-[#2563EB] text-white' : 'text-[#94A3B8] hover:bg-[#111827]'
-                    }`}
-                  >
-                    <div className="flex items-center gap-2.5">
-                      <Icon className="h-4 w-4" />
-                      <span>{item.label}</span>
-                    </div>
-                    {item.badge !== undefined && item.badge > 0 && (
-                      <span className="rounded-full bg-red-500 px-1.5 py-0.2 text-[10px] font-bold text-white">
-                        {item.badge}
-                      </span>
-                    )}
-                  </button>
-                );
-              })}
-            </nav>
-
-            <div className="border-t border-[#1F2937] pt-3 flex justify-between">
-              <button
-                onClick={() => {
-                  setIsMobileMenuOpen(false);
-                  onExitStudio();
-                }}
-                className="text-xs text-[#60A5FA]"
-              >
-                View Public Site
-              </button>
-              <button onClick={handleLogout} className="text-xs text-red-400">
-                Sign Out
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* Main Content Area */}
-      <div className="flex flex-1 flex-col overflow-hidden">
-        {/* Topbar */}
-        <header className="flex h-16 items-center justify-between border-b border-[#1F2937] bg-[#0B132B]/80 px-4 sm:px-8 backdrop-blur-xl shrink-0">
-          <div className="flex items-center gap-3">
-            <button
-              onClick={() => setIsMobileMenuOpen(true)}
-              className="p-2 text-[#94A3B8] hover:text-white lg:hidden cursor-pointer"
-            >
-              <Menu className="h-5 w-5" />
-            </button>
-            <div>
-              <h2 className="text-sm sm:text-base font-bold text-[#E0E7FF] capitalize">
-                {navItems.find((i) => i.id === activeTab)?.label || 'Studio'}
-              </h2>
-              <p className="text-[11px] text-[#64748B] hidden sm:block">
-                Poosala Lokesh · Personal Portfolio Content Management System
-              </p>
-            </div>
-          </div>
-
-          <div className="flex items-center gap-3">
-            <button
-              onClick={onExitStudio}
-              className="inline-flex items-center gap-1.5 rounded-xl border border-[#1F2937] bg-[#111827] px-3.5 py-2 text-xs font-medium text-[#CBD5E1] hover:border-[#60A5FA] hover:text-[#60A5FA] transition-all cursor-pointer shadow-xs"
-            >
-              <ExternalLink className="h-3.5 w-3.5" />
-              <span className="hidden sm:inline">View Public Site</span>
-              <span className="sm:hidden">Site</span>
-            </button>
-
-            <div className="flex items-center gap-2 border-l border-[#1F2937] pl-3">
-              <div className="h-8 w-8 rounded-xl bg-gradient-to-tr from-[#2563EB] to-[#60A5FA] flex items-center justify-center font-bold text-xs text-white shadow-xs">
-                PL
-              </div>
-              <div className="hidden sm:block text-left">
-                <p className="text-xs font-semibold text-[#E0E7FF]">
-                  {adminUser?.displayName || adminUser?.username || 'Lokesh'}
-                </p>
-                <p className="text-[10px] text-emerald-400 font-mono">Admin Verified</p>
-              </div>
-            </div>
+          <div className="flex items-center gap-2">
+            <span className={`studio-connection-pill ${isSupabaseConnected ? 'connected' : 'offline'}`}><i />{isSupabaseConnected ? 'Database connected' : 'Local cache'}</span>
+            <button className="studio-top-action" onClick={handleSync} disabled={isSyncing}><RefreshCw size={15} className={isSyncing ? 'animate-spin' : ''} /><span>{isSyncing ? 'Syncing' : 'Sync data'}</span></button>
+            <button className="studio-top-action primary" onClick={onExitStudio}><ExternalLink size={15} /><span>View site</span></button>
           </div>
         </header>
 
-        {/* Viewport Content */}
-        <main className="flex-1 overflow-y-auto p-4 sm:p-8 custom-scrollbar">
-          {renderActiveTab()}
+        <main className="studio-content">
+          <div className="studio-page-heading">
+            <div><div className="studio-eyebrow">CONTENT MANAGEMENT</div><h1>{activeItem?.label || 'Overview'}</h1><p>{activeItem?.description || 'Manage your portfolio and keep everything up to date.'}</p></div>
+            <div className="studio-page-context"><span>EDITING AS</span><strong>{profile?.name || adminUser?.username || 'Lokesh'}</strong></div>
+          </div>
+          <div className="studio-tab-surface">{renderActiveTab()}</div>
+          <footer className="studio-footer"><span>LOKESH / STUDIO</span><span>Changes are saved through your connected portfolio data store.</span></footer>
         </main>
       </div>
     </div>

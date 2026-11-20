@@ -13,9 +13,9 @@ interface StudioLoginProps {
 export function StudioLogin({ onSuccess, onExit }: StudioLoginProps) {
   const { loginStudioAdmin } = usePortfolio();
 
-  const [username, setUsername] = useState('Lokesh');
-  const [password, setPassword] = useState('lokesh81*');
-  const [rememberMe, setRememberMe] = useState(true);
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [rememberMe, setRememberMe] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
@@ -24,7 +24,7 @@ export function StudioLogin({ onSuccess, onExit }: StudioLoginProps) {
   // Password Recovery / OTP State
   const [isRecoveryMode, setIsRecoveryMode] = useState(false);
   const [recoveryStep, setRecoveryStep] = useState<'email' | 'otp'>('email');
-  const [recoveryEmail, setRecoveryEmail] = useState('poosala15@gmail.com');
+  const [recoveryEmail, setRecoveryEmail] = useState('');
   const [recoveryOtp, setRecoveryOtp] = useState('');
   const [newPassword, setNewPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
@@ -128,7 +128,7 @@ export function StudioLogin({ onSuccess, onExit }: StudioLoginProps) {
   };
 
   return (
-    <div className="relative min-h-screen w-full flex items-center justify-center bg-[#0B132B] px-4 py-12 text-[#E0E7FF] overflow-hidden">
+    <div className="studio-login-screen relative min-h-screen w-full flex items-center justify-center bg-[#0B132B] px-4 py-12 text-[#E0E7FF] overflow-hidden">
       <div className="relative z-10 w-full max-w-md">
         {/* Back to Portfolio link */}
         <div className="mb-6 flex items-center justify-between">
@@ -162,10 +162,6 @@ export function StudioLogin({ onSuccess, onExit }: StudioLoginProps) {
                 <p className="mt-2 text-xs text-[#94A3B8]">
                   Sign in with your private administrator credentials to manage portfolio content.
                 </p>
-                <div className="mt-3 inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/25 text-emerald-300 text-xs font-mono">
-                  <KeyRound className="h-3 w-3 text-emerald-400" />
-                  <span>Password: <strong>lokesh81*</strong></span>
-                </div>
               </div>
 
               {/* Error Alert */}

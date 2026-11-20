@@ -55,6 +55,7 @@ export function SettingsTab({ showToast }: SettingsTabProps) {
 
   const [isSaving, setIsSaving] = useState(false);
   const [isTestingDb, setIsTestingDb] = useState(false);
+  const [isSyncing, setIsSyncing] = useState(false);
   const [dbHealth, setDbHealth] = useState<any>(null);
 
   // Security / Admin Password Change State
@@ -103,6 +104,18 @@ export function SettingsTab({ showToast }: SettingsTabProps) {
       setDeleteError(err?.message || 'An unexpected error occurred during erasure.');
     } finally {
       setIsDeletingAccount(false);
+    }
+  };
+
+  const handleForceSync = async () => {
+    setIsSyncing(true);
+    try {
+      await syncFromSupabase();
+      showToast('Supabase sync completed.', 'success');
+    } catch (error) {
+      showToast(error instanceof Error ? error.message : 'Supabase sync failed.', 'error');
+    } finally {
+      setIsSyncing(false);
     }
   };
 
@@ -513,13 +526,11 @@ export function SettingsTab({ showToast }: SettingsTabProps) {
 
           <button
             type="button"
-            onClick={() => {
-              syncFromSupabase();
-              showToast('Sync triggered with Supabase!', 'success');
-            }}
-            className="text-xs text-[#60A5FA] hover:underline cursor-pointer"
+            onClick={handleForceSync}
+            disabled={isSyncing}
+            className="text-xs text-[#60A5FA] hover:underline cursor-pointer disabled:opacity-50"
           >
-            Force Sync
+            {isSyncing ? 'Syncing…' : 'Force Sync'}
           </button>
         </div>
 
@@ -624,7 +635,7 @@ export function SettingsTab({ showToast }: SettingsTabProps) {
                     required
                     value={deletePassword}
                     onChange={(e) => setDeletePassword(e.target.value)}
-                    placeholder="Enter current password (e.g. lokesh81*)"
+                    placeholder="Enter your current administrator password"
                     className="w-full rounded-xl border border-[#1F2937] bg-[#0B132B] px-3 py-2 text-xs text-white placeholder-[#64748B] focus:border-red-500 focus:outline-none"
                   />
                 </div>
