@@ -216,7 +216,7 @@ const row2Technologies: TechLogoItem[] = [
 
 export function TechStackSlider() {
   return (
-    <div className="tech-stack-slider w-full min-w-0 overflow-hidden py-3">
+    <div className="portfolio-tech-marquee w-full min-w-0 py-3">
       {/* Single compact forward Infinite Scroll line for footer */}
       <div className="tech-marquee-row">
         <div className="tech-marquee-track tech-marquee-track-forward">
