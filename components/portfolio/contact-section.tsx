@@ -184,7 +184,7 @@ export function ContactSection() {
         {/* 2-Column Split: Production Contact Form & Direct Verified Channels */}
         <div className="mt-10 grid grid-cols-1 items-start gap-10 pb-16 lg:grid-cols-12">
           {/* Production Inquiry Form */}
-          <div className={`contact-form-panel relative min-w-0 w-full${isTyping ? " is-typing" : ""} rounded-xl border border-[#29251f] bg-[#fffdf7] p-7 sm:p-9 lg:col-span-8">
+          <div className={`contact-form-panel relative min-w-0 w-full rounded-xl border border-[#29251f] bg-[#fffdf7] p-7 sm:p-9 lg:col-span-8${isTyping ? " is-typing" : ""}`}
             <div className="relative z-10 mb-8 flex flex-wrap items-center justify-between gap-4 border-b border-[#d8d0c2] pb-5">
               <div>
                 <h3 className="text-lg font-bold text-[#24221f]">
