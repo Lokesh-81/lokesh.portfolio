@@ -512,35 +512,40 @@ export async function uploadMediaToSupabase(
     }).catch(() => {});
   }
 
-  // Store files remotely only. Never report a local Data URL as a successful CMS upload.
-  let storageErrorMessage = '';
-  try {
-    const { data, error } = await supabase.storage
-      .from(STORAGE_BUCKET)
-      .upload(path, file, {
-        cacheControl: '3600',
-        upsert: true,
-        contentType: file.type || 'application/octet-stream',
-      });
+  // Ask the same-origin Vercel API for a short-lived signed upload token.
+  // The service-role key never reaches the browser.
+  const sessionToken =
+    (typeof window !== 'undefined' && (localStorage.getItem('lokesh_studio_session_token') || sessionStorage.getItem('lokesh_studio_session_token'))) || '';
 
-    if (error) {
-      storageErrorMessage = error.message;
-    } else if (data) {
-      const { data: publicUrlData } = supabase.storage
-        .from(STORAGE_BUCKET)
-        .getPublicUrl(data.path);
-      publicUrl = publicUrlData.publicUrl;
-      storedPath = data.path;
-    }
-  } catch (error: any) {
-    storageErrorMessage = error?.message || 'Unknown Supabase Storage error';
+  const signedResponse = await fetch('/api/studio-upload-url', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      sessionToken,
+      filename: file.name,
+      contentType: file.type || 'application/octet-stream',
+      size: file.size,
+      folder,
+    }),
+  });
+  const signedPayload = await signedResponse.json().catch(() => ({}));
+  if (!signedResponse.ok || !signedPayload.token || !signedPayload.path) {
+    throw new Error(signedPayload.error || `Secure upload authorization failed (HTTP ${signedResponse.status}).`);
   }
 
-  if (!publicUrl) {
-    throw new Error(
-      `Supabase Storage upload failed: ${storageErrorMessage || 'No public file URL was returned'}. Check that the project is active, the portfolio-media bucket exists, and the Studio upload policies are applied.`
-    );
+  const { error: uploadError } = await supabase.storage
+    .from(signedPayload.bucket || STORAGE_BUCKET)
+    .uploadToSignedUrl(signedPayload.path, signedPayload.token, file, {
+      contentType: file.type || 'application/octet-stream',
+      upsert: true,
+    });
+
+  if (uploadError) {
+    throw new Error(`Supabase Storage upload failed: ${uploadError.message}`);
   }
+
+  publicUrl = signedPayload.publicUrl;
+  storedPath = signedPayload.path;
 
   const mediaItem: MediaItem = {
     id: `media-${Date.now()}`,
