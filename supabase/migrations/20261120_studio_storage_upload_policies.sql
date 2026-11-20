@@ -1,34 +1,10 @@
--- Apply once in Supabase SQL Editor for the existing Studio deployment.
--- Studio uses its own username/password session, not Supabase Auth. The current
--- client therefore connects as the anon role; authenticated-only Storage
--- policies reject every browser upload and the old code silently fell back to
--- IndexedDB/localStorage.
---
--- NOTE: This matches the repository's existing anon-write RLS model. For a
--- hardened production setup, move mutations behind an authenticated Edge Function.
-
-drop policy if exists "Authenticated Upload Media" on storage.objects;
-drop policy if exists "Authenticated Update Media" on storage.objects;
-drop policy if exists "Authenticated Delete Media" on storage.objects;
-drop policy if exists "Studio Upload Portfolio Media" on storage.objects;
-drop policy if exists "Studio Update Portfolio Media" on storage.objects;
-drop policy if exists "Studio Delete Portfolio Media" on storage.objects;
-
-create policy "Studio Upload Portfolio Media"
-on storage.objects for insert
-to anon, authenticated
-with check (bucket_id = 'portfolio-media');
-
-create policy "Studio Update Portfolio Media"
-on storage.objects for update
-to anon, authenticated
-using (bucket_id = 'portfolio-media')
-with check (bucket_id = 'portfolio-media');
-
-create policy "Studio Delete Portfolio Media"
-on storage.objects for delete
-to anon, authenticated
-using (bucket_id = 'portfolio-media');
+-- Secure Studio upload support.
+-- Browser clients do NOT receive the Supabase service-role key.
+-- Upload authorization is performed by /api/studio-upload-url.ts after the
+-- studio_admin_verify_session RPC validates the existing Studio session.
+-- The Vercel function uses SUPABASE_SERVICE_ROLE_KEY to create a signed
+-- upload token, so the existing authenticated-only Storage RLS policies stay
+-- in place. Do not grant anon INSERT/UPDATE/DELETE on storage.objects.
 
 update storage.buckets
 set public = true,
