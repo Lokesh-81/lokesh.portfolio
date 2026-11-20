@@ -359,3 +359,74 @@ html,body{background:var(--sk-paper)!important;color:var(--sk-ink)!important}
 .certifications-sketchbook~.fixed .bg-\[\#100B18\],
 .certifications-sketchbook~.fixed .bg-\[\#080D1A\] { background:#f8f6e9!important;color:#292622!important; }
 @media(prefers-reduced-motion:reduce){.certifications-sketchbook *{animation:none!important;transition:none!important}}
+
+
+/* --- Final component-level Sketchbook refinement --- */
+/* Navigation: compact editorial masthead instead of a stretched floating pill. */
+.portfolio-shell nav[aria-label="Main Navigation"]{
+  width:min(94%,1320px)!important;min-height:76px!important;left:50%!important;top:18px!important;
+  display:flex!important;align-items:center!important;justify-content:space-between!important;
+  gap:22px!important;padding:10px 18px!important;background:#fffdf5!important;
+  border:1.8px solid #24221f!important;border-radius:8px!important;
+  box-shadow:4px 4px 0 #24221f!important;backdrop-filter:none!important;
+}
+.portfolio-shell .portfolio-wordmark{gap:12px!important;min-width:220px!important;text-align:left!important}
+.portfolio-shell .portfolio-monogram{width:43px!important;height:43px!important;border:1.5px solid #24221f!important;background:#f1eadb!important;color:#24221f!important}
+.portfolio-shell .portfolio-wordmark strong{font-size:12px!important;letter-spacing:.16em!important;color:#24221f!important}
+.portfolio-shell .portfolio-wordmark small{font-size:8px!important;letter-spacing:.18em!important;color:#746b60!important}
+.portfolio-shell .portfolio-nav-links{display:flex!important;align-items:center!important;justify-content:center!important;gap:clamp(8px,1.35vw,22px)!important;flex:1!important}
+.portfolio-shell .portfolio-nav-links button{font-size:12px!important;font-weight:650!important;color:#302c27!important;padding:10px 3px!important;border-bottom:2px solid transparent!important;border-radius:0!important;background:transparent!important;transition:color .2s,border-color .2s,transform .2s!important}
+.portfolio-shell .portfolio-nav-links button:hover,.portfolio-shell .portfolio-nav-links button.active{color:#9b536b!important;border-bottom-color:#9b536b!important;transform:translateY(-1px)!important}
+.portfolio-shell .portfolio-nav-links .portfolio-nav-contact{padding:11px 17px!important;border:1.5px solid #24221f!important;border-radius:5px!important;background:#ffe17a!important;color:#24221f!important;box-shadow:2px 2px 0 #24221f!important}
+.portfolio-shell .portfolio-nav-links .portfolio-nav-contact:hover{background:#f7d86a!important;box-shadow:3px 4px 0 #24221f!important}
+.portfolio-shell .portfolio-nav-actions{margin-left:auto!important}
+.portfolio-shell .portfolio-language-button{background:#f8f6e9!important;border:1px solid #d8cfbf!important;color:#302c27!important;border-radius:24px!important;padding:10px 13px!important}
+.portfolio-shell .portfolio-language-menu,.portfolio-shell .portfolio-mobile-menu{background:#fffdf5!important;border:1.5px solid #24221f!important;box-shadow:4px 4px 0 #24221f!important;color:#24221f!important}
+.portfolio-shell .portfolio-language-menu button,.portfolio-shell .portfolio-mobile-menu button{color:#24221f!important}
+@media(max-width:900px){.portfolio-shell nav[aria-label="Main Navigation"]{width:calc(100% - 24px)!important;min-height:66px!important;padding:8px 12px!important}.portfolio-shell .portfolio-nav-links{display:none!important}.portfolio-shell .portfolio-wordmark{min-width:0!important}.portfolio-shell .portfolio-mobile-toggle{display:flex!important;color:#24221f!important;background:#ffe17a!important;border:1.5px solid #24221f!important;border-radius:5px!important;padding:9px!important}.portfolio-shell .portfolio-nav-actions{margin-left:auto!important;margin-right:8px!important}}
+/* Belvo is a key proof point: enforce contrast throughout every nested panel. */
+.belvo-lor-showcase{background:#fffdf5!important;background-image:none!important;color:#24221f!important;border:2px solid #24221f!important;border-radius:8px!important;box-shadow:6px 6px 0 #24221f!important;backdrop-filter:none!important}
+.belvo-lor-showcase:before,.belvo-lor-showcase:after,.belvo-lor-showcase>div.absolute{display:none!important}
+.belvo-lor-showcase :is(h2,h3,h4,strong,b){color:#24221f!important}
+.belvo-lor-showcase :is(p,span,div,blockquote){color:#48423b!important}
+.belvo-lor-showcase .text-purple-300,.belvo-lor-showcase .text-purple-400{color:#85506b!important}
+.belvo-lor-showcase .text-emerald-400{color:#267847!important}
+.belvo-lor-showcase [class*="bg-[#100B18"],.belvo-lor-showcase [class*="bg-purple-950"],.belvo-lor-showcase [class*="bg-purple-500/"]{background:#f2edf7!important}
+.belvo-lor-showcase [class*="border-[#35263D"],.belvo-lor-showcase [class*="border-purple-500"]{border-color:#c9bdad!important}
+.belvo-lor-showcase blockquote{background:#f6f0e5!important;border:1.5px solid #c9bdad!important;border-radius:6px!important;color:#403a34!important}
+.belvo-lor-showcase button{background:#ffe17a!important;color:#24221f!important;border:1.5px solid #24221f!important;box-shadow:3px 3px 0 #24221f!important}
+.belvo-lor-showcase button :is(span,svg){color:#24221f!important}
+.belvo-lor-thumbnail{display:block;position:relative;width:100%;margin:0 0 22px;overflow:hidden;cursor:pointer;border:1.5px solid #24221f;border-radius:7px;background:#eee8dc;box-shadow:4px 4px 0 #24221f;transition:transform .25s,box-shadow .25s}
+.belvo-lor-thumbnail:hover{transform:translateY(-4px) rotate(-.4deg);box-shadow:6px 7px 0 #24221f}
+.belvo-lor-thumbnail img{display:block;width:100%;height:auto;max-height:390px;object-fit:contain;object-position:top;background:#fff}
+.belvo-lor-thumbnail span{display:block;padding:9px 12px;background:#ffe17a;color:#24221f!important;font:700 10px/1.3 Inter,sans-serif;letter-spacing:.12em;text-align:center}
+/* Skill badges retain their original Google white credential-card appearance. */
+.certifications-sketchbook .skill-badge-card{background:#fff!important;color:#202124!important;border:1.5px solid #c9cdd2!important;border-radius:9px!important;box-shadow:2px 3px 0 #d8dce1!important}
+.certifications-sketchbook .skill-badge-card :is(h3,p,span){color:inherit!important}
+.certifications-sketchbook .skill-badge-card h3{color:#202124!important}
+.certifications-sketchbook .skill-badge-card p{color:#5f6368!important}
+.certifications-sketchbook .skill-badge-card .text-\[\#1A73E8\]{color:#1a73e8!important}
+.certifications-sketchbook .skill-badge-card:hover{transform:translateY(-5px)!important;box-shadow:4px 6px 0 #b7c6dd!important}
+/* Testimonials: turn the awkward ledger into three readable editorial quote cards. */
+.testimonials-editorial{color:#24221f!important}
+.testimonials-editorial-heading{display:grid!important;grid-template-columns:1.1fr .9fr!important;align-items:end!important;gap:28px!important;margin-bottom:28px!important}
+.testimonials-editorial-heading h2{font-family:'Barlow Condensed',sans-serif!important;font-size:clamp(42px,6vw,76px)!important;line-height:.95!important;letter-spacing:-.035em!important;color:#24221f!important}
+.testimonials-editorial-heading h2 em{color:#a94f70!important}
+.testimonials-editorial-heading p{max-width:440px!important;color:#514b43!important;font-size:15px!important;line-height:1.7!important}
+.testimonials-editorial-heading button{display:inline-flex!important;align-items:center!important;gap:8px!important;margin-top:14px!important;padding:10px 14px!important;background:#ffe17a!important;border:1.5px solid #24221f!important;border-radius:5px!important;color:#24221f!important;box-shadow:3px 3px 0 #24221f!important;font-size:12px!important;font-weight:700!important;transition:transform .2s,box-shadow .2s!important}
+.testimonials-editorial-heading button:hover{transform:translateY(-3px)!important;box-shadow:5px 6px 0 #24221f!important}
+.testimonials-ledger{display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:18px!important;align-items:stretch!important}
+.testimonial-ledger-card{display:flex!important;flex-direction:column!important;min-height:320px!important;padding:22px!important;background:#fffdf5!important;border:1.5px solid #24221f!important;border-radius:7px!important;box-shadow:4px 4px 0 #24221f!important;color:#24221f!important;cursor:pointer!important}
+.testimonial-ledger-card:nth-child(3n+2){background:#eaf5ec!important}
+.testimonial-ledger-card:nth-child(3n){background:#f0eafa!important}
+.testimonial-ledger-card.is-selected{outline:3px solid #a94f70!important;outline-offset:3px!important}
+.testimonial-ledger-top{display:flex!important;justify-content:space-between!important;align-items:center!important;color:#865466!important;font:700 10px/1.4 Inter,sans-serif!important;letter-spacing:.12em!important}
+.testimonial-ledger-card blockquote{flex:1!important;margin:22px 0!important;padding:0!important;border:0!important;background:transparent!important;color:#38342f!important;font:400 14px/1.8 Inter,sans-serif!important;white-space:pre-line!important}
+.testimonial-ledger-card footer{display:flex!important;align-items:center!important;gap:12px!important;border-top:1px solid rgba(36,34,31,.25)!important;padding-top:15px!important}
+.testimonial-avatar{display:flex!important;align-items:center!important;justify-content:center!important;width:42px!important;height:42px!important;flex:none!important;border:1.5px solid #24221f!important;border-radius:50%!important;background:#ffe17a!important;color:#24221f!important;font:700 12px Inter,sans-serif!important}
+.testimonial-ledger-card footer strong{display:block!important;color:#24221f!important;font-size:13px!important}
+.testimonial-ledger-card footer span{display:block!important;color:#625b52!important;font-size:11px!important;line-height:1.5!important}
+.testimonial-ledger-arrow{margin-left:auto!important;color:#9b536b!important;font-size:20px!important}
+.testimonial-ledger-card:hover{transform:translateY(-5px) rotate(-.25deg)!important;box-shadow:6px 7px 0 #24221f!important}
+@media(max-width:900px){.testimonials-ledger{grid-template-columns:repeat(2,minmax(0,1fr))!important}.testimonials-editorial-heading{grid-template-columns:1fr!important}}
+@media(max-width:600px){.testimonials-ledger{grid-template-columns:1fr!important}.testimonial-ledger-card{min-height:0!important}.testimonials-editorial-heading h2{font-size:48px!important}}
