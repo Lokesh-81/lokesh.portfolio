@@ -75,7 +75,7 @@ const navGroups = [
 ] as const;
 
 export function StudioLayout({ onExitStudio }: StudioLayoutProps) {
-  const { profile, messages, isSupabaseConnected, syncFromSupabase, logoutStudioAdmin, adminUser } = usePortfolio();
+  const { profile, messages, isSupabaseConnected, supabaseDiagnostic, syncFromSupabase, logoutStudioAdmin, adminUser } = usePortfolio();
   const [activeTab, setActiveTab] = useState<StudioTabId>('dashboard');
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
@@ -209,7 +209,7 @@ export function StudioLayout({ onExitStudio }: StudioLayoutProps) {
             <div className="studio-breadcrumb"><span>Studio</span><ChevronRight size={14} /><strong>{activeItem?.label || 'Overview'}</strong></div>
           </div>
           <div className="flex items-center gap-2">
-            <span className={`studio-connection-pill ${isSupabaseConnected ? 'connected' : 'offline'}`}><i />{isSupabaseConnected ? 'Database connected' : 'Local cache'}</span>
+            <span title={supabaseDiagnostic || 'Supabase database connected'} aria-label={supabaseDiagnostic || 'Supabase database connected'} className={`studio-connection-pill ${isSupabaseConnected ? 'connected' : 'offline'}`}><i />{isSupabaseConnected ? 'Database connected' : 'Local cache · hover for details'}</span>
             <button className="studio-top-action" onClick={handleSync} disabled={isSyncing}><RefreshCw size={15} className={isSyncing ? 'animate-spin' : ''} /><span>{isSyncing ? 'Syncing' : 'Sync data'}</span></button>
             <button className="studio-top-action primary" onClick={onExitStudio}><ExternalLink size={15} /><span>View site</span></button>
           </div>
