@@ -3,30 +3,10 @@
 import React from 'react';
 import { InfiniteSlider } from '@/components/core/infinite-slider';
 
-const techLogoUrls: Record<string, string> = {
-  'React': 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg',
-  'Next.js': 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nextjs/nextjs-original.svg',
-  'TypeScript': 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/typescript/typescript-original.svg',
-  'Node.js': 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original.svg',
-  'Tailwind CSS': 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/tailwindcss/tailwindcss-original.svg',
-  'Supabase': 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/supabase/supabase-original.svg',
-  'Python': 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg',
-  'Git': 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/git/git-original.svg',
-  'Vite': 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/vitejs/vitejs-original.svg',
-  'Express.js': 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/express/express-original.svg',
-  'Firebase': 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/firebase/firebase-plain.svg',
-  'MongoDB': 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mongodb/mongodb-original.svg',
-  'JavaScript': 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg',
-  'Framer Motion': 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/framermotion/framermotion-original.svg',
-  'GitHub': 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg',
-  'Gemini AI API': 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/google/google-original.svg',
-  'REST APIs': '',
-  'Vercel': '',
-};
-
 export interface TechLogoItem {
   name: string;
   category: string;
+  description: string;
   icon: React.ReactNode;
 }
 
@@ -34,6 +14,7 @@ export interface TechLogoItem {
 const row1Technologies: TechLogoItem[] = [
   {
     name: 'React',
+    description: 'Builds interactive user interfaces',
     category: 'Frontend',
     icon: (
       <svg className="h-6 w-6 text-[#24221f]" viewBox="-11.5 -10.23174 23 20.46348" fill="currentColor">
@@ -48,6 +29,7 @@ const row1Technologies: TechLogoItem[] = [
   },
   {
     name: 'Next.js',
+    description: 'React framework for full-stack web apps',
     category: 'Framework',
     icon: (
       <svg className="h-6 w-6 fill-current text-[#24221f]" viewBox="0 0 180 180">
@@ -64,6 +46,7 @@ const row1Technologies: TechLogoItem[] = [
   },
   {
     name: 'TypeScript',
+    description: 'Adds type safety to JavaScript',
     category: 'Language',
     icon: (
       <svg className="h-6 w-6" viewBox="0 0 128 128">
@@ -74,6 +57,7 @@ const row1Technologies: TechLogoItem[] = [
   },
   {
     name: 'Node.js',
+    description: 'Runs JavaScript on the server',
     category: 'Runtime',
     icon: (
       <svg className="h-6 w-6 text-[#5c4b79]" viewBox="0 0 32 32" fill="currentColor">
@@ -84,6 +68,7 @@ const row1Technologies: TechLogoItem[] = [
   },
   {
     name: 'Tailwind CSS',
+    description: 'Styles layouts with utility classes',
     category: 'Styling',
     icon: (
       <svg className="h-6 w-6 text-[#1596c0]" viewBox="0 0 24 24" fill="currentColor">
@@ -93,6 +78,7 @@ const row1Technologies: TechLogoItem[] = [
   },
   {
     name: 'Supabase',
+    description: 'Backend, database and authentication',
     category: 'Database & Auth',
     icon: (
       <svg className="h-6 w-6 text-[#16845a]" viewBox="0 0 24 24" fill="currentColor">
@@ -102,6 +88,7 @@ const row1Technologies: TechLogoItem[] = [
   },
   {
     name: 'Python',
+    description: 'Automation, scripting and AI workflows',
     category: 'Language & AI',
     icon: (
       <svg className="h-6 w-6" viewBox="0 0 110 110">
@@ -112,6 +99,7 @@ const row1Technologies: TechLogoItem[] = [
   },
   {
     name: 'Git',
+    description: 'Tracks code changes and versions',
     category: 'VCS',
     icon: (
       <svg className="h-6 w-6 text-[#b94b39]" viewBox="0 0 24 24" fill="currentColor">
@@ -121,6 +109,7 @@ const row1Technologies: TechLogoItem[] = [
   },
   {
     name: 'Vite',
+    description: 'Fast development and build tooling',
     category: 'Build Tool',
     icon: (
       <svg className="h-6 w-6" viewBox="0 0 32 32">
@@ -134,6 +123,7 @@ const row1Technologies: TechLogoItem[] = [
 const row2Technologies: TechLogoItem[] = [
   {
     name: 'Express.js',
+    description: 'Builds backend routes and APIs',
     category: 'Backend',
     icon: (
       <svg className="h-6 w-6 fill-current text-[#24221f]" viewBox="0 0 24 24">
@@ -143,6 +133,7 @@ const row2Technologies: TechLogoItem[] = [
   },
   {
     name: 'Firebase',
+    description: 'Hosted database, auth and app services',
     category: 'Cloud & Auth',
     icon: (
       <svg className="h-6 w-6 text-[#24221f]" viewBox="0 0 24 24" fill="currentColor">
@@ -152,6 +143,7 @@ const row2Technologies: TechLogoItem[] = [
   },
   {
     name: 'MongoDB',
+    description: 'Stores application data as documents',
     category: 'Database',
     icon: (
       <svg className="h-6 w-6 text-[#5c4b79]" viewBox="0 0 24 24" fill="currentColor">
@@ -161,6 +153,7 @@ const row2Technologies: TechLogoItem[] = [
   },
   {
     name: 'JavaScript',
+    description: 'Powers interactive web functionality',
     category: 'Language',
     icon: (
       <svg className="h-6 w-6" viewBox="0 0 128 128">
@@ -171,6 +164,7 @@ const row2Technologies: TechLogoItem[] = [
   },
   {
     name: 'Framer Motion',
+    description: 'Creates animations and transitions',
     category: 'Animation',
     icon: (
       <svg className="h-6 w-6 text-[#5c4b79]" viewBox="0 0 24 24" fill="currentColor">
@@ -180,6 +174,7 @@ const row2Technologies: TechLogoItem[] = [
   },
   {
     name: 'GitHub',
+    description: 'Hosts code and team collaboration',
     category: 'DevOps',
     icon: (
       <svg className="h-6 w-6 fill-current text-[#24221f]" viewBox="0 0 24 24">
@@ -189,6 +184,7 @@ const row2Technologies: TechLogoItem[] = [
   },
   {
     name: 'Gemini AI API',
+    description: 'Connects apps to Google's AI models',
     category: 'AI / LLMs',
     icon: (
       <svg className="h-6 w-6 text-[#5c4b79]" viewBox="0 0 24 24" fill="currentColor">
@@ -198,6 +194,7 @@ const row2Technologies: TechLogoItem[] = [
   },
   {
     name: 'REST APIs',
+    description: 'Lets separate services exchange data',
     category: 'Architecture',
     icon: (
       <svg className="h-6 w-6 text-[#24221f]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -208,6 +205,7 @@ const row2Technologies: TechLogoItem[] = [
   },
   {
     name: 'Vercel',
+    description: 'Deploys websites and web applications',
     category: 'Deployment',
     icon: (
       <svg className="h-6 w-6 fill-current text-[#24221f]" viewBox="0 0 24 24">
@@ -225,20 +223,17 @@ export function TechStackSlider() {
         {row1Technologies.map((tech) => (
           <div
             key={tech.name}
-            className="group flex h-14 w-52 shrink-0 items-center gap-4 rounded-2xl border-2 border-[#29251f] bg-[#fffdf7] px-4 shadow-[3px_3px_0_#29251f] transition-all hover:-translate-y-0.5 hover:shadow-[4px_4px_0_#29251f]"
+            className="group flex h-[76px] w-56 shrink-0 items-center gap-4 rounded-2xl border-2 border-[#29251f] bg-[#fffdf7] px-4 shadow-[3px_3px_0_#29251f] transition-all hover:-translate-y-0.5 hover:shadow-[4px_4px_0_#29251f]"
           >
-            <div className="flex h-10 w-10 shrink-0 items-center justify-center overflow-visible rounded-xl border border-[#ded8cc] bg-white p-1.5 group-hover:scale-105 transition-transform">
-              {techLogoUrls[tech.name] ? (
-                <img src={techLogoUrls[tech.name]} alt={`${tech.name} logo`} loading="lazy" decoding="async" className="tech-brand-image" />
-              ) : tech.icon}
+            <div className="flex h-11 w-11 shrink-0 items-center justify-center overflow-visible rounded-xl border border-[#ded8cc] bg-white p-1.5 group-hover:scale-105 transition-transform">
+              {tech.icon}
             </div>
             <div className="min-w-0">
-              <span className="block truncate text-xs font-semibold text-[#F5EAF5] group-hover:text-[#24221f] transition-colors">
+              <span className="block truncate text-xs font-semibold text-[#24221f]">
                 {tech.name}
               </span>
-              <span className="block truncate text-[10px] font-mono uppercase tracking-wide text-[#696257]">
-                {tech.category}
-              </span>
+              <span className="block truncate text-[10px] font-mono uppercase tracking-wide text-[#696257]">{tech.category}</span>
+              <span className="mt-1 block truncate text-[10px] leading-tight text-[#696257]">{tech.description}</span>
             </div>
           </div>
         ))}
@@ -252,17 +247,14 @@ export function TechStackSlider() {
               className="group flex h-14 w-52 shrink-0 items-center gap-4 rounded-2xl border-2 border-[#29251f] bg-[#fffdf7] px-4 shadow-[3px_3px_0_#29251f] transition-all hover:-translate-y-0.5 hover:shadow-[4px_4px_0_#29251f]"
             >
               <div className="flex h-10 w-10 shrink-0 items-center justify-center overflow-visible rounded-xl border border-[#ded8cc] bg-white p-1.5 group-hover:scale-105 transition-transform">
-                {techLogoUrls[tech.name] ? (
-                <img src={techLogoUrls[tech.name]} alt={`${tech.name} logo`} loading="lazy" decoding="async" className="tech-brand-image" />
-              ) : tech.icon}
+                {tech.icon}
               </div>
               <div className="min-w-0">
-                <span className="block truncate text-xs font-semibold text-[#F5EAF5] group-hover:text-[#5c4b79] transition-colors">
+                <span className="block truncate text-xs font-semibold text-[#24221f]">
                   {tech.name}
                 </span>
-                <span className="block truncate text-[10px] font-mono uppercase tracking-wide text-[#696257]">
-                  {tech.category}
-                </span>
+                <span className="block truncate text-[10px] font-mono uppercase tracking-wide text-[#696257]">{tech.category}</span>
+                <span className="mt-1 block truncate text-[10px] leading-tight text-[#696257]">{tech.description}</span>
               </div>
             </div>
           ))}
