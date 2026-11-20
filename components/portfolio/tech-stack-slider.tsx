@@ -1,7 +1,6 @@
 'use client';
 
 import React from 'react';
-import { InfiniteSlider } from '@/components/core/infinite-slider';
 
 export interface TechLogoItem {
   name: string;
@@ -219,10 +218,11 @@ export function TechStackSlider() {
   return (
     <div className="tech-stack-slider w-full min-w-0 overflow-hidden py-3">
       {/* Single compact forward Infinite Scroll line for footer */}
-      <InfiniteSlider gap={12} duration={28}>
-        {row1Technologies.map((tech) => (
+      <div className="tech-marquee-row">
+        <div className="tech-marquee-track tech-marquee-track-forward">
+        {[...row1Technologies, ...row1Technologies].map((tech, index) => (
           <div
-            key={tech.name}
+            key={`${tech.name}-${index}`}
             className="tech-stack-card group flex h-[82px] w-[260px] shrink-0 items-center gap-4 rounded-2xl border-2 border-[#29251f] bg-[#fffdf7] px-4 shadow-[3px_3px_0_#29251f] transition-transform hover:-translate-y-0.5"
           >
             <div className="tech-stack-card__icon flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-[#ded8cc] bg-white p-1.5">
@@ -237,28 +237,31 @@ export function TechStackSlider() {
             </div>
           </div>
         ))}
-      </InfiniteSlider>
+      </div>
+      </div>
 
       <div className="mt-2">
-        <InfiniteSlider gap={12} reverse duration={30}>
-          {row2Technologies.map((tech) => (
+        <div className="tech-marquee-row">
+          <div className="tech-marquee-track tech-marquee-track-reverse">
+          {[...row2Technologies, ...row2Technologies].map((tech, index) => (
             <div
               key={tech.name}
-              className="group flex h-[76px] w-56 shrink-0 items-center gap-4 rounded-2xl border-2 border-[#29251f] bg-[#fffdf7] px-4 shadow-[3px_3px_0_#29251f] transition-all hover:-translate-y-0.5 hover:shadow-[4px_4px_0_#29251f]"
+              className="tech-stack-card group flex h-[82px] w-[260px] shrink-0 items-center gap-4 rounded-2xl border-2 border-[#29251f] bg-[#fffdf7] px-4 shadow-[3px_3px_0_#29251f] transition-transform hover:-translate-y-0.5"
             >
               <div className="tech-stack-card__icon flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-[#ded8cc] bg-white p-1.5">
                 {tech.icon}
               </div>
-              <div className="min-w-0">
-                <span className="block truncate text-xs font-semibold text-[#24221f]">
+              <div className="tech-stack-card__content min-w-0 flex-1">
+                <span className="tech-stack-card__name block text-xs font-semibold text-[#24221f]">
                   {tech.name}
                 </span>
-                <span className="block truncate text-[10px] font-mono uppercase tracking-wide text-[#696257]">{tech.category}</span>
-                <span className="mt-1 block truncate text-[10px] leading-tight text-[#696257]">{tech.description}</span>
+                <span className="tech-stack-card__category block text-[10px] font-mono uppercase tracking-wide text-[#696257]">{tech.category}</span>
+                <span className="tech-stack-card__description mt-1 block text-[10px] leading-tight text-[#696257]">{tech.description}</span>
               </div>
             </div>
           ))}
-        </InfiniteSlider>
+        </div>
+        </div>
       </div>
     </div>
   );
