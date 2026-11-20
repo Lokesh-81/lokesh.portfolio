@@ -61,7 +61,6 @@ export function ContactSection() {
   });
   const [status, setStatus] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle');
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
-  const [isTextareaFocused, setIsTextareaFocused] = useState(false);
   const [isTextareaTyping, setIsTextareaTyping] = useState(false);
   const [isFormTyping, setIsFormTyping] = useState(false);
   const typingTimerRef = useRef<NodeJS.Timeout | null>(null);
@@ -198,7 +197,7 @@ export function ContactSection() {
             <motion.div
               className="pointer-events-none absolute -inset-0.5 rounded-2xl"
               animate={{
-                opacity: isFormTyping || isTextareaFocused ? 1 : 0,
+                opacity: isFormTyping ? 1 : 0,
               }}
               transition={{
                 duration: 0.25,
@@ -251,7 +250,7 @@ export function ContactSection() {
                     }}
                     placeholder={language === 'fr' ? 'Votre Nom' : 'Your Name'}
                     disabled={status === 'submitting'}
-                    className="w-full min-h-[58px] rounded-2xl border-2 border-[#b8ad9e] bg-white px-5 py-4 text-sm text-[#24221f] placeholder:text-[#777064] focus:border-[#5c4b79] focus:outline-none focus:ring-4 focus:ring-[#d9cdf8]/70 transition-all disabled:opacity-60"
+                    className="contact-input w-full min-h-[62px] rounded-[20px] border-2 border-[#b8ad9e] bg-white px-5 py-4 text-[15px] leading-6 text-[#24221f] placeholder:text-[#777064] focus:border-[#5c4b79] focus:outline-none focus:ring-4 focus:ring-[#d9cdf8]/70 transition-all disabled:opacity-60"
                   />
                 </div>
 
@@ -269,7 +268,7 @@ export function ContactSection() {
                     }}
                     placeholder={language === 'fr' ? 'votre.email@exemple.com' : 'your.email@example.com'}
                     disabled={status === 'submitting'}
-                    className="w-full rounded-xl border border-[#35263D] bg-[#100B18] px-3.5 py-2.5 text-xs sm:text-sm text-[#F5EAF5] placeholder:text-[#A78BAF] focus:border-[#E8B8D2] focus:outline-none transition-all disabled:opacity-60"
+                    className="contact-input w-full min-h-[62px] rounded-[20px] border-2 border-[#b8ad9e] bg-white px-5 py-4 text-[15px] leading-6 text-[#24221f] placeholder:text-[#777064] focus:border-[#5c4b79] focus:outline-none focus:ring-4 focus:ring-[#d9cdf8]/70 transition-all disabled:opacity-60"
                   />
                 </div>
               </div>
@@ -283,7 +282,7 @@ export function ContactSection() {
                   type="button"
                   disabled={status === 'submitting'}
                   onClick={() => setIsTopicOpen(!isTopicOpen)}
-                  className="flex min-h-[58px] w-full items-center justify-between rounded-2xl border-2 border-[#b8ad9e] bg-white px-5 py-4 text-left text-sm text-[#24221f] focus:border-[#5c4b79] focus:outline-none focus:ring-4 focus:ring-[#d9cdf8]/70 transition-all cursor-pointer disabled:opacity-60"
+                  className="contact-input flex min-h-[62px] w-full items-center justify-between rounded-[20px] border-2 border-[#b8ad9e] bg-white px-5 py-4 text-left text-[15px] leading-6 text-[#24221f] focus:border-[#5c4b79] focus:outline-none focus:ring-4 focus:ring-[#d9cdf8]/70 transition-all cursor-pointer disabled:opacity-60"
                 >
                   <span>{form.projectType}</span>
                   <ChevronDown
@@ -348,7 +347,7 @@ export function ContactSection() {
                     rows={6}
                     required
                     value={form.message}
-                    onFocus={() => setIsTextareaFocused(true)}
+                    
                     onBlur={() => {
                       setIsTextareaFocused(false);
                       setIsTextareaTyping(false);
