@@ -192,7 +192,7 @@ export function CertificationsSection({ onNavigate }: CertificationsSectionProps
         </div>
 
         {/* Featured Showcase Card for Google Cloud Certified Professional Cloud Architect */}
-        <div className="mt-8 rounded-3xl border border-[#35263D] bg-[#1A1222]/90 p-6 sm:p-9 shadow-2xl backdrop-blur-xl relative overflow-hidden group hover:border-[#E8B8D2]/60 transition-all">
+        <div className="belvo-certification-showcase mt-8 rounded-3xl border border-[#35263D] bg-[#1A1222]/90 p-6 sm:p-9 shadow-2xl backdrop-blur-xl relative overflow-hidden group hover:border-[#E8B8D2]/60 transition-all">
           {/* Subtle Ambient Backdrop Gradients */}
           <div className="absolute top-0 right-0 w-96 h-96 bg-[radial-gradient(ellipse_at_top_right,rgba(66,133,244,0.15),transparent_70%)] pointer-events-none" />
           <div className="absolute bottom-0 left-0 w-80 h-80 bg-[radial-gradient(ellipse_at_bottom_left,rgba(249,171,0,0.1),transparent_70%)] pointer-events-none" />
@@ -359,7 +359,7 @@ export function CertificationsSection({ onNavigate }: CertificationsSectionProps
 
           <div className="relative z-10 grid gap-8 lg:grid-cols-[300px_1fr] items-start">
             {/* Left Column: Belvo Badge & Quick Verification */}
-            <button type="button" className="belvo-lor-thumbnail" onClick={() => setIsLorModalOpen(true)} aria-label="Open official Belvo Letter of Recommendation">
+            <div className="belvo-lor-thumbnail" role="button" tabIndex={0} onClick={() => setIsLorModalOpen(true)} onKeyDown={(event) => { if (event.key === "Enter" || event.key === " ") setIsLorModalOpen(true); }} aria-label="Open official Belvo Letter of Recommendation">
               <iframe src="/belvo-lor.pdf#page=1&toolbar=0&navpanes=0&scrollbar=0" title="Belvo Letter of Recommendation preview" loading="lazy" tabIndex={-1} />
               <span>OPEN OFFICIAL BELVO LETTER ↗</span>
             </button>
