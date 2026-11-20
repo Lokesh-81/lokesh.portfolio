@@ -223,17 +223,17 @@ export function TechStackSlider() {
         {row1Technologies.map((tech) => (
           <div
             key={tech.name}
-            className="group flex h-[76px] w-56 shrink-0 items-center gap-4 rounded-2xl border-2 border-[#29251f] bg-[#fffdf7] px-4 shadow-[3px_3px_0_#29251f] transition-all hover:-translate-y-0.5 hover:shadow-[4px_4px_0_#29251f]"
+            className="tech-stack-card group flex h-[82px] w-[260px] shrink-0 items-center gap-4 rounded-2xl border-2 border-[#29251f] bg-[#fffdf7] px-4 shadow-[3px_3px_0_#29251f] transition-transform hover:-translate-y-0.5"
           >
-            <div className="flex h-11 w-11 shrink-0 items-center justify-center overflow-visible rounded-xl border border-[#ded8cc] bg-white p-1.5 group-hover:scale-105 transition-transform">
+            <div className="tech-stack-card__icon flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-[#ded8cc] bg-white p-1.5">
               {tech.icon}
             </div>
-            <div className="min-w-0">
-              <span className="block truncate text-xs font-semibold text-[#24221f]">
+            <div className="tech-stack-card__content min-w-0 flex-1">
+              <span className="tech-stack-card__name block text-xs font-semibold text-[#24221f]">
                 {tech.name}
               </span>
-              <span className="block truncate text-[10px] font-mono uppercase tracking-wide text-[#696257]">{tech.category}</span>
-              <span className="mt-1 block truncate text-[10px] leading-tight text-[#696257]">{tech.description}</span>
+              <span className="tech-stack-card__category block text-[10px] font-mono uppercase tracking-wide text-[#696257]">{tech.category}</span>
+              <span className="tech-stack-card__description mt-1 block text-[10px] leading-tight text-[#696257]">{tech.description}</span>
             </div>
           </div>
         ))}
@@ -246,7 +246,7 @@ export function TechStackSlider() {
               key={tech.name}
               className="group flex h-[76px] w-56 shrink-0 items-center gap-4 rounded-2xl border-2 border-[#29251f] bg-[#fffdf7] px-4 shadow-[3px_3px_0_#29251f] transition-all hover:-translate-y-0.5 hover:shadow-[4px_4px_0_#29251f]"
             >
-              <div className="flex h-10 w-10 shrink-0 items-center justify-center overflow-visible rounded-xl border border-[#ded8cc] bg-white p-1.5 group-hover:scale-105 transition-transform">
+              <div className="tech-stack-card__icon flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-[#ded8cc] bg-white p-1.5">
                 {tech.icon}
               </div>
               <div className="min-w-0">
