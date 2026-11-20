@@ -3,6 +3,27 @@
 import React from 'react';
 import { InfiniteSlider } from '@/components/core/infinite-slider';
 
+const techLogoUrls: Record<string, string> = {
+  'React': 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg',
+  'Next.js': 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nextjs/nextjs-original.svg',
+  'TypeScript': 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/typescript/typescript-original.svg',
+  'Node.js': 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original.svg',
+  'Tailwind CSS': 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/tailwindcss/tailwindcss-original.svg',
+  'Supabase': 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/supabase/supabase-original.svg',
+  'Python': 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg',
+  'Git': 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/git/git-original.svg',
+  'Vite': 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/vitejs/vitejs-original.svg',
+  'Express.js': 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/express/express-original.svg',
+  'Firebase': 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/firebase/firebase-plain.svg',
+  'MongoDB': 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mongodb/mongodb-original.svg',
+  'JavaScript': 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg',
+  'Framer Motion': 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/framermotion/framermotion-original.svg',
+  'GitHub': 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg',
+  'Gemini AI API': 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/google/google-original.svg',
+  'REST APIs': '',
+  'Vercel': '',
+};
+
 export interface TechLogoItem {
   name: string;
   category: string;
@@ -207,7 +228,9 @@ export function TechStackSlider() {
             className="group flex h-14 w-48 shrink-0 items-center gap-3 rounded-2xl border-2 border-[#29251f] bg-[#fffdf7] px-3.5 shadow-[3px_3px_0_#29251f] transition-all hover:-translate-y-0.5 hover:shadow-[4px_4px_0_#29251f]"
           >
             <div className="flex h-10 w-10 shrink-0 items-center justify-center overflow-visible rounded-xl border border-[#ded8cc] bg-white p-1.5 group-hover:scale-105 transition-transform">
-              {tech.icon}
+              {techLogoUrls[tech.name] ? (
+                <img src={techLogoUrls[tech.name]} alt={`${tech.name} logo`} loading="lazy" decoding="async" className="tech-brand-image" />
+              ) : tech.icon}
             </div>
             <div className="min-w-0">
               <span className="block truncate text-xs font-semibold text-[#F5EAF5] group-hover:text-[#24221f] transition-colors">
@@ -229,7 +252,9 @@ export function TechStackSlider() {
               className="group flex h-14 w-48 shrink-0 items-center gap-3 rounded-2xl border-2 border-[#29251f] bg-[#fffdf7] px-3.5 shadow-[3px_3px_0_#29251f] transition-all hover:-translate-y-0.5 hover:shadow-[4px_4px_0_#29251f]"
             >
               <div className="flex h-10 w-10 shrink-0 items-center justify-center overflow-visible rounded-xl border border-[#ded8cc] bg-white p-1.5 group-hover:scale-105 transition-transform">
-                {tech.icon}
+                {techLogoUrls[tech.name] ? (
+                <img src={techLogoUrls[tech.name]} alt={`${tech.name} logo`} loading="lazy" decoding="async" className="tech-brand-image" />
+              ) : tech.icon}
               </div>
               <div className="min-w-0">
                 <span className="block truncate text-xs font-semibold text-[#F5EAF5] group-hover:text-[#5c4b79] transition-colors">
