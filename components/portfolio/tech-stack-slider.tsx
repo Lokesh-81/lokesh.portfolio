@@ -244,7 +244,7 @@ export function TechStackSlider() {
           {row2Technologies.map((tech) => (
             <div
               key={tech.name}
-              className="group flex h-14 w-52 shrink-0 items-center gap-4 rounded-2xl border-2 border-[#29251f] bg-[#fffdf7] px-4 shadow-[3px_3px_0_#29251f] transition-all hover:-translate-y-0.5 hover:shadow-[4px_4px_0_#29251f]"
+              className="group flex h-[76px] w-56 shrink-0 items-center gap-4 rounded-2xl border-2 border-[#29251f] bg-[#fffdf7] px-4 shadow-[3px_3px_0_#29251f] transition-all hover:-translate-y-0.5 hover:shadow-[4px_4px_0_#29251f]"
             >
               <div className="flex h-10 w-10 shrink-0 items-center justify-center overflow-visible rounded-xl border border-[#ded8cc] bg-white p-1.5 group-hover:scale-105 transition-transform">
                 {tech.icon}
