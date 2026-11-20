@@ -73,6 +73,25 @@ function PortfolioContent() {
 
   useEffect(() => {
     if (isStudioRoute) return;
+    const sections = document.querySelectorAll<HTMLElement>('.portfolio-section, .portfolio-contact-stage');
+    if (!('IntersectionObserver' in window)) {
+      sections.forEach((section) => section.classList.add('sk-revealed'));
+      return;
+    }
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('sk-revealed');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -6% 0px' });
+    sections.forEach((section) => observer.observe(section));
+    return () => observer.disconnect();
+  }, [isStudioRoute]);
+
+  useEffect(() => {
+    if (isStudioRoute) return;
     const updateActiveSection = () => {
       const marker = window.innerHeight * 0.38;
       let current: SectionId = 'home';
