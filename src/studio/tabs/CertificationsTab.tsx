@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import { usePortfolio } from '@/lib/portfolio-context';
 import { uploadMediaToSupabase } from '@/lib/supabase';
 import { toGoogleDriveImageUrl } from '../google-drive';
+import { StudioDropzone } from '../StudioDropzone';
 import type { CertificationItem, SkillBadgeItem } from '@/lib/portfolio-types';
 import {
   Plus,
@@ -76,8 +77,7 @@ export function CertificationsTab({ showToast }: CertificationsTabProps) {
     }
   };
 
-  const handleCertBadgeUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
+  const handleCertBadgeUpload = async (file: File | undefined) => {
     if (!file || !editingCert) return;
 
     setIsUploadingCert(true);
@@ -397,17 +397,15 @@ export function CertificationsTab({ showToast }: CertificationsTabProps) {
               <div>
                 <label className="block text-xs font-medium text-[#CBD5E1] mb-1">Badge Image / Vector</label>
                 <div className="flex items-center gap-3">
-                  <label className="inline-flex items-center gap-2 rounded-xl border border-[#1F2937] bg-[#0B132B] px-4 py-2 text-xs font-medium text-[#CBD5E1] hover:border-[#60A5FA] hover:text-[#60A5FA] cursor-pointer transition-all">
-                    <Upload className="h-3.5 w-3.5" />
-                    <span>{isUploadingCert ? 'Uploading...' : 'Upload Badge'}</span>
-                    <input
-                      type="file"
-                      accept="image/*"
-                      onChange={handleCertBadgeUpload}
-                      className="hidden"
-                      disabled={isUploadingCert}
-                    />
-                  </label>
+                  <StudioDropzone
+                    accept="image/*"
+                    title={isUploadingCert ? 'Uploading badge…' : 'Drop certification badge here'}
+                    description="Drag & drop an image, or browse files"
+                    disabled={isUploadingCert}
+                    compact
+                    onFiles={(files) => void handleCertBadgeUpload(files[0])}
+                    className="flex-1"
+                  />
                   <input
                     type="text"
                     value={editingCert.badgeUrl || ''}
