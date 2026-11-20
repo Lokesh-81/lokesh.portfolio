@@ -994,3 +994,11 @@ html,body{background:var(--sk-paper)!important;color:var(--sk-ink)!important}
     grid-template-columns:minmax(0,1fr)!important;
   }
 }
+
+
+/* Give the label room after the logo; override the older fixed 192px card rule. */
+.tech-stack-slider>div>div>div,
+.skills-marquee-panel .tech-stack-slider .group>div>div {
+  flex-basis:208px!important;width:208px!important;min-width:208px!important;
+  gap:16px!important;padding-left:14px!important;padding-right:14px!important;
+}
