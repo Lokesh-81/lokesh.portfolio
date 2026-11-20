@@ -600,8 +600,29 @@ export function PortfolioProvider({ children }: { children: React.ReactNode }) {
 
     // Commit to the remote database first. Only update the UI/cache after Supabase confirms it.
     await persistSupabaseWrite(supabase.from('certifications').upsert([{
-      ...item,
-      expiry_date: null,
+      id: item.id,
+      title: item.title,
+      badge_title: item.badgeTitle || null,
+      subtitle: item.subtitle || null,
+      recipient: item.recipient || null,
+      certified_as: item.certifiedAs || null,
+      issuer: item.issuer,
+      issuer_logo: item.issuerLogo || null,
+      series_id: item.seriesId || null,
+      issue_date: item.issueDate || null,
+      expiration_date: null,
+      credential_id: item.credentialId || null,
+      verification_url: item.verificationUrl || item.credentialUrl || null,
+      signatory: item.signatory || {},
+      status: item.status || 'Active',
+      badge_image: item.badgeImage || item.badgeUrl || null,
+      is_featured: item.featured ?? true,
+      is_published: true,
+      description: item.description || null,
+      domains: item.domains || [],
+      technologies: item.technologies || [],
+      exam_scope: item.examScope || [],
+      display_order: item.display_order ?? item.sortOrder ?? item.order ?? 0,
     }]))
     setCertifications(updated)
     setLocal(CACHE_KEYS.CERTIFICATIONS, updated)
