@@ -133,7 +133,7 @@ export function CertificationsSection({ onNavigate }: CertificationsSectionProps
               <Award className="h-5 w-5 text-[#F9AB00]" />
             </div>
             <div>
-              <div className="text-xl sm:text-2xl font-bold text-[#F5EAF5]">1</div>
+              <div className="credential-stat-value text-xl sm:text-2xl font-bold text-[#F5EAF5]">1</div>
               <div className="text-[11px] text-[#BDA9C4] font-mono">
                 {t('certifications.stat.cert') || 'Professional Cert'}
               </div>
@@ -145,7 +145,7 @@ export function CertificationsSection({ onNavigate }: CertificationsSectionProps
               <FileCheck2 className="h-5 w-5 text-purple-400" />
             </div>
             <div>
-              <div className="text-xl sm:text-2xl font-bold text-purple-300">1</div>
+              <div className="credential-stat-value text-xl sm:text-2xl font-bold text-purple-300">1</div>
               <div className="text-[11px] text-purple-300 font-mono">
                 Official LOR (Belvo)
               </div>
@@ -157,7 +157,7 @@ export function CertificationsSection({ onNavigate }: CertificationsSectionProps
               <Boxes className="h-5 w-5 text-[#E8B8D2]" />
             </div>
             <div>
-              <div className="text-xl sm:text-2xl font-bold text-[#F5EAF5]">{skillBadges.length}</div>
+              <div className="credential-stat-value text-xl sm:text-2xl font-bold text-[#F5EAF5]">{skillBadges.length}</div>
               <div className="text-[11px] text-[#BDA9C4] font-mono">
                 {t('certifications.stat.badges') || 'Official Badges'}
               </div>
@@ -359,10 +359,10 @@ export function CertificationsSection({ onNavigate }: CertificationsSectionProps
 
           <div className="relative z-10 grid gap-8 lg:grid-cols-[300px_1fr] items-start">
             {/* Left Column: Belvo Badge & Quick Verification */}
-            <div className="belvo-lor-thumbnail" role="button" tabIndex={0} onClick={() => setIsLorModalOpen(true)} onKeyDown={(event) => { if (event.key === 'Enter' || event.key === ' ') setIsLorModalOpen(true); }} aria-label="Preview Belvo Letter of Recommendation">
-              <img src="/belvo-lor-page.svg" alt="Preview of the official Belvo Letter of Recommendation issued to P. Lokesh" loading="lazy" />
-              <span>OFFICIAL BELVO LETTER · PREVIEW ↗</span>
-            </div>
+            <button type="button" className="belvo-lor-thumbnail" onClick={() => setIsLorModalOpen(true)} aria-label="Open official Belvo Letter of Recommendation">
+              <iframe src="/belvo-lor.pdf#page=1&toolbar=0&navpanes=0&scrollbar=0" title="Belvo Letter of Recommendation preview" loading="lazy" tabIndex={-1} />
+              <span>OPEN OFFICIAL BELVO LETTER ↗</span>
+            </button>
 
             <div className="flex flex-col items-center text-center p-5 rounded-2xl border border-purple-500/30 bg-[#100B18]/80 shadow-inner">
               <div
@@ -371,12 +371,9 @@ export function CertificationsSection({ onNavigate }: CertificationsSectionProps
                 title="Click to view full Letter of Recommendation (PDF)"
               >
                 {/* Belvo Emblem */}
-                <div className="h-20 w-20 rounded-2xl bg-purple-600/20 border border-purple-500/40 flex items-center justify-center text-purple-300 shadow-md mb-2">
-                  <FileCheck2 className="h-10 w-10 text-purple-400" />
-                </div>
-                <span className="font-extrabold text-sm tracking-wider text-purple-300">
-                  BELVO COMPANY
-                </span>
+                <div className="belvo-wordmark-mark" aria-hidden="true">B</div>
+                <span className="belvo-wordmark">BELVO</span>
+                <span className="belvo-wordmark-sub">COMPANY</span>
                 <span className="text-[10px] text-[#D8B4E8]/70 uppercase tracking-widest font-mono">
                   Goregaon, Mumbai
                 </span>
@@ -586,7 +583,7 @@ export function CertificationsSection({ onNavigate }: CertificationsSectionProps
                   >
                     <span>{cat}</span>
                     <span
-                      className={`text-[10px] font-mono px-1.5 py-0.2 rounded-full ${
+                      className={`credential-category-count text-[10px] font-mono px-1.5 py-0.2 rounded-full ${
                         isSelected ? 'bg-white/20 text-white' : 'bg-[#35263D] text-[#BDA9C4]'
                       }`}
                     >
