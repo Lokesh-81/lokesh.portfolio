@@ -806,7 +806,7 @@ ${lorFormData.role}`;
                     {lorFormData.issuer} — {lorFormData.title}
                   </span>
                   <span className="hidden sm:inline-block h-3.5 w-px bg-[#1F2937]" />
-                  <span className="text-[11px] text-[#A5B4FC]/80 hidden sm:inline">
+                  <span className="text-[11px] text-[#716B62]/80 hidden sm:inline">
                     Issued by <strong className="text-white">{lorFormData.issuedBy}</strong> ({lorFormData.role})
                   </span>
                 </div>
@@ -954,7 +954,7 @@ ${lorFormData.role}`;
       {activeSubTab === 'uploads' && (
         <div className="space-y-6">
           {/* Active Public Resume Card */}
-          <div className="rounded-2xl border border-[#2563EB]/40 bg-gradient-to-r from-[#2563EB]/15 to-[#0B132B] p-6">
+          <div className="rounded-2xl border border-[#2563EB]/40 bg-[#F1EAE0] p-6">
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
               <div className="flex items-center gap-4">
                 <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-[#2563EB]/30 text-[#60A5FA]">
@@ -967,7 +967,7 @@ ${lorFormData.role}`;
                       Currently Live Public Resume
                     </span>
                     {activeResume?.version && (
-                      <span className="text-[10px] font-mono text-[#A5B4FC]">
+                      <span className="text-[10px] font-mono text-[#716B62]">
                         {activeResume.version}
                       </span>
                     )}
@@ -1552,7 +1552,7 @@ ${lorFormData.role}`;
                 </div>
                 <div>
                   <h3 className="text-sm font-semibold text-[#E0E7FF]">{previewModalDoc.title}</h3>
-                  <p className="text-[11px] font-mono text-[#A5B4FC]/70">
+                  <p className="text-[11px] font-mono text-[#716B62]/70">
                     Native Unblocked Document Preview
                   </p>
                 </div>
