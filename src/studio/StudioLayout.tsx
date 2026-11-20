@@ -207,7 +207,7 @@ export function StudioLayout({ onExitStudio }: StudioLayoutProps) {
         <footer className="studio-footer">Portfolio Studio <span>·</span> Your content workspace</footer>
       </main>
     </div>
-    <style>{\`
+    <style>{`
       .studio-root{--ink:#1d2942;display:flex;width:100%;height:100vh;min-height:600px;overflow:hidden;background:radial-gradient(ellipse at 78% -18%,rgba(190,205,255,.58),transparent 36%),radial-gradient(ellipse at 7% 100%,rgba(246,220,235,.5),transparent 31%),#f5f7fc;color:var(--ink);font-family:Inter,'Plus Jakarta Sans',ui-sans-serif,system-ui,sans-serif}
       .studio-sidebar{width:270px;flex:0 0 270px;display:flex;flex-direction:column;min-height:0;padding:21px 14px 13px;background:rgba(255,255,255,.9);border-right:1px solid #e5eaf2;backdrop-filter:blur(24px);transition:width .22s,flex-basis .22s}
       .studio-sidebar.is-collapsed{width:78px;flex-basis:78px;padding-inline:9px}
@@ -243,6 +243,6 @@ export function StudioLayout({ onExitStudio }: StudioLayoutProps) {
       .studio-root input:not([type=checkbox]):not([type=radio]),.studio-root textarea,.studio-root select{background-color:#fff!important;color:#26344f!important;border-color:#dfe5ef!important}.studio-root input::placeholder,.studio-root textarea::placeholder{color:#9aa5b6!important}
       @media(max-width:1023px){.studio-sidebar{display:none}.studio-topbar{padding:11px 16px}.studio-mobile-menu{display:grid}.studio-collapse-button{display:none}.studio-mobile-overlay{display:block;position:fixed;inset:0;z-index:80;background:#1c274040;backdrop-filter:blur(5px)}.studio-mobile-sidebar{display:flex;position:absolute;inset:0 auto 0 0;width:min(320px,88vw);flex-direction:column;padding:14px;background:#fff;box-shadow:20px 0 60px #1e2b4829}.studio-mobile-close{align-self:flex-end;display:grid;place-items:center;width:30px;height:30px;margin-bottom:4px;border:1px solid #e5eaf2;border-radius:9px;color:#6e7d95}.studio-topbar-actions{gap:7px}.studio-connection-pill{display:none}.studio-content{padding:20px 16px}.studio-shortcut{display:none}}
       @media(max-width:640px){.studio-topbar{align-items:flex-start;min-height:68px;padding:10px}.studio-topbar-left{gap:7px}.studio-page-description{display:none}.studio-breadcrumb{padding-top:7px}.studio-topbar-actions{gap:5px}.studio-secondary-button,.studio-primary-button{height:32px;padding:0 8px;font-size:9px}.studio-primary-button svg:last-child{display:none}.studio-content-heading h1{font-size:22px}.studio-backend-alert{flex-wrap:wrap}.studio-backend-alert button{margin-left:42px}}
-    \`}</style>
+    `}</style>
   </div>;
 }
