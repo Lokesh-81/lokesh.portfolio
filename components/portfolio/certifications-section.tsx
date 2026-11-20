@@ -362,7 +362,7 @@ export function CertificationsSection({ onNavigate }: CertificationsSectionProps
             <div className="belvo-lor-thumbnail" role="button" tabIndex={0} onClick={() => setIsLorModalOpen(true)} onKeyDown={(event) => { if (event.key === "Enter" || event.key === " ") setIsLorModalOpen(true); }} aria-label="Open official Belvo Letter of Recommendation">
               <iframe src="/belvo-lor.pdf#page=1&toolbar=0&navpanes=0&scrollbar=0" title="Belvo Letter of Recommendation preview" loading="lazy" tabIndex={-1} />
               <span>OPEN OFFICIAL BELVO LETTER ↗</span>
-            </button>
+            </div>
 
             <div className="flex flex-col items-center text-center p-5 rounded-2xl border border-purple-500/30 bg-[#100B18]/80 shadow-inner">
               <div
