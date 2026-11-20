@@ -38,14 +38,14 @@ const getEnvVar = (key: string, fallback: string): string => {
 export const SUPABASE_URL =
   getEnvVar('VITE_SUPABASE_URL', '') ||
   getEnvVar('NEXT_PUBLIC_SUPABASE_URL', '') ||
-  'https://xkkwfrwamvictgrhepgg.supabase.co';
+  'https://lkggpjbeyozonhrcivg.supabase.co';
 
 export const SUPABASE_ANON_KEY =
   getEnvVar('VITE_SUPABASE_ANON_KEY', '') ||
   getEnvVar('NEXT_PUBLIC_SUPABASE_ANON_KEY', '') ||
-  'sb_publishable_2nLc2vuaV6KJQM5VODAAGg_X2NrdvH6';
+  '';
 
-export const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
+export const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY || 'missing-supabase-publishable-key', {
   auth: {
     persistSession: false,
     autoRefreshToken: false,
@@ -82,7 +82,7 @@ export function getSupabaseDiagnostics(): {
     hasUrl,
     hasAnonKey,
     url: SUPABASE_URL,
-    source: (import.meta as any).env?.VITE_SUPABASE_URL ? 'VITE_SUPABASE_URL' : 'Default Project Endpoint',
+    source: (import.meta as any).env?.VITE_SUPABASE_URL ? 'VITE_SUPABASE_URL' : (import.meta as any).env?.NEXT_PUBLIC_SUPABASE_URL ? 'NEXT_PUBLIC_SUPABASE_URL' : 'Portfolio project fallback',
     message,
   };
 }
@@ -1052,7 +1052,7 @@ export async function testSupabaseConnection(): Promise<{
     return {
       connected: false,
       error: diag.message,
-      diagnostic: 'Please configure VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY in your deployment environment.',
+      diagnostic: !diag.hasAnonKey ? 'Missing VITE_SUPABASE_ANON_KEY. Add the Supabase publishable/anon key to the Vercel environment for this branch, then redeploy.' : 'Please configure VITE_SUPABASE_URL in your deployment environment.'
     };
   }
 
