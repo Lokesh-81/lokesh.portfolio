@@ -84,6 +84,7 @@ export interface PortfolioContextValue {
   mediaItems: MediaItem[]
   loading: boolean
   supabaseStatus: 'connected' | 'cached' | 'syncing'
+  supabaseDiagnostic: string | null
   isSupabaseConnected: boolean
 
   // Auth
@@ -204,6 +205,7 @@ export function PortfolioProvider({ children }: { children: React.ReactNode }) {
   const [mediaItems, setMediaItems] = useState<MediaItem[]>([])
   const [loading, setLoading] = useState(true)
   const [supabaseStatus, setSupabaseStatus] = useState<'connected' | 'cached' | 'syncing'>('cached')
+  const [supabaseDiagnostic, setSupabaseDiagnostic] = useState<string | null>('Checking Supabase connection…')
 
   const refreshAll = useCallback(async () => {
     setLoading(true)
@@ -233,16 +235,19 @@ export function PortfolioProvider({ children }: { children: React.ReactNode }) {
       try {
         const backendCheck = await testSupabaseConnection()
         setSupabaseStatus(backendCheck.connected ? 'connected' : 'cached')
+        setSupabaseDiagnostic(backendCheck.connected ? null : (backendCheck.diagnostic || backendCheck.error || 'Supabase connection failed.'))
         if (!backendCheck.connected) {
           console.warn('[Portfolio Backend] Supabase database check failed:', backendCheck.diagnostic || backendCheck.error)
         }
       } catch (backendError) {
         setSupabaseStatus('cached')
+        setSupabaseDiagnostic(backendError instanceof Error ? backendError.message : 'Supabase health check failed.')
         console.warn('[Portfolio Backend] Supabase health check failed:', backendError)
       }
     } catch (e: any) {
       console.debug("[Portfolio] Default dataset active:", e?.message || e)
       setSupabaseStatus('cached')
+      setSupabaseDiagnostic(e?.message || 'Portfolio data loaded from local cache.')
     } finally {
       setLoading(false)
     }
@@ -1077,6 +1082,7 @@ export function PortfolioProvider({ children }: { children: React.ReactNode }) {
         mediaItems,
         loading,
         supabaseStatus,
+        supabaseDiagnostic,
         isSupabaseConnected: supabaseStatus === 'connected',
         isAdminAuthenticated,
         isAuthLoading,
