@@ -186,8 +186,17 @@ const row2Technologies: TechLogoItem[] = [
     description: "Connects apps to Google AI models",
     category: 'AI / LLMs',
     icon: (
-      <svg className="h-6 w-6 text-[#5c4b79]" viewBox="0 0 24 24" fill="currentColor">
-        <path d="M12 2L14.4 8.6L21 11L14.4 13.4L12 20L9.6 13.4L3 11L9.6 8.6L12 2Z" />
+      <svg className="h-7 w-7" viewBox="0 0 24 24" fill="url(#gemini-brand-gradient)">
+        <defs>
+          <linearGradient id="gemini-brand-gradient" x1="2" y1="22" x2="22" y2="2" gradientUnits="userSpaceOnUse">
+            <stop offset="0" stopColor="#4285F4" />
+            <stop offset="0.28" stopColor="#34A853" />
+            <stop offset="0.55" stopColor="#FBBC04" />
+            <stop offset="0.78" stopColor="#EA4335" />
+            <stop offset="1" stopColor="#4285F4" />
+          </linearGradient>
+        </defs>
+        <path d="M11.04 19.32Q12 21.51 12 24q0-2.49.93-4.68.96-2.19 2.58-3.81t3.81-2.55Q21.51 12 24 12q-2.49 0-4.68-.93a12.3 12.3 0 0 1-3.81-2.58 12.3 12.3 0 0 1-2.58-3.81Q12 2.49 12 0q0 2.49-.96 4.68-.93 2.19-2.55 3.81a12.3 12.3 0 0 1-3.81 2.58Q2.49 12 0 12q2.49 0 4.68.96 2.19.93 3.81 2.55t2.55 3.81" />
       </svg>
     ),
   },
