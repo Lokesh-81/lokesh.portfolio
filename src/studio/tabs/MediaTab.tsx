@@ -46,6 +46,7 @@ export function MediaTab({ showToast }: MediaTabProps) {
           id: `media-${Date.now()}-${i}`,
           name: file.name,
           url: res.url,
+          path: res.path,
           size: file.size,
           mimeType: file.type,
           bucket: 'portfolio-media',
