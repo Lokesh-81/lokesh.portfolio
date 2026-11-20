@@ -116,3 +116,8 @@ html,body{background:var(--sk-paper)!important;color:var(--sk-ink)!important}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important;transition-duration:.01ms!important}}
 @media(max-width:900px){.hero-rebuild-side{animation-delay:.12s}.portfolio-section :is(article,.projects-featured-card,.skills-marquee-panel,.skills-library):hover,.portfolio-contact-stage :is(article,form):hover{transform:translateY(-2px)!important}}
 @media(max-width:600px){.portfolio-section-kicker{font-size:11px!important}.portfolio-section :is(p,li,label),.portfolio-contact-stage :is(p,li,label){font-size:1rem!important;line-height:1.55!important}.hero-rebuild-side{animation:none!important}.hero-orbit-one,.hero-orbit-two{animation-duration:35s!important}}
+
+/* True viewport-triggered section reveal (one time per visit). */
+.portfolio-section.sk-revealed>.portfolio-section-kicker,.portfolio-contact-stage.sk-revealed>.portfolio-section-kicker{animation:sk-kicker-in .55s cubic-bezier(.2,.75,.25,1) both}
+.portfolio-section.sk-revealed>div:not(.portfolio-section-kicker),.portfolio-contact-stage.sk-revealed>div:not(.portfolio-section-kicker){animation:sk-content-in .72s .08s cubic-bezier(.2,.75,.25,1) both}
+.portfolio-section.sk-revealed .projects-filter-row,.portfolio-section.sk-revealed .projects-featured-layout,.portfolio-section.sk-revealed .skills-summary-strip,.portfolio-section.sk-revealed .skills-library,.portfolio-section.sk-revealed .skills-marquee-panel{animation:sk-content-in .7s .16s ease-out both}
