@@ -320,11 +320,15 @@ body { margin: 0; background: var(--paper); color: var(--ink); }
 .studio-workspace [class*="rounded-2xl"][class*="border"],.studio-workspace [class*="rounded-3xl"][class*="border"]{border-color:#e7ded3!important;box-shadow:0 8px 28px #4b34200a}
 .studio-workspace h1,.studio-workspace h2,.studio-workspace h3{color:#292522}
 .studio-workspace p{color:#81766d}
-.studio-workspace .text-\[\#E0E7FF\],.studio-workspace .text-\[\#CBD5E1\],.studio-workspace .text-white{color:#292522!important}
+.studio-workspace .text-\[\#E0E7FF\],.studio-workspace .text-\[\#CBD5E1\]{color:#292522!important}
 .studio-workspace .bg-\[\#111827\]\/70,.studio-workspace .bg-\[\#111827\]\/80,.studio-workspace .bg-\[\#0B132B\],.studio-workspace .bg-\[\#0B132B\]\/80{background:#fff!important}
 .studio-workspace .border-\[\#1F2937\]{border-color:#e7ded3!important}
 .studio-workspace .text-\[\#94A3B8\],.studio-workspace .text-slate-400{color:#827a73!important}
 .studio-workspace .text-\[\#60A5FA\]{color:#986b78!important}
+.studio-workspace button.text-white,.studio-workspace button[class*="text-white"]{color:#fff!important}
+.studio-workspace button.text-white :is(span,svg),.studio-workspace button[class*="text-white"] :is(span,svg){color:inherit!important}
+.studio-workspace .text-emerald-400{color:#246b45!important}
+.studio-workspace .bg-emerald-500\/20{background-color:#e2f1e7!important}
 .studio-workspace .bg-\[\#2563EB\]{background:#986b78!important}
 @media(max-width:900px){.hero-rebuild{grid-template-columns:1fr;gap:1rem;padding-top:7rem}.hero-rebuild-side{min-height:300px;order:-1}.hero-rebuild-greeting{margin-top:2.2rem}.hero-rebuild-name{font-size:clamp(3.5rem,15vw,7rem)}.hero-orbit-one{width:min(65vw,320px)}.hero-orbit-two{width:min(52vw,250px)}.hero-monogram{font-size:clamp(7rem,30vw,12rem)}.hero-side-caption{bottom:1rem}.hero-credential{bottom:1rem;left:1rem}}
 @media(max-width:560px){.hero-rebuild{padding-inline:1.1rem;min-height:auto;padding-bottom:3rem}.hero-rebuild-side{min-height:250px}.hero-rebuild-location{display:none}.hero-rebuild-bottomline{font-size:.55rem}.hero-rebuild-bottomline button{font-size:.55rem}.hero-rebuild-actions button{width:100%;justify-content:center}.portfolio-section-kicker{font-size:.55rem}.portfolio-section{padding-block:4.5rem}}
@@ -480,3 +484,25 @@ body { margin: 0; background: var(--paper); color: var(--ink); }
 .hero-rebuild-grain { opacity: .12; }
 @media (max-width: 760px) { .portfolio-hero-stage { min-height: max(760px, 100svh); } }
 @media (prefers-reduced-motion: reduce) { .active-theory-field { display: none; } }
+
+
+/* Studio upload surfaces: visible, keyboard-accessible drag/drop targets. */
+.studio-workspace .studio-dropzone {
+  position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:9px;width:100%;min-height:164px;padding:24px;border:2px dashed #c9bcae;border-radius:16px;
+  background:#fffdf8;color:#292522;text-align:center;cursor:pointer;transition:border-color .18s,background .18s,box-shadow .18s;
+}
+.studio-workspace .studio-dropzone:hover,.studio-workspace .studio-dropzone.is-dragging {
+  border-color:#986b78;background:#fbf4f5;box-shadow:0 0 0 4px #986b7818;
+}
+.studio-workspace .studio-dropzone.is-disabled{opacity:.6;cursor:wait}
+.studio-workspace .studio-dropzone-input{position:absolute!important;width:1px!important;height:1px!important;padding:0!important;margin:-1px!important;overflow:hidden!important;clip:rect(0,0,0,0)!important;white-space:nowrap!important;border:0!important}
+.studio-workspace .studio-dropzone:focus-within{outline:2px solid #986b78;outline-offset:3px}
+.studio-workspace .studio-dropzone-icon{display:grid;place-items:center;width:44px;height:44px;border-radius:13px;background:#f0e7e5;color:#986b78}
+.studio-workspace .studio-dropzone-copy{display:flex;flex-direction:column;gap:4px}
+.studio-workspace .studio-dropzone-copy strong{color:#292522;font-size:13px;font-weight:750}
+.studio-workspace .studio-dropzone-copy span{color:#746b62;font-size:11px;line-height:1.5}
+.studio-workspace .studio-dropzone-browse{color:#8b596d;font-size:11px;font-weight:750}
+.studio-workspace .studio-dropzone.is-compact{min-height:104px;padding:14px;flex-direction:row;justify-content:flex-start;text-align:left}
+.studio-workspace .studio-dropzone.is-compact .studio-dropzone-icon{width:34px;height:34px;flex:0 0 34px}
+.studio-workspace .studio-dropzone.is-compact .studio-dropzone-browse{margin-left:auto}
