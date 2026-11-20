@@ -191,9 +191,9 @@ export function ContactSection() {
         </div>
 
         {/* 2-Column Split: Production Contact Form & Direct Verified Channels */}
-        <div className="mt-8 grid gap-8 lg:grid-cols-12 items-start pb-12">
+        <div className="mt-10 grid grid-cols-1 items-start gap-10 pb-16 lg:grid-cols-12">
           {/* Production Inquiry Form */}
-          <div className="relative rounded-2xl border border-[#35263D] bg-[#1A1222]/90 p-8 sm:p-10 shadow-xs lg:col-span-7">
+          <div className="contact-form-panel relative min-w-0 w-full rounded-xl border border-[#29251f] bg-[#fffdf7] p-7 sm:p-9 lg:col-span-8">
             {/* Glow effect matching hero buttons that activates when typing in the form */}
             <motion.div
               className="pointer-events-none absolute -inset-0.5 rounded-2xl"
@@ -214,7 +214,7 @@ export function ContactSection() {
               />
             </motion.div>
 
-            <div className="relative z-10 mb-6 flex items-center justify-between border-b border-[#35263D] pb-4">
+            <div className="relative z-10 mb-8 flex flex-wrap items-center justify-between gap-4 border-b border-[#d8d0c2] pb-5">
               <div>
                 <h3 className="text-lg font-bold text-[#F5EAF5]">
                   {t('contact.formTitle')}
@@ -228,7 +228,7 @@ export function ContactSection() {
               </span>
             </div>
 
-            <form onSubmit={handleSubmit} className="relative z-10 space-y-6">
+            <form onSubmit={handleSubmit} className="relative z-10 flex flex-col gap-7">
               {errorMessage && (
                 <div className="flex items-center gap-2 rounded-xl border border-rose-500/30 bg-rose-950/40 p-3 text-xs text-rose-300">
                   <AlertCircle className="h-4 w-4 shrink-0 text-rose-400" />
@@ -236,7 +236,7 @@ export function ContactSection() {
                 </div>
               )}
 
-              <div className="grid gap-6 sm:grid-cols-2">
+              <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
                 <div>
                   <label className="block text-xs font-semibold text-[#F5EAF5] mb-1.5">
                     {t('contact.yourName')}
@@ -277,7 +277,7 @@ export function ContactSection() {
               </div>
 
               {/* Styled Custom Dropdown */}
-              <div className="relative" ref={topicRef}>
+              <div className="contact-topic-field relative w-full" ref={topicRef}>
                 <label className="block text-xs font-semibold text-[#F5EAF5] mb-1.5">
                   {t('contact.topic')}
                 </label>
@@ -296,7 +296,7 @@ export function ContactSection() {
                 </button>
 
                 {isTopicOpen && (
-                  <div className="absolute left-0 right-0 top-full mt-1 z-30 overflow-hidden rounded-xl border border-[#35263D] bg-[#100B18] p-1 shadow-2xl backdrop-blur-xl">
+                  <div className="contact-topic-menu absolute left-0 right-0 top-full z-30 mt-2 w-full overflow-hidden rounded-lg border border-[#29251f] bg-white p-2 shadow-[4px_4px_0_#29251f]">
                     {topicOptions.map((topic) => (
                       <button
                         key={topic}
@@ -306,7 +306,7 @@ export function ContactSection() {
                           setIsTopicOpen(false);
                           handleTypingActivity();
                         }}
-                        className={`flex w-full items-center justify-between rounded-lg px-3 py-2 text-xs transition-colors cursor-pointer ${
+                        className={`flex min-h-11 w-full items-center justify-between rounded-md px-4 py-3 text-sm transition-colors cursor-pointer ${
                           form.projectType === topic
                             ? 'bg-[#A77BC2]/25 text-[#E8B8D2] font-medium'
                             : 'text-[#DCCFE0] hover:bg-[#1A1222] hover:text-[#F5EAF5]'
@@ -445,7 +445,7 @@ export function ContactSection() {
           </div>
 
           {/* Clean Direct Channels & Verified Accounts */}
-          <div className="space-y-4 lg:col-span-5">
+          <div className="contact-direct-panel min-w-0 space-y-5 lg:col-span-4">
             {/* Attractive High-End Phone Card (Clickable to WhatsApp: https://wa.me/918885674172) */}
             <a
               href={whatsappUrl}
