@@ -73,7 +73,7 @@ export function CertificationsTab({ showToast }: CertificationsTabProps) {
       showToast('Certification deleted', 'success');
       if (editingCert?.id === id) setEditingCert(null);
     } catch (err: any) {
-      showToast('Failed to delete certification', 'error');
+      showToast(err instanceof Error ? err.message : 'Failed to delete certification', 'error');
     }
   };
 
@@ -105,7 +105,7 @@ export function CertificationsTab({ showToast }: CertificationsTabProps) {
       showToast('Certification saved successfully!', 'success');
       setEditingCert(null);
     } catch (err: any) {
-      showToast('Failed to save certification', 'error');
+      showToast(err instanceof Error ? err.message : 'Failed to save certification', 'error');
     } finally {
       setIsSavingCert(false);
     }
