@@ -193,7 +193,7 @@ export function ContactSection() {
         {/* 2-Column Split: Production Contact Form & Direct Verified Channels */}
         <div className="mt-8 grid gap-8 lg:grid-cols-12 items-start pb-12">
           {/* Production Inquiry Form */}
-          <div className="relative rounded-2xl border border-[#35263D] bg-[#1A1222]/90 p-6 sm:p-8 shadow-xs lg:col-span-7">
+          <div className="relative rounded-2xl border border-[#35263D] bg-[#1A1222]/90 p-8 sm:p-10 shadow-xs lg:col-span-7">
             {/* Glow effect matching hero buttons that activates when typing in the form */}
             <motion.div
               className="pointer-events-none absolute -inset-0.5 rounded-2xl"
@@ -228,7 +228,7 @@ export function ContactSection() {
               </span>
             </div>
 
-            <form onSubmit={handleSubmit} className="relative z-10 space-y-4">
+            <form onSubmit={handleSubmit} className="relative z-10 space-y-6">
               {errorMessage && (
                 <div className="flex items-center gap-2 rounded-xl border border-rose-500/30 bg-rose-950/40 p-3 text-xs text-rose-300">
                   <AlertCircle className="h-4 w-4 shrink-0 text-rose-400" />
@@ -236,7 +236,7 @@ export function ContactSection() {
                 </div>
               )}
 
-              <div className="grid gap-4 sm:grid-cols-2">
+              <div className="grid gap-6 sm:grid-cols-2">
                 <div>
                   <label className="block text-xs font-semibold text-[#F5EAF5] mb-1.5">
                     {t('contact.yourName')}
@@ -347,7 +347,7 @@ export function ContactSection() {
                     />
                   </motion.div>
                   <textarea
-                    rows={4}
+                    rows={6}
                     required
                     value={form.message}
                     onFocus={() => {
