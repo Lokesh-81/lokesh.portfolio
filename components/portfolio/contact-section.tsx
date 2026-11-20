@@ -18,8 +18,6 @@ import { TextMorph } from '@/components/core/text-morph';
 import { TextShimmer } from '@/components/core/text-shimmer';
 import { TextEffect } from '@/components/core/text-effect';
 import { BorderTrail } from '@/components/core/border-trail';
-import { GlowEffect } from '@/components/core/glow-effect';
-import { motion } from 'framer-motion';
 import { usePortfolio } from '@/lib/portfolio-context';
 import { useLanguage } from '@/i18n';
 import { trackEvent } from '@/lib/analytics';
@@ -61,19 +59,6 @@ export function ContactSection() {
   });
   const [status, setStatus] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle');
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
-  const [isTextareaTyping, setIsTextareaTyping] = useState(false);
-  const [isFormTyping, setIsFormTyping] = useState(false);
-  const typingTimerRef = useRef<NodeJS.Timeout | null>(null);
-
-  const handleTypingActivity = () => {
-    setIsFormTyping(true);
-    if (typingTimerRef.current) clearTimeout(typingTimerRef.current);
-    typingTimerRef.current = setTimeout(() => {
-      setIsFormTyping(false);
-      setIsTextareaTyping(false);
-    }, 2500);
-  };
-
   // Custom Dark Dropdown state for Discussion Topic
   const [isTopicOpen, setIsTopicOpen] = useState(false);
   const topicRef = useRef<HTMLDivElement>(null);
@@ -193,26 +178,6 @@ export function ContactSection() {
         <div className="mt-10 grid grid-cols-1 items-start gap-10 pb-16 lg:grid-cols-12">
           {/* Production Inquiry Form */}
           <div className="contact-form-panel relative min-w-0 w-full rounded-xl border border-[#29251f] bg-[#fffdf7] p-7 sm:p-9 lg:col-span-8">
-            {/* Glow effect matching hero buttons that activates when typing in the form */}
-            <motion.div
-              className="pointer-events-none absolute -inset-0.5 rounded-2xl"
-              animate={{
-                opacity: isFormTyping ? 1 : 0,
-              }}
-              transition={{
-                duration: 0.25,
-                ease: 'easeOut',
-              }}
-            >
-              {isFormTyping && <GlowEffect
-                colors={['#FF5733', '#33FF57', '#3357FF', '#F1C40F']}
-                mode="colorShift"
-                blur="soft"
-                duration={3}
-                scale={0.99}
-              />}
-            </motion.div>
-
             <div className="relative z-10 mb-8 flex flex-wrap items-center justify-between gap-4 border-b border-[#d8d0c2] pb-5">
               <div>
                 <h3 className="text-lg font-bold text-[#24221f]">
@@ -246,7 +211,6 @@ export function ContactSection() {
                     value={form.name}
                     onChange={(e) => {
                       setForm({ ...form, name: e.target.value });
-                      handleTypingActivity();
                     }}
                     placeholder={language === 'fr' ? 'Votre Nom' : 'Your Name'}
                     disabled={status === 'submitting'}
@@ -324,32 +288,12 @@ export function ContactSection() {
                   {t('contact.yourMessage')}
                 </label>
                 <div className="relative group">
-                  {/* Glow on message box when focused or typing */}
-                  <motion.div
-                    className="pointer-events-none absolute -inset-0.5 rounded-xl"
-                    animate={{
-                      opacity: isTextareaTyping ? 1 : 0,
-                    }}
-                    transition={{
-                      duration: 0.2,
-                      ease: 'easeOut',
-                    }}
-                  >
-                    {isTextareaTyping && <GlowEffect
-                      colors={['#FF5733', '#33FF57', '#3357FF', '#F1C40F']}
-                      mode="colorShift"
-                      blur="soft"
-                      duration={3}
-                    />}
-                  </motion.div>
                   <textarea
                     rows={6}
                     required
                     value={form.message}
                     onChange={(e) => {
                       setForm({ ...form, message: e.target.value });
-                      setIsTextareaTyping(true);
-                      handleTypingActivity();
                     }}
                     placeholder={
                       language === 'fr'
