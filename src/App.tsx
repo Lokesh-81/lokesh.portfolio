@@ -18,8 +18,6 @@ import { LoadingScreen } from '@/components/portfolio/loading-screen';
 import { StudioApp } from './studio/StudioApp';
 import { trackEvent } from '@/lib/analytics';
 import { ErrorBoundary } from '@/components/core/error-boundary';
-import NightSceneBacklit from '@/components/core/night-scene-backlit';
-import { ActiveTheoryField } from '@/components/core/active-theory-field';
 import { NotFound } from '@/components/ui/not-found';
 
 type SectionId = 'home' | 'about' | 'work' | 'skills' | 'certifications' | 'experience' | 'testimonials' | 'contact';
@@ -131,18 +129,6 @@ function PortfolioContent() {
 
         <main className="portfolio-main">
           <section id="home" className="portfolio-hero-stage scroll-mt-24">
-            <NightSceneBacklit
-              background="#100B18"
-              blossomColor="#E8B8D2"
-              speed={65}
-              petals={105}
-              wind={24}
-              scale={100}
-              glow={42}
-              direction="right"
-              style={{ position: 'absolute', inset: 0, zIndex: 0, minWidth: 0, minHeight: 0 }}
-            />
-            <ActiveTheoryField />
             <div className="portfolio-hero-content"><Hero onNavigate={handleNavigate} /></div>
             <div className="portfolio-hero-index"><span>INDEPENDENT DEVELOPER</span><span>HYDERABAD · INDIA</span></div>
           </section>
