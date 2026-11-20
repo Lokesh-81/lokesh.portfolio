@@ -197,29 +197,29 @@ export function DashboardTab({ onNavigateTab, onOpenPublicSite }: DashboardTabPr
       </div>
 
       {/* Production Readiness & Onboarding Checklist */}
-      <div className="rounded-2xl border border-emerald-500/30 bg-emerald-950/20 p-5 shadow-lg">
+      <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-lg">
         <div className="flex items-center justify-between mb-3">
           <div className="flex items-center gap-2">
-            <CheckCircle2 className="h-5 w-5 text-emerald-400" />
-            <h3 className="text-sm font-bold text-white">Production Launch & Onboarding Checklist</h3>
+            <CheckCircle2 className="h-5 w-5 text-indigo-500" />
+            <h3 className="text-sm font-bold text-white">Quick edit shortcuts</h3>
           </div>
-          <span className="text-[10px] font-mono text-emerald-300 bg-emerald-500/10 border border-emerald-500/20 px-2 py-0.5 rounded-full">
-            All Systems Verified
+          <span className="text-[10px] font-mono text-indigo-600 bg-indigo-50 border border-indigo-100 px-2 py-0.5 rounded-full">
+            4 sections to review
           </span>
         </div>
-        <p className="text-xs text-slate-300 mb-4">
-          Key setup steps to verify your live portfolio, resume, and credentials:
+        <p className="text-xs text-slate-600 mb-4">
+          Jump directly to the areas you are most likely to update.
         </p>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
           <button
             onClick={() => onNavigateTab('profile')}
-            className="p-3 rounded-xl border border-emerald-500/20 bg-[#0B132B]/80 hover:border-emerald-500/50 text-left transition-all cursor-pointer"
+            className="p-3 rounded-xl border border-slate-200 bg-white hover:border-indigo-200 text-left transition-all cursor-pointer"
           >
             <div className="text-xs font-bold text-emerald-300 flex items-center justify-between">
               <span>1. Bio & Links</span>
               <CheckCircle2 className="h-3.5 w-3.5 text-emerald-400" />
             </div>
-            <p className="text-[11px] text-slate-400 mt-1">Review contact email & social handles</p>
+            <p className="text-[11px] text-slate-500 mt-1">Review contact email & social handles</p>
           </button>
 
           <button
