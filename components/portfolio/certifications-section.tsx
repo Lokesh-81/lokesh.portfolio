@@ -359,6 +359,11 @@ export function CertificationsSection({ onNavigate }: CertificationsSectionProps
 
           <div className="relative z-10 grid gap-8 lg:grid-cols-[300px_1fr] items-start">
             {/* Left Column: Belvo Badge & Quick Verification */}
+            <div className="belvo-lor-thumbnail" role="button" tabIndex={0} onClick={() => setIsLorModalOpen(true)} onKeyDown={(event) => { if (event.key === 'Enter' || event.key === ' ') setIsLorModalOpen(true); }} aria-label="Preview Belvo Letter of Recommendation">
+              <img src="/belvo-lor-page.svg" alt="Preview of the official Belvo Letter of Recommendation issued to P. Lokesh" loading="lazy" />
+              <span>OFFICIAL BELVO LETTER · PREVIEW ↗</span>
+            </div>
+
             <div className="flex flex-col items-center text-center p-5 rounded-2xl border border-purple-500/30 bg-[#100B18]/80 shadow-inner">
               <div
                 onClick={() => setIsLorModalOpen(true)}
