@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import { usePortfolio } from '@/lib/portfolio-context';
 import { uploadMediaToSupabase } from '@/lib/supabase';
 import { toGoogleDriveImageUrl } from '../google-drive';
+import { StudioDropzone } from '../StudioDropzone';
 import type { ProjectItem } from '@/lib/portfolio-types';
 import {
   Plus,
@@ -93,8 +94,7 @@ export function ProjectsTab({ showToast }: ProjectsTabProps) {
     }
   };
 
-  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
+  const handleImageUpload = async (file: File | undefined) => {
     if (!file || !editingProject) return;
 
     setIsUploading(true);
@@ -424,17 +424,15 @@ export function ProjectsTab({ showToast }: ProjectsTabProps) {
               <div>
                 <label className="block text-xs font-medium text-[#CBD5E1] mb-1">Project Preview Image</label>
                 <div className="flex items-center gap-3">
-                  <label className="inline-flex items-center gap-2 rounded-xl border border-[#1F2937] bg-[#0B132B] px-4 py-2 text-xs font-medium text-[#CBD5E1] hover:border-[#60A5FA] hover:text-[#60A5FA] cursor-pointer transition-all">
-                    <Upload className="h-3.5 w-3.5" />
-                    <span>{isUploading ? 'Uploading...' : 'Upload Image'}</span>
-                    <input
-                      type="file"
-                      accept="image/*"
-                      onChange={handleImageUpload}
-                      className="hidden"
-                      disabled={isUploading}
-                    />
-                  </label>
+                  <StudioDropzone
+                    accept="image/*"
+                    title={isUploading ? 'Uploading thumbnail…' : 'Drop project thumbnail here'}
+                    description="Drag & drop an image, or browse files"
+                    disabled={isUploading}
+                    compact
+                    onFiles={(files) => void handleImageUpload(files[0])}
+                    className="flex-1"
+                  />
                   <input
                     type="text"
                     value={editingProject.imageUrl || ''}
