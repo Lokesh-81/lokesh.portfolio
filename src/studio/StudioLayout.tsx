@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useEffect, useMemo, useState } from 'react';
+import NightSceneBacklit from '@/components/core/night-scene-backlit';
 import { usePortfolio } from '@/lib/portfolio-context';
 import { getSupabaseDiagnostics, testSupabaseConnection } from '@/lib/supabase';
 import { LayoutDashboard, BarChart3, User, Compass, FileText, Briefcase, History, GraduationCap, Cpu, Award, Trophy, Languages, Share2, Phone, Inbox, Image as ImageIcon, FileCheck2, Settings, LogOut, ExternalLink, Menu, X, RefreshCw, Search, ChevronRight, Database, CheckCircle2, AlertCircle, Sparkles, Command, PanelLeftClose, PanelLeftOpen, ArrowUpRight } from 'lucide-react';
@@ -183,7 +184,9 @@ export function StudioLayout({ onExitStudio }: StudioLayoutProps) {
     </div>
   </>;
 
-  return <div className="studio-root">
+  return <>
+    <NightSceneBacklit background="#100B18" blossomColor="#E8B8D2" speed={65} petals={105} wind={24} scale={100} glow={42} direction="right" style={{ position: 'fixed', inset: 0, zIndex: 0, minWidth: 0, minHeight: 0 }} />
+    <div className="studio-root">
     {toast && <div className={'studio-toast' + (toast.type === 'error' ? ' is-error' : '')}>{toast.type === 'error' ? <AlertCircle size={17} /> : <CheckCircle2 size={17} />}<span>{toast.msg}</span><button type="button" onClick={() => setToast(null)} aria-label="Dismiss"><X size={15} /></button></div>}
     <aside className={'studio-sidebar' + (collapsed ? ' is-collapsed' : '')}>{sidebarContents}</aside>
     {mobileOpen && <div className="studio-mobile-overlay" onClick={() => setMobileOpen(false)}><aside className="studio-mobile-sidebar" onClick={(e) => e.stopPropagation()}><button className="studio-mobile-close" type="button" onClick={() => setMobileOpen(false)}><X size={18} /></button>{sidebarContents}</aside></div>}
@@ -208,7 +211,7 @@ export function StudioLayout({ onExitStudio }: StudioLayoutProps) {
       </main>
     </div>
     <style>{`
-      .studio-root{--ink:#1d2942;display:flex;width:100%;height:100vh;min-height:600px;overflow:hidden;background:radial-gradient(ellipse at 78% -18%,rgba(190,205,255,.58),transparent 36%),radial-gradient(ellipse at 7% 100%,rgba(246,220,235,.5),transparent 31%),#f5f7fc;color:var(--ink);font-family:Inter,'Plus Jakarta Sans',ui-sans-serif,system-ui,sans-serif}
+      .studio-root{--ink:#1d2942;position:relative;z-index:1;display:flex;width:100%;height:100vh;min-height:600px;overflow:hidden;background:transparent;color:var(--ink);font-family:Inter,'Plus Jakarta Sans',ui-sans-serif,system-ui,sans-serif}
       .studio-sidebar{width:270px;flex:0 0 270px;display:flex;flex-direction:column;min-height:0;padding:21px 14px 13px;background:rgba(255,255,255,.9);border-right:1px solid #e5eaf2;backdrop-filter:blur(24px);transition:width .22s,flex-basis .22s}
       .studio-sidebar.is-collapsed{width:78px;flex-basis:78px;padding-inline:9px}
       .studio-brand{display:flex;align-items:center;gap:10px;padding:3px 8px 19px;border-bottom:1px solid #edf0f5}
@@ -249,5 +252,6 @@ export function StudioLayout({ onExitStudio }: StudioLayoutProps) {
       @media(max-width:1023px){.studio-sidebar{display:none}.studio-topbar{padding:11px 16px}.studio-mobile-menu{display:grid}.studio-collapse-button{display:none}.studio-mobile-overlay{display:block;position:fixed;inset:0;z-index:80;background:#1c274040;backdrop-filter:blur(5px)}.studio-mobile-sidebar{display:flex;position:absolute;inset:0 auto 0 0;width:min(320px,88vw);flex-direction:column;padding:14px;background:#fff;box-shadow:20px 0 60px #1e2b4829}.studio-mobile-close{align-self:flex-end;display:grid;place-items:center;width:30px;height:30px;margin-bottom:4px;border:1px solid #e5eaf2;border-radius:9px;color:#6e7d95}.studio-topbar-actions{gap:7px}.studio-connection-pill{display:none}.studio-content{padding:20px 16px}.studio-shortcut{display:none}}
       @media(max-width:640px){.studio-topbar{align-items:flex-start;min-height:68px;padding:10px}.studio-topbar-left{gap:7px}.studio-page-description{display:none}.studio-breadcrumb{padding-top:7px}.studio-topbar-actions{gap:5px}.studio-secondary-button,.studio-primary-button{height:32px;padding:0 8px;font-size:9px}.studio-primary-button svg:last-child{display:none}.studio-content-heading h1{font-size:22px}.studio-backend-alert{flex-wrap:wrap}.studio-backend-alert button{margin-left:42px}}
     `}</style>
-  </div>;
+  </div>
+  </>;
 }
