@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import { motion } from 'framer-motion';
+import { motion, type Variants } from 'framer-motion';
 import { ArrowDownRight, ArrowUpRight, Award, FileText, Mail } from 'lucide-react';
 import { useLanguage } from '@/i18n';
 import { usePortfolio } from '@/lib/portfolio-context';
@@ -23,7 +23,7 @@ export function Hero({ onNavigate }: HeroProps) {
   const workLabel = t('hero.ctaWork', hero?.ctaWork || 'Explore selected work');
   const contactLabel = t('hero.ctaContact', hero?.ctaContact || "Let's talk");
 
-  const entrance = {
+  const entrance: Variants = {
     hidden: { opacity: 0, y: 34, filter: 'blur(12px)' },
     visible: { opacity: 1, y: 0, filter: 'blur(0px)', transition: { duration: 0.85, ease: [0.2, 0.75, 0.25, 1] } },
   };

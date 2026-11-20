@@ -84,7 +84,7 @@ export function StudioLayout({ onExitStudio }: StudioLayoutProps) {
   const [isSyncing, setIsSyncing] = useState(false);
 
   const unreadMessagesCount = messages.filter((m) => m.status === 'new').length;
-  const activeItem = navGroups.flatMap((g) => g.items).find((item) => item.id === activeTab);
+  const activeItem = navGroups.flatMap<(typeof navGroups)[number]['items'][number]>((group) => group.items).find((item) => item.id === activeTab);
   const filteredGroups = useMemo(() => navGroups.map((group) => ({
     ...group,
     items: group.items.filter((item) => {
