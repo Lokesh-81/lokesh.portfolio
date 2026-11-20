@@ -14,7 +14,6 @@ import { ExperienceSection } from '@/components/portfolio/experience-section';
 import { ContactSection } from '@/components/portfolio/contact-section';
 import { Footer } from '@/components/portfolio/footer';
 import { Clock } from '@/components/core/sliding-number';
-import { LoadingScreen } from '@/components/portfolio/loading-screen';
 import { StudioApp } from './studio/StudioApp';
 import { trackEvent } from '@/lib/analytics';
 import { ErrorBoundary } from '@/components/core/error-boundary';
@@ -24,10 +23,6 @@ type SectionId = 'home' | 'about' | 'work' | 'skills' | 'certifications' | 'expe
 const sectionIds: SectionId[] = ['home', 'about', 'work', 'skills', 'experience', 'certifications', 'testimonials', 'contact'];
 
 function PortfolioContent() {
-  const [isLoading, setIsLoading] = useState(() => {
-    if (typeof window === 'undefined') return true;
-    return !(window.location.pathname.startsWith('/studio') || window.location.hash.includes('studio'));
-  });
   const [activeSection, setActiveSection] = useState<SectionId>('home');
   const [isStudioRoute, setIsStudioRoute] = useState(() => {
     if (typeof window === 'undefined') return false;
@@ -136,7 +131,6 @@ function PortfolioContent() {
 
   return (
     <>
-      {isLoading && <LoadingScreen onComplete={() => setIsLoading(false)} />}
       <div className="portfolio-shell min-h-screen w-full bg-[#f5f1e9] text-[#25231f] selection:bg-[#d8b9a5]/50 selection:text-[#25231f]">
         <header className="portfolio-header">
           <PortfolioDock activeSection={activeSection} onSelectSection={handleNavigate} />
