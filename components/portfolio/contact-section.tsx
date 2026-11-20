@@ -50,6 +50,13 @@ export function ContactSection() {
   ];
 
   const [copiedText, setCopiedText] = useState<string | null>(null);
+  const [isTyping, setIsTyping] = useState(false);
+  const typingTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const handleTyping = () => {
+    setIsTyping(true);
+    if (typingTimerRef.current) clearTimeout(typingTimerRef.current);
+    typingTimerRef.current = setTimeout(() => setIsTyping(false), 850);
+  };
 
   const [form, setForm] = useState({
     name: '',
@@ -177,7 +184,7 @@ export function ContactSection() {
         {/* 2-Column Split: Production Contact Form & Direct Verified Channels */}
         <div className="mt-10 grid grid-cols-1 items-start gap-10 pb-16 lg:grid-cols-12">
           {/* Production Inquiry Form */}
-          <div className="contact-form-panel relative min-w-0 w-full rounded-xl border border-[#29251f] bg-[#fffdf7] p-7 sm:p-9 lg:col-span-8">
+          <div className={`contact-form-panel relative min-w-0 w-full${isTyping ? " is-typing" : ""} rounded-xl border border-[#29251f] bg-[#fffdf7] p-7 sm:p-9 lg:col-span-8">
             <div className="relative z-10 mb-8 flex flex-wrap items-center justify-between gap-4 border-b border-[#d8d0c2] pb-5">
               <div>
                 <h3 className="text-lg font-bold text-[#24221f]">
@@ -211,6 +218,7 @@ export function ContactSection() {
                     value={form.name}
                     onChange={(e) => {
                       setForm({ ...form, name: e.target.value });
+                      handleTyping();
                     }}
                     placeholder={language === 'fr' ? 'Votre Nom' : 'Your Name'}
                     disabled={status === 'submitting'}
@@ -228,6 +236,7 @@ export function ContactSection() {
                     value={form.email}
                     onChange={(e) => {
                       setForm({ ...form, email: e.target.value });
+                      handleTyping();
                     }}
                     placeholder={language === 'fr' ? 'votre.email@exemple.com' : 'your.email@example.com'}
                     disabled={status === 'submitting'}
@@ -293,6 +302,7 @@ export function ContactSection() {
                     value={form.message}
                     onChange={(e) => {
                       setForm({ ...form, message: e.target.value });
+                      handleTyping();
                     }}
                     placeholder={
                       language === 'fr'
