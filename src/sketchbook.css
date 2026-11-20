@@ -1181,3 +1181,67 @@ html,body{background:var(--sk-paper)!important;color:var(--sk-ink)!important}
   flex-basis:236px!important;width:236px!important;min-width:236px!important;
  }
 }
+
+
+/* Explicit contact columns: form gets the wide column, direct links the narrow one. */
+.portfolio-shell main #contact .contact-sketchbook > .relative.z-10.mx-auto > .mt-10.grid {
+  display:grid!important;width:100%!important;min-width:0!important;
+  grid-template-columns:minmax(0,1.8fr) minmax(300px,1fr)!important;
+  align-items:start!important;gap:32px!important;
+}
+.portfolio-shell main #contact .contact-form-panel {
+  grid-column:1!important;grid-row:1!important;width:100%!important;min-width:0!important;
+}
+.portfolio-shell main #contact .contact-direct-panel {
+  grid-column:2!important;grid-row:1!important;width:100%!important;min-width:0!important;
+}
+@media(max-width:900px) {
+  .portfolio-shell main #contact .contact-sketchbook > .relative.z-10.mx-auto > .mt-10.grid {
+    grid-template-columns:minmax(0,1fr)!important;
+  }
+  .portfolio-shell main #contact .contact-form-panel,
+  .portfolio-shell main #contact .contact-direct-panel {grid-column:1!important;grid-row:auto!important;}
+}
+
+/* Self-contained marquee: fixed-width cards, no space-around distribution or shrink. */
+.tech-stack-slider .tech-marquee-row {
+  display:block!important;width:100%!important;min-width:0!important;overflow:hidden!important;
+}
+.tech-stack-slider .tech-marquee-track {
+  display:flex!important;flex-wrap:nowrap!important;align-items:center!important;justify-content:flex-start!important;
+  width:max-content!important;min-width:max-content!important;gap:12px!important;
+  will-change:transform;animation-duration:38s;animation-timing-function:linear;animation-iteration-count:infinite;
+}
+.tech-stack-slider .tech-marquee-track-forward {animation-name:tech-marquee-forward;}
+.tech-stack-slider .tech-marquee-track-reverse {animation-name:tech-marquee-reverse;animation-duration:42s;}
+.tech-stack-slider .tech-stack-card {
+  box-sizing:border-box!important;display:flex!important;flex:0 0 260px!important;width:260px!important;
+  min-width:260px!important;height:82px!important;min-height:82px!important;max-width:260px!important;
+  align-items:center!important;justify-content:flex-start!important;gap:14px!important;
+  padding:10px 14px!important;overflow:hidden!important;
+}
+.tech-stack-slider .tech-stack-card__icon {
+  display:flex!important;flex:0 0 44px!important;width:44px!important;min-width:44px!important;
+  height:44px!important;min-height:44px!important;align-items:center!important;justify-content:center!important;
+}
+.tech-stack-slider .tech-stack-card__icon svg {
+  display:block!important;position:static!important;flex:none!important;width:28px!important;height:28px!important;
+  max-width:28px!important;max-height:28px!important;transform:none!important;
+}
+.tech-stack-slider .tech-stack-card__content {
+  display:flex!important;flex:1 1 auto!important;flex-direction:column!important;justify-content:center!important;
+  align-items:flex-start!important;min-width:0!important;max-width:none!important;overflow:hidden!important;
+}
+.tech-stack-slider .tech-stack-card__content>span {
+  display:block!important;position:static!important;width:100%!important;max-width:100%!important;
+  overflow:hidden!important;text-overflow:ellipsis!important;white-space:nowrap!important;
+  line-height:1.25!important;opacity:1!important;visibility:visible!important;transform:none!important;
+}
+.tech-stack-slider .tech-stack-card__name {font-size:12px!important;font-weight:750!important;color:#24221f!important;}
+.tech-stack-slider .tech-stack-card__category {font-size:9px!important;letter-spacing:.08em!important;color:#8d596c!important;}
+.tech-stack-slider .tech-stack-card__description {font-size:10px!important;color:#696257!important;margin-top:2px!important;}
+.tech-stack-slider:hover .tech-marquee-track {animation-play-state:paused;}
+@keyframes tech-marquee-forward {from{transform:translateX(0)}to{transform:translateX(-50%)}}
+@keyframes tech-marquee-reverse {from{transform:translateX(-50%)}to{transform:translateX(0)}}
+@media(prefers-reduced-motion:reduce){.tech-stack-slider .tech-marquee-track{animation:none!important}}
+@media(max-width:640px){.tech-stack-slider .tech-stack-card{flex-basis:236px!important;width:236px!important;min-width:236px!important;max-width:236px!important;}}
