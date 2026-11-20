@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import { usePortfolio } from '@/lib/portfolio-context';
 import { uploadMediaToSupabase } from '@/lib/supabase';
 import { StudioDropzone } from '../StudioDropzone';
+import { toGoogleDriveImageUrl } from '../google-drive';
 import type { MediaItem } from '@/lib/portfolio-types';
 import {
   Upload,
@@ -28,6 +29,7 @@ export function MediaTab({ showToast }: MediaTabProps) {
   const [copiedId, setCopiedId] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
   const [filterType, setFilterType] = useState<'all' | 'image' | 'document'>('all');
+  const [driveUrl, setDriveUrl] = useState('');
 
   const handleFileUpload = async (files: File[]) => {
     if (!files.length) return;
@@ -61,6 +63,22 @@ export function MediaTab({ showToast }: MediaTabProps) {
     }
   };
 
+  const handleAddDriveLink = async () => {
+    const value = driveUrl.trim();
+    if (!value) return;
+    try {
+      const parsed = new URL(value);
+      if (parsed.protocol !== 'https:' || !/(^|\\.)drive\\.google\\.com$|(^|\\.)docs\\.google\\.com$/i.test(parsed.hostname)) {
+        showToast('Paste a valid Google Drive sharing link', 'error');
+        return;
+      }
+      const name = parsed.pathname.match(/\\/d\\/([^/]+)/)?.[1] || parsed.searchParams.get('id') || 'Google Drive file';
+      const isImage = /\\.(png|jpe?g|gif|webp|svg)(\\?|$)/i.test(value) || /[?&]export=view/i.test(value);
+      await addMediaItem({ id: 'drive-' + Date.now(), name, url: isImage ? toGoogleDriveImageUrl(value) : value, mimeType: isImage ? 'image/*' : 'application/octet-stream', bucket: 'google-drive', createdAt: new Date().toISOString() });
+      setDriveUrl('');
+      showToast('Google Drive link added to Media Library', 'success');
+    } catch { showToast('Enter a valid Google Drive sharing URL', 'error'); }
+  };
   const handleCopyUrl = (url: string, id: string) => {
     navigator.clipboard.writeText(url);
     setCopiedId(id);
@@ -98,8 +116,13 @@ export function MediaTab({ showToast }: MediaTabProps) {
             Upload and host images, diagrams, certificates, and assets in Supabase Storage with instant public CDN URLs.
           </p>
         </div>
-        <div className="w-full sm:w-[min(440px,100%)]">
+        <div className="w-full sm:w-[min(440px,100%)] space-y-2">
           <StudioDropzone multiple accept="image/*,.pdf,.doc,.docx,.svg" title={isUploading ? 'Uploading files…' : 'Drop images or documents here'} description="Or browse files · Multiple files supported" disabled={isUploading} onFiles={handleFileUpload} />
+          <div className="flex flex-col gap-2 sm:flex-row">
+            <input value={driveUrl} onChange={(event) => setDriveUrl(event.target.value)} onKeyDown={(event) => { if (event.key === 'Enter') { event.preventDefault(); void handleAddDriveLink(); } }} placeholder="Paste a public Google Drive link…" aria-label="Google Drive sharing URL" className="min-w-0 flex-1 rounded-xl border border-[#D8CDBB] bg-white px-3 py-2.5 text-sm text-[#29251F] placeholder:text-[#887F72] focus:border-[#9B6A83] focus:outline-none" />
+            <button type="button" onClick={() => void handleAddDriveLink()} className="rounded-xl border-2 border-[#29251F] bg-[#FFE27A] px-4 py-2.5 text-sm font-bold text-[#29251F] shadow-[3px_3px_0_#29251F]">Add Drive link</button>
+          </div>
+          <p className="text-xs text-[#6F675C]">Set Google Drive access to “Anyone with the link” so the asset can load publicly.</p>
         </div>
       </div>
 
@@ -150,7 +173,7 @@ export function MediaTab({ showToast }: MediaTabProps) {
               <div className="relative flex aspect-video w-full items-center justify-center overflow-hidden rounded-xl border border-[#1F2937] bg-[#0B132B]">
                 {isImage ? (
                   <img
-                    src={item.url}
+                    src={item.mimeType?.startsWith('image/') ? toGoogleDriveImageUrl(item.url) : item.url}
                     alt={item.name}
                     className="h-full w-full object-contain p-1"
                     referrerPolicy="no-referrer"
