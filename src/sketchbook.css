@@ -63,3 +63,56 @@ html,body{background:var(--sk-paper)!important;color:var(--sk-ink)!important}
 .portfolio-shell>footer button:hover,.portfolio-shell>footer a:hover{color:var(--sk-blue)!important}
 @media(max-width:900px){.hero-rebuild{grid-template-columns:1fr!important;padding-top:150px!important}.hero-rebuild-side{min-height:320px!important;max-width:420px!important;width:100%!important;margin:0 auto!important}.portfolio-hero-stage:before{right:10%;top:auto;bottom:8%;width:48vw;max-width:320px}.portfolio-hero-stage:after{right:11%;top:auto;bottom:35%;font-size:70px}.portfolio-clock{top:78px!important}.portfolio-shell nav[aria-label="Main Navigation"]{width:calc(100% - 20px)!important}}
 @media(max-width:600px){.hero-rebuild{padding:145px 22px 70px!important;gap:22px!important}.hero-rebuild-name{font-size:clamp(4rem,18vw,6rem)!important}.hero-rebuild-side{min-height:260px!important}.portfolio-section,.portfolio-contact-stage{padding:58px 18px!important}.portfolio-section-kicker{font-size:10px!important}.portfolio-hero-stage:before{right:8%;bottom:8%;width:55vw}.portfolio-hero-stage:after{right:9%;bottom:30%}}
+
+/* Readability pass: higher contrast, more breathing room, clearer interactive states. */
+.portfolio-editorial{background:var(--sk-paper)!important}
+.portfolio-section,.portfolio-contact-stage{position:relative;overflow:visible!important}
+.portfolio-section:not(:first-child),.portfolio-contact-stage{border-top:1.5px dashed rgba(23,23,25,.3)!important}
+.portfolio-section-kicker{font-size:13px!important;padding:11px 15px!important;letter-spacing:.11em!important}
+.portfolio-section :is(p,li,label,small),.portfolio-contact-stage :is(p,li,label,small){color:#34332f!important}
+.portfolio-section :is(h1,h2,h3,h4,h5),.portfolio-contact-stage :is(h1,h2,h3,h4,h5){color:var(--sk-ink)!important}
+.portfolio-section :is(a,button),.portfolio-contact-stage :is(a,button){font-weight:600!important;transition:transform .22s ease,box-shadow .22s ease,background-color .22s ease,color .22s ease!important}
+.portfolio-section :is(a,button):hover,.portfolio-contact-stage :is(a,button):hover{transform:translate(-2px,-2px)!important;box-shadow:6px 6px 0 var(--sk-ink)!important}
+.portfolio-section :is(a,button):focus-visible,.portfolio-contact-stage :is(a,button):focus-visible,.portfolio-shell nav button:focus-visible{outline:3px solid var(--sk-blue)!important;outline-offset:4px!important}
+.portfolio-section input,.portfolio-section textarea,.portfolio-section select,.portfolio-contact-stage input,.portfolio-contact-stage textarea,.portfolio-contact-stage select{background:#fffdf5!important;color:#171719!important;border:1.7px solid #171719!important;border-radius:5px!important;box-shadow:2px 2px 0 rgba(23,23,25,.22)!important}
+.portfolio-section input::placeholder,.portfolio-section textarea::placeholder,.portfolio-contact-stage input::placeholder,.portfolio-contact-stage textarea::placeholder{color:#77736a!important;opacity:1!important}
+.portfolio-shell nav[aria-label="Main Navigation"]{animation:sk-nav-in .65s cubic-bezier(.2,.8,.2,1) both}
+.portfolio-shell nav[aria-label="Main Navigation"] .portfolio-wordmark:hover .portfolio-monogram{transform:rotate(-8deg) scale(1.08)}
+.portfolio-monogram{transition:transform .25s ease!important}
+.hero-rebuild-copy>*{animation:sk-rise .7s cubic-bezier(.2,.75,.25,1) both}
+.hero-rebuild-copy>*:nth-child(1){animation-delay:.05s}
+.hero-rebuild-copy>*:nth-child(2){animation-delay:.13s}
+.hero-rebuild-copy>*:nth-child(3){animation-delay:.21s}
+.hero-rebuild-copy>*:nth-child(4){animation-delay:.29s}
+.hero-rebuild-copy>*:nth-child(5){animation-delay:.37s}
+.hero-rebuild-copy>*:nth-child(6){animation-delay:.45s}
+.hero-rebuild-side{animation:sk-side-in .95s .25s cubic-bezier(.2,.75,.25,1) both}
+.hero-monogram{animation:sk-monogram 5s ease-in-out infinite}
+.hero-orbit-one{animation:sk-orbit 22s linear infinite}
+.hero-orbit-two{animation:sk-orbit 30s linear infinite reverse}
+.portfolio-hero-stage:before{animation:sk-float 6s ease-in-out infinite}
+.portfolio-hero-stage:after{animation:sk-star 4.5s ease-in-out infinite}
+.hero-credential{animation:sk-float 5s ease-in-out infinite .5s}
+.portfolio-section-kicker{animation:sk-kicker-in .6s ease both}
+.portfolio-section>div:not(.portfolio-section-kicker),.portfolio-contact-stage>div:not(.portfolio-section-kicker){animation:sk-content-in .7s .08s ease-out both}
+.portfolio-section :is(article,.projects-featured-card,.skills-marquee-panel,.skills-library),.portfolio-contact-stage :is(article,form){transition:transform .28s cubic-bezier(.2,.8,.2,1),box-shadow .28s ease!important}
+.portfolio-section :is(article,.projects-featured-card,.skills-marquee-panel,.skills-library):hover,.portfolio-contact-stage :is(article,form):hover{transform:translateY(-4px)!important;box-shadow:7px 8px 0 var(--sk-ink)!important}
+.portfolio-work-section .projects-featured-card{background:var(--sk-yellow)!important}
+.portfolio-work-section .projects-remaining .projects-grid>*:nth-child(4n+2){background:var(--sk-mint)!important}
+.portfolio-work-section .projects-remaining .projects-grid>*:nth-child(4n+3){background:var(--sk-lilac)!important}
+.portfolio-work-section .projects-remaining .projects-grid>*:nth-child(4n){background:var(--sk-sky)!important}
+.portfolio-shell .portfolio-hero-index{color:#4c4942!important}
+.portfolio-shell .portfolio-clock{font-weight:700!important;letter-spacing:.04em!important}
+.portfolio-shell .portfolio-mobile-menu{background:var(--sk-paper)!important;border:2px solid var(--sk-ink)!important;box-shadow:5px 5px 0 var(--sk-ink)!important}
+@keyframes sk-rise{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:translateY(0)}}
+@keyframes sk-side-in{from{opacity:0;transform:translateX(32px) rotate(3deg)}to{opacity:1;transform:translateX(0) rotate(0)}}
+@keyframes sk-nav-in{from{opacity:0;transform:translate(-50%,-12px)}to{opacity:1;transform:translate(-50%,0)}}
+@keyframes sk-float{0%,100%{translate:0 0}50%{translate:0 -12px}}
+@keyframes sk-star{0%,100%{rotate:8deg;scale:1}50%{rotate:18deg;scale:1.12}}
+@keyframes sk-orbit{from{rotate:0deg}to{rotate:360deg}}
+@keyframes sk-monogram{0%,100%{translate:0 0;rotate:-1deg}50%{translate:0 -8px;rotate:1deg}}
+@keyframes sk-kicker-in{from{opacity:0;translate:-14px 0}to{opacity:1;translate:0 0}}
+@keyframes sk-content-in{from{opacity:.65;translate:0 12px}to{opacity:1;translate:0 0}}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important;transition-duration:.01ms!important}}
+@media(max-width:900px){.hero-rebuild-side{animation-delay:.12s}.portfolio-section :is(article,.projects-featured-card,.skills-marquee-panel,.skills-library):hover,.portfolio-contact-stage :is(article,form):hover{transform:translateY(-2px)!important}}
+@media(max-width:600px){.portfolio-section-kicker{font-size:11px!important}.portfolio-section :is(p,li,label),.portfolio-contact-stage :is(p,li,label){font-size:1rem!important;line-height:1.55!important}.hero-rebuild-side{animation:none!important}.hero-orbit-one,.hero-orbit-two{animation-duration:35s!important}}
