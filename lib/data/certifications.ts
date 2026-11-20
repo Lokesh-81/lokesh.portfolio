@@ -135,7 +135,7 @@ export const certifications: Certification[] = [
     issuer: "Google Student Ambassador Program",
     issueDate: "Nov 04, 2026",
     credentialUrl: "/certificates/GSA_Semester1_Certificate_P.Lokesh.pdf",
-    badgeImage: "/certificates/gsa-2026-semester-1-thumbnail.jpg",
+    badgeImage: "/certificates/Thumbnail.png",
     status: "Issued",
     featured: true,
     description: "Certificate of Recognition for successfully completing Semester 1 and for outstanding performance and exceptional contribution as a Google Student Ambassador. Issued to P. Lokesh of Wesley Degree College on November 04, 2026.",
