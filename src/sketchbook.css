@@ -923,3 +923,74 @@ html,body{background:var(--sk-paper)!important;color:var(--sk-ink)!important}
  .contact-sketchbook .contact-form-panel { padding:22px!important; }
  .contact-sketchbook .contact-form-panel form>div.grid { grid-template-columns:minmax(0,1fr)!important; }
 }
+
+
+/* Focused layout corrections: form, ticker spacing, and hero-to-nav rhythm. */
+.portfolio-contact-stage .contact-sketchbook .contact-form-panel {
+  width:100%!important;max-width:none!important;min-width:0!important;
+  padding:clamp(28px,3.4vw,48px)!important;
+  background:#fffdf7!important;color:#24221f!important;
+  border:2px solid #29251f!important;border-radius:20px!important;
+  box-shadow:5px 5px 0 #29251f!important;
+}
+.portfolio-contact-stage .contact-sketchbook .contact-form-panel h3,
+.portfolio-contact-stage .contact-sketchbook .contact-form-panel label {
+  color:#24221f!important;opacity:1!important;
+}
+.portfolio-contact-stage .contact-sketchbook .contact-form-panel form {
+  display:flex!important;width:100%!important;gap:26px!important;
+}
+.portfolio-contact-stage .contact-sketchbook .contact-form-panel form>div.grid {
+  display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:24px!important;
+}
+.portfolio-contact-stage .contact-sketchbook .contact-form-panel form input,
+.portfolio-contact-stage .contact-sketchbook .contact-form-panel form textarea,
+.portfolio-contact-stage .contact-sketchbook .contact-form-panel form .contact-topic-field>button {
+  box-sizing:border-box!important;width:100%!important;max-width:none!important;
+  min-height:62px!important;padding:16px 20px!important;
+  border:1.5px solid #aaa092!important;border-radius:14px!important;
+  background:#fff!important;color:#24221f!important;font-size:15px!important;
+}
+.portfolio-contact-stage .contact-sketchbook .contact-form-panel form textarea {
+  min-height:210px!important;resize:vertical!important;line-height:1.65!important;
+}
+.portfolio-contact-stage .contact-sketchbook .contact-form-panel form input::placeholder,
+.portfolio-contact-stage .contact-sketchbook .contact-form-panel form textarea::placeholder {
+  color:#777064!important;opacity:1!important;
+}
+.portfolio-contact-stage .contact-sketchbook .contact-form-panel .contact-topic-menu {
+  z-index:80!important;background:#fff!important;border:2px solid #29251f!important;
+  border-radius:12px!important;box-shadow:4px 4px 0 #29251f!important;
+}
+.portfolio-contact-stage .contact-sketchbook .contact-form-panel .contact-topic-menu button {
+  min-height:48px!important;color:#24221f!important;border-radius:8px!important;
+}
+.portfolio-contact-stage .contact-sketchbook .contact-form-panel .contact-topic-menu button:hover {
+  background:#f0eafa!important;
+}
+.portfolio-contact-stage .contact-sketchbook .contact-form-panel form button[type="submit"] {
+  width:100%!important;min-height:58px!important;border-radius:12px!important;
+  background:#ffe17a!important;color:#24221f!important;border:1.5px solid #29251f!important;
+  box-shadow:3px 3px 0 #29251f!important;
+}
+.portfolio-contact-stage .contact-sketchbook .contact-direct-panel>* {
+  background:#fffdf7!important;color:#24221f!important;border:1.5px solid #29251f!important;
+  border-radius:12px!important;box-shadow:3px 3px 0 #29251f!important;
+}
+.tech-stack-slider .group>div>div { gap:16px!important; }
+.tech-stack-slider .group>div>div>div:last-child { margin-left:2px!important; }
+.portfolio-hero-stage { min-height:88svh!important; }
+.hero-rebuild {
+  min-height:88svh!important;
+  padding:88px clamp(24px,6vw,92px) 56px!important;
+}
+@media(max-width:900px) {
+  .hero-rebuild { padding-top:108px!important; }
+  .portfolio-hero-stage { min-height:92svh!important; }
+}
+@media(max-width:767px) {
+  .portfolio-contact-stage .contact-sketchbook .contact-form-panel { padding:22px!important; }
+  .portfolio-contact-stage .contact-sketchbook .contact-form-panel form>div.grid {
+    grid-template-columns:minmax(0,1fr)!important;
+  }
+}
