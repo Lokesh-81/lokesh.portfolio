@@ -538,3 +538,146 @@ html,body{background:var(--sk-paper)!important;color:var(--sk-ink)!important}
 
 /* Use the Belvo company name as a wordmark; do not invent a logo mark. */
 .belvo-wordmark-mark{display:none!important}
+
+
+/* Comprehensive legibility and interaction repair — preserve source data/assets. */
+.portfolio-shell .skills-marquee-panel,
+.portfolio-shell .skills-library,
+.portfolio-shell .skills-summary-strip>div {
+  background:#fffdf5!important;
+  color:#24221f!important;
+  border:1.7px solid #24221f!important;
+  box-shadow:4px 4px 0 #24221f!important;
+}
+.portfolio-shell .skills-marquee-panel .skills-panel-heading,
+.portfolio-shell .skills-library-heading,
+.portfolio-shell .skills-library-heading h3,
+.portfolio-shell .skills-library-heading span,
+.portfolio-shell .skills-filter-label,
+.portfolio-shell .skills-summary-strip span {
+  color:#49433c!important;
+  opacity:1!important;
+}
+.portfolio-shell .skills-summary-strip strong,
+.portfolio-shell .skills-directory-item .skills-item-number,
+.portfolio-shell .skills-directory-item .skills-item-main h4,
+.portfolio-shell .skills-directory-item .skills-item-main span,
+.portfolio-shell .skills-directory-item .skills-level {
+  color:#24221f!important;
+  opacity:1!important;
+}
+.portfolio-shell .skills-directory-item {
+  background:#fffdf5!important;
+  border-color:#b9ad9d!important;
+  color:#24221f!important;
+}
+.portfolio-shell .skills-directory-item :is(h4,span,svg) { opacity:1!important; }
+.portfolio-shell .skills-category-tabs { display:flex!important;flex-wrap:wrap!important;gap:9px!important; }
+.portfolio-shell .skills-category-tabs button {
+  display:inline-flex!important;align-items:center!important;justify-content:center!important;
+  gap:8px!important;min-height:40px!important;padding:8px 12px!important;
+  background:#fffdf5!important;color:#24221f!important;border:1.7px solid #24221f!important;
+  opacity:1!important;visibility:visible!important;
+}
+.portfolio-shell .skills-category-tabs button small {
+  display:inline-flex!important;align-items:center!important;justify-content:center!important;
+  flex:0 0 auto!important;min-width:23px!important;height:22px!important;padding:0 6px!important;
+  border-radius:5px!important;background:#ffe17a!important;border:1px solid #24221f!important;
+  color:#24221f!important;font:800 11px/1 Inter,sans-serif!important;opacity:1!important;visibility:visible!important;
+}
+.portfolio-shell .skills-category-tabs button.is-active { background:#d9cdf8!important;color:#211b2b!important; }
+.portfolio-shell .skills-category-tabs button.is-active small { background:#ffe17a!important;color:#24221f!important; }
+
+.skills-marquee-panel .group { width:100%!important; }
+.skills-marquee-panel .group>div { width:max-content!important;min-width:max-content!important;flex:0 0 auto!important; }
+.skills-marquee-panel .group>div>div {
+  display:flex!important;align-items:center!important;gap:11px!important;
+  width:176px!important;min-width:176px!important;height:54px!important;padding:8px 12px!important;
+  background:#fffdf5!important;border:1.5px solid #24221f!important;border-radius:7px!important;
+  box-shadow:2px 2px 0 #24221f!important;opacity:1!important;visibility:visible!important;
+}
+.skills-marquee-panel .group>div>div>div:first-child {
+  display:grid!important;place-items:center!important;flex:0 0 34px!important;
+  width:34px!important;height:34px!important;background:#f0eee6!important;
+  border:1px solid #c9c1b4!important;border-radius:6px!important;
+}
+.skills-marquee-panel .group>div>div svg { display:block!important;width:27px!important;height:27px!important;opacity:1!important;visibility:visible!important; }
+.skills-marquee-panel .group>div>div svg [stroke="#E8B8D2"] { stroke:#61dafb!important; }
+.skills-marquee-panel .group>div>div :is(span) { color:#24221f!important;opacity:1!important; }
+
+.portfolio-shell .portfolio-section,
+.portfolio-shell .portfolio-contact-stage { color:#24221f!important; }
+.portfolio-shell .portfolio-section :is(h1,h2,h3,h4,h5,strong,b),
+.portfolio-shell .portfolio-contact-stage :is(h1,h2,h3,h4,h5,strong,b) { color:#24221f!important;opacity:1!important; }
+.portfolio-shell .portfolio-section :is(p,li,label,small),
+.portfolio-shell .portfolio-contact-stage :is(p,li,label,small) { color:#403d37!important;opacity:1!important; }
+.portfolio-shell .portfolio-section :is(a,button),
+.portfolio-shell .portfolio-contact-stage :is(a,button) { opacity:1!important; }
+.portfolio-shell .portfolio-section [class*="text-white"],
+.portfolio-shell .portfolio-contact-stage [class*="text-white"] { color:#24221f!important; }
+
+.certifications-sketchbook button .credential-category-count,
+.certifications-sketchbook button .credential-category-count *,
+.certifications-sketchbook .credential-category-count {
+  display:inline-flex!important;align-items:center!important;justify-content:center!important;
+  min-width:24px!important;min-height:22px!important;padding:2px 6px!important;
+  background:#ffe17a!important;color:#24221f!important;border:1px solid #24221f!important;
+  border-radius:5px!important;font:800 11px/1 Inter,sans-serif!important;
+  opacity:1!important;visibility:visible!important;transform:none!important;
+}
+.certifications-sketchbook button:hover .credential-category-count,
+.certifications-sketchbook button:focus-visible .credential-category-count { opacity:1!important;visibility:visible!important; }
+
+.experience-card .experience-belvo-lor,
+.experience-card .experience-belvo-lor * { visibility:visible!important;opacity:1!important; }
+.experience-card .experience-belvo-lor {
+  display:block!important;min-height:0!important;height:auto!important;overflow:visible!important;
+  background:#f0eafa!important;color:#24221f!important;border:2px solid #24221f!important;
+  box-shadow:4px 4px 0 #24221f!important;padding:22px!important;
+}
+.experience-card .experience-belvo-lor :is(.experience-lor-title,.experience-lor-meta,.experience-lor-quote,strong,span,p) { color:#24221f!important; }
+.experience-card .experience-belvo-lor button { min-height:42px!important;background:#ffe17a!important;color:#24221f!important;border:1.5px solid #24221f!important; }
+.experience-card .experience-belvo-lor button * { color:#24221f!important; }
+
+.belvo-certification-showcase { background:#fffdf5!important;color:#24221f!important; }
+.belvo-certification-showcase :is(h3,h4,p,span,strong,blockquote) { color:#24221f!important;opacity:1!important; }
+.belvo-certification-showcase .belvo-lor-thumbnail {
+  min-height:420px!important;height:420px!important;display:block!important;
+  background:#fff!important;border:2px solid #24221f!important;overflow:hidden!important;
+}
+.belvo-certification-showcase .belvo-lor-thumbnail iframe {
+  display:block!important;width:100%!important;height:375px!important;min-height:375px!important;
+  background:#fff!important;pointer-events:none!important;
+}
+.belvo-certification-showcase .belvo-lor-thumbnail span {
+  display:block!important;height:43px!important;padding:12px!important;
+  background:#ffe17a!important;color:#24221f!important;font-weight:800!important;
+}
+
+.contact-sketchbook .mt-8.grid { gap:32px!important; }
+.contact-sketchbook .lg\:col-span-7 {
+  padding:clamp(26px,3vw,44px)!important;
+  min-width:0!important;
+}
+.contact-sketchbook form { display:flex!important;flex-direction:column!important;gap:22px!important; }
+.contact-sketchbook form>div { margin:0!important; }
+.contact-sketchbook form label { display:block!important;margin-bottom:9px!important;font-size:14px!important;font-weight:700!important;color:#24221f!important; }
+.contact-sketchbook form input,
+.contact-sketchbook form button[aria-haspopup="listbox"] {
+  min-height:50px!important;padding:13px 15px!important;font-size:14px!important;line-height:1.4!important;
+}
+.contact-sketchbook form textarea {
+  min-height:180px!important;padding:15px!important;font-size:14px!important;line-height:1.6!important;resize:vertical!important;
+}
+.contact-sketchbook form textarea::placeholder,
+.contact-sketchbook form input::placeholder { color:#716b61!important;opacity:1!important; }
+.contact-sketchbook form button[type="submit"] { min-height:52px!important;font-size:15px!important; }
+.contact-sketchbook .lg\:col-span-7>div:first-of-type { margin-bottom:25px!important;padding-bottom:18px!important; }
+.contact-sketchbook .space-y-4> :not([hidden])~ :not([hidden]) { margin-top:0!important; }
+@media(max-width:700px){
+ .contact-sketchbook .lg\:col-span-7{padding:22px!important}
+ .contact-sketchbook form>div.grid{grid-template-columns:1fr!important}
+ .contact-sketchbook form textarea{min-height:150px!important}
+ .belvo-certification-showcase .belvo-lor-thumbnail{height:330px!important;min-height:330px!important}
+ .belvo-certification-showcase .belvo-lor-thumbnail iframe{height:285px!important;min-height:285px!important}
+}
