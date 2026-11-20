@@ -3,6 +3,7 @@
 import React, { useState, useRef } from 'react';
 import { usePortfolio } from '@/lib/portfolio-context';
 import { uploadMediaToSupabase } from '@/lib/supabase';
+import { getGoogleDriveFileId, toGoogleDrivePreviewUrl } from '../google-drive';
 import { saveActiveResumeDocument } from '@/lib/document-storage';
 import type { ResumeItem, ExperienceItem } from '@/lib/portfolio-types';
 import { UniversalDocumentViewer } from '@/components/ui/universal-document-viewer';
@@ -729,7 +730,7 @@ ${lorFormData.role}`;
               {/* Download Official PDF */}
               <button
                 type="button"
-                onClick={() => downloadDocument(activeResume?.url || '/resume.pdf', activeResume?.title || 'Poosala_Lokesh_Resume.pdf')}
+                onClick={() => { const url = activeResume?.url || '/resume.pdf'; if (getGoogleDriveFileId(url)) window.open(toGoogleDrivePreviewUrl(url), '_blank', 'noopener,noreferrer'); else downloadDocument(url, activeResume?.title || 'Poosala_Lokesh_Resume.pdf'); }}
                 className="flex items-center gap-1.5 rounded-xl bg-gradient-to-r from-[#2563EB] to-[#3B82F6] hover:from-[#1D4ED8] hover:to-[#2563EB] px-3.5 py-1.5 text-xs font-semibold text-white shadow-sm hover:scale-[1.02] active:scale-[0.98] transition-all cursor-pointer"
                 title="Download the official PDF file"
               >
@@ -750,7 +751,7 @@ ${lorFormData.role}`;
             >
               <div className="max-w-[820px] w-full">
                 <UniversalDocumentViewer
-                  url={activeResume?.url || '/resume.pdf'}
+                  url={toGoogleDrivePreviewUrl(activeResume?.url || '/resume.pdf')}
                   title={activeResume?.title || 'Poosala Lokesh - Active Resume'}
                   height={820}
                 />
@@ -934,7 +935,7 @@ ${lorFormData.role}`;
                 >
                   <div className="max-w-[820px] w-full">
                     <UniversalDocumentViewer
-                      url={lorFormData.pdfUrl || lorFormData.vectorUrl || '/belvo-lor-page.svg'}
+                      url={toGoogleDrivePreviewUrl(lorFormData.pdfUrl || lorFormData.vectorUrl || '/belvo-lor-page.svg')}
                       title={lorFormData.title || 'Belvo Letter of Recommendation'}
                       height={800}
                       fallbackImage="/belvo-lor-page.svg"
@@ -1336,7 +1337,7 @@ ${lorFormData.role}`;
 
               <div>
                 <label className="block text-xs font-medium text-[#CBD5E1] mb-1">
-                  PDF Download URL / Supabase Asset Path
+                  PDF URL / Supabase Path / Google Drive Link
                 </label>
                 <div className="flex gap-2">
                   <input
@@ -1474,7 +1475,7 @@ ${lorFormData.role}`;
 
               <div>
                 <label className="block text-xs font-medium text-[#CBD5E1] mb-1">
-                  File URL / Supabase Asset Path
+                  File URL / Supabase Path / Google Drive Link
                 </label>
                 <input
                   type="text"
