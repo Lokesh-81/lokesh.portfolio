@@ -25,6 +25,7 @@ import { runClientThrottledHealthCheck } from "@/lib/supabase-health"
 import {
   supabase,
   loadPortfolioDataset,
+  testSupabaseConnection,
   defaultHeroSettings,
   defaultAboutSettings,
   defaultEducations,
@@ -222,12 +223,17 @@ export function PortfolioProvider({ children }: { children: React.ReactNode }) {
       setTestimonials(data.testimonials || defaultTestimonials)
       setMessages(data.messages)
 
-      // Test Supabase connectivity via minimal read-only check
+      // Check the actual PostgreSQL backend, not only the Storage bucket.
+      // A missing Storage bucket must not incorrectly mark a healthy database as disconnected.
       try {
-        const { error } = await supabase.storage.from('portfolio-media').list('', { limit: 1 })
-        setSupabaseStatus(error ? 'cached' : 'connected')
-      } catch {
+        const backendCheck = await testSupabaseConnection()
+        setSupabaseStatus(backendCheck.connected ? 'connected' : 'cached')
+        if (!backendCheck.connected) {
+          console.warn('[Portfolio Backend] Supabase database check failed:', backendCheck.diagnostic || backendCheck.error)
+        }
+      } catch (backendError) {
         setSupabaseStatus('cached')
+        console.warn('[Portfolio Backend] Supabase health check failed:', backendError)
       }
     } catch (e: any) {
       console.debug("[Portfolio] Default dataset active:", e?.message || e)

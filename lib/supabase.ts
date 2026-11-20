@@ -872,11 +872,15 @@ export async function loadPortfolioDataset() {
         const existing =
           result.experiences.find((e) => e.id === row.id) ||
           initialExperienceData.find((e) => e.id === row.id);
-        return {
+        const merged = {
           ...existing,
           ...row,
           lor: row.lor !== undefined ? row.lor : existing?.lor,
         };
+        // Keep the verified program period consistent even when an older CMS row is cached remotely.
+        return row.id === 'google-ambassador'
+          ? { ...merged, period: '2025–2026', startDate: '2025', endDate: '2026' }
+          : merged;
       });
       setLocal(CACHE_KEYS.EXPERIENCE, result.experiences);
     }

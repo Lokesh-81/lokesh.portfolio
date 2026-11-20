@@ -263,7 +263,7 @@ export function ExperienceSection({ onNavigate }: ExperienceSectionProps = {}) {
             const tr = experienceTranslations[language]?.[exp.id];
             const company = tr?.company || exp.company;
             const role = tr?.role || exp.role;
-            const period = tr?.period || exp.period;
+            const period = exp.id === 'google-ambassador' ? '2025–2026' : (tr?.period || exp.period);
             const location = tr?.location || exp.location;
             const description = tr?.description || exp.description;
             const responsibilities = tr?.responsibilities || exp.responsibilities;

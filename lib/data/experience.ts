@@ -73,7 +73,7 @@ export const experiences: Experience[] = [
     id: "google-ambassador",
     company: "Google Student Ambassador Program",
     role: "Google Student Ambassador",
-    period: "2025",
+    period: "2025–2026",
     location: "Remote",
     type: "Community & Tech Leadership",
     description:

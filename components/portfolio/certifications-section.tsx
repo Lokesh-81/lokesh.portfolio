@@ -64,6 +64,7 @@ export function CertificationsSection({ onNavigate }: CertificationsSectionProps
   const [searchQuery, setSearchQuery] = useState('');
 
   const cert = certifications[0]; // Primary GCP PCA certification
+  const ambassadorCert = certifications.find((item) => item.id === 'google-student-ambassador-2026');
 
   const handleCopy = (id: string) => {
     navigator.clipboard.writeText(id);
@@ -464,6 +465,55 @@ export function CertificationsSection({ onNavigate }: CertificationsSectionProps
             </div>
           </div>
         </div>
+
+        {/* Google Student Ambassador Program 2026 — Semester 1 */}
+        {ambassadorCert && (
+          <section className="mt-8 overflow-hidden rounded-3xl border border-[#35263D] bg-[#1A1222]/90 shadow-xl">
+            <div className="grid gap-6 p-5 sm:p-7 lg:grid-cols-[minmax(280px,420px)_1fr] lg:items-center">
+              <a
+                href={ambassadorCert.credentialUrl}
+                target="_blank"
+                rel="noreferrer"
+                className="group block overflow-hidden rounded-2xl border border-[#8BB8F2]/40 bg-[#DCEBFF] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#8BB8F2]"
+                aria-label="Open Google Student Ambassador 2026 Semester 1 certificate PDF"
+              >
+                <img
+                  src={ambassadorCert.badgeImage}
+                  alt="Google Student Ambassador Program 2026 Semester 1 Certificate of Recognition for P. Lokesh"
+                  className="block aspect-[16/9] w-full object-cover transition-transform duration-500 group-hover:scale-[1.025]"
+                  loading="lazy"
+                />
+              </a>
+              <div className="min-w-0">
+                <div className="inline-flex items-center gap-2 rounded-full border border-[#4285F4]/30 bg-[#4285F4]/10 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.16em] text-[#A9CBFF]">
+                  <Award className="h-3.5 w-3.5" />
+                  Certificate of Recognition
+                </div>
+                <h3 className="mt-4 text-2xl font-semibold tracking-tight text-[#F5EAF5] sm:text-3xl">
+                  Google Student Ambassador Program 2026
+                </h3>
+                <p className="mt-1 text-sm font-medium text-[#E8B8D2]">Semester 1 · P. Lokesh · Wesley Degree College</p>
+                <p className="mt-3 max-w-2xl text-sm leading-6 text-[#DCCFE0]">
+                  Recognized for successfully completing Semester 1 and for outstanding performance and exceptional contribution as a Google Student Ambassador.
+                </p>
+                <div className="mt-4 flex flex-wrap items-center gap-3 text-xs text-[#BDA9C4]">
+                  <span className="rounded-full border border-[#35263D] px-3 py-1.5">Issued November 04, 2026</span>
+                  <span className="rounded-full border border-[#35263D] px-3 py-1.5">Issued by Google Student Ambassador Program</span>
+                </div>
+                <a
+                  href={ambassadorCert.credentialUrl}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="mt-5 inline-flex items-center gap-2 rounded-full border border-[#8BB8F2]/50 bg-[#4285F4]/15 px-4 py-2.5 text-sm font-semibold text-[#D8E8FF] transition-colors hover:bg-[#4285F4]/25"
+                >
+                  <FileText className="h-4 w-4" />
+                  View certificate PDF
+                  <ArrowUpRight className="h-4 w-4" />
+                </a>
+              </div>
+            </div>
+          </section>
+        )}
 
         {/* Google Cloud Skill Badges Section Header */}
         <div className="mt-16 pt-8 border-t border-[#35263D]">
