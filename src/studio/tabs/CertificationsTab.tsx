@@ -52,7 +52,7 @@ export function CertificationsTab({ showToast }: CertificationsTabProps) {
       title: '',
       issuer: 'Google Cloud',
       issueDate: 'Sep 2023',
-      expiryDate: 'Sep 2026',
+      expiryDate: '',
       credentialId: '',
       credentialUrl: '',
       badgeUrl: '/professional-cloud-architect-certification.svg',
@@ -248,7 +248,7 @@ export function CertificationsTab({ showToast }: CertificationsTabProps) {
                     </span>
                   </div>
                   <p className="mt-0.5 text-[11px] text-[#94A3B8]">
-                    Valid: {cert.issueDate || 'Sep 2023'} – {cert.expiryDate || 'Sep 2026'}
+                    {cert.issueDate ? `Issued ${cert.issueDate}` : cert.issuer}
                     {cert.credentialId && ` • ID: ${cert.credentialId}`}
                   </p>
                 </div>
@@ -358,29 +358,16 @@ export function CertificationsTab({ showToast }: CertificationsTabProps) {
                 />
               </div>
 
-              <div className="grid grid-cols-2 gap-3">
-                <div>
-                  <label className="block text-xs font-medium text-[#CBD5E1] mb-1">Issuer *</label>
-                  <input
-                    type="text"
-                    required
-                    value={editingCert.issuer || ''}
-                    onChange={(e) => setEditingCert({ ...editingCert, issuer: e.target.value })}
-                    placeholder="Google Cloud"
-                    className="w-full rounded-xl border border-[#1F2937] bg-[#0B132B] px-3.5 py-2 text-xs text-[#E0E7FF] focus:border-[#60A5FA] focus:outline-none"
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-xs font-medium text-[#CBD5E1] mb-1">Expiry / Valid Until</label>
-                  <input
-                    type="text"
-                    value={editingCert.expiryDate || ''}
-                    onChange={(e) => setEditingCert({ ...editingCert, expiryDate: e.target.value })}
-                    placeholder="Sep 2026"
-                    className="w-full rounded-xl border border-[#1F2937] bg-[#0B132B] px-3.5 py-2 text-xs text-[#E0E7FF] focus:border-[#60A5FA] focus:outline-none"
-                  />
-                </div>
+              <div>
+                <label className="block text-xs font-medium text-[#CBD5E1] mb-1">Issuer *</label>
+                <input
+                  type="text"
+                  required
+                  value={editingCert.issuer || ''}
+                  onChange={(e) => setEditingCert({ ...editingCert, issuer: e.target.value })}
+                  placeholder="Google Cloud"
+                  className="w-full rounded-xl border border-[#1F2937] bg-[#0B132B] px-3.5 py-2 text-xs text-[#E0E7FF] focus:border-[#60A5FA] focus:outline-none"
+                />
               </div>
 
               <div>
@@ -395,25 +382,22 @@ export function CertificationsTab({ showToast }: CertificationsTabProps) {
               </div>
 
               <div>
-                <label className="block text-xs font-medium text-[#CBD5E1] mb-1">Badge Image / Vector</label>
-                <div className="flex items-center gap-3">
-                  <StudioDropzone
-                    accept="image/*"
-                    title={isUploadingCert ? 'Uploading badge…' : 'Drop certification badge here'}
-                    description="Drag & drop an image, or browse files"
-                    disabled={isUploadingCert}
-                    compact
-                    onFiles={(files) => void handleCertBadgeUpload(files[0])}
-                    className="flex-1"
-                  />
-                  <input
-                    type="text"
-                    value={editingCert.badgeUrl || ''}
-                    onChange={(e) => setEditingCert({ ...editingCert, badgeUrl: toGoogleDriveImageUrl(e.target.value) })}
-                    placeholder="Image URL or Google Drive sharing link"
-                    className="flex-1 rounded-xl border border-[#1F2937] bg-[#0B132B] px-3 py-2 text-xs text-[#E0E7FF] focus:border-[#60A5FA] focus:outline-none"
-                  />
-                </div>
+                <label className="block text-xs font-medium text-[#CBD5E1] mb-2">Badge Image / Vector</label>
+                <StudioDropzone
+                  accept="image/*"
+                  title={isUploadingCert ? 'Uploading badge…' : 'Drag & drop your certificate badge'}
+                  description="Drop an image anywhere in this area, or click Browse files"
+                  disabled={isUploadingCert}
+                  onFiles={(files) => void handleCertBadgeUpload(files[0])}
+                  className="w-full"
+                />
+                <input
+                  type="text"
+                  value={editingCert.badgeUrl || ''}
+                  onChange={(e) => setEditingCert({ ...editingCert, badgeUrl: toGoogleDriveImageUrl(e.target.value) })}
+                  placeholder="Or paste an image URL / Google Drive sharing link"
+                  className="mt-3 w-full rounded-xl border border-[#1F2937] bg-[#0B132B] px-3 py-2.5 text-xs text-[#E0E7FF] focus:border-[#60A5FA] focus:outline-none"
+                />
               </div>
 
               <div className="flex justify-end gap-3 pt-4 border-t border-[#1F2937]">
