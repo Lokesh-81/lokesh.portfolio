@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import { usePortfolio } from '@/lib/portfolio-context';
 import { uploadMediaToSupabase } from '@/lib/supabase';
+import { toGoogleDriveImageUrl } from '../google-drive';
 import { Save, Upload, User, CheckCircle2, AlertCircle, RefreshCw } from 'lucide-react';
 
 interface ProfileTabProps {
@@ -99,7 +100,7 @@ export function ProfileTab({ showToast }: ProfileTabProps) {
           <div className="relative flex h-24 w-24 shrink-0 items-center justify-center overflow-hidden rounded-2xl border border-[#2563EB]/40 bg-[#0B132B]">
             {formData.photoUrl ? (
               <img
-                src={formData.photoUrl}
+                src={toGoogleDriveImageUrl(formData.photoUrl)}
                 alt="Profile Preview"
                 className="h-full w-full object-cover"
                 referrerPolicy="no-referrer"
@@ -140,8 +141,8 @@ export function ProfileTab({ showToast }: ProfileTabProps) {
               type="text"
               name="photoUrl"
               value={formData.photoUrl}
-              onChange={handleChange}
-              placeholder="Or paste public image URL..."
+              onChange={(event) => setFormData((prev) => ({ ...prev, photoUrl: toGoogleDriveImageUrl(event.target.value) }))}
+              placeholder="Paste image URL or Google Drive sharing link..."
               className="w-full rounded-xl border border-[#1F2937] bg-[#0B132B] px-3.5 py-2 text-xs text-[#E0E7FF] placeholder-[#475569] focus:border-[#60A5FA] focus:outline-none"
             />
           </div>
