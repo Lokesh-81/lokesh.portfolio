@@ -430,3 +430,78 @@ html,body{background:var(--sk-paper)!important;color:var(--sk-ink)!important}
 .testimonial-ledger-card:hover{transform:translateY(-5px) rotate(-.25deg)!important;box-shadow:6px 7px 0 #24221f!important}
 @media(max-width:900px){.testimonials-ledger{grid-template-columns:repeat(2,minmax(0,1fr))!important}.testimonials-editorial-heading{grid-template-columns:1fr!important}}
 @media(max-width:600px){.testimonials-ledger{grid-template-columns:1fr!important}.testimonial-ledger-card{min-height:0!important}.testimonials-editorial-heading h2{font-size:48px!important}}
+
+
+/* Focused repair pass: keep the Sketchbook look without changing portfolio data. */
+/* Remove the moving background decorations; keep the paper canvas calm. */
+.portfolio-hero-stage:before,.portfolio-hero-stage:after{display:none!important;animation:none!important}
+.hero-rebuild{min-height:calc(100svh - 38px)!important;padding-top:92px!important;padding-bottom:54px!important;align-items:center!important}
+.hero-rebuild-side{min-height:390px!important;display:flex!important;align-items:center!important;justify-content:center!important}
+.hero-orbit,.hero-monogram{display:none!important;animation:none!important}
+.hero-architecture{width:min(100%,520px);padding:18px;background:#fffdf5;border:2px solid #171719;border-radius:8px;box-shadow:7px 7px 0 #171719;transform:rotate(.5deg)}
+.hero-architecture svg{display:block;width:100%;height:auto}
+.hero-architecture-caption{display:flex;justify-content:space-between;gap:10px;margin-top:12px;padding-top:9px;border-top:1px solid #d8cfbf;color:#514b43;font:700 10px/1.4 Inter,sans-serif;letter-spacing:.13em}
+@media(max-width:900px){.hero-rebuild{padding-top:118px!important;padding-bottom:42px!important;min-height:auto!important}.hero-rebuild-side{min-height:300px!important}.hero-architecture{max-width:460px}}
+@media(max-width:600px){.hero-rebuild{padding-top:118px!important}.hero-rebuild-side{min-height:250px!important}.hero-architecture{padding:10px}.hero-architecture-caption{font-size:8px}}
+/* Keep the clock visible above the header and page layers. */
+.portfolio-clock{display:inline-flex!important;visibility:visible!important;opacity:1!important;position:fixed!important;z-index:999!important;top:104px!important;right:clamp(14px,3vw,42px)!important;min-height:38px!important;padding:9px 13px!important;background:#ffe17a!important;color:#171719!important;border:1.5px solid #171719!important;box-shadow:3px 3px 0 #171719!important;font-size:12px!important}
+.portfolio-clock *{color:#171719!important;opacity:1!important}
+.portfolio-clock-dot{background:#355be5!important;flex:none!important}
+.portfolio-clock-divider{padding:0 3px!important}
+@media(max-width:600px){.portfolio-clock{top:82px!important;right:12px!important;font-size:10px!important}}
+/* Skills marquee: define the missing keyframes used by InfiniteSlider. */
+.skills-marquee-panel .group{overflow:hidden!important;mask-image:linear-gradient(90deg,transparent,#000 4%,#000 96%,transparent)}
+.skills-marquee-panel .group>div{width:max-content!important;min-width:100%!important;flex:0 0 auto!important;animation:sk-tech-marquee 30s linear infinite!important}
+.skills-marquee-panel .group:hover>div{animation-play-state:paused!important}
+.skills-marquee-panel .group>div:nth-child(2){animation-name:sk-tech-marquee!important}
+@keyframes sk-tech-marquee{from{transform:translateX(0)}to{transform:translateX(-100%)}}
+@keyframes sk-tech-marquee-reverse{from{transform:translateX(-100%)}to{transform:translateX(0)}}
+.skills-marquee-panel .group:has(>div:nth-child(2))>div{animation-duration:30s!important}
+.skills-marquee-panel .group:nth-child(2) .group>div{animation-name:sk-tech-marquee-reverse!important}
+.skills-marquee-panel .group>div>*{flex:none!important}
+.skills-marquee-panel .group>div>div{background:#fffdf5!important;border:1.5px solid #24221f!important;box-shadow:2px 2px 0 #24221f!important}
+.skills-marquee-panel .group>div>div :is(span){color:#24221f!important}
+.skills-marquee-panel .group>div>div svg{color:#355be5!important}
+/* Work-history Belvo LOR: target the exact card, not generic nested elements. */
+.experience-card{background:#fffdf5!important;color:#24221f!important;border:1.5px solid #24221f!important;box-shadow:5px 5px 0 #24221f!important}
+.experience-card :is(h3,strong){color:#24221f!important}
+.experience-card :is(p,li,span){color:#49433c!important}
+.experience-card .experience-belvo-lor{display:block!important;visibility:visible!important;opacity:1!important;background:#f0eafa!important;background-image:none!important;border:2px solid #24221f!important;border-radius:7px!important;box-shadow:4px 4px 0 #24221f!important;padding:20px!important}
+.experience-card .experience-belvo-lor :is(div,span,p,strong){color:#302a25!important;opacity:1!important}
+.experience-card .experience-lor-title{color:#24221f!important;font-weight:800!important}
+.experience-card .experience-lor-meta{color:#49433c!important}
+.experience-card .experience-lor-quote{background:#fffdf5!important;border:1px solid #c9bdad!important;color:#403a34!important}
+.experience-card .experience-belvo-lor button{background:#ffe17a!important;color:#24221f!important;border:1.5px solid #24221f!important;box-shadow:3px 3px 0 #24221f!important}
+.experience-card .experience-belvo-lor button *{color:#24221f!important}
+/* Belvo credentials: render the original PDF, never the hand-drawn placeholder SVG/logo. */
+.belvo-certification-showcase{display:block!important;background:#fffdf5!important;background-image:none!important;color:#24221f!important;border:2px solid #24221f!important;box-shadow:6px 6px 0 #24221f!important;backdrop-filter:none!important}
+.belvo-certification-showcase :is(h2,h3,h4,strong,b,span,p,div){color:#302a25}
+.belvo-certification-showcase .belvo-lor-thumbnail{display:block!important;position:relative!important;width:100%!important;min-height:390px!important;overflow:hidden!important;border:1.5px solid #24221f!important;border-radius:6px!important;background:#eee9dc!important;box-shadow:4px 4px 0 #24221f!important;cursor:pointer!important}
+.belvo-certification-showcase .belvo-lor-thumbnail iframe{display:block!important;width:100%!important;height:390px!important;border:0!important;background:#fff!important;pointer-events:none!important}
+.belvo-certification-showcase .belvo-lor-thumbnail span{display:block!important;padding:10px!important;background:#ffe17a!important;color:#24221f!important;text-align:center!important;font:700 10px/1.4 Inter,sans-serif!important;letter-spacing:.12em!important}
+.belvo-wordmark-mark{display:grid!important;place-items:center!important;width:74px!important;height:74px!important;margin:0 auto 12px!important;background:#ffe17a!important;border:2px solid #24221f!important;border-radius:50%!important;color:#24221f!important;font:800 40px/1 'Barlow Condensed',sans-serif!important;box-shadow:3px 3px 0 #24221f!important}
+.belvo-wordmark{display:block!important;color:#24221f!important;font:800 20px/1 'Barlow Condensed',sans-serif!important;letter-spacing:.18em!important}
+.belvo-wordmark-sub{display:block!important;margin-top:4px!important;color:#625b52!important;font:700 9px/1.4 Inter,sans-serif!important;letter-spacing:.2em!important}
+.credential-stat-value{display:block!important;min-width:2ch!important;color:#24221f!important;font:800 26px/1.2 'Barlow Condensed',sans-serif!important;opacity:1!important}
+.credential-category-count{display:inline-flex!important;align-items:center!important;justify-content:center!important;min-width:22px!important;min-height:20px!important;padding:2px 6px!important;background:#ffe17a!important;color:#24221f!important;border:1px solid #24221f!important;border-radius:4px!important;font:800 11px/1 Inter,sans-serif!important;opacity:1!important}
+.certifications-sketchbook button{color:#24221f!important}
+.certifications-sketchbook button span{color:inherit}
+.certifications-sketchbook .credential-category-count{color:#24221f!important}
+.belvo-pdf-frame{display:block!important;width:100%!important;height:100%!important;min-height:72vh!important;border:0!important;background:#fff!important}
+@media(max-width:700px){.belvo-certification-showcase .belvo-lor-thumbnail,.belvo-certification-showcase .belvo-lor-thumbnail iframe{min-height:300px!important;height:300px!important}}
+/* Contact form: make fields, dropdown and message state consistently legible. */
+.contact-sketchbook{color:#24221f!important}
+.contact-sketchbook form,.contact-sketchbook .lg\:col-span-7{background:#fffdf5!important;background-image:none!important;border:1.5px solid #24221f!important;border-radius:8px!important;box-shadow:5px 5px 0 #24221f!important}
+.contact-sketchbook :is(label,h3,strong){color:#24221f!important}
+.contact-sketchbook :is(p,span){color:#514b43}
+.contact-sketchbook input,.contact-sketchbook textarea,.contact-sketchbook select,.contact-sketchbook form button[aria-haspopup="listbox"]{background:#fff!important;color:#24221f!important;border:1.5px solid #777067!important;border-radius:5px!important;box-shadow:none!important}
+.contact-sketchbook input::placeholder,.contact-sketchbook textarea::placeholder{color:#777067!important;opacity:1!important}
+.contact-sketchbook form [class*="absolute left-0 right-0 top-full"]{background:#fffdf5!important;border:1.5px solid #24221f!important;box-shadow:4px 4px 0 #24221f!important}
+.contact-sketchbook form [class*="absolute left-0 right-0 top-full"] button{color:#24221f!important;background:transparent!important}
+.contact-sketchbook form [class*="absolute left-0 right-0 top-full"] button:hover{background:#f0eafa!important}
+.contact-sketchbook form button[type="submit"]{background:#ffe17a!important;color:#24221f!important;border:1.5px solid #24221f!important;box-shadow:3px 3px 0 #24221f!important}
+.contact-sketchbook form button[type="submit"] *{color:#24221f!important}
+.contact-sketchbook>div>div>div:last-child>a,.contact-sketchbook>div>div>div:last-child>div{background:#fffdf5!important;color:#24221f!important;border:1.5px solid #24221f!important;box-shadow:3px 3px 0 #24221f!important}
+.contact-sketchbook>div>div>div:last-child :is(span,a,button){color:#24221f!important}
+.contact-sketchbook>div>div>div:last-child a{overflow-wrap:anywhere}
+@media(prefers-reduced-motion:reduce){.hero-architecture,.skills-marquee-panel .group>div{animation:none!important}}
