@@ -1100,3 +1100,34 @@ html,body{background:var(--sk-paper)!important;color:var(--sk-ink)!important}
 @media(max-width:600px) {
   .portfolio-shell main #home .hero-rebuild { padding:14px 22px 28px!important; }
 }
+
+
+/* Tech stack cards: logo stays on the left, followed by name, category and purpose. */
+.tech-stack-slider>div>div>div {
+  height:82px!important;min-height:82px!important;
+  align-items:center!important;gap:16px!important;
+}
+.tech-stack-slider>div>div>div>div:first-child {
+  flex:0 0 44px!important;width:44px!important;min-width:44px!important;
+  height:44px!important;min-height:44px!important;
+}
+.tech-stack-slider>div>div>div>div:last-child {
+  display:flex!important;flex-direction:column!important;justify-content:center!important;
+  gap:3px!important;min-width:0!important;
+}
+.tech-stack-slider>div>div>div>div:last-child span {
+  white-space:normal!important;overflow:visible!important;text-overflow:clip!important;
+}
+.tech-stack-slider>div>div>div>div:last-child span:last-child {
+  font-family:Inter,Arial,sans-serif!important;font-size:10px!important;
+  line-height:1.25!important;text-transform:none!important;letter-spacing:0!important;
+}
+
+/* Contact feedback is activated by actual input changes, never by focus alone. */
+.contact-sketchbook .contact-form-panel {
+  transition:box-shadow .22s ease,border-color .22s ease;
+}
+.contact-sketchbook .contact-form-panel.is-typing {
+  border-color:#8b72d8!important;
+  box-shadow:0 0 0 4px rgba(167,123,194,.16),5px 5px 0 #24221f!important;
+}
