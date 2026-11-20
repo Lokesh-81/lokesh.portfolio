@@ -1063,7 +1063,7 @@ export async function testSupabaseConnection(): Promise<{
         connected: false,
         error: error.message,
         diagnostic:
-          error.code === 'PGRST116' || error.message.includes('relation') || error.message.includes('does not exist')
+          ['PGRST116', 'PGRST205', '42P01'].includes(error.code || '') || error.message.includes('relation') || error.message.includes('does not exist')
             ? 'Connected to Supabase project, but tables are pending. Run supabase/schema.sql in the Supabase SQL Editor.'
             : error.message,
       };
