@@ -124,8 +124,7 @@ export const certifications: Certification[] = [
       "High Availability & RPO/RTO Disaster Recovery",
       "Cost Optimization & Architectural Review Frameworks"
     ]
-  }
-  ,
+  },
   {
     id: "google-student-ambassador-2026",
     title: "Google Student Ambassador Program 2026 — Semester 1",
@@ -137,7 +136,7 @@ export const certifications: Certification[] = [
     issueDate: "Nov 04, 2026",
     credentialUrl: "/certificates/GSA_Semester1_Certificate_P.Lokesh.pdf",
     badgeImage: "/certificates/gsa-2026-semester-1-thumbnail.svg",
-    status: "Lifetime",
+    status: "Issued",
     featured: true,
     description: "Certificate of Recognition for successfully completing Semester 1 and for outstanding performance and exceptional contribution as a Google Student Ambassador. Issued to P. Lokesh of Wesley Degree College on November 04, 2026.",
     technologies: ["Gemini", "Student Community", "Technology Outreach", "Community Leadership"]
