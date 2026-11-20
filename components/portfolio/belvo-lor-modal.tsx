@@ -17,7 +17,6 @@ import {
   FileText,
 } from 'lucide-react';
 import { usePortfolio } from '@/lib/portfolio-context';
-import { UniversalDocumentViewer } from '@/components/ui/universal-document-viewer';
 import {
   openDocumentInNewTab,
   downloadDocument,
@@ -50,7 +49,7 @@ export function BelvoLorModal({
 
   const currentPdfUrl = pdfUrl || belvoExp?.lor?.pdfUrl || '/belvo-lor.pdf';
   const currentVectorUrl = vectorUrl || belvoExp?.lor?.vectorUrl;
-  const currentDocUrl = currentPdfUrl || currentVectorUrl || '/belvo-lor-page.svg';
+  const currentDocUrl = currentPdfUrl || currentVectorUrl || '/belvo-lor.pdf';
   const currentTitle = title || belvoExp?.lor?.title || 'Belvo Company — Letter of Recommendation';
   const currentIssuer = belvoExp?.lor?.issuer || 'Belvo Company';
   const currentSignatory = belvoExp?.lor?.issuedBy || 'Hrishikesh Mishra';
@@ -257,11 +256,11 @@ Location: Goregaon, Mumbai`;
                   transformOrigin: 'top center',
                 }}
               >
-                <UniversalDocumentViewer
-                  url={currentDocUrl}
+                <iframe
+                  src={`${currentPdfUrl}#toolbar=1&navpanes=0&view=FitH`}
                   title={currentTitle}
-                  height={800}
-                  fallbackImage="/belvo-lor-page.svg"
+                  className="belvo-pdf-frame"
+                  loading="eager"
                 />
               </div>
             </div>
