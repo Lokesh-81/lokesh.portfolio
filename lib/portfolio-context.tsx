@@ -954,9 +954,10 @@ export function PortfolioProvider({ children }: { children: React.ReactNode }) {
         id: item.id,
         name: item.name,
         url: item.url,
-        size: item.size,
-        mime_type: item.mimeType,
-        bucket: item.bucket || 'portfolio-media',
+        path: item.path || item.url,
+        size: item.size || 0,
+        type: item.type || item.mimeType || 'application/octet-stream',
+        created_at: item.createdAt || new Date().toISOString(),
       }))
     } catch (error) {
       throw error;
