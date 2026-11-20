@@ -518,7 +518,7 @@ ${lorFormData.role}`;
         ref={uploadNewResumeFileRef}
         type="file"
         accept="application/pdf"
-        onChange={handleUploadOrReplaceResume}
+        onChange={(event) => void handleUploadOrReplaceResume(event.target.files?.[0])}
         disabled={isUploading}
         className="hidden"
       />
