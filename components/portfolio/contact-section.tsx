@@ -267,7 +267,6 @@ export function ContactSection() {
                       setForm({ ...form, email: e.target.value });
                       handleTypingActivity();
                     }}
-                    onFocus={handleTypingActivity}
                     placeholder={language === 'fr' ? 'votre.email@exemple.com' : 'your.email@example.com'}
                     disabled={status === 'submitting'}
                     className="w-full rounded-xl border border-[#35263D] bg-[#100B18] px-3.5 py-2.5 text-xs sm:text-sm text-[#F5EAF5] placeholder:text-[#A78BAF] focus:border-[#E8B8D2] focus:outline-none transition-all disabled:opacity-60"
