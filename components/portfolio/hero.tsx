@@ -76,25 +76,33 @@ export function Hero({ onNavigate }: HeroProps) {
         </motion.div>
 
         <motion.aside
-          className="hero-architecture-board"
-          aria-label="How I build full-stack products"
-          initial={{ opacity: 0, y: 24 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: .85, delay: .3, ease: [0.2, 0.75, 0.25, 1] }}
+          className="hero-project-canvas"
+          aria-label="Selected projects and product work"
+          initial={{ opacity: 0, y: 30, scale: .975 }}
+          animate={{ opacity: 1, y: 0, scale: 1 }}
+          transition={{ duration: .9, delay: .25, ease: [0.2, 0.75, 0.25, 1] }}
         >
-          <div className="hero-architecture-top"><span>FROM IDEA TO LIVE PRODUCT</span><span className="hero-architecture-live"><i /> SYSTEM MAP</span></div>
-          <div className="hero-architecture-intro"><span className="hero-architecture-index">01—04</span><div><strong>THE FULL-STACK FLOW</strong><p>How the pieces connect when I build a web application.</p></div></div>
-          <div className="hero-architecture-flow">
-            <div className="hero-architecture-layer layer-frontend"><span className="architecture-layer-number">01</span><div className="architecture-layer-copy"><small>FRONTEND · WHAT USERS SEE</small><strong>Build the interface</strong><p>React · Next.js · TypeScript · Tailwind</p></div><span className="architecture-layer-symbol">UI</span></div>
-            <div className="hero-architecture-connector"><span /></div>
-            <div className="hero-architecture-layer layer-backend"><span className="architecture-layer-number">02</span><div className="architecture-layer-copy"><small>BACKEND · APP LOGIC</small><strong>Power the experience</strong><p>Node.js · Express · REST APIs</p></div><span className="architecture-layer-symbol">API</span></div>
-            <div className="hero-architecture-connector"><span /></div>
-            <div className="hero-architecture-layer layer-data"><span className="architecture-layer-number">03</span><div className="architecture-layer-copy"><small>DATA & AI · THE ENGINE</small><strong>Store, secure and reason</strong><p>MongoDB · Supabase · Firebase · AI APIs</p></div><span className="architecture-layer-symbol">DB</span></div>
-            <div className="hero-architecture-connector"><span /></div>
-            <div className="hero-architecture-layer layer-ship"><span className="architecture-layer-number">04</span><div className="architecture-layer-copy"><small>DEPLOY · MAKE IT REAL</small><strong>Ship to the world</strong><p>GitHub · Vercel · Google Cloud</p></div><span className="architecture-layer-symbol">↗</span></div>
+          <div className="hero-canvas-top"><span>SELECTED WORK / 2026</span><span><i /> 3 PRODUCTS SHIPPED</span></div>
+          <a className="hero-canvas-feature" href="https://www.lumoraai.in/" target="_blank" rel="noreferrer">
+            <div className="hero-canvas-feature-top"><span>01 / FLAGSHIP BUILD</span><span>OPEN PROJECT ↗</span></div>
+            <div className="hero-canvas-brand"><span className="hero-canvas-brand-mark">L</span><div><strong>LUMORA<span> AI</span></strong><small>INTELLIGENCE FOR INVESTORS</small></div></div>
+            <p className="hero-canvas-description">An AI-powered market research workspace connecting live data with grounded analysis.</p>
+            <div className="hero-canvas-interface">
+              <div className="hero-canvas-interface-head"><span>MARKET PULSE</span><span className="hero-canvas-live">LIVE DATA</span></div>
+              <div className="hero-canvas-interface-grid">
+                <div><small>RESEARCH</small><b>Market insights</b><span>Data-led discovery</span></div>
+                <div><small>INTELLIGENCE</small><b>AI analysis</b><span>Context, not noise</span></div>
+              </div>
+              <div className="hero-canvas-signal"><span /><span /><span /><span /><span /><span /><span /><span /><span /><span /><span /><span /><span /><span /><span /><span /><span /><span /><span /><span /><span /></div>
+            </div>
+            <div className="hero-canvas-tags"><span>Next.js</span><span>AI APIs</span><span>Market data</span><span>Full-stack</span></div>
+          </a>
+          <div className="hero-canvas-secondary">
+            <a href="https://oldletters.vercel.app/" target="_blank" rel="noreferrer"><span className="hero-canvas-secondary-no">02</span><span><b>Old-Letters</b><small>Messages made to arrive later</small></span><span className="hero-canvas-secondary-arrow">↗</span></a>
+            <a href="https://www.foundarlybusinessworld.in/" target="_blank" rel="noreferrer"><span className="hero-canvas-secondary-no">03</span><span><b>Foundarly</b><small>Business discovery platform</small></span><span className="hero-canvas-secondary-arrow">↗</span></a>
           </div>
-          <div className="hero-architecture-foot"><span>DESIGN → ENGINEER → DEPLOY</span><span>ONE CONNECTED WORKFLOW</span></div>
-        </motion.aside>
+          <div className="hero-canvas-foot"><span>CONCEPT → PRODUCT → DEPLOYMENT</span><span>HYDERABAD, IN</span></div>
+        </motion.aside>n.aside>
       </div>
       <ResumeModal isOpen={isResumeModalOpen} onClose={() => setIsResumeModalOpen(false)} />
     </>
