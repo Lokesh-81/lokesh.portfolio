@@ -2326,3 +2326,171 @@ html.scroll-motion-ready .portfolio-shell .scroll-motion-item:not(.scroll-motion
 @media(max-width:980px){.portfolio-shell .hero-project-canvas{max-width:680px;margin:0 auto}.hero-rebuild{gap:28px!important}}
 @media(max-width:620px){.portfolio-shell .hero-project-canvas{padding:11px;border-radius:16px}.hero-canvas-feature{padding:16px 13px}.hero-canvas-brand{margin-top:17px}.hero-canvas-brand strong{font-size:29px}.hero-canvas-secondary>a{padding:9px 7px;grid-template-columns:18px minmax(0,1fr) 12px}.hero-canvas-secondary b{font-size:12px}.hero-canvas-secondary small{font-size:6px}.hero-canvas-foot{font-size:6px}}
 @media(prefers-reduced-motion:reduce){.hero-canvas-signal span{animation:none!important}.portfolio-shell .portfolio-editorial>section.sk-scroll-in>*,.portfolio-shell .portfolio-contact-stage.sk-scroll-in>*{animation:none!important}.portfolio-shell .portfolio-section :is(article,.projects-featured-card,.editorial-project-card,.skills-directory-item,.experience-card,.testimonial-ledger-card,.belvo-certification-showcase),.portfolio-shell .portfolio-contact-stage :is(.contact-form-panel,.contact-direct-panel){transition:none!important;transform:none!important;opacity:1!important}}
+
+
+/* Consolidated hero + scroll-motion pass: clean light editorial system. */
+.portfolio-shell .portfolio-hero-stage {
+  min-height:100svh!important;
+  background:
+    radial-gradient(ellipse at 78% 42%,rgba(191,215,250,.42),transparent 38%),
+    radial-gradient(ellipse at 8% 92%,rgba(224,235,252,.52),transparent 32%),
+    #f7f9fd!important;
+  color:#172844!important;
+  overflow:hidden!important;
+}
+.portfolio-shell .portfolio-hero-stage:before,
+.portfolio-shell .portfolio-hero-stage:after {content:none!important;display:none!important}
+.portfolio-shell .hero-editorial-v2 {
+  width:min(100%,1480px)!important;
+  min-height:100svh!important;
+  margin:0 auto!important;
+  padding:clamp(132px,15vh,174px) clamp(24px,6vw,92px) 92px!important;
+  display:grid!important;
+  grid-template-columns:minmax(0,1.06fr) minmax(320px,.78fr)!important;
+  align-items:center!important;
+  gap:clamp(34px,6vw,92px)!important;
+}
+.portfolio-shell .hero-editorial-copy {max-width:760px!important;color:#172844!important}
+.portfolio-shell .hero-editorial-copy .hero-rebuild-eyebrow {
+  display:flex!important;align-items:center!important;gap:18px!important;
+  color:#63738d!important;font:700 10px/1.4 Inter,sans-serif!important;letter-spacing:.14em!important;
+}
+.portfolio-shell .hero-editorial-index {color:#315f9f!important}
+.portfolio-shell .hero-editorial-location {padding-left:18px;border-left:1px solid #cbd6e6}
+.portfolio-shell .hero-editorial-copy .hero-rebuild-greeting {
+  margin:58px 0 8px!important;color:#526b8f!important;
+  font:500 clamp(20px,2.2vw,28px)/1.2 Inter,sans-serif!important;
+  letter-spacing:-.04em!important;text-transform:none!important;
+}
+.portfolio-shell .hero-editorial-copy .hero-rebuild-name {
+  margin:0!important;color:#182b49!important;
+  font:700 clamp(64px,9.3vw,132px)/.88 Inter,sans-serif!important;
+  letter-spacing:-.095em!important;text-transform:none!important;
+  overflow-wrap:anywhere!important;
+}
+.portfolio-shell .hero-editorial-copy .hero-rebuild-period {color:#6e94ce!important}
+.portfolio-shell .hero-editorial-copy .hero-rebuild-role {
+  display:flex!important;flex-wrap:wrap!important;align-items:baseline!important;gap:9px!important;
+  margin-top:25px!important;color:#687992!important;font:500 14px/1.5 Inter,sans-serif!important;
+}
+.portfolio-shell .hero-editorial-copy .hero-rebuild-role strong {
+  color:#315f9f!important;font:700 clamp(17px,2vw,22px)/1.3 Inter,sans-serif!important;
+}
+.portfolio-shell .hero-editorial-copy .hero-rebuild-bio {
+  max-width:560px!important;margin:18px 0 0!important;color:#596b85!important;
+  font:400 clamp(14px,1.25vw,16px)/1.85 Inter,sans-serif!important;
+}
+.portfolio-shell .hero-editorial-copy .hero-rebuild-actions {
+  display:flex!important;flex-wrap:wrap!important;gap:11px!important;margin-top:32px!important;
+}
+.portfolio-shell .hero-editorial-copy .hero-rebuild-actions button {
+  min-height:46px!important;padding:0 17px!important;border:1px solid #d7e1ef!important;
+  border-radius:9px!important;box-shadow:none!important;color:#2d4568!important;
+  background:rgba(255,255,255,.78)!important;font:600 12px/1 Inter,sans-serif!important;
+  transition:transform .25s ease,border-color .25s ease,background .25s ease!important;
+}
+.portfolio-shell .hero-editorial-copy .hero-rebuild-actions button:hover {
+  transform:translateY(-2px)!important;box-shadow:0 9px 22px rgba(46,79,128,.09)!important;border-color:#9eb8dc!important;
+}
+.portfolio-shell .hero-editorial-copy .hero-rebuild-actions .hero-rebuild-primary {
+  color:#fff!important;background:#315f9f!important;border-color:#315f9f!important;
+}
+.portfolio-shell .hero-editorial-copy .hero-rebuild-actions .hero-rebuild-secondary {background:#fff!important}
+.portfolio-shell .hero-editorial-copy .hero-rebuild-actions .hero-rebuild-resume {background:transparent!important}
+.portfolio-shell .hero-editorial-scroll {
+  display:inline-flex!important;align-items:center!important;gap:8px!important;margin-top:64px!important;padding:0!important;
+  border:0!important;background:transparent!important;color:#71829b!important;
+  font:700 9px/1 Inter,sans-serif!important;letter-spacing:.14em!important;cursor:pointer!important;
+}
+.portfolio-shell .hero-editorial-scroll:hover {color:#315f9f!important;transform:translateX(3px)!important}
+.portfolio-shell .hero-editorial-work {
+  width:100%!important;max-width:530px!important;margin-left:auto!important;padding:0!important;
+  border:0!important;border-radius:0!important;background:transparent!important;box-shadow:none!important;
+  color:#203653!important;overflow:visible!important;
+}
+.portfolio-shell .hero-editorial-work-head,.portfolio-shell .hero-editorial-work-foot {
+  display:flex!important;justify-content:space-between!important;align-items:center!important;gap:12px!important;
+  color:#7b8ba3!important;font:700 9px/1.4 Inter,sans-serif!important;letter-spacing:.14em!important;
+}
+.portfolio-shell .hero-editorial-work-head {padding:0 2px 13px!important;border-bottom:1px solid #dce5f0!important}
+.portfolio-shell .hero-editorial-feature {
+  display:block!important;margin-top:17px!important;padding:27px 27px 24px!important;
+  border:1px solid #d9e4f2!important;border-radius:16px!important;
+  background:linear-gradient(145deg,rgba(255,255,255,.96),rgba(238,244,253,.96))!important;
+  box-shadow:0 18px 45px rgba(45,75,120,.075)!important;text-decoration:none!important;
+  transition:transform .35s ease,border-color .35s ease,box-shadow .35s ease!important;
+}
+.portfolio-shell .hero-editorial-feature:hover {transform:translateY(-4px)!important;border-color:#a9c0df!important;box-shadow:0 24px 52px rgba(45,75,120,.12)!important}
+.portfolio-shell .hero-editorial-feature-meta {display:flex!important;justify-content:space-between!important;align-items:center!important;color:#7185a2!important;font:700 9px/1.4 Inter,sans-serif!important;letter-spacing:.13em!important}
+.portfolio-shell .hero-editorial-feature-meta svg {color:#4777b6!important}
+.portfolio-shell .hero-editorial-feature-title {
+  margin-top:34px!important;color:#1b3153!important;font:700 clamp(42px,5vw,64px)/.95 Inter,sans-serif!important;
+  letter-spacing:-.075em!important;
+}
+.portfolio-shell .hero-editorial-feature-title em {color:#5e83bd!important;font-style:normal!important}
+.portfolio-shell .hero-editorial-feature p {
+  max-width:390px!important;margin:14px 0 23px!important;color:#5c6f89!important;
+  font:400 13px/1.75 Inter,sans-serif!important;
+}
+.portfolio-shell .hero-editorial-feature-tags {display:flex!important;flex-wrap:wrap!important;gap:7px!important}
+.portfolio-shell .hero-editorial-feature-tags span {
+  padding:7px 9px!important;border:1px solid #dce5f0!important;border-radius:6px!important;
+  background:#f8faff!important;color:#587193!important;font:600 9px/1 Inter,sans-serif!important;
+}
+.portfolio-shell .hero-editorial-project-list {margin-top:10px!important;border-top:1px solid #dce5f0!important}
+.portfolio-shell .hero-editorial-project-list>a {
+  display:grid!important;grid-template-columns:30px minmax(0,1fr) 18px!important;align-items:center!important;
+  gap:12px!important;padding:17px 7px!important;border-bottom:1px solid #dce5f0!important;
+  color:#456080!important;text-decoration:none!important;transition:padding .25s ease,color .25s ease!important;
+}
+.portfolio-shell .hero-editorial-project-list>a:hover {padding-left:13px!important;color:#315f9f!important}
+.portfolio-shell .hero-editorial-project-number {color:#8a9ab0!important;font:600 10px Inter,sans-serif!important}
+.portfolio-shell .hero-editorial-project-copy strong {display:block!important;color:#263e60!important;font:650 15px/1.3 Inter,sans-serif!important}
+.portfolio-shell .hero-editorial-project-copy small {display:block!important;margin-top:3px!important;color:#74849a!important;font:400 11px/1.4 Inter,sans-serif!important}
+.portfolio-shell .hero-editorial-work-foot {padding-top:14px!important;font-size:8px!important;letter-spacing:.1em!important}
+.portfolio-shell .portfolio-editorial>section,
+.portfolio-shell .portfolio-contact-stage {opacity:1!important;visibility:visible!important}
+.portfolio-shell .portfolio-editorial>section.sk-scroll-in> *,
+.portfolio-shell .portfolio-contact-stage.sk-scroll-in> * {
+  animation:portfolio-editorial-reveal .78s cubic-bezier(.2,.72,.22,1) both!important;
+}
+.portfolio-shell .portfolio-section :is(article,.projects-featured-card,.editorial-project-card,.skills-directory-item,.experience-card,.testimonial-ledger-card,.belvo-certification-showcase),
+.portfolio-shell .portfolio-contact-stage :is(.contact-form-panel,.contact-direct-panel) {
+  transition:opacity .65s ease,transform .65s cubic-bezier(.2,.72,.22,1),box-shadow .3s ease!important;
+}
+.portfolio-shell .portfolio-section :is(article,.projects-featured-card,.editorial-project-card,.skills-directory-item,.experience-card,.testimonial-ledger-card,.belvo-certification-showcase):not(.sk-card-in),
+.portfolio-shell .portfolio-contact-stage :is(.contact-form-panel,.contact-direct-panel):not(.sk-card-in) {
+  opacity:.72!important;transform:translate3d(0,22px,0)!important;
+}
+.portfolio-shell .portfolio-section :is(article,.projects-featured-card,.editorial-project-card,.skills-directory-item,.experience-card,.testimonial-ledger-card,.belvo-certification-showcase).sk-card-in,
+.portfolio-shell .portfolio-contact-stage :is(.contact-form-panel,.contact-direct-panel).sk-card-in {
+  opacity:1!important;transform:translate3d(0,0,0)!important;
+}
+@keyframes portfolio-editorial-reveal {
+  from {opacity:.7;transform:translate3d(0,30px,0);filter:blur(2px)}
+  to {opacity:1;transform:translate3d(0,0,0);filter:blur(0)}
+}
+@media(max-width:980px) {
+  .portfolio-shell .hero-editorial-v2 {grid-template-columns:1fr!important;gap:52px!important;padding-top:140px!important}
+  .portfolio-shell .hero-editorial-work {max-width:680px!important;margin:0 auto!important}
+  .portfolio-shell .hero-editorial-copy .hero-rebuild-greeting {margin-top:42px!important}
+  .portfolio-shell .hero-editorial-scroll {margin-top:42px!important}
+}
+@media(max-width:620px) {
+  .portfolio-shell .hero-editorial-v2 {padding:126px 21px 62px!important;gap:42px!important}
+  .portfolio-shell .hero-editorial-copy .hero-rebuild-name {font-size:clamp(58px,16vw,88px)!important}
+  .portfolio-shell .hero-editorial-copy .hero-rebuild-greeting {margin-top:38px!important}
+  .portfolio-shell .hero-editorial-copy .hero-rebuild-actions {gap:8px!important;margin-top:25px!important}
+  .portfolio-shell .hero-editorial-copy .hero-rebuild-actions button {min-height:43px!important;padding:0 12px!important;font-size:11px!important}
+  .portfolio-shell .hero-editorial-work {max-width:none!important}
+  .portfolio-shell .hero-editorial-feature {padding:22px 18px!important}
+  .portfolio-shell .hero-editorial-feature-title {font-size:48px!important}
+  .portfolio-shell .hero-editorial-project-list>a {padding:15px 4px!important}
+  .portfolio-shell .hero-editorial-work-foot {font-size:7px!important}
+}
+@media(prefers-reduced-motion:reduce) {
+  .portfolio-shell .hero-editorial-copy *,.portfolio-shell .hero-editorial-work * {animation:none!important;transition:none!important}
+  .portfolio-shell .portfolio-editorial>section.sk-scroll-in> *,.portfolio-shell .portfolio-contact-stage.sk-scroll-in> * {animation:none!important}
+  .portfolio-shell .portfolio-section :is(article,.projects-featured-card,.editorial-project-card,.skills-directory-item,.experience-card,.testimonial-ledger-card,.belvo-certification-showcase),
+  .portfolio-shell .portfolio-contact-stage :is(.contact-form-panel,.contact-direct-panel) {opacity:1!important;transform:none!important}
+}
