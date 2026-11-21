@@ -115,7 +115,7 @@ export function Hero({ onNavigate }: HeroProps) {
             <span>LEARN · CERTIFY · BUILD</span>
             <span>VERIFIED LEARNING</span>
           </div>
-        </motion.aside>n.aside>
+        </motion.aside>
       </div>
       <ResumeModal isOpen={isResumeModalOpen} onClose={() => setIsResumeModalOpen(false)} />
     </>
