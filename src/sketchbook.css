@@ -1713,3 +1713,158 @@ html[data-scroll-reveal="ready"] .portfolio-shell .portfolio-contact-stage:not(.
   .portfolio-shell .portfolio-section > *,
   .portfolio-shell .portfolio-contact-stage > * { transition: none !important; }
 }
+
+
+/* ── Actual section scroll reveal: no initial-load-only animation ── */
+html.scroll-reveal-active .portfolio-editorial > section:not(.scroll-section-visible) > :not(.portfolio-section-kicker) {
+  opacity: 0 !important;
+  transform: translate3d(0, 46px, 0) !important;
+  filter: blur(4px) !important;
+}
+.portfolio-editorial > section > * {
+  transition: opacity .85s cubic-bezier(.2,.75,.25,1), transform .85s cubic-bezier(.2,.75,.25,1), filter .85s cubic-bezier(.2,.75,.25,1) !important;
+}
+.portfolio-editorial > section.scroll-section-visible > * {
+  opacity: 1 !important;
+  transform: none !important;
+  filter: none !important;
+}
+.portfolio-editorial > section > .portfolio-section-kicker {
+  transition: opacity .65s ease, transform .65s ease !important;
+}
+html.scroll-reveal-active .portfolio-editorial > section:not(.scroll-section-visible) > .portfolio-section-kicker {
+  opacity: .15 !important;
+  transform: translate3d(-18px,0,0) !important;
+}
+@media (prefers-reduced-motion: reduce) {
+  html.scroll-reveal-active .portfolio-editorial > section:not(.scroll-section-visible) > *,
+  .portfolio-editorial > section > * { opacity: 1 !important; transform: none !important; filter: none !important; transition: none !important; }
+}
+
+/* Certifications: light surfaces with explicit dark text; no blanket pale-on-pale tokens. */
+.portfolio-shell #certifications .certifications-sketchbook { color: #25231f !important; }
+.portfolio-shell #certifications .belvo-certification-showcase,
+.portfolio-shell #certifications .belvo-lor-showcase,
+.portfolio-shell #certifications .gsa-certificate-card {
+  background: #fffdf5 !important;
+  background-image: none !important;
+  color: #25231f !important;
+  border: 2px solid #19191b !important;
+  box-shadow: 5px 5px 0 #19191b !important;
+}
+.portfolio-shell #certifications .certifications-sketchbook :is(h1,h2,h3,h4,h5,p,span,small,label,li,strong,em,a,button,dt,dd) {
+  color: #34312b !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+  -webkit-text-fill-color: currentColor !important;
+}
+.portfolio-shell #certifications .certifications-sketchbook :is([class*="bg-[#1A1222"],[class*="bg-[#100B18"],[class*="bg-purple-950"],[class*="bg-indigo-950"],[class*="bg-purple-500/"],[class*="bg-emerald-500/"]) {
+  background: #f2eee4 !important;
+}
+.portfolio-shell #certifications .certifications-sketchbook [class*="bg-gradient-to-r"] {
+  background: linear-gradient(100deg,#355be5,#7655b5) !important;
+}
+.portfolio-shell #certifications .certifications-sketchbook [class*="bg-gradient-to-r"],
+.portfolio-shell #certifications .certifications-sketchbook [class*="bg-gradient-to-r"] * {
+  color: #fff !important;
+  -webkit-text-fill-color: #fff !important;
+}
+.portfolio-shell #certifications .certifications-sketchbook [class*="text-[#F5EAF5"],
+.portfolio-shell #certifications .certifications-sketchbook [class*="text-[#DCCFE0"],
+.portfolio-shell #certifications .certifications-sketchbook [class*="text-[#D8B4E8"],
+.portfolio-shell #certifications .certifications-sketchbook [class*="text-[#BDA9C4"],
+.portfolio-shell #certifications .certifications-sketchbook [class*="text-[#A78BAF"],
+.portfolio-shell #certifications .certifications-sketchbook [class*="text-purple-"],
+.portfolio-shell #certifications .certifications-sketchbook [class*="text-indigo-"] {
+  color: #514b42 !important;
+  -webkit-text-fill-color: #514b42 !important;
+}
+.portfolio-shell #certifications .gsa-certificate-thumbnail,
+.portfolio-shell #certifications .gsa-certificate-thumbnail img {
+  display: block !important;
+  width: 100% !important;
+  height: auto !important;
+  max-height: none !important;
+  object-fit: contain !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+/* Hero: editorial build log showing actual shipped projects, not abstract 3D decoration. */
+.hero-rebuild {
+  display: grid !important;
+  grid-template-columns: minmax(0,1.05fr) minmax(320px,.78fr) !important;
+  align-items: center !important;
+  gap: clamp(28px,5vw,76px) !important;
+  max-width: 1480px !important;
+  min-height: 100svh !important;
+  padding: 140px clamp(24px,6vw,92px) 90px !important;
+}
+.hero-rebuild-copy { max-width: 760px !important; }
+.hero-build-panel {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 22px;
+  border: 2px solid #19191b;
+  border-radius: 10px;
+  background: #fffdf5;
+  box-shadow: 7px 7px 0 #19191b;
+  color: #25231f;
+  overflow: hidden;
+}
+.hero-build-panel:before {
+  content: "";
+  position: absolute;
+  width: 180px;
+  height: 180px;
+  right: -90px;
+  top: -95px;
+  border: 1px solid rgba(53,91,229,.35);
+  border-radius: 50%;
+  box-shadow: 0 0 0 18px rgba(53,91,229,.05),0 0 0 38px rgba(53,91,229,.035);
+  pointer-events: none;
+}
+.hero-build-panel-top,.hero-build-panel-foot {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  color: #625d53;
+  font: 700 9px/1.4 ui-monospace,monospace;
+  letter-spacing: .12em;
+}
+.hero-build-live { color: #28734d; display: inline-flex; align-items: center; gap: 7px; }
+.hero-build-live i { width: 7px; height: 7px; background: #3aa66f; border-radius: 50%; animation: hero-live-pulse 1.8s ease-in-out infinite; }
+.hero-build-panel-title { font: 800 clamp(28px,3vw,42px)/.98 'Barlow Condensed',sans-serif; color: #25231f; text-transform: uppercase; }
+.hero-build-panel-title em { color: #355be5; font-style: normal; }
+.hero-build-flow { display: grid; grid-template-columns: 1fr 22px 1fr 22px 1fr; align-items: center; gap: 3px; }
+.hero-build-step { display: flex; flex-direction: column; gap: 5px; padding: 10px 8px; border: 1.5px solid #19191b; border-radius: 6px; background: #f4f0e6; }
+.hero-build-step span { color: #355be5; font: 700 9px ui-monospace,monospace; }
+.hero-build-step b { color: #25231f; font: 800 13px 'Barlow Condensed',sans-serif; }
+.hero-build-step small { color: #686156; font: 9px/1.3 Inter,sans-serif; }
+.hero-build-connector { height: 1px; background: #355be5; position: relative; }
+.hero-build-connector i { position: absolute; top: -3px; left: 0; width: 6px; height: 6px; border-radius: 50%; background: #fa7fa1; animation: hero-flow-dot 2.4s linear infinite; }
+.hero-build-projects { display: flex; flex-direction: column; gap: 8px; }
+.hero-build-projects a { display: grid; grid-template-columns: 34px 1fr 18px; align-items: center; gap: 10px; padding: 10px; border: 1.5px solid #19191b; border-radius: 7px; background: #f8f6e9; text-decoration: none; transition: transform .2s ease,box-shadow .2s ease; }
+.hero-build-projects a:hover { transform: translateX(4px); box-shadow: 3px 3px 0 #19191b; }
+.hero-project-mark { display: grid; place-items: center; width: 32px; height: 32px; border: 1.5px solid #19191b; border-radius: 5px; background: #ffe17a; color: #25231f; font: 800 20px 'Barlow Condensed',sans-serif; }
+.hero-build-projects a:nth-child(2) .hero-project-mark { background: #f7cbd8; }
+.hero-build-projects a:nth-child(3) .hero-project-mark { background: #b8f0cd; }
+.hero-build-projects a span:nth-child(2) { display: flex; flex-direction: column; gap: 2px; }
+.hero-build-projects b { color: #25231f; font: 800 14px 'Barlow Condensed',sans-serif; }
+.hero-build-projects small { color: #686156; font: 10px Inter,sans-serif; }
+.hero-build-projects svg { color: #355be5; }
+.hero-build-panel-foot { padding-top: 12px; border-top: 1px dashed #c9c1b4; }
+@keyframes hero-live-pulse { 0%,100% { box-shadow: 0 0 0 0 rgba(58,166,111,.35); } 50% { box-shadow: 0 0 0 6px rgba(58,166,111,0); } }
+@keyframes hero-flow-dot { from { left: 0; } to { left: calc(100% - 6px); } }
+@media (max-width: 900px) {
+  .hero-rebuild { grid-template-columns: 1fr !important; padding-top: 140px !important; gap: 30px !important; }
+  .hero-build-panel { width: min(100%,560px); margin: 0 auto 34px; }
+}
+@media (max-width: 560px) {
+  .hero-build-panel { padding: 15px; gap: 15px; }
+  .hero-build-step { padding: 8px 5px; }
+  .hero-build-step b { font-size: 11px; }
+  .hero-build-step small { font-size: 8px; }
+}
