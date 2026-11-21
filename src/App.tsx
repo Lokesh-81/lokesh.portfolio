@@ -77,14 +77,14 @@ function PortfolioContent() {
       entries.forEach((entry) => {
         const section = entry.target as HTMLElement;
         if (entry.isIntersecting) {
-          section.classList.remove('sk-revealed');
-          void section.offsetHeight;
-          section.classList.add('sk-revealed');
+          section.classList.remove('sk-transitioning');
+          void section.offsetWidth;
+          section.classList.add('sk-transitioning');
         } else {
-          section.classList.remove('sk-revealed');
+          section.classList.remove('sk-transitioning');
         }
       });
-    }, { threshold: 0, rootMargin: '-12% 0px -12% 0px' });
+    }, { threshold: 0, rootMargin: '-8% 0px -8% 0px' });
     sections.forEach((section) => observer.observe(section));
     return () => observer.disconnect();
   }, [isStudioRoute]);
