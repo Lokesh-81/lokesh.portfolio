@@ -1,26 +1,33 @@
 'use client';
 
-import { SlidingNumber } from '@/components/core/sliding-number';
 import { useEffect, useState } from 'react';
 
+function formatIST(date: Date) {
+  return new Intl.DateTimeFormat('en-IN', {
+    timeZone: 'Asia/Kolkata',
+    hour: '2-digit',
+    minute: '2-digit',
+    second: '2-digit',
+    hour12: false,
+  }).format(date);
+}
+
 export function Clock() {
-  const [time, setTime] = useState(new Date());
+  const [time, setTime] = useState('');
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      setTime(new Date());
-    }, 1000);
-
+    const update = () => setTime(formatIST(new Date()));
+    update();
+    const interval = setInterval(update, 1000);
     return () => clearInterval(interval);
   }, []);
 
   return (
-    <div className="flex items-center gap-0.5 font-mono tabular-nums text-xs">
-      <SlidingNumber value={time.getHours()} padStart />
-      <span>:</span>
-      <SlidingNumber value={time.getMinutes()} padStart />
-      <span>:</span>
-      <SlidingNumber value={time.getSeconds()} padStart />
-    </div>
+    <span
+      className="portfolio-clock-time"
+      aria-label={time ? `Indian Standard Time ${time}` : 'Indian Standard Time'}
+    >
+      {time || '--:--:--'}
+    </span>
   );
 }
