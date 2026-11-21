@@ -75,56 +75,6 @@ export function Hero({ onNavigate }: HeroProps) {
           </motion.div>
         </motion.div>
 
-        <motion.aside
-          className="hero-orbit-system"
-          aria-label="Featured projects and technology orbit"
-          initial={{ opacity: 0, y: 24, scale: 0.96 }}
-          animate={{ opacity: 1, y: 0, scale: 1 }}
-          transition={{ duration: 0.9, delay: 0.45, ease: [0.2, 0.75, 0.25, 1] }}
-        >
-          <div className="orbit-system-heading">
-            <span>SELECTED BUILDS</span>
-            <span className="orbit-system-live"><i /> LIVE PROJECTS</span>
-          </div>
-          <div className="orbit-system-stage">
-            <div className="orbit-track orbit-track-outer" />
-            <div className="orbit-track orbit-track-middle" />
-            <div className="orbit-track orbit-track-inner" />
-            <div className="orbit-satellite orbit-satellite-lumora">
-              <a href="https://www.lumoraai.in/" target="_blank" rel="noopener noreferrer" aria-label="Open Lumora AI">
-                <span className="orbit-satellite-index">01 / AI RESEARCH</span>
-                <strong>LUMORA AI <ArrowUpRight size={13} /></strong>
-                <small>Market intelligence</small>
-              </a>
-            </div>
-            <div className="orbit-satellite orbit-satellite-letters">
-              <a href="https://oldletters.vercel.app/" target="_blank" rel="noopener noreferrer" aria-label="Open Old-Letters">
-                <span className="orbit-satellite-index">02 / PRODUCT</span>
-                <strong>OLD-LETTERS <ArrowUpRight size={13} /></strong>
-                <small>Time-delayed letters</small>
-              </a>
-            </div>
-            <div className="orbit-satellite orbit-satellite-foundarly">
-              <a href="https://www.foundarlybusinessworld.in/" target="_blank" rel="noopener noreferrer" aria-label="Open Foundarly">
-                <span className="orbit-satellite-index">03 / WEB PLATFORM</span>
-                <strong>FOUNDARLY <ArrowUpRight size={13} /></strong>
-                <small>Business ecosystem</small>
-              </a>
-            </div>
-            <div className="orbit-system-core">
-              <span className="orbit-core-monogram">PL<span>.</span></span>
-              <span className="orbit-core-caption">IDEA → INTERFACE → IMPACT</span>
-            </div>
-            <span className="orbit-tech orbit-tech-react">REACT</span>
-            <span className="orbit-tech orbit-tech-ts">TYPESCRIPT</span>
-            <span className="orbit-tech orbit-tech-ai">AI / API</span>
-            <span className="orbit-tech orbit-tech-db">SUPABASE</span>
-          </div>
-          <div className="orbit-system-footer">
-            <span>BUILDING USEFUL THINGS</span>
-            <span>HYDERABAD · INDIA</span>
-          </div>
-        </motion.aside>
       </div>
       <ResumeModal isOpen={isResumeModalOpen} onClose={() => setIsResumeModalOpen(false)} />
     </>
