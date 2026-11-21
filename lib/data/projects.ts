@@ -289,7 +289,6 @@ export const projects: Project[] = [
     technologies: ['Vite', 'React', 'TypeScript', 'Tailwind CSS', 'Motion'],
     status: 'Live',
     liveUrl: 'https://oldletters.vercel.app/',
-    githubUrl: 'https://github.com/Lokesh-81/Old-Letters.git',
     year: '2026',
     accentColor: '#f59e0b',
     gradient: 'from-amber-900/40 via-yellow-950/20 to-black/60',

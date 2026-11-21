@@ -522,7 +522,7 @@ export function CertificationsSection({ onNavigate }: CertificationsSectionProps
             </div>
 
             {/* Category Filter Pills */}
-            <div className="flex flex-wrap items-center gap-2">
+            <div className="certification-category-tabs flex flex-wrap items-center gap-1.5">
               <span className="text-[11px] font-mono text-[#A78BAF] uppercase tracking-wider mr-1 hidden sm:inline">
                 Domain:
               </span>
@@ -533,7 +533,7 @@ export function CertificationsSection({ onNavigate }: CertificationsSectionProps
                   <button
                     key={cat}
                     onClick={() => setSelectedCategory(cat)}
-                    className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium transition-all cursor-pointer ${
+                    className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[11px] font-medium transition-all cursor-pointer ${
                       isSelected
                         ? 'bg-[#A77BC2] text-white shadow-md'
                         : 'bg-[#1A1222] text-[#DCCFE0] border border-[#35263D] hover:border-[#E8B8D2]/40 hover:text-white'
@@ -553,7 +553,7 @@ export function CertificationsSection({ onNavigate }: CertificationsSectionProps
             </div>
 
             {/* Level Filter Pills */}
-            <div className="flex items-center gap-2 text-xs">
+            <div className="certification-level-tabs flex items-center gap-1.5 text-xs">
               <span className="text-[11px] font-mono text-[#A78BAF] uppercase tracking-wider mr-1">
                 Level:
               </span>

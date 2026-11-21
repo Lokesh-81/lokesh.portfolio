@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { ArrowDownRight, ArrowUpRight, FileText, Mail } from 'lucide-react';
+import { ArrowDownRight, FileText, Mail } from 'lucide-react';
 import { useLanguage } from '@/i18n';
 import { usePortfolio } from '@/lib/portfolio-context';
 import { ResumeModal } from '@/components/portfolio/resume-modal';
@@ -19,42 +19,46 @@ export function Hero({ onNavigate }: HeroProps) {
   const greeting = t('hero.greeting', hero?.greeting || "Hello, I'm");
   const name = t('hero.name', hero?.name || profile?.displayName || 'P. Lokesh');
   const role = t('hero.imA', hero?.imA || "I'm a");
-  const bio = t('hero.bio', hero?.bio || '');
+  const bio = t('hero.bio', hero?.bio || profile?.shortBio || '');
   const workLabel = t('hero.ctaWork', hero?.ctaWork || 'Explore selected work');
   const contactLabel = t('hero.ctaContact', hero?.ctaContact || "Let's talk");
 
-  const reveal = {
-    hidden: { opacity: 0, y: 22 },
-    visible: { opacity: 1, y: 0, transition: { duration: 0.72, ease: [0.2, 0.75, 0.25, 1] } },
+  const entrance = {
+    hidden: { opacity: 0, y: 34, filter: 'blur(12px)' },
+    visible: { opacity: 1, y: 0, filter: 'blur(0px)', transition: { duration: 0.85, ease: [0.2, 0.75, 0.25, 1] } },
   };
 
   return (
     <>
-      <div className="hero-rebuild hero-editorial-v2">
+      <div className="hero-rebuild">
+        <div className="hero-rebuild-grain" aria-hidden="true" />
         <motion.div
-          className="hero-rebuild-copy hero-editorial-copy"
+          className="hero-rebuild-copy"
           initial="hidden"
           animate="visible"
-          variants={{ visible: { transition: { staggerChildren: 0.12, delayChildren: 0.16 } } }}
+          variants={{ visible: { transition: { staggerChildren: 0.13, delayChildren: 0.28 } } }}
         >
-          <motion.div variants={reveal} className="hero-rebuild-eyebrow">
-            <span className="hero-editorial-index">PORTFOLIO / 2026</span>
-            <span className="hero-editorial-location">HYDERABAD, INDIA</span>
+          <motion.div variants={entrance} className="hero-rebuild-eyebrow">
+            <span className="hero-rebuild-status"><span /> OPEN TO MEANINGFUL BUILDS</span>
+            <span className="hero-rebuild-location">HYDERABAD, INDIA · IST</span>
           </motion.div>
 
-          <motion.p variants={reveal} className="hero-rebuild-greeting">{greeting}</motion.p>
-          <motion.h1 variants={reveal} className="hero-rebuild-name">
-            {name.replace(/[.]+$/, '')}<span className="hero-rebuild-period">.</span>
+          <motion.p variants={entrance} className="hero-rebuild-greeting">{greeting}</motion.p>
+          <motion.h1 variants={entrance} className="hero-rebuild-name">
+            {name.replace(/[.]+$/, '')}
+            <span className="hero-rebuild-period">.</span>
           </motion.h1>
 
-          <motion.div variants={reveal} className="hero-rebuild-role">
+          <motion.div variants={entrance} className="hero-rebuild-role">
             <span>{role}</span>
             <strong>{profile?.title || 'Full Stack Web Developer'}</strong>
           </motion.div>
 
-          {bio && <motion.p variants={reveal} className="hero-rebuild-bio">{bio}</motion.p>}
+          {bio && (
+            <motion.p variants={entrance} className="hero-rebuild-bio">{bio}</motion.p>
+          )}
 
-          <motion.div variants={reveal} className="hero-rebuild-actions">
+          <motion.div variants={entrance} className="hero-rebuild-actions">
             <button type="button" onClick={() => onNavigate?.('work')} className="hero-rebuild-primary">
               {workLabel}<ArrowUpRight size={17} />
             </button>
@@ -65,42 +69,31 @@ export function Hero({ onNavigate }: HeroProps) {
               <FileText size={16} /> Resume
             </button>
           </motion.div>
-
-          <motion.button variants={reveal} type="button" className="hero-editorial-scroll" onClick={() => onNavigate?.('about')}>
-            SCROLL TO EXPLORE <ArrowDownRight size={15} />
-          </motion.button>
+          <motion.div variants={entrance} className="hero-rebuild-bottomline">
+            <span>DESIGNING · BUILDING · ITERATING</span>
+            <button type="button" onClick={() => onNavigate?.('about')}>SCROLL TO EXPLORE <ArrowDownRight size={15} /></button>
+          </motion.div>
         </motion.div>
 
         <motion.aside
-          className="hero-editorial-work"
-          aria-label="Selected projects"
-          initial={{ opacity: 0, y: 24 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.3, ease: [0.2, 0.75, 0.25, 1] }}
+          className="hero-build-panel"
+          aria-label="Development workflow"
+          initial={{ opacity: 0, x: 28 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.85, delay: 0.5, ease: [0.2, 0.75, 0.25, 1] }}
         >
-          <div className="hero-editorial-work-head">
-            <span>SELECTED WORK</span>
-            <span>01 — 03</span>
+          <div className="hero-build-panel-top">
+            <span>BUILD LOG / 2026</span><span className="hero-build-live"><i /> ACTIVE</span>
           </div>
-          <a className="hero-editorial-feature" href="https://www.lumoraai.in/" target="_blank" rel="noreferrer">
-            <div className="hero-editorial-feature-meta"><span>01 / FEATURED PROJECT</span><ArrowUpRight size={17} /></div>
-            <div className="hero-editorial-feature-title">Lumora <em>AI</em></div>
-            <p>AI-powered investment research, bringing live market data and contextual analysis into one workspace.</p>
-            <div className="hero-editorial-feature-tags"><span>Next.js</span><span>AI integration</span><span>Market data</span></div>
-          </a>
-          <div className="hero-editorial-project-list">
-            <a href="https://oldletters.vercel.app/" target="_blank" rel="noreferrer">
-              <span className="hero-editorial-project-number">02</span>
-              <span className="hero-editorial-project-copy"><strong>Old-Letters</strong><small>Digital letters, delivered in time</small></span>
-              <ArrowUpRight size={16} />
-            </a>
-            <a href="https://www.foundarlybusinessworld.in/" target="_blank" rel="noreferrer">
-              <span className="hero-editorial-project-number">03</span>
-              <span className="hero-editorial-project-copy"><strong>Foundarly</strong><small>A platform for business discovery</small></span>
-              <ArrowUpRight size={16} />
-            </a>
+          <div className="hero-build-panel-title">From idea to <em>real products.</em></div>
+          <div className="hero-build-flow">
+            <div className="hero-build-step"><span>01</span><b>DESIGN</b><small>Shape the experience</small></div>
+            <div className="hero-build-connector"><i /></div>
+            <div className="hero-build-step"><span>02</span><b>ENGINEER</b><small>Build the system</small></div>
+            <div className="hero-build-connector"><i /></div>
+            <div className="hero-build-step"><span>03</span><b>SHIP</b><small>Put it to work</small></div>
           </div>
-          <div className="hero-editorial-work-foot"><span>IDEA TO DEPLOYMENT</span><span>FULL-STACK DEVELOPMENT</span></div>
+          <div className="hero-build-panel-foot"><span>REACT · TYPESCRIPT · AI</span><span>HYDERABAD / IN</span></div>
         </motion.aside>
       </div>
       <ResumeModal isOpen={isResumeModalOpen} onClose={() => setIsResumeModalOpen(false)} />

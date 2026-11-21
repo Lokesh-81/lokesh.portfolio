@@ -1,8 +1,8 @@
 'use client';
 
 import React, { useMemo, useState } from 'react';
-import { ArrowUpRight, Filter, FolderOpen } from 'lucide-react';
-import { ProjectCard } from './project-card';
+import { Filter, FolderOpen } from 'lucide-react';
+import { CardSwap } from './card-swap';
 import { usePortfolio } from '@/lib/portfolio-context';
 import { useLanguage } from '@/i18n';
 import { projects as fallbackProjects, type Project } from '@/lib/data/projects';
@@ -27,8 +27,6 @@ export function ProjectsSection() {
     if (selectedCategory === 'Creative & EdTech') return ['Photography', 'Education', 'EdTech', 'Creative', 'Correspondence'].some((word) => project.category.includes(word));
     return true;
   }), [allProjects, selectedCategory]);
-  const featured = filteredProjects[0];
-  const remaining = filteredProjects.slice(1);
 
   return (
     <div className="projects-editorial">
@@ -38,11 +36,9 @@ export function ProjectsSection() {
         <p>{t('work.subtitle')}</p>
       </header>
       <div className="projects-filter-row"><span><Filter size={13}/> FILTER BY FIELD</span><div role="group" aria-label="Filter projects">{categories.map((cat) => <button type="button" key={cat.key} onClick={() => setSelectedCategory(cat.key)} className={selectedCategory === cat.key ? 'is-active' : ''}>{cat.label}</button>)}</div></div>
-      {featured ? <div className="projects-featured-layout">
-        <div className="projects-featured-label"><span>FEATURED PROJECT</span><span>01 / {String(filteredProjects.length).padStart(2, '0')}</span></div>
-        <div className="projects-featured-card"><ProjectCard project={featured} /></div>
-        {remaining.length > 0 && <div className="projects-remaining"><div className="projects-remaining-heading"><span>MORE EXPLORATIONS</span><span>{String(remaining.length).padStart(2, '0')} ITEMS</span></div><div className="projects-grid">{remaining.map((project) => <ProjectCard key={project.id || project.name} project={project} />)}</div></div>}
-      </div> : <div className="projects-empty"><FolderOpen size={28}/><h3>No projects in this category</h3><p>Choose another field to explore the work.</p><button onClick={() => setSelectedCategory('All')}>Show all projects <ArrowUpRight size={14}/></button></div>}
+      {filteredProjects.length > 0
+        ? <CardSwap projects={filteredProjects} />
+        : <div className="projects-empty"><FolderOpen size={28}/><h3>No projects in this category</h3><p>Choose another field to explore the work.</p><button onClick={() => setSelectedCategory('All')}>Show all projects</button></div>}
     </div>
   );
 }

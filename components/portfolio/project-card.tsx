@@ -17,9 +17,10 @@ export interface ProjectCardProps {
   };
   onHoverStart?: (project: Project) => void;
   onHoverEnd?: () => void;
+  disableCardClick?: boolean;
 }
 
-export function ProjectCard({ project, onHoverStart, onHoverEnd }: ProjectCardProps) {
+export function ProjectCard({ project, onHoverStart, onHoverEnd, disableCardClick = false }: ProjectCardProps) {
   const { t, language } = useLanguage();
 
   const translatedContent = (project.translations as any)?.[language];
@@ -33,6 +34,7 @@ export function ProjectCard({ project, onHoverStart, onHoverEnd }: ProjectCardPr
   const statusLabel = isLive ? t('work.status.live') : t('work.status.dev');
 
   const handleCardClick = (e: React.MouseEvent) => {
+    if (disableCardClick) return;
     const target = e.target as HTMLElement;
     if (target.closest('a') || target.closest('button')) {
       return;
@@ -43,6 +45,7 @@ export function ProjectCard({ project, onHoverStart, onHoverEnd }: ProjectCardPr
   };
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (disableCardClick) return;
     if (project.liveUrl && (e.key === 'Enter' || e.key === ' ')) {
       e.preventDefault();
       window.open(project.liveUrl, '_blank', 'noopener,noreferrer');
@@ -173,7 +176,7 @@ export function ProjectCard({ project, onHoverStart, onHoverEnd }: ProjectCardPr
               </div>
 
               <div className="flex items-center gap-2">
-                {project.githubUrl && (
+                {project.githubUrl && project.id !== 'old-letters' && (
                   <a
                     href={project.githubUrl}
                     target="_blank"
