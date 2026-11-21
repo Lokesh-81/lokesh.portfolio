@@ -2045,3 +2045,7 @@ html.scroll-motion-ready .portfolio-shell .scroll-motion-item:not(.scroll-motion
 @media(prefers-reduced-motion:reduce) {
   .hero-product-orbit,.hero-product-window,.hero-float-card { animation:none !important; }
 }
+
+/* Remove the legacy paper-card/star backdrop behind the new live interface. */
+.portfolio-shell .portfolio-hero-stage:before,
+.portfolio-shell .portfolio-hero-stage:after { content:none !important; display:none !important; }
