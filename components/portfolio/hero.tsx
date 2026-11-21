@@ -76,33 +76,25 @@ export function Hero({ onNavigate }: HeroProps) {
         </motion.div>
 
         <motion.aside
-          className="hero-work-stack"
-          aria-label="Selected products"
-          initial={{ opacity: 0, y: 30 }}
+          className="hero-architecture-board"
+          aria-label="How I build full-stack products"
+          initial={{ opacity: 0, y: 24 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: .9, delay: .25, ease: [0.2, 0.75, 0.25, 1] }}
+          transition={{ duration: .85, delay: .3, ease: [0.2, 0.75, 0.25, 1] }}
         >
-          <div className="hero-work-stack-heading"><span>SELECTED BUILDS</span><span>01 — 03</span></div>
-          <a className="hero-work-card hero-work-card-lumora" href="https://www.lumoraai.in/" target="_blank" rel="noreferrer">
-            <span className="hero-work-card-index">01</span>
-            <span className="hero-work-card-copy"><small>AI / FINANCIAL INTELLIGENCE</small><b>Lumora <em>AI</em></b><span>Research made more insightful.</span></span>
-            <span className="hero-work-card-arrow">↗</span>
-            <span className="hero-work-card-orb" />
-          </a>
-          <a className="hero-work-card hero-work-card-letters" href="https://oldletters.vercel.app/" target="_blank" rel="noreferrer">
-            <span className="hero-work-card-index">02</span>
-            <span className="hero-work-card-copy"><small>DIGITAL EXPERIENCE</small><b>Old—Letters</b><span>Some things are worth waiting for.</span></span>
-            <span className="hero-work-card-arrow">↗</span>
-            <span className="hero-work-card-orb" />
-          </a>
-          <a className="hero-work-card hero-work-card-foundarly" href="https://www.foundarlybusinessworld.in/" target="_blank" rel="noreferrer">
-            <span className="hero-work-card-index">03</span>
-            <span className="hero-work-card-copy"><small>BUSINESS PLATFORM</small><b>Foundarly</b><span>Ideas, people and opportunity.</span></span>
-            <span className="hero-work-card-arrow">↗</span>
-            <span className="hero-work-card-orb" />
-          </a>
-          <div className="hero-work-stack-foot"><span>CONCEPT → PRODUCT → LIVE</span><span className="hero-work-pulse">● BUILDING WITH PURPOSE</span></div>
-        </motion.aside>   </div>
+          <div className="hero-architecture-top"><span>FROM IDEA TO LIVE PRODUCT</span><span className="hero-architecture-live"><i /> SYSTEM MAP</span></div>
+          <div className="hero-architecture-intro"><span className="hero-architecture-index">01—04</span><div><strong>THE FULL-STACK FLOW</strong><p>How the pieces connect when I build a web application.</p></div></div>
+          <div className="hero-architecture-flow">
+            <div className="hero-architecture-layer layer-frontend"><span className="architecture-layer-number">01</span><div className="architecture-layer-copy"><small>FRONTEND · WHAT USERS SEE</small><strong>Build the interface</strong><p>React · Next.js · TypeScript · Tailwind</p></div><span className="architecture-layer-symbol">UI</span></div>
+            <div className="hero-architecture-connector"><span /></div>
+            <div className="hero-architecture-layer layer-backend"><span className="architecture-layer-number">02</span><div className="architecture-layer-copy"><small>BACKEND · APP LOGIC</small><strong>Power the experience</strong><p>Node.js · Express · REST APIs</p></div><span className="architecture-layer-symbol">API</span></div>
+            <div className="hero-architecture-connector"><span /></div>
+            <div className="hero-architecture-layer layer-data"><span className="architecture-layer-number">03</span><div className="architecture-layer-copy"><small>DATA & AI · THE ENGINE</small><strong>Store, secure and reason</strong><p>MongoDB · Supabase · Firebase · AI APIs</p></div><span className="architecture-layer-symbol">DB</span></div>
+            <div className="hero-architecture-connector"><span /></div>
+            <div className="hero-architecture-layer layer-ship"><span className="architecture-layer-number">04</span><div className="architecture-layer-copy"><small>DEPLOY · MAKE IT REAL</small><strong>Ship to the world</strong><p>GitHub · Vercel · Google Cloud</p></div><span className="architecture-layer-symbol">↗</span></div>
+          </div>
+          <div className="hero-architecture-foot"><span>DESIGN → ENGINEER → DEPLOY</span><span>ONE CONNECTED WORKFLOW</span></div>
+        </motion.aside>n.aside>   </div>
       <ResumeModal isOpen={isResumeModalOpen} onClose={() => setIsResumeModalOpen(false)} />
     </>
   );
