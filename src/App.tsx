@@ -69,23 +69,33 @@ function PortfolioContent() {
   useEffect(() => {
     if (isStudioRoute) return;
     const root = document.documentElement;
-    const sections = Array.from(document.querySelectorAll<HTMLElement>('.portfolio-editorial > section'));
-    if (!sections.length) return;
-
+    const targets = Array.from(document.querySelectorAll<HTMLElement>(
+      '.portfolio-editorial > section :is(h1,h2,h3,p,li,article,[class*="grid"] > *,[class*="card"],.portfolio-section-kicker), .portfolio-contact-stage :is(h1,h2,h3,p,form)'
+    ));
+    const uniqueTargets = [...new Set(targets)].filter((node) => !node.closest('.portfolio-section-kicker'));
+    uniqueTargets.forEach((node, index) => {
+      node.classList.add('scroll-motion-item');
+      node.style.setProperty('--reveal-order', String(index % 8));
+    });
     const observer = new IntersectionObserver((entries) => {
-      for (const entry of entries) {
-        entry.target.classList.toggle('scroll-section-visible', entry.isIntersecting);
-      }
-    }, { threshold: 0.08, rootMargin: '0px 0px -8% 0px' });
-
-    root.classList.add('scroll-reveal-active');
-    sections.forEach((section) => observer.observe(section));
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('scroll-motion-in');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -7% 0px' });
+    root.classList.add('scroll-motion-ready');
+    uniqueTargets.forEach((node) => observer.observe(node));
     return () => {
       observer.disconnect();
-      root.classList.remove('scroll-reveal-active');
-      sections.forEach((section) => section.classList.remove('scroll-section-visible'));
+      root.classList.remove('scroll-motion-ready');
+      uniqueTargets.forEach((node) => {
+        node.classList.remove('scroll-motion-item', 'scroll-motion-in');
+        node.style.removeProperty('--reveal-order');
+      });
     };
-  }, [isStudioRoute]);;
+  }, [isStudioRoute]);
 
   useEffect(() => {
     if (isStudioRoute) return;
