@@ -70,18 +70,18 @@ function PortfolioContent() {
     if (isStudioRoute) return;
     const sections = document.querySelectorAll<HTMLElement>('.portfolio-section, .portfolio-contact-stage');
     if (!('IntersectionObserver' in window)) {
-      sections.forEach((section) => section.classList.add('sk-page-enter'));
+      sections.forEach((section) => section.classList.add('sk-revealed'));
       return;
     }
     const observer = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
         const section = entry.target as HTMLElement;
         if (entry.isIntersecting) {
-          section.classList.remove('sk-page-enter');
+          section.classList.remove('sk-revealed');
           void section.offsetHeight;
-          section.classList.add('sk-page-enter');
+          section.classList.add('sk-revealed');
         } else {
-          section.classList.remove('sk-page-enter');
+          section.classList.remove('sk-revealed');
         }
       });
     }, { threshold: 0, rootMargin: '-12% 0px -12% 0px' });
