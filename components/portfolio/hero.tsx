@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { ArrowDownRight, FileText, Mail } from 'lucide-react';
+import { ArrowDownRight, ArrowUpRight, FileText, Mail } from 'lucide-react';
 import { useLanguage } from '@/i18n';
 import { usePortfolio } from '@/lib/portfolio-context';
 import { ResumeModal } from '@/components/portfolio/resume-modal';
