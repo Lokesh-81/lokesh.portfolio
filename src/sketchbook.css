@@ -1591,3 +1591,125 @@ html { scroll-behavior: smooth !important; }
   letter-spacing: .04em !important;
   white-space: nowrap !important;
 }
+
+ 
+/* ── Verified final fixes: scroll reveal, certification contrast, IST clock ── */
+html[data-scroll-reveal="ready"] .portfolio-shell .portfolio-section:not(.is-in-view) > *,
+html[data-scroll-reveal="ready"] .portfolio-shell .portfolio-contact-stage:not(.is-in-view) > * {
+  opacity: 0 !important;
+  transform: translate3d(0, 44px, 0) !important;
+  filter: blur(3px) !important;
+  pointer-events: none;
+}
+.portfolio-shell .portfolio-section > *,
+.portfolio-shell .portfolio-contact-stage > * {
+  transition:
+    opacity .72s cubic-bezier(.2,.72,.25,1),
+    transform .72s cubic-bezier(.2,.72,.25,1),
+    filter .72s cubic-bezier(.2,.72,.25,1) !important;
+  will-change: opacity, transform;
+}
+.portfolio-shell .portfolio-section.is-in-view > *,
+.portfolio-shell .portfolio-contact-stage.is-in-view > * {
+  opacity: 1 !important;
+  transform: translate3d(0,0,0) !important;
+  filter: blur(0) !important;
+  pointer-events: auto;
+}
+
+/* Certifications had a dark legacy palette inside a light editorial page.
+   Re-map the actual showcase surfaces and all their copy together. */
+.portfolio-shell #certifications .certifications-sketchbook {
+  color: #25231f !important;
+}
+.portfolio-shell #certifications .belvo-certification-showcase,
+.portfolio-shell #certifications .belvo-lor-showcase {
+  color: #25231f !important;
+  background: #fffdf5 !important;
+  border-color: #c9bdad !important;
+  box-shadow: 5px 5px 0 #19191b !important;
+}
+.portfolio-shell #certifications .certifications-sketchbook :is(h1,h2,h3,h4,h5,p,span,small,label,li,strong,em,a,button,dt,dd) {
+  color: #292720 !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+  -webkit-text-fill-color: currentColor !important;
+}
+.portfolio-shell #certifications .certifications-sketchbook :is([class*="bg-[#1A1222"],[class*="bg-[#100B18"],[class*="bg-purple-"],[class*="bg-indigo-"],[class*="bg-gradient-to-br"]) {
+  background: #f3eee4 !important;
+}
+.portfolio-shell #certifications .certifications-sketchbook :is([class*="border-[#35263D"],[class*="border-purple-"]) {
+  border-color: #c9bdad !important;
+}
+.portfolio-shell #certifications .certifications-sketchbook [class*="bg-gradient-to-r"],
+.portfolio-shell #certifications .certifications-sketchbook [class*="bg-gradient-to-r"] * {
+  color: #fffdf5 !important;
+  -webkit-text-fill-color: #fffdf5 !important;
+}
+.portfolio-shell #certifications .certifications-sketchbook [class*="text-emerald-"],
+.portfolio-shell #certifications .certifications-sketchbook [class*="text-green-"] {
+  color: #237347 !important;
+  -webkit-text-fill-color: #237347 !important;
+}
+.portfolio-shell #certifications .certifications-sketchbook [class*="text-purple-"],
+.portfolio-shell #certifications .certifications-sketchbook [class*="text-[#A78BAF"],
+.portfolio-shell #certifications .certifications-sketchbook [class*="text-[#BDA9C4"],
+.portfolio-shell #certifications .certifications-sketchbook [class*="text-[#D8B4E8"],
+.portfolio-shell #certifications .certifications-sketchbook [class*="text-[#E8B8D2"] {
+  color: #86566a !important;
+  -webkit-text-fill-color: #86566a !important;
+}
+.portfolio-shell #certifications .gsa-certificate-thumbnail,
+.portfolio-shell #certifications .gsa-certificate-thumbnail img {
+  display: block !important;
+  width: 100% !important;
+  height: auto !important;
+  max-height: none !important;
+  object-fit: contain !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+/* Clock is mounted inside the clipped portfolio shell; keep its own contrast explicit. */
+.portfolio-shell .portfolio-clock {
+  position: fixed !important;
+  z-index: 1001 !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  background: #ffe17a !important;
+  border: 2px solid #19191b !important;
+  border-radius: 7px !important;
+  box-shadow: 3px 3px 0 #19191b !important;
+  color: #171719 !important;
+  -webkit-text-fill-color: #171719 !important;
+  font-weight: 800 !important;
+  letter-spacing: .06em !important;
+}
+.portfolio-shell .portfolio-clock > span,
+.portfolio-shell .portfolio-clock .portfolio-clock-time {
+  color: #171719 !important;
+  -webkit-text-fill-color: #171719 !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+.portfolio-shell .portfolio-clock .portfolio-clock-time {
+  display: inline-block !important;
+  min-width: 5.8em !important;
+  font: 800 12px/1.2 ui-monospace, SFMono-Regular, Consolas, monospace !important;
+  font-variant-numeric: tabular-nums !important;
+  white-space: nowrap !important;
+}
+.portfolio-shell .portfolio-clock-dot { background: #355be5 !important; }
+@media (prefers-reduced-motion: reduce) {
+  html[data-scroll-reveal="ready"] .portfolio-shell .portfolio-section:not(.is-in-view) > *,
+  html[data-scroll-reveal="ready"] .portfolio-shell .portfolio-contact-stage:not(.is-in-view) > * {
+    opacity: 1 !important;
+    transform: none !important;
+    filter: none !important;
+    pointer-events: auto !important;
+  }
+  .portfolio-shell .portfolio-section > *,
+  .portfolio-shell .portfolio-contact-stage > * { transition: none !important; }
+}
