@@ -102,7 +102,7 @@ export function Hero({ onNavigate }: HeroProps) {
             <a href="https://www.foundarlybusinessworld.in/" target="_blank" rel="noreferrer"><span className="hero-canvas-secondary-no">03</span><span><b>Foundarly</b><small>Business discovery platform</small></span><span className="hero-canvas-secondary-arrow">↗</span></a>
           </div>
           <div className="hero-canvas-foot"><span>CONCEPT → PRODUCT → DEPLOYMENT</span><span>HYDERABAD, IN</span></div>
-        </motion.aside>n.aside>
+        </motion.aside>
       </div>
       <ResumeModal isOpen={isResumeModalOpen} onClose={() => setIsResumeModalOpen(false)} />
     </>
