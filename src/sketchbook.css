@@ -1305,3 +1305,45 @@ html {
     animation: none !important;
   }
 }
+
+
+/* Hero refinement: let the introduction breathe; remove the unwanted diagram stage. */
+.portfolio-hero-stage:before,
+.portfolio-hero-stage:after { content: none !important; display: none !important; }
+.hero-rebuild {
+  display: block !important;
+  width: min(100%, 1320px) !important;
+  min-height: min(88svh, 920px) !important;
+  padding: clamp(150px, 18vh, 210px) clamp(24px, 7vw, 110px) 100px !important;
+}
+.hero-rebuild-copy { max-width: 1080px !important; width: 100% !important; }
+.hero-rebuild-name { max-width: 1000px !important; font-size: clamp(4.5rem, 11vw, 10rem) !important; }
+.hero-rebuild-role { margin-top: 28px !important; }
+.hero-rebuild-bio { max-width: 850px !important; }
+.hero-rebuild-bottomline { margin-top: 44px !important; }
+@media (max-width: 900px) {
+  .hero-rebuild { min-height: auto !important; padding-top: 150px !important; padding-bottom: 72px !important; }
+  .hero-rebuild-name { font-size: clamp(4rem, 14vw, 7rem) !important; }
+}
+
+/* Repeatable vertical page transitions on every section entry. */
+.portfolio-section.sk-transitioning > .portfolio-section-kicker,
+.portfolio-contact-stage.sk-transitioning > .portfolio-section-kicker {
+  animation: sk-vertical-kicker .58s cubic-bezier(.2,.75,.25,1) both !important;
+}
+.portfolio-section.sk-transitioning > div:not(.portfolio-section-kicker),
+.portfolio-contact-stage.sk-transitioning > div:not(.portfolio-section-kicker) {
+  animation: sk-vertical-content .82s .06s cubic-bezier(.2,.75,.25,1) both !important;
+}
+@keyframes sk-vertical-kicker {
+  from { opacity: 0; transform: translate3d(0, 20px, 0); }
+  to { opacity: 1; transform: translate3d(0, 0, 0); }
+}
+@keyframes sk-vertical-content {
+  from { opacity: .55; transform: translate3d(0, 38px, 0); filter: blur(3px); }
+  to { opacity: 1; transform: translate3d(0, 0, 0); filter: blur(0); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .portfolio-section.sk-transitioning > *,
+  .portfolio-contact-stage.sk-transitioning > * { animation: none !important; }
+}
