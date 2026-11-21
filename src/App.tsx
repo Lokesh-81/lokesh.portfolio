@@ -13,7 +13,6 @@ import { CertificationsSection } from '@/components/portfolio/certifications-sec
 import { ExperienceSection } from '@/components/portfolio/experience-section';
 import { ContactSection } from '@/components/portfolio/contact-section';
 import { Footer } from '@/components/portfolio/footer';
-import { Clock } from '@/components/core/sliding-number';
 import { StudioApp } from './studio/StudioApp';
 import { trackEvent } from '@/lib/analytics';
 import { ErrorBoundary } from '@/components/core/error-boundary';
@@ -71,18 +70,32 @@ function PortfolioContent() {
     const sections = Array.from(document.querySelectorAll<HTMLElement>(
       '.portfolio-editorial > section, .portfolio-contact-stage'
     ));
-    const observer = new IntersectionObserver((entries) => {
+    const revealTargets = Array.from(document.querySelectorAll<HTMLElement>(
+      '.portfolio-section :is(article,.projects-featured-card,.editorial-project-card,.skills-directory-item,.experience-card,.testimonial-ledger-card,.belvo-certification-showcase), .portfolio-contact-stage .contact-form-panel, .portfolio-contact-stage .contact-direct-panel'
+    ));
+    const sectionObserver = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
           entry.target.classList.add('sk-scroll-in');
-          observer.unobserve(entry.target);
+          sectionObserver.unobserve(entry.target);
         }
       });
-    }, { threshold: 0.08, rootMargin: '0px 0px -8% 0px' });
-    sections.forEach((section) => observer.observe(section));
+    }, { threshold: 0.08, rootMargin: '0px 0px -10% 0px' });
+    const cardObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('sk-card-in');
+          cardObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -6% 0px' });
+    sections.forEach((section) => sectionObserver.observe(section));
+    revealTargets.forEach((target) => cardObserver.observe(target));
     return () => {
-      observer.disconnect();
+      sectionObserver.disconnect();
+      cardObserver.disconnect();
       sections.forEach((section) => section.classList.remove('sk-scroll-in'));
+      revealTargets.forEach((target) => target.classList.remove('sk-card-in'));
     };
   }, [isStudioRoute]);
 
@@ -135,10 +148,6 @@ function PortfolioContent() {
       <div className="portfolio-shell min-h-screen w-full bg-[#f5f1e9] text-[#25231f] selection:bg-[#d8b9a5]/50 selection:text-[#25231f]">
         <header className="portfolio-header">
           <PortfolioDock activeSection={activeSection} onSelectSection={handleNavigate} />
-          <div className="portfolio-clock" title="Live Indian Standard Time">
-            <span className="portfolio-clock-dot" />
-            <span>IST</span><span className="portfolio-clock-divider">·</span><Clock />
-          </div>
         </header>
 
         <main className="portfolio-main">
