@@ -74,8 +74,6 @@ export function Hero({ onNavigate }: HeroProps) {
             <button type="button" onClick={() => onNavigate?.('about')}>SCROLL TO EXPLORE <ArrowDownRight size={15} /></button>
           </motion.div>
         </motion.div>
-
-n.aside>
       </div>
       <ResumeModal isOpen={isResumeModalOpen} onClose={() => setIsResumeModalOpen(false)} />
     </>
