@@ -404,13 +404,15 @@ export function CertificationsSection({ onNavigate }: CertificationsSectionProps
               </div>
 
               <div className="mt-5 w-full space-y-2">
-                <button
-                  onClick={() => setIsLorModalOpen(true)}
+                <a
+                  href="/belvo-lor.pdf"
+                  target="_blank"
+                  rel="noreferrer"
                   className="flex w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 px-4 py-2.5 text-xs font-semibold text-white shadow-md hover:scale-[1.02] active:scale-[0.98] transition-all cursor-pointer"
                 >
                   <FileText className="h-3.5 w-3.5" />
                   <span>View Official LOR (PDF)</span>
-                </button>
+                </a>
               </div>
             </div>
 
