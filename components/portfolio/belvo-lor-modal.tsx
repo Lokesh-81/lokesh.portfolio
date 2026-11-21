@@ -204,9 +204,13 @@ Location: Goregaon, Mumbai`;
                 {/* Open in Standalone Tab (Direct browser unblocked PDF or Blob) */}
                 <a
                   href={currentPdfUrl || undefined}
-                  target={currentPdfUrl ? "_blank" : undefined}
+                  target={currentPdfUrl && !currentPdfUrl.startsWith('data:') ? "_blank" : undefined}
                   rel="noopener noreferrer"
                   aria-disabled={!currentPdfUrl}
+                  onClick={(event) => {
+                    event.preventDefault();
+                    if (currentPdfUrl) openDocumentInNewTab(currentPdfUrl, currentTitle);
+                  }}
                   className="flex items-center gap-1.5 rounded-xl border border-[#35263D] bg-[#1A1222] px-3 py-1.5 text-xs font-medium text-[#DCCFE0] hover:border-purple-400 hover:text-white transition-colors"
                   title="Open the saved Belvo PDF in a new tab"
                 >
