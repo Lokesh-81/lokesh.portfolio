@@ -1237,3 +1237,71 @@ html,body{background:var(--sk-paper)!important;color:var(--sk-ink)!important}
 @media(max-width:900px) {
   .portfolio-shell main #contact .contact-layout {grid-template-columns:minmax(0,1fr)!important;gap:24px!important;}
 }
+
+
+/* Recognition section: restore readable contrast and remove legacy blue/purple accents. */
+.portfolio-shell #certifications .certifications-sketchbook {
+  color: #171719 !important;
+}
+.portfolio-shell #certifications .certifications-sketchbook [class*="text-[#F5EAF5"],
+.portfolio-shell #certifications .certifications-sketchbook [class*="text-[#DCCFE0"],
+.portfolio-shell #certifications .certifications-sketchbook [class*="text-[#BDA9C4"],
+.portfolio-shell #certifications .certifications-sketchbook [class*="text-[#A78BAF"],
+.portfolio-shell #certifications .certifications-sketchbook [class*="text-[#D8B4E8"],
+.portfolio-shell #certifications .certifications-sketchbook [class*="text-[#A9CBFF"],
+.portfolio-shell #certifications .certifications-sketchbook [class*="text-purple-"],
+.portfolio-shell #certifications .certifications-sketchbook [class*="text-blue-"] {
+  color: #34312c !important;
+}
+.portfolio-shell #certifications .certifications-sketchbook [class*="bg-[#1A1222"],
+.portfolio-shell #certifications .certifications-sketchbook [class*="bg-[#100B18"],
+.portfolio-shell #certifications .certifications-sketchbook [class*="bg-purple-"],
+.portfolio-shell #certifications .certifications-sketchbook [class*="bg-indigo-"] {
+  background: #fffdf5 !important;
+}
+.portfolio-shell #certifications .certifications-sketchbook [class*="border-[#35263D"],
+.portfolio-shell #certifications .certifications-sketchbook [class*="border-purple-"] {
+  border-color: #29251f !important;
+}
+.portfolio-shell #certifications .gsa-certificate-card {
+  background: #fffdf5 !important;
+  color: #171719 !important;
+}
+.portfolio-shell #certifications .gsa-certificate-thumbnail img {
+  opacity: 1 !important;
+  visibility: visible !important;
+  filter: none !important;
+}
+.portfolio-shell #certifications .gsa-certificate-card a {
+  color: #171719 !important;
+}
+.portfolio-shell #certifications .gsa-certificate-card a:hover {
+  color: #171719 !important;
+}
+
+/* Vertical-only editorial page movement; long sections remain freely scrollable. */
+html {
+  scroll-behavior: smooth !important;
+  scroll-snap-type: y proximity;
+}
+.portfolio-shell #home,
+.portfolio-shell .portfolio-section,
+.portfolio-shell .portfolio-contact-stage {
+  scroll-snap-align: start;
+  scroll-snap-stop: normal;
+}
+.portfolio-shell .portfolio-section.sk-revealed > div:not(.portfolio-section-kicker),
+.portfolio-shell .portfolio-contact-stage.sk-revealed > div:not(.portfolio-section-kicker) {
+  animation: sk-page-arrive .72s cubic-bezier(.2,.75,.25,1) both !important;
+}
+@keyframes sk-page-arrive {
+  from { opacity: 0; transform: translate3d(0, 30px, 0); }
+  to { opacity: 1; transform: translate3d(0, 0, 0); }
+}
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto !important; scroll-snap-type: none !important; }
+  .portfolio-shell .portfolio-section.sk-revealed > div:not(.portfolio-section-kicker),
+  .portfolio-shell .portfolio-contact-stage.sk-revealed > div:not(.portfolio-section-kicker) {
+    animation: none !important;
+  }
+}
