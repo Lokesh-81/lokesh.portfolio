@@ -2118,3 +2118,88 @@ html.scroll-motion-ready .portfolio-shell .scroll-motion-item:not(.scroll-motion
 .portfolio-shell .contact-sketchbook .contact-form-panel textarea::placeholder { color:#78869a !important; opacity:1 !important; }
 .portfolio-shell .contact-sketchbook .contact-form-panel [class*="bg-[#1A1222"] { background:#edf2fa !important; }
 .portfolio-shell .contact-sketchbook .contact-form-panel button[type="submit"] { color:#fff !important; -webkit-text-fill-color:#fff !important; }
+
+
+/* Navigation final pass: minimal, airy, editorial — not a boxed toolbar. */
+.portfolio-shell nav[aria-label="Main Navigation"] {
+  position:fixed !important; z-index:1200 !important; top:0 !important; left:0 !important;
+  transform:none !important; width:100% !important; min-height:76px !important;
+  padding:0 clamp(22px,5vw,76px) !important; display:flex !important; align-items:center !important;
+  justify-content:space-between !important; gap:22px !important;
+  border:0 !important; border-bottom:1px solid rgba(42,65,104,.09) !important;
+  border-radius:0 !important; background:rgba(250,251,253,.9) !important;
+  box-shadow:0 5px 24px rgba(37,58,94,.035) !important; backdrop-filter:blur(20px) !important;
+}
+.portfolio-shell nav[aria-label="Main Navigation"] .portfolio-wordmark { gap:11px !important; }
+.portfolio-shell nav[aria-label="Main Navigation"] .portfolio-monogram {
+  width:40px !important; height:40px !important; border-radius:13px !important;
+  background:#e5edfb !important; color:#2d5595 !important; box-shadow:none !important;
+}
+.portfolio-shell nav[aria-label="Main Navigation"] .portfolio-wordmark strong {
+  font-size:10px !important; letter-spacing:.15em !important; color:#172b4b !important;
+}
+.portfolio-shell nav[aria-label="Main Navigation"] .portfolio-wordmark small {
+  color:#8290a5 !important; letter-spacing:.16em !important; font-size:8px !important;
+}
+.portfolio-shell nav[aria-label="Main Navigation"] .portfolio-nav-links {
+  display:flex !important; flex:0 1 auto !important; gap:clamp(2px,.55vw,9px) !important;
+}
+.portfolio-shell nav[aria-label="Main Navigation"] .portfolio-nav-links button {
+  padding:12px 10px !important; border:0 !important; border-radius:0 !important;
+  background:transparent !important; box-shadow:none !important; color:#65738a !important;
+  font:600 11px/1 Inter,sans-serif !important; letter-spacing:.015em !important;
+}
+.portfolio-shell nav[aria-label="Main Navigation"] .portfolio-nav-links button:hover {
+  color:#244d91 !important; background:transparent !important; transform:translateY(-1px) !important;
+}
+.portfolio-shell nav[aria-label="Main Navigation"] .portfolio-nav-links button.active:not(.portfolio-nav-contact) {
+  color:#244d91 !important; background:transparent !important;
+}
+.portfolio-shell nav[aria-label="Main Navigation"] .portfolio-nav-links button.active:not(.portfolio-nav-contact):after {
+  content:""; position:absolute; left:10px; right:10px; bottom:5px; height:2px;
+  border-radius:2px; background:#527dc3;
+}
+.portfolio-shell nav[aria-label="Main Navigation"] .portfolio-nav-links .portfolio-nav-contact {
+  margin-left:8px !important; padding:12px 19px !important; border:0 !important;
+  border-radius:999px !important; background:#244d91 !important; color:white !important;
+}
+.portfolio-shell nav[aria-label="Main Navigation"] .portfolio-nav-links .portfolio-nav-contact:hover {
+  background:#193c78 !important; transform:translateY(-1px) !important;
+}
+.portfolio-shell nav[aria-label="Main Navigation"] .portfolio-nav-actions button {
+  border:1px solid #e0e6ef !important; border-radius:999px !important; background:transparent !important;
+  padding:9px 12px !important; color:#52637d !important; font-size:10px !important;
+}
+.portfolio-shell nav[aria-label="Main Navigation"] .portfolio-language-menu {
+  top:calc(100% + 10px) !important; right:0 !important; border:1px solid #e1e7f0 !important;
+  border-radius:14px !important; background:#fff !important; box-shadow:0 16px 40px rgba(24,43,74,.12) !important;
+}
+.portfolio-shell nav[aria-label="Main Navigation"] .portfolio-language-menu button { color:#273a59 !important; }
+.portfolio-shell nav[aria-label="Main Navigation"] .portfolio-mobile-toggle { display:none !important; }
+@media(max-width:1120px) {
+  .portfolio-shell nav[aria-label="Main Navigation"] { padding:0 20px !important; }
+  .portfolio-shell nav[aria-label="Main Navigation"] .portfolio-nav-links button { padding:11px 7px !important; font-size:10px !important; }
+}
+@media(max-width:860px) {
+  .portfolio-shell nav[aria-label="Main Navigation"] { min-height:66px !important; padding:0 18px !important; }
+  .portfolio-shell nav[aria-label="Main Navigation"] .portfolio-nav-links { display:none !important; }
+  .portfolio-shell nav[aria-label="Main Navigation"] .portfolio-mobile-toggle {
+    display:grid !important; place-items:center !important; width:40px !important; height:40px !important;
+    border:1px solid #dce4ef !important; border-radius:12px !important; background:#fff !important; color:#233d67 !important;
+  }
+  .portfolio-shell nav[aria-label="Main Navigation"] .portfolio-mobile-menu {
+    position:absolute !important; top:calc(100% + 8px) !important; left:12px !important; right:12px !important;
+    padding:10px !important; border:1px solid #e1e7f0 !important; border-radius:16px !important;
+    background:#fff !important; box-shadow:0 18px 40px rgba(24,43,74,.14) !important;
+  }
+  .portfolio-shell nav[aria-label="Main Navigation"] .portfolio-mobile-menu button {
+    width:100% !important; display:flex !important; justify-content:space-between !important;
+    padding:13px 12px !important; border-radius:10px !important; color:#344762 !important; background:transparent !important;
+  }
+  .portfolio-shell nav[aria-label="Main Navigation"] .portfolio-mobile-menu button.active { background:#edf3ff !important; color:#244d91 !important; }
+}
+@media(max-width:420px) {
+  .portfolio-shell nav[aria-label="Main Navigation"] .portfolio-wordmark strong { font-size:9px !important; }
+  .portfolio-shell nav[aria-label="Main Navigation"] .portfolio-wordmark small { font-size:7px !important; }
+  .portfolio-shell nav[aria-label="Main Navigation"] .portfolio-nav-actions { margin-left:auto !important; }
+}
