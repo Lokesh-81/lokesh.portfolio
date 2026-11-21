@@ -86,7 +86,7 @@ export function Hero({ onNavigate }: HeroProps) {
           transition={{ duration: .85, delay: .3, ease: [0.2, 0.75, 0.25, 1] }}
         >
           <CardSwap projects={heroProjects.slice(0, 4)} />
-        </motion.aside>n.aside>
+        </motion.aside>
       </div>
       <ResumeModal isOpen={isResumeModalOpen} onClose={() => setIsResumeModalOpen(false)} />
     </>
