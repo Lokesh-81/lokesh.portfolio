@@ -470,43 +470,46 @@ export function CertificationsSection({ onNavigate }: CertificationsSectionProps
 
         {/* Google Student Ambassador Program 2026 — Semester 1 */}
         {ambassadorCert && (
-          <section className="mt-8 overflow-hidden rounded-3xl border border-[#35263D] bg-[#1A1222]/90 shadow-xl">
+          <section className="gsa-certificate-card mt-8 overflow-hidden rounded-2xl border border-[#19191b] bg-[#fffdf5] shadow-[5px_5px_0_#19191b]">
             <div className="grid gap-6 p-5 sm:p-7 lg:grid-cols-[minmax(280px,420px)_1fr] lg:items-center">
               <a
                 href={ambassadorCert.credentialUrl}
                 target="_blank"
                 rel="noreferrer"
-                className="group block overflow-hidden rounded-2xl border border-[#8BB8F2]/40 bg-[#DCEBFF] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#8BB8F2]"
+                className="gsa-certificate-thumbnail group block overflow-hidden rounded-xl border-2 border-[#19191b] bg-[#f8f6e9] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#9b596f]"
                 aria-label="Open Google Student Ambassador 2026 Semester 1 certificate PDF"
               >
                 <img
                   src={ambassadorCert.badgeImage}
                   alt="Google Student Ambassador Program 2026 Semester 1 Certificate of Recognition for P. Lokesh"
-                  className="block aspect-[16/9] w-full object-cover transition-transform duration-500 group-hover:scale-[1.025]"
-                  loading="lazy"
+                  className="block aspect-[16/9] w-full object-contain p-2 transition-transform duration-500 group-hover:scale-[1.015]"
+                  loading="eager"
+                  onError={(event) => {
+                    event.currentTarget.style.visibility = 'hidden';
+                  }}
                 />
               </a>
               <div className="min-w-0">
-                <div className="inline-flex items-center gap-2 rounded-full border border-[#4285F4]/30 bg-[#4285F4]/10 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.16em] text-[#A9CBFF]">
+                <div className="inline-flex items-center gap-2 rounded-full border border-[#19191b] bg-[#ffe17a] px-3 py-1 text-[11px] font-bold uppercase tracking-[0.14em] text-[#171719]">
                   <Award className="h-3.5 w-3.5" />
                   Certificate of Recognition
                 </div>
-                <h3 className="mt-4 text-2xl font-semibold tracking-tight text-[#F5EAF5] sm:text-3xl">
+                <h3 className="mt-4 text-2xl font-bold tracking-tight text-[#171719] sm:text-3xl">
                   Google Student Ambassador Program 2026
                 </h3>
-                <p className="mt-1 text-sm font-medium text-[#E8B8D2]">Semester 1 · P. Lokesh · Wesley Degree College</p>
-                <p className="mt-3 max-w-2xl text-sm leading-6 text-[#DCCFE0]">
+                <p className="mt-1 text-sm font-semibold text-[#8d596c]">Semester 1 · P. Lokesh · Wesley Degree College</p>
+                <p className="mt-3 max-w-2xl text-sm leading-6 text-[#403d37]">
                   Recognized for successfully completing Semester 1 and for outstanding performance and exceptional contribution as a Google Student Ambassador.
                 </p>
-                <div className="mt-4 flex flex-wrap items-center gap-3 text-xs text-[#BDA9C4]">
-                  <span className="rounded-full border border-[#35263D] px-3 py-1.5">Issued November 04, 2026</span>
-                  <span className="rounded-full border border-[#35263D] px-3 py-1.5">Issued by Google Student Ambassador Program</span>
+                <div className="mt-4 flex flex-wrap items-center gap-3 text-xs font-medium text-[#625f57]">
+                  <span className="rounded-full border border-[#b9b1a2] px-3 py-1.5">Issued November 04, 2026</span>
+                  <span className="rounded-full border border-[#b9b1a2] px-3 py-1.5">Issued by Google Student Ambassador Program</span>
                 </div>
                 <a
                   href={ambassadorCert.credentialUrl}
                   target="_blank"
                   rel="noreferrer"
-                  className="mt-5 inline-flex items-center gap-2 rounded-full border border-[#8BB8F2]/50 bg-[#4285F4]/15 px-4 py-2.5 text-sm font-semibold text-[#D8E8FF] transition-colors hover:bg-[#4285F4]/25"
+                  className="mt-5 inline-flex items-center gap-2 rounded-lg border-2 border-[#171719] bg-[#ffe17a] px-4 py-2.5 text-sm font-bold text-[#171719] shadow-[3px_3px_0_#171719] transition-all hover:-translate-y-0.5 hover:shadow-[5px_5px_0_#171719]"
                 >
                   <FileText className="h-4 w-4" />
                   View certificate PDF
