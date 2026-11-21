@@ -77,10 +77,13 @@ function PortfolioContent() {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
           entry.target.classList.add('sk-revealed');
-          observer.unobserve(entry.target);
+          entry.target.classList.remove('sk-transitioning');
+          requestAnimationFrame(() => entry.target.classList.add('sk-transitioning'));
+        } else {
+          entry.target.classList.remove('sk-transitioning');
         }
       });
-    }, { threshold: 0.12, rootMargin: '0px 0px -6% 0px' });
+    }, { threshold: 0.18, rootMargin: '-8% 0px -8% 0px' });
     sections.forEach((section) => observer.observe(section));
     return () => observer.disconnect();
   }, [isStudioRoute]);
