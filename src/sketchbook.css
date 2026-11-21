@@ -2262,3 +2262,67 @@ html.scroll-motion-ready .portfolio-shell .scroll-motion-item:not(.scroll-motion
 @media(max-width:980px){.portfolio-shell .hero-architecture-board{max-width:680px;margin:0 auto}.hero-rebuild{gap:28px!important}}
 @media(max-width:620px){.portfolio-shell .hero-architecture-board{padding:17px 14px;border-radius:16px}.hero-architecture-intro{padding:19px 0 16px}.hero-architecture-layer{grid-template-columns:20px minmax(0,1fr) 34px;padding:11px 9px;gap:8px}.architecture-layer-symbol{width:32px;height:32px}.architecture-layer-copy p{font-size:8px}.hero-architecture-foot{font-size:7px}.portfolio-shell .skills-marquee-panel .tech-stack-card{width:258px!important;flex-basis:258px!important;height:112px!important}.portfolio-shell .skills-directory-item{gap:10px!important;flex-wrap:wrap;padding:16px 0!important}.portfolio-shell .skills-directory-item .skills-level{margin-left:32px}.portfolio-shell .skills-item-main p{font-size:10px!important}}
 @media(prefers-reduced-motion:reduce){.portfolio-shell .portfolio-editorial>section.sk-scroll-in>*,.portfolio-shell .portfolio-contact-stage.sk-scroll-in>*{animation:none!important}.portfolio-shell .hero-architecture-layer{transition:none!important}}
+
+
+/* Layout repair from live-page review: no floating clock over content. */
+.portfolio-shell .portfolio-clock { display:none!important; }
+.portfolio-shell main #contact { min-height:0!important;height:auto!important;padding-top:42px!important;padding-bottom:26px!important; }
+.portfolio-shell main #contact .contact-sketchbook { min-height:0!important;height:auto!important;padding-top:0!important;padding-bottom:0!important; }
+.portfolio-shell main #contact .contact-layout { padding-bottom:0!important;margin-top:28px!important; }
+.portfolio-shell main #contact .contact-direct-panel { align-self:start!important; }
+.portfolio-shell footer { margin-top:0!important; }
+
+/* New hero: a single editorial flagship-product canvas, not a flowchart or card stack. */
+.portfolio-shell .hero-project-canvas {
+  position:relative;display:flex;flex-direction:column;gap:14px;width:100%;max-width:560px;margin-left:auto;
+  padding:16px;border:1px solid #d7e2f2;border-radius:22px;background:linear-gradient(145deg,#f9fbff 0%,#edf3ff 100%);
+  box-shadow:0 28px 75px rgba(35,67,116,.13);color:#1c3152;overflow:hidden;isolation:isolate;
+}
+.portfolio-shell .hero-project-canvas:before {content:"";position:absolute;z-index:-1;width:240px;height:240px;right:-115px;top:-135px;border:1px solid rgba(65,111,192,.22);border-radius:50%;box-shadow:0 0 0 22px rgba(65,111,192,.045),0 0 0 48px rgba(65,111,192,.03)}
+.hero-canvas-top,.hero-canvas-foot {display:flex;justify-content:space-between;align-items:center;gap:10px;color:#7486a1;font:700 8px/1.4 ui-monospace,monospace;letter-spacing:.12em}
+.hero-canvas-top>span:last-child {display:flex;align-items:center;gap:6px;color:#34775d}
+.hero-canvas-top i {width:6px;height:6px;border-radius:50%;background:#3aab7b;box-shadow:0 0 0 4px rgba(58,171,123,.13)}
+.hero-canvas-feature {display:block;padding:21px 20px 17px;border:1px solid #d5e0f0;border-radius:16px;background:rgba(255,255,255,.88);text-decoration:none!important;box-shadow:0 9px 24px rgba(39,66,110,.06);transition:transform .35s ease,box-shadow .35s ease,border-color .35s ease}
+.hero-canvas-feature:hover {transform:translateY(-4px)!important;box-shadow:0 17px 36px rgba(39,66,110,.12);border-color:#a7bee1}
+.hero-canvas-feature-top {display:flex;justify-content:space-between;gap:10px;color:#8191a9;font:700 8px/1.4 ui-monospace,monospace;letter-spacing:.1em}
+.hero-canvas-feature-top span:last-child {color:#416fc0}
+.hero-canvas-brand {display:flex;align-items:center;gap:12px;margin-top:22px}
+.hero-canvas-brand-mark {display:grid;place-items:center;width:46px;height:46px;border-radius:13px;background:#1d3152;color:#fff;font:800 29px/1 'Barlow Condensed',sans-serif;box-shadow:4px 4px 0 #dce7f7}
+.hero-canvas-brand strong {display:block;color:#1d3152;font:800 34px/.9 'Barlow Condensed',sans-serif;letter-spacing:.02em}
+.hero-canvas-brand strong span {color:#4777c5}
+.hero-canvas-brand small {display:block;margin-top:5px;color:#7d8da5;font:700 7px/1.3 ui-monospace,monospace;letter-spacing:.17em}
+.hero-canvas-description {max-width:410px;margin:14px 0 16px;color:#596d8a;font:500 11px/1.65 Inter,sans-serif}
+.hero-canvas-interface {padding:13px;border:1px solid #e0e8f3;border-radius:11px;background:#f7f9fd}
+.hero-canvas-interface-head {display:flex;justify-content:space-between;gap:10px;color:#8392a8;font:700 8px ui-monospace,monospace;letter-spacing:.1em}
+.hero-canvas-live {color:#348363}
+.hero-canvas-interface-grid {display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:11px}
+.hero-canvas-interface-grid>div {display:flex;flex-direction:column;gap:4px;padding:10px;border:1px solid #e0e8f2;border-radius:8px;background:#fff}
+.hero-canvas-interface-grid small {color:#8a99af;font:700 7px ui-monospace,monospace;letter-spacing:.1em}
+.hero-canvas-interface-grid b {color:#263e62;font:700 13px 'Barlow Condensed',sans-serif}
+.hero-canvas-interface-grid span {color:#71819a;font:500 8px Inter,sans-serif}
+.hero-canvas-signal {display:flex;align-items:flex-end;gap:4px;height:27px;margin-top:11px;padding:0 3px}
+.hero-canvas-signal span {flex:1;border-radius:3px 3px 0 0;background:linear-gradient(180deg,#8eaddb,#dce8f8);transform-origin:bottom;animation:hero-signal-rise .75s cubic-bezier(.2,.75,.25,1) both}
+.hero-canvas-signal span:nth-child(3n) {background:linear-gradient(180deg,#85c6aa,#d9f0e5)}
+.hero-canvas-signal span:nth-child(1){height:25%}.hero-canvas-signal span:nth-child(2){height:38%}.hero-canvas-signal span:nth-child(3){height:31%}.hero-canvas-signal span:nth-child(4){height:52%}.hero-canvas-signal span:nth-child(5){height:44%}.hero-canvas-signal span:nth-child(6){height:62%}.hero-canvas-signal span:nth-child(7){height:48%}.hero-canvas-signal span:nth-child(8){height:73%}.hero-canvas-signal span:nth-child(9){height:58%}.hero-canvas-signal span:nth-child(10){height:78%}.hero-canvas-signal span:nth-child(11){height:64%}.hero-canvas-signal span:nth-child(12){height:86%}.hero-canvas-signal span:nth-child(13){height:70%}.hero-canvas-signal span:nth-child(14){height:92%}.hero-canvas-signal span:nth-child(15){height:76%}.hero-canvas-signal span:nth-child(16){height:100%}.hero-canvas-signal span:nth-child(17){height:83%}.hero-canvas-signal span:nth-child(18){height:96%}.hero-canvas-signal span:nth-child(19){height:88%}.hero-canvas-signal span:nth-child(20){height:100%}
+.hero-canvas-tags {display:flex;flex-wrap:wrap;gap:6px;margin-top:13px}
+.hero-canvas-tags span {padding:5px 8px;border:1px solid #dce5f1;border-radius:5px;background:#f7f9fd;color:#536c91;font:700 7px ui-monospace,monospace}
+.hero-canvas-secondary {display:grid;grid-template-columns:1fr 1fr;gap:9px}
+.hero-canvas-secondary>a {display:grid;grid-template-columns:23px minmax(0,1fr) 14px;align-items:center;gap:8px;padding:11px 10px;border:1px solid #d9e3f1;border-radius:11px;background:rgba(255,255,255,.75);text-decoration:none!important;transition:transform .25s ease,border-color .25s ease}
+.hero-canvas-secondary>a:hover {transform:translateY(-3px);border-color:#9db7df}
+.hero-canvas-secondary-no {color:#8798b1;font:700 8px ui-monospace,monospace}
+.hero-canvas-secondary b {display:block;color:#263d60;font:700 14px 'Barlow Condensed',sans-serif}
+.hero-canvas-secondary small {display:block;margin-top:2px;color:#6c7d95;font:500 7px/1.35 Inter,sans-serif}
+.hero-canvas-secondary-arrow {color:#4777c5;font-size:15px}
+.hero-canvas-foot {padding-top:10px;border-top:1px solid #dce5f1;font-size:7px}
+@keyframes hero-signal-rise {from{transform:scaleY(.15);opacity:.3}to{transform:scaleY(1);opacity:1}}
+/* Stronger, real viewport-triggered movement. Text remains visible at every point. */
+.portfolio-shell .portfolio-editorial>section.sk-scroll-in>*,.portfolio-shell .portfolio-contact-stage.sk-scroll-in>* {animation:portfolio-section-arrive-strong .9s cubic-bezier(.18,.72,.2,1) both!important}
+@keyframes portfolio-section-arrive-strong {from{opacity:.82;transform:translate3d(0,48px,0) scale(.99);filter:blur(1.5px)}to{opacity:1;transform:translate3d(0,0,0) scale(1);filter:blur(0)}}
+.portfolio-shell .portfolio-section :is(article,.projects-featured-card,.editorial-project-card,.skills-directory-item,.experience-card,.testimonial-ledger-card,.belvo-certification-showcase,.contact-form-panel,.contact-direct-panel) {transition:transform .65s cubic-bezier(.18,.72,.2,1),opacity .65s ease,box-shadow .35s ease}
+.portfolio-shell .portfolio-section :is(article,.projects-featured-card,.editorial-project-card,.skills-directory-item,.experience-card,.testimonial-ledger-card,.belvo-certification-showcase,.contact-form-panel,.contact-direct-panel):not(.sk-card-in) {opacity:.88;transform:translate3d(0,26px,0)}
+.portfolio-shell .portfolio-section :is(article,.projects-featured-card,.editorial-project-card,.skills-directory-item,.experience-card,.testimonial-ledger-card,.belvo-certification-showcase,.contact-form-panel,.contact-direct-panel).sk-card-in {opacity:1;transform:translate3d(0,0,0)}
+.portfolio-shell .portfolio-contact-stage :is(.contact-form-panel,.contact-direct-panel):not(.sk-card-in) {opacity:.88;transform:translate3d(0,26px,0)}
+.portfolio-shell .portfolio-contact-stage :is(.contact-form-panel,.contact-direct-panel).sk-card-in {opacity:1;transform:translate3d(0,0,0)}
+@media(max-width:980px){.portfolio-shell .hero-project-canvas{max-width:680px;margin:0 auto}.hero-rebuild{gap:28px!important}}
+@media(max-width:620px){.portfolio-shell .hero-project-canvas{padding:11px;border-radius:16px}.hero-canvas-feature{padding:16px 13px}.hero-canvas-brand{margin-top:17px}.hero-canvas-brand strong{font-size:29px}.hero-canvas-secondary>a{padding:9px 7px;grid-template-columns:18px minmax(0,1fr) 12px}.hero-canvas-secondary b{font-size:12px}.hero-canvas-secondary small{font-size:6px}.hero-canvas-foot{font-size:6px}}
+@media(prefers-reduced-motion:reduce){.hero-canvas-signal span{animation:none!important}.portfolio-shell .portfolio-editorial>section.sk-scroll-in>*,.portfolio-shell .portfolio-contact-stage.sk-scroll-in>*{animation:none!important}.portfolio-shell .portfolio-section :is(article,.projects-featured-card,.editorial-project-card,.skills-directory-item,.experience-card,.testimonial-ledger-card,.belvo-certification-showcase),.portfolio-shell .portfolio-contact-stage :is(.contact-form-panel,.contact-direct-panel){transition:none!important;transform:none!important;opacity:1!important}}
