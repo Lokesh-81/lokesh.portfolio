@@ -75,6 +75,31 @@ export function Hero({ onNavigate }: HeroProps) {
           </motion.div>
         </motion.div>
 
+        <motion.aside
+          className="hero-build-panel"
+          aria-label="Selected projects and development workflow"
+          initial={{ opacity: 0, x: 28 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.85, delay: 0.5, ease: [0.2, 0.75, 0.25, 1] }}
+        >
+          <div className="hero-build-panel-top">
+            <span>BUILD LOG / 2026</span><span className="hero-build-live"><i /> ACTIVE</span>
+          </div>
+          <div className="hero-build-panel-title">From idea to <em>real products.</em></div>
+          <div className="hero-build-flow">
+            <div className="hero-build-step"><span>01</span><b>DESIGN</b><small>Shape the experience</small></div>
+            <div className="hero-build-connector"><i /></div>
+            <div className="hero-build-step"><span>02</span><b>ENGINEER</b><small>Build the system</small></div>
+            <div className="hero-build-connector"><i /></div>
+            <div className="hero-build-step"><span>03</span><b>SHIP</b><small>Put it to work</small></div>
+          </div>
+          <div className="hero-build-projects">
+            <a href="https://www.lumoraai.in/" target="_blank" rel="noreferrer"><span className="hero-project-mark">L</span><span><b>Lumora AI</b><small>AI market research</small></span><ArrowUpRight size={16}/></a>
+            <a href="https://oldletters.vercel.app/" target="_blank" rel="noreferrer"><span className="hero-project-mark">O</span><span><b>Old-Letters</b><small>Delayed digital letters</small></span><ArrowUpRight size={16}/></a>
+            <a href="https://www.foundarlybusinessworld.in/" target="_blank" rel="noreferrer"><span className="hero-project-mark">F</span><span><b>Foundarly</b><small>Business platform</small></span><ArrowUpRight size={16}/></a>
+          </div>
+          <div className="hero-build-panel-foot"><span>REACT · TYPESCRIPT · AI</span><span>HYDERABAD / IN</span></div>
+        </motion.aside>
       </div>
       <ResumeModal isOpen={isResumeModalOpen} onClose={() => setIsResumeModalOpen(false)} />
     </>
