@@ -355,15 +355,10 @@ export function ExperienceSection({ onNavigate }: ExperienceSectionProps = {}) {
 
                       <div className="flex items-center gap-2 shrink-0">
                         <a
-                          href={exp.lor?.pdfUrl || undefined}
-                          target={exp.lor?.pdfUrl && !exp.lor.pdfUrl.startsWith('data:') ? "_blank" : undefined}
+                          href={exp.lor?.pdfUrl || '/belvo-lor.pdf'}
+                          target="_blank"
                           rel="noopener noreferrer"
-                          aria-disabled={!exp.lor?.pdfUrl}
-                          onClick={(event) => {
-                            event.preventDefault();
-                            if (exp.lor?.pdfUrl) openDocumentInNewTab(exp.lor.pdfUrl, 'Belvo Letter of Recommendation');
-                          }}
-                          className={`flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-purple-600 via-indigo-600 to-purple-700 hover:from-purple-500 hover:to-indigo-500 px-4 py-2.5 text-xs font-semibold text-white shadow-md transition-all ${!exp.lor?.pdfUrl ? 'pointer-events-none opacity-50' : ''}`}
+                          className="flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-purple-600 via-indigo-600 to-purple-700 hover:from-purple-500 hover:to-indigo-500 px-4 py-2.5 text-xs font-semibold text-white shadow-md transition-all"
                           title="Open the saved Belvo PDF in a new tab"
                         >
                           <FileText className="h-4 w-4" />
