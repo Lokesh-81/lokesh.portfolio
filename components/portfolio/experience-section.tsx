@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React from 'react';
 import {
   Calendar,
   MapPin,
@@ -15,7 +15,6 @@ import {
 import { TextEffect } from '@/components/core/text-effect';
 import { usePortfolio } from '@/lib/portfolio-context';
 import { useLanguage } from '@/i18n';
-import { BelvoLorModal } from '@/components/portfolio/belvo-lor-modal';
 
 const experienceTranslations: Record<
   string,
@@ -220,7 +219,6 @@ export interface ExperienceSectionProps {
 export function ExperienceSection({ onNavigate }: ExperienceSectionProps = {}) {
   const { experiences } = usePortfolio();
   const { t, language } = useLanguage();
-  const [isLorModalOpen, setIsLorModalOpen] = useState(false);
 
   return (
     <div className="relative min-h-[85vh] w-full px-4 sm:px-8 py-8 sm:py-12">
@@ -380,8 +378,6 @@ export function ExperienceSection({ onNavigate }: ExperienceSectionProps = {}) {
         </div>
       </div>
 
-      {/* Official Belvo Letter of Recommendation Viewer Modal */}
-      <BelvoLorModal isOpen={isLorModalOpen} onClose={() => setIsLorModalOpen(false)} pdfUrl={experiences.find((e) => e.id === 'belvo' || e.company?.toLowerCase().includes('belvo'))?.lor?.pdfUrl} />
     </div>
   );
 }
