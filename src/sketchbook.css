@@ -1580,3 +1580,14 @@ html { scroll-behavior: smooth !important; }
   padding: clamp(150px, 18vh, 210px) clamp(24px, 7vw, 110px) 100px !important;
 }
 .hero-rebuild-copy { max-width: 1080px !important; width: 100% !important; }
+
+.portfolio-shell .portfolio-clock-time {
+  display: inline-block !important;
+  min-width: 5.8em !important;
+  color: #171719 !important;
+  -webkit-text-fill-color: #171719 !important;
+  font: 700 12px/1.2 ui-monospace, SFMono-Regular, Consolas, monospace !important;
+  font-variant-numeric: tabular-nums !important;
+  letter-spacing: .04em !important;
+  white-space: nowrap !important;
+}
