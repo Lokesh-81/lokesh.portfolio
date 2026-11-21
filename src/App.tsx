@@ -76,7 +76,7 @@ function PortfolioContent() {
         const section = entry.target as HTMLElement;
         section.classList.toggle('is-in-view', entry.isIntersecting);
       });
-    }, { threshold: 0.12, rootMargin: '-6% 0px -6% 0px' });
+    }, { threshold: 0, rootMargin: '0px' });
 
     document.documentElement.dataset.scrollReveal = 'ready';
     sections.forEach((section) => observer.observe(section));
