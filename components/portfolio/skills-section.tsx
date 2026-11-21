@@ -25,6 +25,27 @@ export function SkillsSection() {
   const levelLabel = (level: SkillLevel) => level === 'Core' ? t('skills.level.core') : level === 'Working Knowledge' ? t('skills.level.working') : t('skills.level.familiar');
   const levelClass = (level: SkillLevel) => level === 'Core' ? 'skill-level-core' : level === 'Working Knowledge' ? 'skill-level-working' : 'skill-level-familiar';
   const coreCount = technologies.filter((tech) => tech.level === 'Core').length;
+  const purposeByTechnology: Record<string, string> = {
+    'JavaScript': 'Programming language · adds behaviour and interactivity to web apps',
+    'TypeScript': 'Typed JavaScript · catches mistakes before runtime',
+    'React': 'Frontend UI library · builds reusable, interactive components',
+    'Next.js': 'React framework · routing, rendering and full-stack web features',
+    'Vite': 'Frontend build tool · starts and bundles modern web projects',
+    'Tailwind CSS': 'CSS utility framework · styles responsive interfaces',
+    'Framer Motion': 'Frontend animation library · creates transitions and motion',
+    'Node.js': 'Backend runtime · runs JavaScript on the server',
+    'Express.js': 'Backend framework · builds routes and REST APIs',
+    'Python': 'Programming language · scripting, automation and AI workflows',
+    'MongoDB': 'NoSQL database · stores flexible JSON-like documents',
+    'Supabase': 'Backend platform · PostgreSQL, authentication and storage',
+    'Firebase': 'Backend-as-a-Service · authentication, database and hosting tools',
+    'REST APIs': 'API architecture · lets frontend and backend exchange data',
+    'Git': 'Version control · tracks code changes and branches',
+    'GitHub': 'Code hosting · collaboration, reviews and source control',
+    'Vercel': 'Deployment platform · publishes web apps and previews',
+    'Gemini AI API': 'AI integration · connects apps to Google generative models',
+  };
+
 
   return (
     <div className="skills-editorial">
@@ -33,7 +54,7 @@ export function SkillsSection() {
       <section className="skills-marquee-panel"><div className="skills-panel-heading"><span>01 / TECH IN MOTION</span><span>CONTINUOUS TOOLKIT</span></div><TechStackSlider /></section>
       <section className="skills-library"><div className="skills-library-heading"><div><span>02 / SKILL LIBRARY</span><h3><Layers3 size={18}/> {t('skills.proficiency')}</h3></div><div className="skills-filter-label"><Filter size={13}/> FILTER</div></div>
         <div className="skills-category-tabs">{categories.map((cat) => <button key={cat} type="button" onClick={() => setSelectedTechCategory(cat)} className={selectedTechCategory === cat ? 'is-active' : ''}>{label(cat)}<small>{cat === 'All' ? technologies.length : technologies.filter((tech) => tech.category === cat).length}</small></button>)}</div>
-        <div className="skills-directory">{filteredTech.map((tech, index) => <article className="skills-directory-item" key={tech.id}><span className="skills-item-number">{String(index + 1).padStart(2, '0')}</span><div className="skills-item-main"><h4>{tech.name}</h4><span>{label(tech.category)}</span></div><span className={`skills-level ${levelClass(tech.level as SkillLevel)}`}>{levelLabel(tech.level as SkillLevel)}</span><ArrowUpRight className="skills-item-arrow" size={15}/></article>)}</div>
+        <div className="skills-directory">{filteredTech.map((tech, index) => <article className="skills-directory-item" key={tech.id}><span className="skills-item-number">{String(index + 1).padStart(2, '0')}</span><div className="skills-item-main"><h4>{tech.name}</h4><span>{label(tech.category)}</span><p>{purposeByTechnology[tech.name] || `${tech.name} · ${label(tech.category)} technology used in application development`}</p></div><span className={`skills-level ${levelClass(tech.level as SkillLevel)}`}>{levelLabel(tech.level as SkillLevel)}</span><ArrowUpRight className="skills-item-arrow" size={15}/></article>)}</div>
       </section>
     </div>
   );
