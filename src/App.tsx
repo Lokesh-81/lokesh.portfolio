@@ -70,20 +70,21 @@ function PortfolioContent() {
     if (isStudioRoute) return;
     const sections = document.querySelectorAll<HTMLElement>('.portfolio-section, .portfolio-contact-stage');
     if (!('IntersectionObserver' in window)) {
-      sections.forEach((section) => section.classList.add('sk-revealed'));
+      sections.forEach((section) => section.classList.add('sk-page-enter'));
       return;
     }
     const observer = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
+        const section = entry.target as HTMLElement;
         if (entry.isIntersecting) {
-          entry.target.classList.add('sk-revealed');
-          entry.target.classList.remove('sk-transitioning');
-          requestAnimationFrame(() => entry.target.classList.add('sk-transitioning'));
+          section.classList.remove('sk-page-enter');
+          void section.offsetHeight;
+          section.classList.add('sk-page-enter');
         } else {
-          entry.target.classList.remove('sk-transitioning');
+          section.classList.remove('sk-page-enter');
         }
       });
-    }, { threshold: 0.18, rootMargin: '-8% 0px -8% 0px' });
+    }, { threshold: 0, rootMargin: '-12% 0px -12% 0px' });
     sections.forEach((section) => observer.observe(section));
     return () => observer.disconnect();
   }, [isStudioRoute]);
