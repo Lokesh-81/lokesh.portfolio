@@ -24,7 +24,6 @@ import {
 } from 'lucide-react';
 import { TextEffect } from '@/components/core/text-effect';
 import { GcpBadge } from '@/components/portfolio/gcp-badge';
-import { CertificateModal } from '@/components/portfolio/certificate-modal';
 import { BelvoLorModal } from '@/components/portfolio/belvo-lor-modal';
 import { SkillBadgeCard } from '@/components/portfolio/skill-badge-card';
 import { SkillBadgeModal } from '@/components/portfolio/skill-badge-modal';
@@ -57,7 +56,6 @@ export function CertificationsSection({ onNavigate }: CertificationsSectionProps
   const { experiences } = usePortfolio();
   const belvoExperience = experiences.find((item) => item.id === 'belvo' || item.company?.toLowerCase().includes('belvo'));
   const belvoPdfUrl = belvoExperience?.lor?.pdfUrl || '';
-  const [isCertModalOpen, setIsCertModalOpen] = useState(false);
   const [isLorModalOpen, setIsLorModalOpen] = useState(false);
   const [selectedBadge, setSelectedBadge] = useState<SkillBadge | null>(null);
   const [copiedId, setCopiedId] = useState<string | null>(null);
@@ -205,16 +203,19 @@ export function CertificationsSection({ onNavigate }: CertificationsSectionProps
             {/* Left Column: Official Badge & Credential Verification Actions */}
             <div className="flex flex-col items-center text-center p-5 rounded-2xl border border-[#35263D] bg-[#100B18]/80 shadow-inner">
               {/* Badge Visual */}
-              <div
-                onClick={() => setIsCertModalOpen(true)}
-                className="cursor-pointer group/badge relative"
-                title="Click to view full official certificate"
+              <a
+                href={cert.verificationUrl}
+                target="_blank"
+                rel="noreferrer"
+                className="group/badge relative block"
+                title="Open the official Google Cloud credential verification page"
+                aria-label="Open official Google Cloud Professional Cloud Architect credential"
               >
                 <GcpBadge size={190} className="mx-auto" />
                 <span className="absolute bottom-1 right-1 rounded-full bg-[#1A1222] border border-[#35263D] p-1.5 text-[#E8B8D2] opacity-0 group-hover/badge:opacity-100 transition-opacity shadow-md">
-                  <FileText className="h-3.5 w-3.5" />
+                  <ExternalLink className="h-3.5 w-3.5" />
                 </span>
-              </div>
+              </a>
 
               {/* Status Pill */}
               <div className="mt-4 inline-flex items-center gap-2 rounded-full border border-emerald-500/30 bg-emerald-500/10 px-3.5 py-1 text-[11px] font-medium text-emerald-400">
@@ -260,13 +261,15 @@ export function CertificationsSection({ onNavigate }: CertificationsSectionProps
 
               {/* Primary Interactive Actions */}
               <div className="mt-5 w-full space-y-2">
-                <button
-                  onClick={() => setIsCertModalOpen(true)}
-                  className="flex w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-[#A77BC2] to-[#E8B8D2] px-4 py-2.5 text-xs font-semibold text-white shadow-md hover:scale-[1.02] active:scale-[0.98] transition-all cursor-pointer"
+                <a
+                  href={cert.verificationUrl}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="flex w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-[#A77BC2] to-[#E8B8D2] px-4 py-2.5 text-xs font-semibold text-white shadow-md hover:scale-[1.02] active:scale-[0.98] transition-all"
                 >
-                  <FileText className="h-3.5 w-3.5" />
-                  <span>View Full Certificate (PDF)</span>
-                </button>
+                  <ExternalLink className="h-3.5 w-3.5" />
+                  <span>Open Official Google Cloud Credential</span>
+                </a>
 
                 <a
                   href={cert.verificationUrl}
@@ -704,9 +707,6 @@ export function CertificationsSection({ onNavigate }: CertificationsSectionProps
           </div>
         </div>
       </div>
-
-      {/* Interactive Official Certificate Viewer Modal */}
-      <CertificateModal isOpen={isCertModalOpen} onClose={() => setIsCertModalOpen(false)} />
 
       {/* Official Belvo Letter of Recommendation Viewer Modal */}
       {belvoPdfUrl && <BelvoLorModal isOpen={isLorModalOpen} onClose={() => setIsLorModalOpen(false)} pdfUrl={belvoPdfUrl} title={belvoExperience?.lor?.title || "Belvo Company — Letter of Recommendation"} />}
