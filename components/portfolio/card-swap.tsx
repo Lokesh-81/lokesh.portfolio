@@ -50,7 +50,7 @@ export function CardSwap({ projects }: { projects: Project[] }) {
       current.dy = pointer.clientY - current.y;
       const x = 150 * Math.tanh(current.dx / 150);
       const y = 150 * Math.tanh(current.dy / 150);
-      element.style.transform = `${slot(0)} translate(${x.toFixed(1)}px, ${y.toFixed(1)}px) rotate(${(x * .045).toFixed(2)}deg)`;
+      element.style.transform = `translateX(-50%) ${slot(0)} translate(${x.toFixed(1)}px, ${y.toFixed(1)}px) rotate(${(x * .045).toFixed(2)}deg)`;
     };
     const up = (pointer: PointerEvent) => {
       if (!mine(pointer) || !drag.current) return;
