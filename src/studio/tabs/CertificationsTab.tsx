@@ -39,6 +39,7 @@ export function CertificationsTab({ showToast }: CertificationsTabProps) {
   // Cert modal state
   const [editingCert, setEditingCert] = useState<Partial<CertificationItem> | null>(null);
   const [isUploadingCert, setIsUploadingCert] = useState(false);
+  const [isUploadingCredential, setIsUploadingCredential] = useState(false);
   const [isSavingCert, setIsSavingCert] = useState(false);
 
   // Badge modal state
@@ -89,6 +90,31 @@ export function CertificationsTab({ showToast }: CertificationsTabProps) {
       showToast(err.message || 'Upload failed', 'error');
     } finally {
       setIsUploadingCert(false);
+    }
+  };
+
+  const handleCredentialUpload = async (file: File | undefined) => {
+    if (!file || !editingCert) return;
+
+    const isSupportedFile =
+      file.type === 'application/pdf' ||
+      file.type.startsWith('image/') ||
+      file.name.toLowerCase().endsWith('.pdf');
+
+    if (!isSupportedFile) {
+      showToast('Please upload a PDF or image file', 'error');
+      return;
+    }
+
+    setIsUploadingCredential(true);
+    try {
+      const res = await uploadMediaToSupabase(file, 'certifications');
+      setEditingCert((prev) => ({ ...prev!, credentialUrl: res.url }));
+      showToast('Credential file uploaded!', 'success');
+    } catch (err: any) {
+      showToast(err instanceof Error ? err.message : 'Credential upload failed', 'error');
+    } finally {
+      setIsUploadingCredential(false);
     }
   };
 
@@ -371,14 +397,24 @@ export function CertificationsTab({ showToast }: CertificationsTabProps) {
               </div>
 
               <div>
-                <label className="block text-xs font-medium text-[#CBD5E1] mb-1">Credential URL</label>
+                <label className="block text-xs font-medium text-[#CBD5E1] mb-2">Credential File / Certificate</label>
+                <StudioDropzone
+                  accept=".pdf,application/pdf,image/*"
+                  title={isUploadingCredential ? 'Uploading credential…' : 'Drag & drop your certificate PDF or image'}
+                  description="Drop a PDF or image here, or click Browse files"
+                  disabled={isUploadingCredential}
+                  onFiles={(files) => void handleCredentialUpload(files[0])}
+                  className="w-full"
+                />
+                <label className="mt-3 block text-xs font-medium text-[#CBD5E1] mb-1">Credential URL</label>
                 <input
-                  type="text"
+                  type="url"
                   value={editingCert.credentialUrl || ''}
                   onChange={(e) => setEditingCert({ ...editingCert, credentialUrl: e.target.value })}
-                  placeholder="https://www.credential.net/..."
+                  placeholder="Paste a credential verification URL or uploaded file URL"
                   className="w-full rounded-xl border border-[#1F2937] bg-[#0B132B] px-3.5 py-2 text-xs text-[#E0E7FF] focus:border-[#60A5FA] focus:outline-none"
                 />
+                <p className="mt-1 text-[10px] text-[#94A3B8]">Upload a PDF/image or paste the public credential verification link.</p>
               </div>
 
               <div>
