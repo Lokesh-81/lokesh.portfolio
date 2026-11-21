@@ -357,9 +357,9 @@ export function CertificationsSection({ onNavigate }: CertificationsSectionProps
           <div className="absolute top-0 right-0 w-96 h-96 bg-[radial-gradient(ellipse_at_top_right,rgba(168,85,247,0.18),transparent_70%)] pointer-events-none" />
           <div className="absolute bottom-0 left-0 w-80 h-80 bg-[radial-gradient(ellipse_at_bottom_left,rgba(99,102,241,0.12),transparent_70%)] pointer-events-none" />
 
-          <div className="relative z-10 grid gap-8 lg:grid-cols-[300px_1fr] items-start">
+          <div className="relative z-10 grid gap-6 lg:grid-cols-[minmax(220px,300px)_minmax(0,1fr)] items-start">
             {/* Left Column: Belvo Badge & Quick Verification */}
-            <div className="belvo-lor-thumbnail" role="button" tabIndex={0} onClick={() => setIsLorModalOpen(true)} onKeyDown={(event) => { if (event.key === "Enter" || event.key === " ") setIsLorModalOpen(true); }} aria-label="Open official Belvo Letter of Recommendation">
+            <div className="belvo-lor-thumbnail lg:row-span-2" role="button" tabIndex={0} onClick={() => setIsLorModalOpen(true)} onKeyDown={(event) => { if (event.key === "Enter" || event.key === " ") setIsLorModalOpen(true); }} aria-label="Open official Belvo Letter of Recommendation">
               <iframe src="/belvo-lor.pdf#page=1&toolbar=0&navpanes=0&scrollbar=0" title="Belvo Letter of Recommendation preview" loading="lazy" tabIndex={-1} />
               <a href="/belvo-lor.pdf" target="_blank" rel="noreferrer" onClick={(event) => event.stopPropagation()}>OPEN ORIGINAL BELVO PDF ↗</a>
             </div>
@@ -415,7 +415,7 @@ export function CertificationsSection({ onNavigate }: CertificationsSectionProps
             </div>
 
             {/* Right Column: Letter Summary & Key Competencies Highlighted */}
-            <div className="space-y-5">
+            <div className="space-y-5 lg:col-start-2">
               <div>
                 <div className="flex flex-wrap items-center gap-2 mb-2">
                   <span className="font-mono text-xs uppercase tracking-wider text-purple-400 font-semibold bg-purple-500/10 border border-purple-500/30 px-2.5 py-0.5 rounded-full">
