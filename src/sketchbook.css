@@ -2398,175 +2398,51 @@ html.scroll-motion-ready .portfolio-shell .scroll-motion-item:not(.scroll-motion
 }
 
 
-/* Final refinement: calm navigation, readable cards, compact filters, and a clearer hero. */
-.portfolio-shell nav[aria-label="Main Navigation"] {
-  top:14px!important;left:50%!important;transform:translateX(-50%)!important;
-  width:min(95%,1260px)!important;min-height:64px!important;height:64px!important;
-  padding:0 clamp(14px,2.5vw,30px)!important;gap:18px!important;
-  border:1px solid rgba(91,119,161,.16)!important;border-radius:18px!important;
-  background:rgba(255,255,255,.9)!important;
-  box-shadow:0 12px 38px rgba(31,54,91,.09)!important;
-  backdrop-filter:blur(22px) saturate(1.3)!important;
-}
-.portfolio-shell nav[aria-label="Main Navigation"] .portfolio-monogram {
-  width:36px!important;height:36px!important;border-radius:11px!important;
-  background:linear-gradient(145deg,#eaf1ff,#dce8fb)!important;color:#315d9f!important;
-}
-.portfolio-shell nav[aria-label="Main Navigation"] .portfolio-nav-links {gap:clamp(0px,.35vw,6px)!important}
-.portfolio-shell nav[aria-label="Main Navigation"] .portfolio-nav-links button {
-  position:relative!important;padding:10px 9px!important;border-radius:9px!important;
-  color:#65758e!important;font-size:10px!important;font-weight:600!important;
-  transition:background .2s ease,color .2s ease!important;
-}
-.portfolio-shell nav[aria-label="Main Navigation"] .portfolio-nav-links button:hover,
-.portfolio-shell nav[aria-label="Main Navigation"] .portfolio-nav-links button.active:not(.portfolio-nav-contact) {
-  color:#234f91!important;background:#edf3ff!important;
-}
-.portfolio-shell nav[aria-label="Main Navigation"] .portfolio-nav-links button.active:not(.portfolio-nav-contact):after {display:none!important}
-.portfolio-shell nav[aria-label="Main Navigation"] .portfolio-nav-links .portfolio-nav-contact {
-  margin-left:4px!important;padding:10px 16px!important;border-radius:10px!important;
-  background:#244d91!important;color:#fff!important;
-}
-.portfolio-shell nav[aria-label="Main Navigation"] .portfolio-nav-actions button {
-  padding:8px 10px!important;border-radius:10px!important;background:#f7f9fd!important;
-}
-@media(max-width:860px) {
-  .portfolio-shell nav[aria-label="Main Navigation"] {top:10px!important;width:calc(100% - 20px)!important;min-height:60px!important;height:60px!important;border-radius:15px!important}
-}
 
-/* Hero: confident typography and a purposeful product-building visual, without fake availability badges. */
-.portfolio-shell .hero-rebuild {padding-top:150px!important;gap:clamp(34px,5vw,76px)!important}
-.portfolio-shell .hero-rebuild-status {display:none!important}
-.portfolio-shell .hero-rebuild-eyebrow {display:flex!important;align-items:center!important;gap:12px!important;color:#63758f!important;font:700 9px/1.4 ui-monospace,monospace!important;letter-spacing:.14em!important}
-.portfolio-shell .hero-rebuild-location {color:#7487a2!important}
-.portfolio-shell .hero-rebuild-greeting {
-  margin-top:24px!important;color:#536b8e!important;
-  font:600 clamp(17px,1.5vw,21px)/1.2 Inter,sans-serif!important;
-  letter-spacing:.01em!important;text-transform:none!important;
-}
-.portfolio-shell .hero-rebuild-name {
-  margin-top:8px!important;color:#1b3154!important;
-  font:800 clamp(58px,8vw,112px)/.92 Inter,sans-serif!important;
-  letter-spacing:-.085em!important;text-transform:none!important;
-}
-.portfolio-shell .hero-rebuild-period {color:#4777c5!important}
-.portfolio-shell .hero-rebuild-role {margin-top:22px!important;color:#63758f!important;font-size:15px!important}
-.portfolio-shell .hero-rebuild-role strong {
-  display:block!important;margin-top:5px!important;color:#315d9f!important;
-  font:700 clamp(22px,2.5vw,30px)/1.2 Inter,sans-serif!important;
-  letter-spacing:-.035em!important;
-}
-.portfolio-shell .hero-rebuild-bio {max-width:590px!important;margin-top:15px!important;color:#596d88!important;font:400 14px/1.8 Inter,sans-serif!important}
-.portfolio-shell .hero-rebuild-actions {margin-top:28px!important;gap:12px!important}
-.portfolio-shell .hero-rebuild-actions button {
-  min-height:46px!important;padding:0 17px!important;border:1px solid #dce5f2!important;
-  border-radius:12px!important;box-shadow:0 5px 16px rgba(39,67,111,.06)!important;
-  font:600 12px Inter,sans-serif!important;transition:transform .2s ease,box-shadow .2s ease!important;
-}
-.portfolio-shell .hero-rebuild-actions button:hover {transform:translateY(-2px)!important;box-shadow:0 10px 22px rgba(39,67,111,.11)!important}
-.portfolio-shell .hero-rebuild-primary {background:#244d91!important;color:#fff!important;border-color:#244d91!important}
-.portfolio-shell .hero-rebuild-primary :is(svg,span) {color:#fff!important}
-.portfolio-shell .hero-rebuild-secondary,.portfolio-shell .hero-rebuild-resume {background:#fff!important;color:#315071!important}
-.portfolio-shell .hero-rebuild-bottomline {margin-top:46px!important;padding-top:14px!important;border-top:1px solid #dce5f1!important;color:#7b8ba2!important;font:700 8px ui-monospace,monospace!important;letter-spacing:.12em!important}
-.portfolio-shell .hero-rebuild-bottomline button {color:#315d9f!important;font:700 8px ui-monospace,monospace!important}
-.portfolio-shell .hero-build-panel {
-  padding:clamp(22px,3vw,34px)!important;gap:23px!important;
-  border:1px solid #dce6f4!important;border-radius:24px!important;
-  background:linear-gradient(145deg,#ffffff 0%,#f2f6fd 100%)!important;
-  box-shadow:0 26px 70px rgba(39,67,111,.11)!important;
-}
-.portfolio-shell .hero-build-panel:before {
-  width:250px!important;height:250px!important;right:-130px!important;top:-145px!important;
-  border-color:rgba(71,119,197,.2)!important;box-shadow:0 0 0 24px rgba(71,119,197,.035),0 0 0 50px rgba(71,119,197,.025)!important;
-}
-.portfolio-shell .hero-build-panel-top,.portfolio-shell .hero-build-panel-foot {color:#8190a7!important;font-size:8px!important}
-.portfolio-shell .hero-build-panel-title {
-  max-width:360px!important;color:#1e3457!important;
-  font:750 clamp(31px,3.5vw,46px)/1.02 Inter,sans-serif!important;
-  letter-spacing:-.055em!important;text-transform:none!important;
-}
-.portfolio-shell .hero-build-panel-title em {color:#4777c5!important;font-style:normal!important}
-.portfolio-shell .hero-build-step {
-  min-height:104px!important;justify-content:center!important;padding:14px 10px!important;
-  border:1px solid #dce6f3!important;border-radius:13px!important;
-  background:rgba(255,255,255,.86)!important;box-shadow:0 7px 18px rgba(40,68,112,.045)!important;
-}
-.portfolio-shell .hero-build-step span {color:#7d96bd!important;font-size:8px!important}
-.portfolio-shell .hero-build-step b {color:#26466f!important;font:700 12px Inter,sans-serif!important;letter-spacing:.02em!important}
-.portfolio-shell .hero-build-step small {color:#71829a!important;font:500 8px/1.45 Inter,sans-serif!important}
-.portfolio-shell .hero-build-connector {background:#c5d5eb!important}
-.portfolio-shell .hero-build-connector i {background:#4777c5!important}
-.portfolio-shell .hero-build-panel-foot {border-top:1px solid #e0e8f3!important;padding-top:15px!important}
 
-/* Projects: replace the harsh paper/yellow treatment with a restrained blue editorial card system. */
-.portfolio-shell .projects-swap-wrap {max-width:860px!important;margin-top:22px!important}
-.portfolio-shell .projects-swap-hint,.portfolio-shell .projects-swap-footer {
-  color:#71839d!important;font-size:8px!important;letter-spacing:.12em!important;
-  border-color:#e0e8f2!important;
-}
-.portfolio-shell .projects-swap-stage {height:570px!important}
-.portfolio-shell .projects-swap-card {
-  top:24px!important;width:min(calc(100% - 64px),620px)!important;height:510px!important;
-}
-.portfolio-shell .projects-swap-card .project-card-content {
-  padding:26px!important;background:linear-gradient(155deg,#fff 0%,#f7faff 100%)!important;
-  color:#243956!important;border:1px solid #dce5f1!important;border-radius:20px!important;
-  box-shadow:0 18px 48px rgba(31,57,99,.12)!important;backdrop-filter:none!important;
-}
-.portfolio-shell .projects-swap-card .project-card-content :is(h3,strong) {color:#203653!important}
-.portfolio-shell .projects-swap-card .project-card-content :is(p,li) {color:#586d88!important}
-.portfolio-shell .projects-swap-card .project-card-content :is(span) {color:#58708f!important}
-.portfolio-shell .projects-swap-card .project-card-content .border-b {border-color:#e5ebf4!important}
-.portfolio-shell .projects-swap-card .project-card-content :is(h3) {font:750 25px/1.15 Inter,sans-serif!important;letter-spacing:-.04em!important}
-.portfolio-shell .projects-swap-card .project-card-content :is(p) {font:400 12px/1.7 Inter,sans-serif!important}
-.portfolio-shell .projects-swap-card .project-card-content .project-tech-chip {
-  background:#edf3fc!important;color:#365b91!important;border:1px solid #dce7f5!important;
-  border-radius:6px!important;font-size:9px!important;
-}
-.portfolio-shell .projects-swap-card .project-card-content a[class*="bg-gradient"] {
-  background:#244d91!important;color:#fff!important;border:0!important;border-radius:9px!important;
-  box-shadow:0 5px 14px rgba(36,77,145,.16)!important;
-}
-.portfolio-shell .projects-swap-card .project-card-content a[class*="bg-gradient"] * {color:#fff!important}
-.portfolio-shell .projects-swap-card [class*="Glow"],.portfolio-shell .projects-swap-card [class*="glow"] {opacity:.12!important}
-.portfolio-shell .projects-swap-card .project-card-content :is(.text-\[\#E8B8D2\],.text-\[\#D8B4E8\]) {color:#5277ad!important}
-@media(max-width:760px) {
-  .portfolio-shell .projects-swap-stage {height:560px!important}
-  .portfolio-shell .projects-swap-card {top:20px!important;width:calc(100% - 30px)!important;height:510px!important}
-  .portfolio-shell .projects-swap-card .project-card-content {padding:20px!important}
-}
-@media(max-width:520px) {
-  .portfolio-shell .projects-swap-stage {height:545px!important}
-  .portfolio-shell .projects-swap-card {top:16px!important;width:calc(100% - 20px)!important;height:500px!important}
-}
+/* Restore the original sketchbook visual language and keep refinements local. */
+.portfolio-shell .portfolio-section .experience-card {padding:18px!important;border-radius:8px!important;box-shadow:4px 4px 0 var(--sk-ink)!important}
+.portfolio-shell .portfolio-section .experience-card h3 {font-size:19px!important;line-height:1.2!important}
+.portfolio-shell .portfolio-section .experience-card p {font-size:12px!important;line-height:1.6!important}
+.portfolio-shell .portfolio-section .experience-card li {font-size:11px!important;line-height:1.5!important}
+.portfolio-shell .portfolio-section .experience-card .experience-belvo-lor {padding:14px!important;margin-top:16px!important}
+.portfolio-shell .portfolio-section .experience-card .experience-belvo-lor :is(.experience-lor-title,.experience-lor-meta,.experience-lor-quote) {font-size:11px!important;line-height:1.5!important}
+.portfolio-shell .portfolio-section .experience-card .experience-belvo-lor button {min-height:34px!important;padding:7px 11px!important;font-size:10px!important}
 
-/* Every certification filter chip is intentionally compact, including counts and level controls. */
+/* Compact the Google Cloud credential panel without hiding verification details. */
+.portfolio-shell #certifications .belvo-certification-showcase {padding:20px!important;border-radius:12px!important}
+.portfolio-shell #certifications .belvo-certification-showcase .relative.z-10 {gap:20px!important}
+.portfolio-shell #certifications .belvo-certification-showcase h3 {font-size:20px!important;line-height:1.2!important}
+.portfolio-shell #certifications .belvo-certification-showcase :is(p,span,div) {line-height:1.45}
+.portfolio-shell #certifications .belvo-certification-showcase .belvo-lor-thumbnail,
+.portfolio-shell #certifications .belvo-certification-showcase .belvo-lor-thumbnail iframe {min-height:290px!important;height:290px!important}
+.portfolio-shell #certifications .belvo-certification-showcase .belvo-lor-thumbnail span {padding:7px!important;font-size:9px!important}
+
+/* Every certification filter chip is compact, including category, level and count pills. */
+.portfolio-shell .certifications-sketchbook .certification-category-tabs,
+.portfolio-shell .certifications-sketchbook .certification-level-tabs {gap:5px!important}
 .portfolio-shell .certifications-sketchbook .certification-category-tabs>button,
-.portfolio-shell .certifications-sketchbook .certification-level-tabs>button {
-  min-height:24px!important;height:24px!important;padding:3px 7px!important;
-  gap:3px!important;border-radius:7px!important;font-size:9px!important;
-  line-height:1!important;font-weight:600!important;
-}
-.portfolio-shell .certifications-sketchbook .certification-category-tabs {gap:5px!important}
-.portfolio-shell .certifications-sketchbook .certification-level-tabs {gap:4px!important}
-.portfolio-shell .certifications-sketchbook .credential-category-count {
-  min-width:14px!important;min-height:14px!important;padding:1px 3px!important;
-  font-size:8px!important;line-height:1!important;
-}
-.portfolio-shell .certifications-sketchbook .certification-category-tabs>span,
-.portfolio-shell .certifications-sketchbook .certification-level-tabs>span {font-size:9px!important}
+.portfolio-shell .certifications-sketchbook .certification-level-tabs>button {min-height:23px!important;height:23px!important;padding:3px 7px!important;font-size:9px!important;line-height:1!important;gap:3px!important;border-radius:6px!important}
+.portfolio-shell .certifications-sketchbook .certification-category-tabs .credential-category-count {min-width:13px!important;min-height:13px!important;padding:1px 3px!important;font-size:7px!important}
 
-/* Remove opaque dark overlays that were washing out the text beneath them. */
-.portfolio-shell .portfolio-section [class*="overlay"],
-.portfolio-shell .portfolio-section [class*="Overlay"],
-.portfolio-shell .portfolio-section :is([class*="bg-black/"],[class*="bg-slate-950/"],[class*="bg-gray-950/"]) {
-  background:transparent!important;background-image:none!important;
-  mix-blend-mode:normal!important;opacity:1!important;
-}
-.portfolio-shell .portfolio-section :is(h1,h2,h3,h4,h5,p,li,label,small,span,a,button) {
-  mix-blend-mode:normal!important;filter:none!important;text-shadow:none!important;
-  -webkit-text-fill-color:currentColor!important;opacity:1!important;visibility:visible!important;
-}
-@media(prefers-reduced-motion:reduce) {
-  .portfolio-shell .hero-build-live i,.portfolio-shell .hero-build-connector i {animation:none!important}
-}
+/* Testimonials retain the coloured paper cards, with a smaller footprint. */
+.portfolio-shell .testimonial-ledger-card {min-height:270px!important;padding:17px!important;border-radius:8px!important;box-shadow:3px 3px 0 var(--sk-ink)!important}
+.portfolio-shell .testimonial-ledger-card blockquote {margin:14px 0!important;font-size:12px!important;line-height:1.65!important}
+.portfolio-shell .testimonial-ledger-card footer {gap:9px!important;padding-top:11px!important}
+.portfolio-shell .testimonial-ledger-card footer strong {font-size:12px!important}
+.portfolio-shell .testimonial-ledger-card footer span {font-size:10px!important}
+
+/* Projects keep the original paper-and-ink theme; reduce the oversized stack. */
+.portfolio-shell .projects-swap-wrap {max-width:820px!important;margin:20px auto 0!important}
+.portfolio-shell .projects-swap-stage {height:490px!important}
+.portfolio-shell .projects-swap-card {top:20px!important;width:min(calc(100% - 90px),610px)!important;height:440px!important}
+.portfolio-shell .projects-swap-card .project-card-content {padding:20px!important;border-radius:8px!important}
+.portfolio-shell .projects-swap-card .project-card-content h3 {font-size:22px!important}
+.portfolio-shell .projects-swap-card .project-card-content :is(p,li) {font-size:11px!important;line-height:1.55!important}
+@media(max-width:760px){.portfolio-shell .projects-swap-stage{height:470px!important}.portfolio-shell .projects-swap-card{top:18px!important;width:calc(100% - 30px)!important;height:430px!important}}
+@media(max-width:520px){.portfolio-shell .projects-swap-stage{height:455px!important}.portfolio-shell .projects-swap-card{top:14px!important;width:calc(100% - 20px)!important;height:420px!important}}
+
+/* Remove text blending only; preserve section artwork, background and overlays. */
+.portfolio-shell .portfolio-section :is(h1,h2,h3,h4,h5,p,li,label,small,span,a,button) {mix-blend-mode:normal!important;-webkit-font-smoothing:antialiased!important}
+.portfolio-shell .portfolio-section :is(p,li,label,small) {opacity:1!important;visibility:visible!important}
+.portfolio-shell .portfolio-section :is(h1,h2,h3,h4,h5,strong,b) {visibility:visible!important}

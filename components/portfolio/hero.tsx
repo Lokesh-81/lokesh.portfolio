@@ -76,24 +76,32 @@ export function Hero({ onNavigate }: HeroProps) {
         </motion.div>
 
         <motion.aside
-          className="hero-build-panel"
-          aria-label="Development workflow"
-          initial={{ opacity: 0, x: 28 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.85, delay: 0.5, ease: [0.2, 0.75, 0.25, 1] }}
+          className="hero-project-canvas"
+          aria-label="Selected projects and product work"
+          initial={{ opacity: 0, y: 30, scale: .975 }}
+          animate={{ opacity: 1, y: 0, scale: 1 }}
+          transition={{ duration: .9, delay: .25, ease: [0.2, 0.75, 0.25, 1] }}
         >
-          <div className="hero-build-panel-top">
-            <span>BUILD LOG / 2026</span><span className="hero-build-live"><i /> ACTIVE</span>
+          <div className="hero-canvas-top"><span>SELECTED WORK / 2026</span><span><i /> 3 PRODUCTS SHIPPED</span></div>
+          <a className="hero-canvas-feature" href="https://www.lumoraai.in/" target="_blank" rel="noreferrer">
+            <div className="hero-canvas-feature-top"><span>01 / FLAGSHIP BUILD</span><span>OPEN PROJECT ↗</span></div>
+            <div className="hero-canvas-brand"><span className="hero-canvas-brand-mark">L</span><div><strong>LUMORA<span> AI</span></strong><small>INTELLIGENCE FOR INVESTORS</small></div></div>
+            <p className="hero-canvas-description">An AI-powered market research workspace connecting live data with grounded analysis.</p>
+            <div className="hero-canvas-interface">
+              <div className="hero-canvas-interface-head"><span>MARKET PULSE</span><span className="hero-canvas-live">LIVE DATA</span></div>
+              <div className="hero-canvas-interface-grid">
+                <div><small>RESEARCH</small><b>Market insights</b><span>Data-led discovery</span></div>
+                <div><small>INTELLIGENCE</small><b>AI analysis</b><span>Context, not noise</span></div>
+              </div>
+              <div className="hero-canvas-signal"><span /><span /><span /><span /><span /><span /><span /><span /><span /><span /><span /><span /><span /><span /><span /><span /><span /><span /><span /><span /><span /></div>
+            </div>
+            <div className="hero-canvas-tags"><span>Next.js</span><span>AI APIs</span><span>Market data</span><span>Full-stack</span></div>
+          </a>
+          <div className="hero-canvas-secondary">
+            <a href="https://oldletters.vercel.app/" target="_blank" rel="noreferrer"><span className="hero-canvas-secondary-no">02</span><span><b>Old-Letters</b><small>Messages made to arrive later</small></span><span className="hero-canvas-secondary-arrow">↗</span></a>
+            <a href="https://www.foundarlybusinessworld.in/" target="_blank" rel="noreferrer"><span className="hero-canvas-secondary-no">03</span><span><b>Foundarly</b><small>Business discovery platform</small></span><span className="hero-canvas-secondary-arrow">↗</span></a>
           </div>
-          <div className="hero-build-panel-title">From idea to <em>real products.</em></div>
-          <div className="hero-build-flow">
-            <div className="hero-build-step"><span>01</span><b>DESIGN</b><small>Shape the experience</small></div>
-            <div className="hero-build-connector"><i /></div>
-            <div className="hero-build-step"><span>02</span><b>ENGINEER</b><small>Build the system</small></div>
-            <div className="hero-build-connector"><i /></div>
-            <div className="hero-build-step"><span>03</span><b>SHIP</b><small>Put it to work</small></div>
-          </div>
-          <div className="hero-build-panel-foot"><span>REACT · TYPESCRIPT · AI</span><span>HYDERABAD / IN</span></div>
+          <div className="hero-canvas-foot"><span>CONCEPT → PRODUCT → DEPLOYMENT</span><span>HYDERABAD, IN</span></div>
         </motion.aside>
       </div>
       <ResumeModal isOpen={isResumeModalOpen} onClose={() => setIsResumeModalOpen(false)} />
