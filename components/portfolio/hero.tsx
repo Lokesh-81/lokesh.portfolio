@@ -76,31 +76,41 @@ export function Hero({ onNavigate }: HeroProps) {
         </motion.div>
 
         <motion.aside
-          className="hero-build-panel"
-          aria-label="Selected projects and development workflow"
-          initial={{ opacity: 0, x: 28 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.85, delay: 0.5, ease: [0.2, 0.75, 0.25, 1] }}
+          className="hero-product-stage"
+          aria-label="Animated preview of a digital product interface"
+          initial={{ opacity: 0, y: 34, rotate: 2 }}
+          animate={{ opacity: 1, y: 0, rotate: 0 }}
+          transition={{ duration: 1, delay: 0.35, ease: [0.2, 0.75, 0.25, 1] }}
         >
-          <div className="hero-build-panel-top">
-            <span>BUILD LOG / 2026</span><span className="hero-build-live"><i /> ACTIVE</span>
+          <div className="hero-product-orbit hero-product-orbit-a" />
+          <div className="hero-product-orbit hero-product-orbit-b" />
+          <div className="hero-product-window">
+            <div className="hero-window-bar">
+              <span className="hero-window-dots"><i /><i /><i /></span>
+              <span>LOKESH / DIGITAL STUDIO</span>
+              <span className="hero-window-live">LIVE PREVIEW</span>
+            </div>
+            <div className="hero-window-content">
+              <div className="hero-window-sidebar"><b>PL.</b><i /><i /><i /><i /><span /></div>
+              <div className="hero-window-main">
+                <div className="hero-window-overline">PRODUCT ENGINEERING / 2026</div>
+                <div className="hero-window-heading">Ideas into<br /><em>interfaces.</em></div>
+                <div className="hero-window-subline">Design systems · Full-stack · AI</div>
+                <div className="hero-window-chart">
+                  <div className="hero-chart-label"><span>BUILD PROGRESS</span><b>SHIP / 100%</b></div>
+                  <svg viewBox="0 0 420 110" role="img" aria-label="Animated product progress graph">
+                    <path className="hero-chart-grid" d="M0 25H420 M0 55H420 M0 85H420" />
+                    <path className="hero-chart-line" d="M0 91 C38 88 48 70 82 75 S132 52 164 61 S215 29 250 44 S310 16 340 27 S390 8 420 12" />
+                    <path className="hero-chart-area" d="M0 91 C38 88 48 70 82 75 S132 52 164 61 S215 29 250 44 S310 16 340 27 S390 8 420 12 L420 110 L0 110Z" />
+                  </svg>
+                </div>
+                <div className="hero-window-tags"><span>REACT</span><span>TYPESCRIPT</span><span>AI SYSTEMS</span></div>
+              </div>
+            </div>
           </div>
-          <div className="hero-build-panel-title">From idea to <em>real products.</em></div>
-          <div className="hero-build-flow">
-            <div className="hero-build-step"><span>01</span><b>DESIGN</b><small>Shape the experience</small></div>
-            <div className="hero-build-connector"><i /></div>
-            <div className="hero-build-step"><span>02</span><b>ENGINEER</b><small>Build the system</small></div>
-            <div className="hero-build-connector"><i /></div>
-            <div className="hero-build-step"><span>03</span><b>SHIP</b><small>Put it to work</small></div>
-          </div>
-          <div className="hero-build-projects">
-            <a href="https://www.lumoraai.in/" target="_blank" rel="noreferrer"><span className="hero-project-mark">L</span><span><b>Lumora AI</b><small>AI market research</small></span><ArrowUpRight size={16}/></a>
-            <a href="https://oldletters.vercel.app/" target="_blank" rel="noreferrer"><span className="hero-project-mark">O</span><span><b>Old-Letters</b><small>Delayed digital letters</small></span><ArrowUpRight size={16}/></a>
-            <a href="https://www.foundarlybusinessworld.in/" target="_blank" rel="noreferrer"><span className="hero-project-mark">F</span><span><b>Foundarly</b><small>Business platform</small></span><ArrowUpRight size={16}/></a>
-          </div>
-          <div className="hero-build-panel-foot"><span>REACT · TYPESCRIPT · AI</span><span>HYDERABAD / IN</span></div>
-        </motion.aside>
-      </div>
+          <div className="hero-float-card hero-float-card-top"><span className="hero-float-icon">✳</span><span><b>Thoughtful UI</b><small>Every detail has a reason</small></span></div>
+          <div className="hero-float-card hero-float-card-bottom"><span className="hero-float-check">✓</span><span><b>Deployed</b><small>From concept to production</small></span><i className="hero-float-pulse" /></div>
+        </motion.aside>     </div>
       <ResumeModal isOpen={isResumeModalOpen} onClose={() => setIsResumeModalOpen(false)} />
     </>
   );
