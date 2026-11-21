@@ -18,7 +18,6 @@ import {
 } from 'lucide-react';
 import { usePortfolio } from '@/lib/portfolio-context';
 import {
-  openDocumentInNewTab,
   downloadDocument,
   getCleanDocDisplayName,
 } from '@/lib/document-utils';
