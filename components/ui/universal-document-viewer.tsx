@@ -40,6 +40,20 @@ export function UniversalDocumentViewer({
   const [activeDocName, setActiveDocName] = useState<string | null>(null);
 
   const cleanUrl = url || '';
+  const documentUrl = useMemo(() => {
+    if (!cleanUrl) return '';
+    try {
+      const parsed = new URL(cleanUrl, window.location.origin);
+      if (parsed.hostname.endsWith('drive.google.com')) {
+        const match = parsed.pathname.match(/\/file\/d\/([a-zA-Z0-9_-]+)/);
+        const id = match?.[1] || parsed.searchParams.get('id');
+        if (id) return 'https://drive.google.com/file/d/' + id + '/preview';
+      }
+    } catch {
+      // Keep relative, data, and blob URLs unchanged.
+    }
+    return cleanUrl;
+  }, [cleanUrl]);
 
   // Check IndexedDB for any uploaded active resume document
   useEffect(() => {
@@ -142,18 +156,18 @@ export function UniversalDocumentViewer({
 
   // If it's a PDF or other document format
   return (
-    <div className={`w-full flex flex-col rounded-2xl overflow-hidden border border-[#1F2937] bg-[#070B18] shadow-2xl ${className}`}>
+    <div className={`w-full flex flex-col rounded-2xl overflow-hidden border border-[#D8C8C0] bg-[#F7F2EE] shadow-xl ${className}`}>
       {/* Top Document Bar */}
-      <div className="flex flex-wrap items-center justify-between gap-3 px-4 py-3 bg-[#0B132B] border-b border-[#1F2937]">
+      <div className="flex flex-wrap items-center justify-between gap-3 px-4 py-3 bg-[#F0E8E2] border-b border-[#D8C8C0]">
         <div className="flex items-center gap-2.5 min-w-0">
-          <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-blue-500/20 text-blue-400">
+          <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-[#E8D5D8] text-[#9B6876]">
             <FileText className="h-4 w-4" />
           </div>
           <div className="truncate">
-            <h4 className="text-xs font-semibold text-[#E0E7FF] truncate">
+            <h4 className="text-xs font-semibold text-[#302925] truncate">
               {activeDocName || title}
             </h4>
-            <span className="text-[10px] text-[#94A3B8] font-mono truncate block max-w-xs sm:max-w-md">
+            <span className="text-[10px] text-[#887A72] font-mono truncate block max-w-xs sm:max-w-md">
               {activeDocName
                 ? `Uploaded File: ${activeDocName}`
                 : cleanUrl.startsWith('data:')
@@ -169,7 +183,7 @@ export function UniversalDocumentViewer({
           <button
             type="button"
             onClick={handleCopyLink}
-            className="flex items-center gap-1 rounded-lg border border-[#1F2937] bg-[#111827] px-2.5 py-1.5 text-[11px] text-[#CBD5E1] hover:text-white transition-colors cursor-pointer"
+            className="flex items-center gap-1 rounded-lg border border-[#D8C8C0] bg-[#FBF8F5] px-2.5 py-1.5 text-[11px] text-[#62534D] hover:text-[#9B6876] transition-colors cursor-pointer"
             title="Copy document URL"
           >
             {copied ? <Check className="h-3.5 w-3.5 text-emerald-400" /> : <Copy className="h-3.5 w-3.5" />}
@@ -178,8 +192,8 @@ export function UniversalDocumentViewer({
 
           <button
             type="button"
-            onClick={() => openDocumentInNewTab(effectiveUrl || cleanUrl, activeDocName || title)}
-            className="flex items-center gap-1 rounded-lg border border-[#1F2937] bg-[#111827] px-2.5 py-1.5 text-[11px] text-[#CBD5E1] hover:border-blue-400 hover:text-white transition-colors cursor-pointer"
+            onClick={() => openDocumentInNewTab(documentUrl || effectiveUrl || cleanUrl, activeDocName || title)}
+            className="flex items-center gap-1 rounded-lg border border-[#1F2937] bg-[#111827] px-2.5 py-1.5 text-[11px] text-[#CBD5E1] hover:border-[#B78391] hover:text-[#9B6876] transition-colors cursor-pointer"
             title="Open in standalone tab"
           >
             <ExternalLink className="h-3.5 w-3.5" />
@@ -189,7 +203,7 @@ export function UniversalDocumentViewer({
           <button
             type="button"
             onClick={() => downloadDocument(effectiveUrl || cleanUrl, activeDocName || title)}
-            className="flex items-center gap-1 rounded-lg bg-[#2563EB] hover:bg-[#1D4ED8] px-3 py-1.5 text-[11px] font-semibold text-white shadow-sm transition-colors cursor-pointer"
+            className="flex items-center gap-1 rounded-lg bg-[#9B6876] hover:bg-[#865765] px-3 py-1.5 text-[11px] font-semibold text-white shadow-sm transition-colors cursor-pointer"
             title="Download document file"
           >
             <Download className="h-3.5 w-3.5" />
@@ -199,12 +213,12 @@ export function UniversalDocumentViewer({
       </div>
 
       {/* Direct PDF iframe: browser-native viewer, with standalone actions above. */}
-      <div className="w-full relative bg-[#f5f2e9] flex flex-col items-center justify-center min-h-[500px]">
+      <div className="w-full relative bg-[#EDE5DE] flex flex-col items-center justify-center min-h-[500px]">
         {effectiveUrl ? (
           <iframe
             src={`${effectiveUrl}#toolbar=1&navpanes=0&view=FitH`}
             title={title}
-            className="w-full border-0 bg-white"
+            className="w-full border-0 bg-[#FBF8F5]"
             style={{ height: typeof height === 'number' ? `${height}px` : height }}
             loading="eager"
           />
