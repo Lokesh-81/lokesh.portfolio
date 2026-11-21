@@ -35,6 +35,7 @@ import {
   BadgeCategory,
 } from '@/lib/data/certifications';
 import { useLanguage } from '@/i18n';
+import { usePortfolio } from '@/lib/portfolio-context';
 
 export interface CertificationsSectionProps {
   onNavigate?: (section: string) => void;
@@ -53,6 +54,9 @@ const CATEGORIES: Array<'All' | BadgeCategory> = [
 
 export function CertificationsSection({ onNavigate }: CertificationsSectionProps) {
   const { t, language } = useLanguage();
+  const { experiences } = usePortfolio();
+  const belvoExperience = experiences.find((item) => item.id === 'belvo' || item.company?.toLowerCase().includes('belvo'));
+  const belvoPdfUrl = belvoExperience?.lor?.pdfUrl || '/belvo-lor.pdf';
   const [isCertModalOpen, setIsCertModalOpen] = useState(false);
   const [isLorModalOpen, setIsLorModalOpen] = useState(false);
   const [selectedBadge, setSelectedBadge] = useState<SkillBadge | null>(null);
@@ -358,10 +362,11 @@ export function CertificationsSection({ onNavigate }: CertificationsSectionProps
           <div className="absolute bottom-0 left-0 w-80 h-80 bg-[radial-gradient(ellipse_at_bottom_left,rgba(99,102,241,0.12),transparent_70%)] pointer-events-none" />
 
           <div className="relative z-10 grid gap-6 lg:grid-cols-[minmax(220px,300px)_minmax(0,1fr)] items-start">
-            {/* Left Column: Belvo Badge & Quick Verification */}
-            <div className="belvo-lor-thumbnail lg:row-span-2" role="button" tabIndex={0} onClick={() => setIsLorModalOpen(true)} onKeyDown={(event) => { if (event.key === "Enter" || event.key === " ") setIsLorModalOpen(true); }} aria-label="Open official Belvo Letter of Recommendation">
-              <iframe src="/belvo-lor.pdf#page=1&toolbar=0&navpanes=0&scrollbar=0" title="Belvo Letter of Recommendation preview" loading="lazy" tabIndex={-1} />
-              <a href="/belvo-lor.pdf" target="_blank" rel="noreferrer" onClick={(event) => event.stopPropagation()}>OPEN ORIGINAL BELVO PDF ↗</a>
+            {/* Left column groups preview and verification to prevent an empty grid row. */}
+            <div className="min-w-0 space-y-4">
+            <div className="belvo-lor-thumbnail" role="button" tabIndex={0} onClick={() => setIsLorModalOpen(true)} onKeyDown={(event) => { if (event.key === "Enter" || event.key === " ") setIsLorModalOpen(true); }} aria-label="Open official Belvo Letter of Recommendation">
+              <iframe src={belvoPdfUrl + "#page=1&toolbar=0&navpanes=0&scrollbar=0"} title="Belvo Letter of Recommendation preview" loading="lazy" tabIndex={-1} />
+              <a href={belvoPdfUrl} target="_blank" rel="noreferrer" onClick={(event) => event.stopPropagation()}>OPEN ORIGINAL BELVO PDF ↗</a>
             </div>
 
             <div className="flex flex-col items-center text-center p-5 rounded-2xl border border-purple-500/30 bg-[#100B18]/80 shadow-inner">
@@ -405,7 +410,7 @@ export function CertificationsSection({ onNavigate }: CertificationsSectionProps
 
               <div className="mt-5 w-full space-y-2">
                 <a
-                  href="/belvo-lor.pdf"
+                  href={belvoPdfUrl}
                   target="_blank"
                   rel="noreferrer"
                   className="flex w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 px-4 py-2.5 text-xs font-semibold text-white shadow-md hover:scale-[1.02] active:scale-[0.98] transition-all cursor-pointer"
@@ -415,9 +420,10 @@ export function CertificationsSection({ onNavigate }: CertificationsSectionProps
                 </a>
               </div>
             </div>
+            </div>
 
             {/* Right Column: Letter Summary & Key Competencies Highlighted */}
-            <div className="space-y-5 lg:col-start-2">
+            <div className="min-w-0 space-y-5">
               <div>
                 <div className="flex flex-wrap items-center gap-2 mb-2">
                   <span className="font-mono text-xs uppercase tracking-wider text-purple-400 font-semibold bg-purple-500/10 border border-purple-500/30 px-2.5 py-0.5 rounded-full">
@@ -485,7 +491,7 @@ export function CertificationsSection({ onNavigate }: CertificationsSectionProps
                 <img
                   src="/certificates/download.png"
                   alt="Google Student Ambassador Program 2026 Semester 1 Certificate of Recognition for P. Lokesh"
-                  className="block aspect-[16/9] w-full object-contain p-2 transition-transform duration-500 group-hover:scale-[1.015]"
+                  className="block h-auto w-full object-contain p-0 transition-transform duration-500 group-hover:scale-[1.015]"
                   loading="eager"
                   onError={(event) => {
                     event.currentTarget.style.display = 'none';
@@ -696,7 +702,7 @@ export function CertificationsSection({ onNavigate }: CertificationsSectionProps
       <CertificateModal isOpen={isCertModalOpen} onClose={() => setIsCertModalOpen(false)} />
 
       {/* Official Belvo Letter of Recommendation Viewer Modal */}
-      <BelvoLorModal isOpen={isLorModalOpen} onClose={() => setIsLorModalOpen(false)} />
+      <BelvoLorModal isOpen={isLorModalOpen} onClose={() => setIsLorModalOpen(false)} pdfUrl={belvoPdfUrl} title={belvoExperience?.lor?.title || "Belvo Company — Letter of Recommendation"} />
 
       {/* Interactive Skill Badge Modal */}
       <SkillBadgeModal badge={selectedBadge} onClose={() => setSelectedBadge(null)} />
