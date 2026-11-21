@@ -473,19 +473,20 @@ export function CertificationsSection({ onNavigate }: CertificationsSectionProps
           <section className="gsa-certificate-card mt-8 overflow-hidden rounded-2xl border border-[#19191b] bg-[#fffdf5] shadow-[5px_5px_0_#19191b]">
             <div className="grid gap-6 p-5 sm:p-7 lg:grid-cols-[minmax(280px,420px)_1fr] lg:items-center">
               <a
-                href={ambassadorCert.credentialUrl}
+                href="/certificates/GSA_Semester1_Certificate_P.Lokesh.pdf"
                 target="_blank"
                 rel="noreferrer"
+                title="Open the original uploaded certificate PDF"
                 className="gsa-certificate-thumbnail group block overflow-hidden rounded-xl border-2 border-[#19191b] bg-[#f8f6e9] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#9b596f]"
                 aria-label="Open Google Student Ambassador 2026 Semester 1 certificate PDF"
               >
                 <img
-                  src={ambassadorCert.badgeImage}
+                  src="/certificates/download.png"
                   alt="Google Student Ambassador Program 2026 Semester 1 Certificate of Recognition for P. Lokesh"
                   className="block aspect-[16/9] w-full object-contain p-2 transition-transform duration-500 group-hover:scale-[1.015]"
                   loading="eager"
                   onError={(event) => {
-                    event.currentTarget.style.visibility = 'hidden';
+                    event.currentTarget.style.display = 'none';
                   }}
                 />
               </a>
@@ -509,6 +510,7 @@ export function CertificationsSection({ onNavigate }: CertificationsSectionProps
                   href={ambassadorCert.credentialUrl}
                   target="_blank"
                   rel="noreferrer"
+                  title="Open the original uploaded certificate PDF"
                   className="mt-5 inline-flex items-center gap-2 rounded-lg border-2 border-[#171719] bg-[#ffe17a] px-4 py-2.5 text-sm font-bold text-[#171719] shadow-[3px_3px_0_#171719] transition-all hover:-translate-y-0.5 hover:shadow-[5px_5px_0_#171719]"
                 >
                   <FileText className="h-4 w-4" />
