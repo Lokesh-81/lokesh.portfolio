@@ -94,7 +94,8 @@ export function Hero({ onNavigate }: HeroProps) {
             <div className="hero-architecture-layer layer-ship"><span className="architecture-layer-number">04</span><div className="architecture-layer-copy"><small>DEPLOY · MAKE IT REAL</small><strong>Ship to the world</strong><p>GitHub · Vercel · Google Cloud</p></div><span className="architecture-layer-symbol">↗</span></div>
           </div>
           <div className="hero-architecture-foot"><span>DESIGN → ENGINEER → DEPLOY</span><span>ONE CONNECTED WORKFLOW</span></div>
-        </motion.aside>n.aside>   </div>
+        </motion.aside>
+      </div>
       <ResumeModal isOpen={isResumeModalOpen} onClose={() => setIsResumeModalOpen(false)} />
     </>
   );
