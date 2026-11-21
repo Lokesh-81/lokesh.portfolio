@@ -56,8 +56,23 @@ export function dataUrlToBlob(dataUrl: string): Blob {
  * Modern browsers block top-frame navigation to "data:" URLs; this converts them to
  * an unblocked Object URL so it opens seamlessly.
  */
+function normalizeDocumentUrl(url: string): string {
+  try {
+    const parsed = new URL(url, typeof window !== 'undefined' ? window.location.origin : 'https://localhost');
+    if (parsed.hostname.endsWith('drive.google.com')) {
+      const match = parsed.pathname.match(/\/file\/d\/([a-zA-Z0-9_-]+)/);
+      const id = match?.[1] || parsed.searchParams.get('id');
+      if (id) return 'https://drive.google.com/file/d/' + id + '/preview';
+    }
+  } catch {
+    // Keep non-standard URLs unchanged.
+  }
+  return url;
+}
+
 export function openDocumentInNewTab(url: string, title: string = 'Document') {
   if (!url) return;
+  url = normalizeDocumentUrl(url);
 
   // Standard web URL or relative path: open directly
   if (!url.startsWith('data:')) {
