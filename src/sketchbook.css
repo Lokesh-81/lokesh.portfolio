@@ -2504,3 +2504,43 @@ html.scroll-motion-ready .portfolio-shell .scroll-motion-item:not(.scroll-motion
   .portfolio-shell #home .hero-selected-work .projects-swap-stage {height:290px!important}
   .portfolio-shell #home .hero-selected-work .projects-swap-card {width:calc(100% - 22px)!important;height:260px!important}
 }
+
+
+/* Final hero placement: selected project stack occupies the right column; credentials panel is removed. */
+.portfolio-shell #home .hero-rebuild {grid-template-columns:minmax(0,1fr) minmax(0,1.02fr)!important;align-items:center!important;gap:clamp(24px,3vw,42px)!important}
+.portfolio-shell #home .hero-rebuild-copy {grid-column:1;min-width:0!important}
+.portfolio-shell #home .hero-selected-work {grid-column:2;grid-row:1;width:100%;max-width:650px!important;margin:0!important;align-self:center}
+.portfolio-shell #home .hero-selected-work .projects-swap-wrap {max-width:650px!important}
+.portfolio-shell #home .hero-selected-work .projects-swap-stage {height:430px!important}
+.portfolio-shell #home .hero-selected-work .projects-swap-card {width:min(calc(100% - 34px),540px)!important;height:390px!important;top:10px!important}
+@media(max-width:900px){
+ .portfolio-shell #home .hero-rebuild {grid-template-columns:minmax(0,1fr)!important}
+ .portfolio-shell #home .hero-rebuild-copy,.portfolio-shell #home .hero-selected-work {grid-column:1;grid-row:auto}
+ .portfolio-shell #home .hero-selected-work {max-width:650px!important;margin:10px auto 0!important}
+}
+@media(max-width:560px){
+ .portfolio-shell #home .hero-selected-work .projects-swap-stage {height:330px!important}
+ .portfolio-shell #home .hero-selected-work .projects-swap-card {height:300px!important;width:calc(100% - 18px)!important}
+}
+
+/* Remove the oversized vertical separation around the Belvo LOR card. */
+.portfolio-shell #certifications .belvo-lor-showcase {margin-top:12px!important;padding:14px!important}
+.portfolio-shell #certifications .belvo-lor-showcase>.relative.z-10 {grid-template-columns:minmax(190px,220px) minmax(0,1fr)!important;gap:14px!important}
+.portfolio-shell #certifications .belvo-lor-showcase>.relative.z-10>.min-w-0:first-child {gap:9px!important}
+.portfolio-shell #certifications .belvo-lor-thumbnail {height:190px!important;min-height:190px!important}
+.portfolio-shell #certifications .belvo-lor-thumbnail iframe {height:154px!important;min-height:154px!important}
+.portfolio-shell #certifications .belvo-lor-thumbnail>a {height:36px!important;padding:7px!important}
+.portfolio-shell #certifications .belvo-lor-showcase .relative.z-10>.min-w-0:first-child>div:nth-child(2) {padding:10px!important}
+.portfolio-shell #certifications .belvo-lor-showcase .group\/badge {padding:8px!important}
+.portfolio-shell #certifications .belvo-lor-showcase .belvo-wordmark-mark {width:42px!important;height:42px!important;font-size:24px!important;margin-bottom:5px!important}
+.portfolio-shell #certifications .belvo-lor-showcase .mt-4 {margin-top:8px!important}
+.portfolio-shell #certifications .belvo-lor-showcase .mt-5 {margin-top:10px!important}
+.portfolio-shell #certifications .belvo-lor-showcase .relative.z-10>.min-w-0:last-child {gap:9px!important}
+.portfolio-shell #certifications .belvo-lor-showcase blockquote {padding:9px!important}
+.portfolio-shell #certifications .belvo-lor-showcase .grid.gap-2\.5 {gap:6px!important}
+.portfolio-shell #certifications .belvo-lor-showcase .grid.gap-2\.5>div {padding:6px 8px!important}
+
+/* Slightly larger navigation labels for legibility; preserve current navbar dimensions. */
+.portfolio-shell .portfolio-nav-links>button {font-size:13px!important;letter-spacing:.01em!important;padding-left:11px!important;padding-right:11px!important}
+.portfolio-shell .portfolio-nav-contact {font-size:13px!important}
+@media(max-width:760px){.portfolio-shell .portfolio-nav-links>button {font-size:14px!important}}
