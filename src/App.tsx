@@ -68,32 +68,21 @@ function PortfolioContent() {
 
   useEffect(() => {
     if (isStudioRoute) return;
-    const root = document.documentElement;
-    const targets = Array.from(document.querySelectorAll<HTMLElement>(
-      '.portfolio-editorial > section :is(h1,h2,h3,p,li,article,[class*="grid"] > *,[class*="card"],.portfolio-section-kicker), .portfolio-contact-stage :is(h1,h2,h3,p,form)'
+    const sections = Array.from(document.querySelectorAll<HTMLElement>(
+      '.portfolio-editorial > section, .portfolio-contact-stage'
     ));
-    const uniqueTargets = [...new Set(targets)].filter((node) => !node.closest('.portfolio-section-kicker'));
-    uniqueTargets.forEach((node, index) => {
-      node.classList.add('scroll-motion-item');
-      node.style.setProperty('--reveal-order', String(index % 8));
-    });
     const observer = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
-          entry.target.classList.add('scroll-motion-in');
+          entry.target.classList.add('sk-scroll-in');
           observer.unobserve(entry.target);
         }
       });
-    }, { threshold: 0.12, rootMargin: '0px 0px -7% 0px' });
-    root.classList.add('scroll-motion-ready');
-    uniqueTargets.forEach((node) => observer.observe(node));
+    }, { threshold: 0.08, rootMargin: '0px 0px -8% 0px' });
+    sections.forEach((section) => observer.observe(section));
     return () => {
       observer.disconnect();
-      root.classList.remove('scroll-motion-ready');
-      uniqueTargets.forEach((node) => {
-        node.classList.remove('scroll-motion-item', 'scroll-motion-in');
-        node.style.removeProperty('--reveal-order');
-      });
+      sections.forEach((section) => section.classList.remove('sk-scroll-in'));
     };
   }, [isStudioRoute]);
 
