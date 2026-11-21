@@ -78,7 +78,7 @@ export function Clock({ className }: { className?: string }) {
   }, []);
 
   if (!time) {
-    return <span className={cn('font-mono text-xs tabular-nums', className)}>--:--:--</span>;
+    return <span className={cn('portfolio-clock-time font-mono text-xs tabular-nums', className)}>--:--:--</span>;
   }
 
   const istFormatter = new Intl.DateTimeFormat('en-IN', {
@@ -90,7 +90,7 @@ export function Clock({ className }: { className?: string }) {
   });
 
   return (
-    <span className={cn('font-mono text-xs tabular-nums', className)}>
+    <span className={cn('portfolio-clock-time font-mono text-xs tabular-nums', className)}>
       {istFormatter.format(time)}
     </span>
   );
