@@ -70,7 +70,7 @@ function PortfolioContent() {
     if (isStudioRoute) return;
     const sections = document.querySelectorAll<HTMLElement>('.portfolio-section, .portfolio-contact-stage');
     if (!('IntersectionObserver' in window)) {
-      sections.forEach((section) => section.classList.add('sk-revealed'));
+      sections.forEach((section) => section.classList.add('sk-transitioning'));
       return;
     }
     const observer = new IntersectionObserver((entries) => {
