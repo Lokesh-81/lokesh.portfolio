@@ -4,6 +4,8 @@ import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { ArrowDownRight, ArrowUpRight, Award, FileText, Mail } from 'lucide-react';
 import { certifications, skillBadges } from '@/lib/data/certifications';
+import { CardSwap } from '@/components/portfolio/card-swap';
+import { projects as fallbackProjects, type Project } from '@/lib/data/projects';
 import { useLanguage } from '@/i18n';
 import { usePortfolio } from '@/lib/portfolio-context';
 import { ResumeModal } from '@/components/portfolio/resume-modal';
@@ -14,7 +16,8 @@ export interface HeroProps {
 
 export function Hero({ onNavigate }: HeroProps) {
   const { t } = useLanguage();
-  const { hero, profile } = usePortfolio();
+  const { hero, profile, projects: contextProjects } = usePortfolio();
+  const heroProjects: Project[] = contextProjects?.length ? contextProjects as Project[] : fallbackProjects;
   const [isResumeModalOpen, setIsResumeModalOpen] = useState(false);
 
   const greeting = t('hero.greeting', hero?.greeting || "Hello, I'm");
@@ -72,6 +75,9 @@ export function Hero({ onNavigate }: HeroProps) {
               <FileText size={16} /> Resume
             </button>
           </motion.div>
+          <div className="hero-selected-work">
+            <CardSwap projects={heroProjects.slice(0, 4)} />
+          </div>
           <motion.div variants={entrance} className="hero-rebuild-bottomline">
             <span>DESIGNING · BUILDING · ITERATING</span>
             <button type="button" onClick={() => onNavigate?.('about')}>SCROLL TO EXPLORE <ArrowDownRight size={15} /></button>
