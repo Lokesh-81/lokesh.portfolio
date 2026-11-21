@@ -1347,3 +1347,73 @@ html {
   .portfolio-section.sk-transitioning > *,
   .portfolio-contact-stage.sk-transitioning > * { animation: none !important; }
 }
+
+
+/* Final legibility and credential-layout corrections. */
+.portfolio-shell .portfolio-section p,
+.portfolio-shell .portfolio-section li,
+.portfolio-shell .portfolio-section label,
+.portfolio-shell .portfolio-contact-stage p {
+  color: #454039 !important;
+}
+.portfolio-shell .portfolio-section h2,
+.portfolio-shell .portfolio-section h3,
+.portfolio-shell .portfolio-section h4,
+.portfolio-shell .portfolio-contact-stage h2,
+.portfolio-shell .portfolio-contact-stage h3 {
+  color: #171719 !important;
+}
+.portfolio-shell .portfolio-section [class*="text-[#F"],
+.portfolio-shell .portfolio-section [class*="text-[#D"],
+.portfolio-shell .portfolio-section [class*="text-purple-"],
+.portfolio-shell .portfolio-section [class*="text-blue-"],
+.portfolio-shell .portfolio-contact-stage [class*="text-[#F"],
+.portfolio-shell .portfolio-contact-stage [class*="text-[#D"] {
+  color: #454039 !important;
+}
+.portfolio-shell .portfolio-section button,
+.portfolio-shell .portfolio-section a,
+.portfolio-shell .portfolio-contact-stage button,
+.portfolio-shell .portfolio-contact-stage a {
+  text-decoration-thickness: 1px;
+}
+.portfolio-shell #certifications .gsa-certificate-card {
+  min-height: 0 !important;
+  height: auto !important;
+  margin-top: 2rem !important;
+}
+.portfolio-shell #certifications .gsa-certificate-card > .grid {
+  align-items: center !important;
+  gap: 1.5rem !important;
+}
+.portfolio-shell #certifications .gsa-certificate-thumbnail {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  aspect-ratio: 1.6 / 1 !important;
+  min-height: 0 !important;
+  height: auto !important;
+  background: #e9e7e0 !important;
+}
+.portfolio-shell #certifications .gsa-certificate-thumbnail img {
+  display: block !important;
+  width: 100% !important;
+  height: 100% !important;
+  max-height: 100% !important;
+  object-fit: contain !important;
+  padding: 0 !important;
+}
+.portfolio-shell #certifications .belvo-lor-thumbnail {
+  min-width: 0 !important;
+  align-self: start !important;
+}
+.portfolio-shell #certifications .belvo-lor-thumbnail iframe {
+  display: block !important;
+  width: 100% !important;
+  min-height: 220px !important;
+  border: 0 !important;
+  background: #fffdf5 !important;
+}
+@media (max-width: 1023px) {
+  .portfolio-shell #certifications .gsa-certificate-thumbnail { aspect-ratio: 16 / 10 !important; }
+}
