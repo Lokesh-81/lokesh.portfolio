@@ -1417,3 +1417,48 @@ html {
 @media (max-width: 1023px) {
   .portfolio-shell #certifications .gsa-certificate-thumbnail { aspect-ratio: 16 / 10 !important; }
 }
+
+
+/* Reliable vertical section transitions: replay on every viewport entry. */
+.portfolio-shell .portfolio-section.sk-page-enter > *,
+.portfolio-shell .portfolio-contact-stage.sk-page-enter > * {
+  animation: sk-page-enter .78s cubic-bezier(.2,.75,.25,1) both !important;
+}
+.portfolio-shell .portfolio-section.sk-page-enter > .portfolio-section-kicker,
+.portfolio-shell .portfolio-contact-stage.sk-page-enter > .portfolio-section-kicker {
+  animation-duration: .62s !important;
+}
+@keyframes sk-page-enter {
+  from { opacity: .35; transform: translate3d(0, 42px, 0); filter: blur(2px); }
+  to { opacity: 1; transform: translate3d(0, 0, 0); filter: blur(0); }
+}
+
+/* Use the uploaded certificate's real landscape ratio; do not stretch a 16:9 box. */
+.portfolio-shell #certifications .gsa-certificate-thumbnail {
+  display: block !important;
+  aspect-ratio: auto !important;
+  height: auto !important;
+  min-height: 0 !important;
+  background: #e9e7e0 !important;
+}
+.portfolio-shell #certifications .gsa-certificate-thumbnail img {
+  display: block !important;
+  width: 100% !important;
+  height: auto !important;
+  max-height: none !important;
+  aspect-ratio: auto !important;
+  object-fit: contain !important;
+  padding: 0 !important;
+}
+.portfolio-shell #certifications .gsa-certificate-card {
+  min-height: 0 !important;
+}
+.portfolio-shell #certifications .belvo-lor-showcase .belvo-lor-thumbnail {
+  grid-row: auto !important;
+}
+@media (prefers-reduced-motion: reduce) {
+  .portfolio-shell .portfolio-section.sk-page-enter > *,
+  .portfolio-shell .portfolio-contact-stage.sk-page-enter > * {
+    animation: none !important;
+  }
+}
