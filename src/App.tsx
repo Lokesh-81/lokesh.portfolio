@@ -160,32 +160,25 @@ function PortfolioContent() {
 
           <div className="portfolio-editorial">
             <section id="about" className="portfolio-section scroll-mt-24">
-              <div className="portfolio-section-kicker"><span>01 / THE PERSON</span><span>ABOUT</span></div>
-              <AboutSection />
+<AboutSection />
             </section>
             <section id="work" className="portfolio-section portfolio-work-section scroll-mt-24">
-              <div className="portfolio-section-kicker"><span>02 / SELECTED PROJECTS</span><span>WORK</span></div>
-              <ProjectsSection />
+<ProjectsSection />
             </section>
             <section id="skills" className="portfolio-section scroll-mt-24">
-              <div className="portfolio-section-kicker"><span>03 / WHAT I DO</span><span>CAPABILITIES</span></div>
-              <SkillsSection />
+<SkillsSection />
             </section>
             <section id="experience" className="portfolio-section scroll-mt-24">
-              <div className="portfolio-section-kicker"><span>04 / WHERE I'VE BEEN</span><span>EXPERIENCE</span></div>
-              <ExperienceSection onNavigate={handleNavigate} />
+<ExperienceSection onNavigate={handleNavigate} />
             </section>
             <section id="certifications" className="portfolio-section scroll-mt-24">
-              <div className="portfolio-section-kicker"><span>05 / CONTINUOUS LEARNING</span><span>RECOGNITION</span></div>
-              <CertificationsSection onNavigate={handleNavigate} />
+<CertificationsSection onNavigate={handleNavigate} />
             </section>
             <section id="testimonials" className="portfolio-section scroll-mt-24">
-              <div className="portfolio-section-kicker"><span>06 / KIND WORDS</span><span>TESTIMONIALS</span></div>
-              <TestimonialsSection />
+<TestimonialsSection />
             </section>
             <section id="contact" className="portfolio-contact-stage scroll-mt-24">
-              <div className="portfolio-section-kicker"><span>07 / START A CONVERSATION</span><span>CONTACT</span></div>
-              <ContactSection />
+<ContactSection />
             </section>
           </div>
         </main>
