@@ -44,12 +44,11 @@ export function BelvoLorModal({
 
   const belvoExp =
     experiences.find((e) => e.id === 'belvo') ||
-    experiences.find((e) => e.company?.toLowerCase().includes('belvo')) ||
-    experiences[0];
+    experiences.find((e) => e.company?.toLowerCase().includes('belvo'));
 
-  const currentPdfUrl = pdfUrl || belvoExp?.lor?.pdfUrl || '/belvo-lor.pdf';
-  const currentVectorUrl = vectorUrl || belvoExp?.lor?.vectorUrl;
-  const currentDocUrl = currentPdfUrl || currentVectorUrl || '/belvo-lor.pdf';
+  const currentPdfUrl = pdfUrl || belvoExp?.lor?.pdfUrl || '';
+  const currentVectorUrl = vectorUrl || belvoExp?.lor?.vectorUrl || '';
+  const currentDocUrl = currentPdfUrl || currentVectorUrl;
   const currentTitle = title || belvoExp?.lor?.title || 'Belvo Company — Letter of Recommendation';
   const currentIssuer = belvoExp?.lor?.issuer || 'Belvo Company';
   const currentSignatory = belvoExp?.lor?.issuedBy || 'Hrishikesh Mishra';
@@ -204,15 +203,17 @@ Location: Goregaon, Mumbai`;
                 </div>
 
                 {/* Open in Standalone Tab (Direct browser unblocked PDF or Blob) */}
-                <button
-                  type="button"
-                  onClick={() => openDocumentInNewTab(currentPdfUrl, currentTitle)}
-                  className="flex items-center gap-1.5 rounded-xl border border-[#35263D] bg-[#1A1222] px-3 py-1.5 text-xs font-medium text-[#DCCFE0] hover:border-purple-400 hover:text-white transition-colors cursor-pointer"
-                  title="Open raw document file in a new standalone tab"
+                <a
+                  href={currentPdfUrl || undefined}
+                  target={currentPdfUrl ? "_blank" : undefined}
+                  rel="noopener noreferrer"
+                  aria-disabled={!currentPdfUrl}
+                  className="flex items-center gap-1.5 rounded-xl border border-[#35263D] bg-[#1A1222] px-3 py-1.5 text-xs font-medium text-[#DCCFE0] hover:border-purple-400 hover:text-white transition-colors"
+                  title="Open the saved Belvo PDF in a new tab"
                 >
                   <ExternalLink className="h-3.5 w-3.5" />
                   <span className="hidden sm:inline">Open in Tab</span>
-                </button>
+                </a>
 
                 {/* Print Button */}
                 <button
@@ -249,20 +250,26 @@ Location: Goregaon, Mumbai`;
 
             {/* Document Surface - High-Res Direct Vector or PDF Document Viewer */}
             <div className="flex-1 overflow-y-auto p-3 sm:p-6 bg-[#070B18] flex justify-center items-start custom-scrollbar">
-              <div
-                className="w-full max-w-[820px] flex justify-center transition-all duration-150 ease-out"
-                style={{
-                  transform: `scale(${zoomLevel / 100})`,
-                  transformOrigin: 'top center',
-                }}
-              >
-                <iframe
-                  src={`${currentDocUrl}#toolbar=1&navpanes=0&view=FitH`}
-                  title={currentTitle}
-                  className="belvo-pdf-frame"
-                  loading="eager"
-                />
-              </div>
+              {currentDocUrl ? (
+                <div
+                  className="w-full max-w-[820px] flex justify-center transition-all duration-150 ease-out"
+                  style={{
+                    transform: `scale(${zoomLevel / 100})`,
+                    transformOrigin: 'top center',
+                  }}
+                >
+                  <iframe
+                    src={`${currentDocUrl}#toolbar=1&navpanes=0&view=FitH`}
+                    title={currentTitle}
+                    className="belvo-pdf-frame"
+                    loading="eager"
+                  />
+                </div>
+              ) : (
+                <div className="w-full max-w-[820px] rounded-xl border border-[#35263D] bg-white p-8 text-center text-[#171719]">
+                  The Belvo PDF URL is missing. Add the official PDF in Studio under Experience → Belvo → Letter of Recommendation.
+                </div>
+              )}
             </div>
 
             {/* Modal Bottom Bar */}
