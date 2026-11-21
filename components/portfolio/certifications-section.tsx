@@ -56,7 +56,7 @@ export function CertificationsSection({ onNavigate }: CertificationsSectionProps
   const { t, language } = useLanguage();
   const { experiences } = usePortfolio();
   const belvoExperience = experiences.find((item) => item.id === 'belvo' || item.company?.toLowerCase().includes('belvo'));
-  const belvoPdfUrl = belvoExperience?.lor?.pdfUrl || '/belvo-lor.pdf';
+  const belvoPdfUrl = belvoExperience?.lor?.pdfUrl || '';
   const [isCertModalOpen, setIsCertModalOpen] = useState(false);
   const [isLorModalOpen, setIsLorModalOpen] = useState(false);
   const [selectedBadge, setSelectedBadge] = useState<SkillBadge | null>(null);
@@ -365,8 +365,14 @@ export function CertificationsSection({ onNavigate }: CertificationsSectionProps
             {/* Left column groups preview and verification to prevent an empty grid row. */}
             <div className="min-w-0 space-y-4">
             <div className="belvo-lor-thumbnail" role="button" tabIndex={0} onClick={() => setIsLorModalOpen(true)} onKeyDown={(event) => { if (event.key === "Enter" || event.key === " ") setIsLorModalOpen(true); }} aria-label="Open official Belvo Letter of Recommendation">
-              <iframe src={belvoPdfUrl + "#page=1&toolbar=0&navpanes=0&scrollbar=0"} title="Belvo Letter of Recommendation preview" loading="lazy" tabIndex={-1} />
-              <a href={belvoPdfUrl} target="_blank" rel="noreferrer" onClick={(event) => event.stopPropagation()}>OPEN ORIGINAL BELVO PDF ↗</a>
+              {belvoPdfUrl ? (
+                <>
+                  <iframe src={belvoPdfUrl + "#page=1&toolbar=0&navpanes=0&scrollbar=0"} title="Belvo Letter of Recommendation preview" loading="lazy" tabIndex={-1} />
+                  <a href={belvoPdfUrl} target="_blank" rel="noreferrer" onClick={(event) => event.stopPropagation()}>OPEN ORIGINAL BELVO PDF ↗</a>
+                </>
+              ) : (
+                <p className="p-5 text-sm text-center">Add the official LOR PDF in Studio to display it here.</p>
+              )}
             </div>
 
             <div className="flex flex-col items-center text-center p-5 rounded-2xl border border-purple-500/30 bg-[#100B18]/80 shadow-inner">
@@ -410,8 +416,9 @@ export function CertificationsSection({ onNavigate }: CertificationsSectionProps
 
               <div className="mt-5 w-full space-y-2">
                 <a
-                  href={belvoPdfUrl}
-                  target="_blank"
+                  href={belvoPdfUrl || undefined}
+                  aria-disabled={!belvoPdfUrl}
+                  target={belvoPdfUrl ? "_blank" : undefined}
                   rel="noreferrer"
                   className="flex w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 px-4 py-2.5 text-xs font-semibold text-white shadow-md hover:scale-[1.02] active:scale-[0.98] transition-all cursor-pointer"
                 >
@@ -702,7 +709,7 @@ export function CertificationsSection({ onNavigate }: CertificationsSectionProps
       <CertificateModal isOpen={isCertModalOpen} onClose={() => setIsCertModalOpen(false)} />
 
       {/* Official Belvo Letter of Recommendation Viewer Modal */}
-      <BelvoLorModal isOpen={isLorModalOpen} onClose={() => setIsLorModalOpen(false)} pdfUrl={belvoPdfUrl} title={belvoExperience?.lor?.title || "Belvo Company — Letter of Recommendation"} />
+      {belvoPdfUrl && <BelvoLorModal isOpen={isLorModalOpen} onClose={() => setIsLorModalOpen(false)} pdfUrl={belvoPdfUrl} title={belvoExperience?.lor?.title || "Belvo Company — Letter of Recommendation"} />}
 
       {/* Interactive Skill Badge Modal */}
       <SkillBadgeModal badge={selectedBadge} onClose={() => setSelectedBadge(null)} />
