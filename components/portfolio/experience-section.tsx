@@ -355,14 +355,17 @@ export function ExperienceSection({ onNavigate }: ExperienceSectionProps = {}) {
                       </div>
 
                       <div className="flex items-center gap-2 shrink-0">
-                        <button
-                          onClick={() => setIsLorModalOpen(true)}
-                          className="flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-purple-600 via-indigo-600 to-purple-700 hover:from-purple-500 hover:to-indigo-500 px-4 py-2.5 text-xs font-semibold text-white shadow-md hover:scale-[1.02] active:scale-[0.98] transition-all cursor-pointer"
-                          title="View authentic Belvo Company Letter of Recommendation"
+                        <a
+                          href={exp.lor?.pdfUrl || undefined}
+                          target={exp.lor?.pdfUrl ? "_blank" : undefined}
+                          rel="noopener noreferrer"
+                          aria-disabled={!exp.lor?.pdfUrl}
+                          className="flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-purple-600 via-indigo-600 to-purple-700 hover:from-purple-500 hover:to-indigo-500 px-4 py-2.5 text-xs font-semibold text-white shadow-md transition-all"
+                          title="Open the official Belvo PDF in a new tab"
                         >
                           <FileText className="h-4 w-4" />
                           <span>View Official LOR (PDF)</span>
-                        </button>
+                        </a>
                       </div>
                     </div>
 
@@ -378,7 +381,7 @@ export function ExperienceSection({ onNavigate }: ExperienceSectionProps = {}) {
       </div>
 
       {/* Official Belvo Letter of Recommendation Viewer Modal */}
-      <BelvoLorModal isOpen={isLorModalOpen} onClose={() => setIsLorModalOpen(false)} />
+      <BelvoLorModal isOpen={isLorModalOpen} onClose={() => setIsLorModalOpen(false)} pdfUrl={experiences.find((e) => e.id === 'belvo' || e.company?.toLowerCase().includes('belvo'))?.lor?.pdfUrl} />
     </div>
   );
 }
