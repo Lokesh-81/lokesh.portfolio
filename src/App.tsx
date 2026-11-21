@@ -68,25 +68,23 @@ function PortfolioContent() {
 
   useEffect(() => {
     if (isStudioRoute) return;
-    const sections = document.querySelectorAll<HTMLElement>('.portfolio-section, .portfolio-contact-stage');
-    if (!('IntersectionObserver' in window)) {
-      sections.forEach((section) => section.classList.add('sk-page-enter'));
-      return;
-    }
+    const sections = Array.from(document.querySelectorAll<HTMLElement>('.portfolio-section, .portfolio-contact-stage'));
+    if (!('IntersectionObserver' in window)) return;
+
     const observer = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
         const section = entry.target as HTMLElement;
-        if (entry.isIntersecting) {
-          section.classList.remove('sk-page-enter');
-          void section.offsetWidth;
-          section.classList.add('sk-page-enter');
-        } else {
-          section.classList.remove('sk-page-enter');
-        }
+        section.classList.toggle('is-in-view', entry.isIntersecting);
       });
-    }, { threshold: 0, rootMargin: '-8% 0px -8% 0px' });
+    }, { threshold: 0.12, rootMargin: '-6% 0px -6% 0px' });
+
+    document.documentElement.dataset.scrollReveal = 'ready';
     sections.forEach((section) => observer.observe(section));
-    return () => observer.disconnect();
+    return () => {
+      observer.disconnect();
+      delete document.documentElement.dataset.scrollReveal;
+      sections.forEach((section) => section.classList.remove('is-in-view'));
+    };
   }, [isStudioRoute]);
 
   useEffect(() => {
