@@ -68,24 +68,24 @@ function PortfolioContent() {
 
   useEffect(() => {
     if (isStudioRoute) return;
-    const sections = Array.from(document.querySelectorAll<HTMLElement>('.portfolio-section, .portfolio-contact-stage'));
-    if (!('IntersectionObserver' in window)) return;
+    const root = document.documentElement;
+    const sections = Array.from(document.querySelectorAll<HTMLElement>('.portfolio-editorial > section'));
+    if (!sections.length) return;
 
     const observer = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => {
-        const section = entry.target as HTMLElement;
-        section.classList.toggle('is-in-view', entry.isIntersecting);
-      });
-    }, { threshold: 0, rootMargin: '0px' });
+      for (const entry of entries) {
+        entry.target.classList.toggle('scroll-section-visible', entry.isIntersecting);
+      }
+    }, { threshold: 0.08, rootMargin: '0px 0px -8% 0px' });
 
-    document.documentElement.dataset.scrollReveal = 'ready';
+    root.classList.add('scroll-reveal-active');
     sections.forEach((section) => observer.observe(section));
     return () => {
       observer.disconnect();
-      delete document.documentElement.dataset.scrollReveal;
-      sections.forEach((section) => section.classList.remove('is-in-view'));
+      root.classList.remove('scroll-reveal-active');
+      sections.forEach((section) => section.classList.remove('scroll-section-visible'));
     };
-  }, [isStudioRoute]);
+  }, [isStudioRoute]);;
 
   useEffect(() => {
     if (isStudioRoute) return;
