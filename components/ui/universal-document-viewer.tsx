@@ -73,8 +73,13 @@ export function UniversalDocumentViewer({
         }
       }
 
-      // 2. If it's the resume URL (/resume.pdf or uploads), check IndexedDB for the active uploaded document
-      if (cleanUrl.includes('resume') || cleanUrl.startsWith('/uploads/')) {
+      // 2. Use the IndexedDB backup only for local fallback paths.
+      // Remote Studio URLs are authoritative and must never be replaced by a stale local PDF.
+      const isLocalResumeFallback =
+        cleanUrl === '/resume.pdf' ||
+        cleanUrl.startsWith('/resume.pdf?') ||
+        cleanUrl.startsWith('/uploads/');
+      if (isLocalResumeFallback) {
         try {
           const stored = await getActiveResumeDocument();
           if (stored && stored.dataUrl && isMounted) {

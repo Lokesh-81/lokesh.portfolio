@@ -488,18 +488,6 @@ export async function uploadMediaToSupabase(
     reader.readAsDataURL(file);
   });
 
-  const isResumeFile = folder === 'resume' || file.name.toLowerCase().endsWith('.pdf');
-
-  // If it's a resume PDF, immediately register as active document in IndexedDB
-  if (isResumeFile && dataUrl) {
-    saveActiveResumeDocument({
-      name: file.name,
-      dataUrl,
-      size: file.size,
-      type: file.type || 'application/pdf',
-    }).catch(() => {});
-  }
-
   // Always back up to IndexedDB for resilient document viewing without quota limits
   if (dataUrl) {
     saveDocumentToDb({

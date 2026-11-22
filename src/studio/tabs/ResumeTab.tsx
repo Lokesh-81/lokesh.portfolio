@@ -278,7 +278,7 @@ export function ResumeTab({ showToast }: ResumeTabProps) {
 
     setIsUploading(true);
     try {
-      const res = await uploadMediaToSupabase(file, 'resume');
+      const res = await uploadMediaToSupabase(file, 'lor');
       const updatedExp: ExperienceItem = {
         ...belvoExp,
         lor: {
@@ -1560,25 +1560,24 @@ ${lorFormData.role}`;
 
               <div className="flex items-center gap-2">
                 {/* Open in Standalone Tab */}
-                <a
-                  href={previewModalDoc.pdfUrl}
-                  target="_blank"
-                  rel="noreferrer"
+                <button
+                  type="button"
+                  onClick={() => openDocumentInNewTab(previewModalDoc.pdfUrl, previewModalDoc.title)}
                   className="flex items-center gap-1.5 rounded-xl border border-[#1F2937] bg-[#0B132B] px-3 py-1.5 text-xs text-[#CBD5E1] hover:text-white transition-colors cursor-pointer"
                 >
                   <ExternalLink className="h-3.5 w-3.5" />
                   <span>Open in Tab</span>
-                </a>
+                </button>
 
                 {/* Download */}
-                <a
-                  href={previewModalDoc.pdfUrl}
-                  download={previewModalDoc.title}
+                <button
+                  type="button"
+                  onClick={() => downloadDocument(previewModalDoc.pdfUrl, previewModalDoc.title)}
                   className="flex items-center gap-1.5 rounded-xl bg-[#2563EB] hover:bg-[#1D4ED8] px-3.5 py-1.5 text-xs font-semibold text-white shadow-sm transition-all cursor-pointer"
                 >
                   <Download className="h-3.5 w-3.5" />
                   <span>Download</span>
-                </a>
+                </button>
 
                 {/* Close */}
                 <button
