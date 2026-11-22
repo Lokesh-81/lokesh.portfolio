@@ -364,13 +364,30 @@ export function PortfolioProvider({ children }: { children: React.ReactNode }) {
     const updated = exists
       ? experiences.map((e) => (e.id === item.id ? item : e))
       : [item, ...experiences]
+
+    await persistSupabaseWrite(supabase.from('experiences').upsert([{
+      id: item.id,
+      company: item.company,
+      role: item.role,
+      period: item.period,
+      start_date: item.startDate || null,
+      end_date: item.endDate || null,
+      is_current: item.current ?? false,
+      location: item.location || 'Remote',
+      type: item.type || 'Internship',
+      description: item.description || '',
+      responsibilities: item.responsibilities || [],
+      technologies: item.technologies || [],
+      link: item.link || null,
+      lor: item.lor || null,
+      display_order: item.display_order ?? item.sortOrder ?? item.order ?? 0,
+      is_featured: item.featured ?? true,
+      is_published: true,
+      updated_at: new Date().toISOString(),
+    }]))
+
     setExperiences(updated)
     setLocal(CACHE_KEYS.EXPERIENCE, updated)
-    try {
-      await persistSupabaseWrite(supabase.from('experiences').upsert([item]))
-    } catch (error) {
-      throw error;
-    }
   }
 
   const deleteExperience = async (id: string) => {
@@ -612,7 +629,8 @@ export function PortfolioProvider({ children }: { children: React.ReactNode }) {
       issue_date: item.issueDate || null,
       expiration_date: null,
       credential_id: item.credentialId || null,
-      verification_url: item.verificationUrl || item.credentialUrl || null,
+      credential_url: item.credentialUrl || null,
+      verification_url: item.verificationUrl || null,
       signatory: item.signatory || {},
       status: item.status || 'Active',
       badge_image: item.badgeImage || item.badgeUrl || null,

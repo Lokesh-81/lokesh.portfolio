@@ -946,7 +946,7 @@ export async function loadPortfolioDataset() {
         expirationDate: '',
         credentialId: row.credential_id || '',
         verificationUrl: row.verification_url || '',
-        credentialUrl: row.verification_url || '',
+        credentialUrl: row.credential_url || (row.verification_url?.includes('/storage/v1/object/public/') ? row.verification_url : ''),
         signatory: row.signatory || {},
         status: row.status || 'Active',
         badgeImage: row.badge_image || '',

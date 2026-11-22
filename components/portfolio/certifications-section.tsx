@@ -28,7 +28,7 @@ import { BelvoLorModal } from '@/components/portfolio/belvo-lor-modal';
 import { SkillBadgeCard } from '@/components/portfolio/skill-badge-card';
 import { SkillBadgeModal } from '@/components/portfolio/skill-badge-modal';
 import {
-  certifications,
+  certifications as fallbackCertifications,
   skillBadges,
   SkillBadge,
   BadgeCategory,
@@ -53,7 +53,7 @@ const CATEGORIES: Array<'All' | BadgeCategory> = [
 
 export function CertificationsSection({ onNavigate }: CertificationsSectionProps) {
   const { t, language } = useLanguage();
-  const { experiences } = usePortfolio();
+  const { experiences, certifications: studioCertifications } = usePortfolio();
   const belvoExperience = experiences.find((item) => item.id === 'belvo' || item.company?.toLowerCase().includes('belvo'));
   const belvoPdfUrl = belvoExperience?.lor?.pdfUrl || '';
   const [isLorModalOpen, setIsLorModalOpen] = useState(false);
@@ -65,7 +65,18 @@ export function CertificationsSection({ onNavigate }: CertificationsSectionProps
   const [selectedLevel, setSelectedLevel] = useState<'All' | 'Introductory' | 'Intermediate' | 'Advanced'>('All');
   const [searchQuery, setSearchQuery] = useState('');
 
-  const cert = certifications[0]; // Primary GCP PCA certification
+  const certifications = studioCertifications.length
+    ? studioCertifications.map((item) => {
+        const fallback = fallbackCertifications.find((entry) => entry.id === item.id);
+        return {
+          ...fallback,
+          ...item,
+          credentialUrl: item.credentialUrl || item.verificationUrl || fallback?.credentialUrl || '',
+          verificationUrl: item.verificationUrl || fallback?.verificationUrl || '',
+        };
+      })
+    : fallbackCertifications;
+  const cert = certifications.find((item) => item.id === 'gcp-pca') || certifications[0];
   const ambassadorCert = certifications.find((item) => item.id === 'google-student-ambassador-2026');
 
   const handleCopy = (id: string) => {
@@ -197,9 +208,10 @@ export function CertificationsSection({ onNavigate }: CertificationsSectionProps
               {/* Primary Interactive Actions */}
               <div className="mt-5 w-full space-y-2">
                 <a
-                  href={cert.verificationUrl}
+                  href={cert.credentialUrl || cert.verificationUrl || '#'}
                   target="_blank"
                   rel="noreferrer"
+                  aria-disabled={!cert.credentialUrl && !cert.verificationUrl}
                   className="flex w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-[#A77BC2] to-[#E8B8D2] px-4 py-2.5 text-xs font-semibold text-white shadow-md hover:scale-[1.02] active:scale-[0.98] transition-all"
                 >
                   <ExternalLink className="h-3.5 w-3.5" />
@@ -426,10 +438,11 @@ export function CertificationsSection({ onNavigate }: CertificationsSectionProps
           <section className="gsa-certificate-card mt-8 overflow-hidden rounded-2xl border border-[#19191b] bg-[#fffdf5] shadow-[5px_5px_0_#19191b]">
             <div className="grid gap-6 p-5 sm:p-7 lg:grid-cols-[minmax(280px,420px)_1fr] lg:items-center">
               <a
-                href="/certificates/GSA_Semester1_Certificate_P.Lokesh.pdf"
+                href={ambassadorCert.credentialUrl || ambassadorCert.verificationUrl || '#'}
                 target="_blank"
                 rel="noreferrer"
-                title="Open the original uploaded certificate PDF"
+                aria-disabled={!ambassadorCert.credentialUrl && !ambassadorCert.verificationUrl}
+                title="Open the certificate PDF selected in Studio"
                 className="gsa-certificate-thumbnail group block overflow-hidden rounded-xl border-2 border-[#19191b] bg-[#f8f6e9] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#9b596f]"
                 aria-label="Open Google Student Ambassador 2026 Semester 1 certificate PDF"
               >
