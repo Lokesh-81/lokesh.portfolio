@@ -365,7 +365,7 @@ export function CertificationsSection({ onNavigate }: CertificationsSectionProps
                 </div>
               </div>
 
-              <div className="mt-3 w-full space-y-2>
+              <div className="mt-3 w-full space-y-2">
                 <a
                   href={belvoPdfUrl || undefined}
                   aria-disabled={!belvoPdfUrl}
