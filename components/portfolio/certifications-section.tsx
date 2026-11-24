@@ -112,7 +112,7 @@ export function CertificationsSection({ onNavigate }: CertificationsSectionProps
   }, [selectedCategory, selectedLevel, searchQuery]);
 
   return (
-    <div className="certifications-sketchbook relative w-full px-4 sm:px-8 py-8 sm:py-12">
+    <div className="certifications-sketchbook relative w-full px-2 sm:px-4 py-5 sm:py-6">
       <div className="relative z-10 mx-auto max-w-[1400px]">
         {/* Section Header */}
         <div className="flex flex-col justify-between gap-4 border-b border-[#35263D] pb-6 md:flex-row md:items-end">
@@ -141,14 +141,14 @@ export function CertificationsSection({ onNavigate }: CertificationsSectionProps
         </div>
 
         {/* Featured Showcase Card for Google Cloud Certified Professional Cloud Architect */}
-        <div className="belvo-certification-showcase mt-8 rounded-3xl border border-[#35263D] bg-[#1A1222]/90 p-6 sm:p-9 shadow-2xl backdrop-blur-xl relative overflow-hidden group hover:border-[#E8B8D2]/60 transition-all">
+        <div className="belvo-certification-showcase portfolio-card mt-6 rounded-3xl border border-[#35263D] bg-[#1A1222]/90 p-4 sm:p-5 shadow-2xl backdrop-blur-xl relative overflow-hidden group hover:border-[#E8B8D2]/60 transition-all">
           {/* Subtle Ambient Backdrop Gradients */}
           <div className="absolute top-0 right-0 w-96 h-96 bg-[radial-gradient(ellipse_at_top_right,rgba(66,133,244,0.15),transparent_70%)] pointer-events-none" />
           <div className="absolute bottom-0 left-0 w-80 h-80 bg-[radial-gradient(ellipse_at_bottom_left,rgba(249,171,0,0.1),transparent_70%)] pointer-events-none" />
 
-          <div className="relative z-10 grid gap-8 lg:grid-cols-[320px_1fr] items-start">
+          <div className="relative z-10 grid gap-5 lg:grid-cols-[minmax(220px,260px)_minmax(0,1fr)] items-start">
             {/* Left Column: Official Badge & Credential Verification Actions */}
-            <div className="flex flex-col items-center text-center p-5 rounded-2xl border border-[#35263D] bg-[#100B18]/80 shadow-inner">
+            <div className="cert-credential-sidebar flex flex-col items-center text-center p-4 rounded-2xl border border-[#35263D] bg-[#100B18]/80 shadow-inner">
               {/* Badge Visual */}
               <a
                 href={cert.verificationUrl}
@@ -165,13 +165,13 @@ export function CertificationsSection({ onNavigate }: CertificationsSectionProps
               </a>
 
               {/* Status Pill */}
-              <div className="mt-4 inline-flex items-center gap-2 rounded-full border border-emerald-500/30 bg-emerald-500/10 px-3.5 py-1 text-[11px] font-medium text-emerald-400">
+              <div className="mt-3 inline-flex items-center gap-2 rounded-full border border-emerald-500/30 bg-emerald-500/10 px-3.5 py-1 text-[11px] font-medium text-emerald-400">
                 <span className="h-2 w-2 rounded-full bg-emerald-400 animate-pulse" />
                 <span>Active Credential · Valid 2026–2028</span>
               </div>
 
               {/* Series ID & Dates */}
-              <div className="mt-4 w-full space-y-2 border-t border-[#35263D] pt-3 text-left text-xs font-mono text-[#D8B4E8]/80">
+              <div className="mt-3 w-full space-y-1.5 border-t border-[#35263D] pt-3 text-left text-xs font-mono text-[#D8B4E8]/80">
                 <div className="flex justify-between">
                   <span className="text-[#A78BAF]">Series ID:</span>
                   <span className="text-[#F5EAF5] font-semibold">{cert.seriesId}</span>
@@ -207,7 +207,7 @@ export function CertificationsSection({ onNavigate }: CertificationsSectionProps
               </div>
 
               {/* Primary Interactive Actions */}
-              <div className="mt-5 w-full space-y-2">
+              <div className="mt-3 w-full space-y-2>
                 <a
                   href={cert.credentialUrl || cert.verificationUrl || '#'}
                   target="_blank"
@@ -232,7 +232,7 @@ export function CertificationsSection({ onNavigate }: CertificationsSectionProps
             </div>
 
             {/* Right Column: Deep Certification Content & Architecture Competencies */}
-            <div className="space-y-6">
+            <div className="cert-credential-details min-w-0 space-y-4">
               {/* Header Info */}
               <div>
                 <div className="flex flex-wrap items-center gap-2 mb-2">
@@ -308,13 +308,13 @@ export function CertificationsSection({ onNavigate }: CertificationsSectionProps
         </div>
 
         {/* Featured Showcase Card for Belvo Company Official Letter of Recommendation (LOR) */}
-        <div className="belvo-lor-showcase mt-8 rounded-3xl border border-purple-500/40 bg-gradient-to-br from-purple-950/40 via-[#1A1222] to-[#100B18] p-6 sm:p-9 shadow-2xl backdrop-blur-xl relative overflow-hidden group hover:border-purple-400/60 transition-all">
+        <div className="belvo-lor-showcase portfolio-card mt-6 rounded-3xl border border-purple-500/40 bg-gradient-to-br from-purple-950/40 via-[#1A1222] to-[#100B18] p-4 sm:p-5 shadow-2xl backdrop-blur-xl relative overflow-hidden group hover:border-purple-400/60 transition-all">
           <div className="absolute top-0 right-0 w-96 h-96 bg-[radial-gradient(ellipse_at_top_right,rgba(168,85,247,0.18),transparent_70%)] pointer-events-none" />
           <div className="absolute bottom-0 left-0 w-80 h-80 bg-[radial-gradient(ellipse_at_bottom_left,rgba(99,102,241,0.12),transparent_70%)] pointer-events-none" />
 
-          <div className="relative z-10 grid gap-6 lg:grid-cols-[minmax(220px,300px)_minmax(0,1fr)] items-start">
+          <div className="belvo-lor-layout relative z-10 grid gap-5 lg:grid-cols-[minmax(190px,220px)_minmax(0,1fr)] items-start">
             {/* Left column groups preview and verification to prevent an empty grid row. */}
-            <div className="min-w-0 space-y-4">
+            <div className="belvo-lor-sidebar min-w-0 space-y-3">
             <div className="belvo-lor-thumbnail" role="button" tabIndex={0} onClick={() => setIsLorModalOpen(true)} onKeyDown={(event) => { if (event.key === "Enter" || event.key === " ") setIsLorModalOpen(true); }} aria-label="Open official Belvo Letter of Recommendation">
               {belvoPdfUrl ? (
                 <>
@@ -326,10 +326,10 @@ export function CertificationsSection({ onNavigate }: CertificationsSectionProps
               )}
             </div>
 
-            <div className="flex flex-col items-center text-center p-5 rounded-2xl border border-purple-500/30 bg-[#100B18]/80 shadow-inner">
+            <div className="flex flex-col items-center text-center p-3 rounded-xl border border-purple-500/30 bg-[#100B18]/80 shadow-inner">
               <div
                 onClick={() => setIsLorModalOpen(true)}
-                className="cursor-pointer group/badge relative p-4 rounded-2xl bg-white/5 border border-purple-500/20 hover:border-purple-400 transition-all w-full flex flex-col items-center"
+                className="cursor-pointer group/badge relative p-3 rounded-xl bg-white/5 border border-purple-500/20 hover:border-purple-400 transition-all w-full flex flex-col items-center"
                 title="Click to view full Letter of Recommendation (PDF)"
               >
                 {/* Belvo Emblem */}
@@ -341,12 +341,12 @@ export function CertificationsSection({ onNavigate }: CertificationsSectionProps
                 </span>
               </div>
 
-              <div className="mt-4 inline-flex items-center gap-2 rounded-full border border-emerald-500/30 bg-emerald-500/10 px-3.5 py-1 text-[11px] font-medium text-emerald-400">
+              <div className="mt-3 inline-flex items-center gap-2 rounded-full border border-emerald-500/30 bg-emerald-500/10 px-3.5 py-1 text-[11px] font-medium text-emerald-400">
                 <span className="h-2 w-2 rounded-full bg-emerald-400 animate-pulse" />
                 <span>Verified Executive Endorsement</span>
               </div>
 
-              <div className="mt-4 w-full space-y-2 border-t border-[#35263D] pt-3 text-left text-xs font-mono text-[#D8B4E8]/80">
+              <div className="mt-3 w-full space-y-1.5 border-t border-[#35263D] pt-3 text-left text-xs font-mono text-[#D8B4E8]/80">
                 <div className="flex justify-between">
                   <span className="text-[#A78BAF]">Issued By:</span>
                   <span className="text-[#F5EAF5] font-semibold">Hrishikesh Mishra</span>
@@ -365,7 +365,7 @@ export function CertificationsSection({ onNavigate }: CertificationsSectionProps
                 </div>
               </div>
 
-              <div className="mt-5 w-full space-y-2">
+              <div className="mt-3 w-full space-y-2>
                 <a
                   href={belvoPdfUrl || undefined}
                   aria-disabled={!belvoPdfUrl}
@@ -381,7 +381,7 @@ export function CertificationsSection({ onNavigate }: CertificationsSectionProps
             </div>
 
             {/* Right Column: Letter Summary & Key Competencies Highlighted */}
-            <div className="min-w-0 space-y-5">
+            <div className="belvo-lor-details min-w-0 space-y-4">
               <div>
                 <div className="flex flex-wrap items-center gap-2 mb-2">
                   <span className="font-mono text-xs uppercase tracking-wider text-purple-400 font-semibold bg-purple-500/10 border border-purple-500/30 px-2.5 py-0.5 rounded-full">
@@ -401,7 +401,7 @@ export function CertificationsSection({ onNavigate }: CertificationsSectionProps
                 </p>
               </div>
 
-              <blockquote className="rounded-xl border border-purple-500/20 bg-purple-950/20 p-4 text-xs sm:text-sm text-[#DCCFE0] italic leading-relaxed">
+              <blockquote className="rounded-lg border border-purple-500/20 bg-purple-950/20 p-3 text-sm text-[#DCCFE0] italic leading-relaxed">
                 &ldquo;During the internship, Poosala Lokesh demonstrated a strong willingness to learn and actively participated in web development activities... They showed dedication, adaptability, and a professional attitude while completing assigned tasks and meeting project requirements. Their ability to learn new concepts and apply technical knowledge in practical situations was appreciable.&rdquo;
               </blockquote>
 
@@ -411,7 +411,7 @@ export function CertificationsSection({ onNavigate }: CertificationsSectionProps
                   Core Professional Competencies Verified in LOR
                 </h4>
 
-                <div className="grid gap-2.5 sm:grid-cols-2 text-xs text-[#DCCFE0]">
+                <div className="grid gap-2 sm:grid-cols-2 text-sm text-[#DCCFE0]">
                   {[
                     'Web development and website implementation',
                     'Front-end development and responsive design',
@@ -422,7 +422,7 @@ export function CertificationsSection({ onNavigate }: CertificationsSectionProps
                   ].map((skill, idx) => (
                     <div
                       key={idx}
-                      className="flex items-center gap-2 rounded-lg border border-[#35263D] bg-[#100B18]/60 px-3 py-2"
+                      className="flex items-center gap-2 rounded-lg border border-[#35263D] bg-[#100B18]/60 px-2.5 py-2"
                     >
                       <Check className="h-3.5 w-3.5 text-purple-400 shrink-0" />
                       <span>{skill}</span>
@@ -436,8 +436,8 @@ export function CertificationsSection({ onNavigate }: CertificationsSectionProps
 
         {/* Google Student Ambassador Program 2026 — Semester 1 */}
         {ambassadorCert && (
-          <section className="gsa-certificate-card mt-8 overflow-hidden rounded-2xl border border-[#19191b] bg-[#fffdf5] shadow-[5px_5px_0_#19191b]">
-            <div className="grid gap-6 p-5 sm:p-7 lg:grid-cols-[minmax(280px,420px)_1fr] lg:items-center">
+          <section className="gsa-certificate-card portfolio-card mt-6 overflow-hidden rounded-2xl border border-[#19191b] bg-[#fffdf5] shadow-[5px_5px_0_#19191b]">
+            <div className="grid gap-4 p-4 sm:p-5 lg:grid-cols-[minmax(240px,320px)_minmax(0,1fr)] lg:items-center">
               <a
                 href={ambassadorCert.credentialUrl || ambassadorCert.verificationUrl || '#'}
                 target="_blank"
@@ -462,14 +462,14 @@ export function CertificationsSection({ onNavigate }: CertificationsSectionProps
                   <Award className="h-3.5 w-3.5" />
                   Certificate of Recognition
                 </div>
-                <h3 className="mt-4 text-2xl font-bold tracking-tight text-[#171719] sm:text-3xl">
+                <h3 className="mt-2 text-xl font-bold tracking-tight text-[#171719] sm:text-2xl">
                   Google Student Ambassador Program 2026
                 </h3>
                 <p className="mt-1 text-sm font-semibold text-[#8d596c]">Semester 1 · P. Lokesh · Wesley Degree College</p>
-                <p className="mt-3 max-w-2xl text-sm leading-6 text-[#403d37]">
+                <p className="mt-2 max-w-2xl text-sm leading-relaxed text-[#403d37]">
                   Recognized for successfully completing Semester 1 and for outstanding performance and exceptional contribution as a Google Student Ambassador.
                 </p>
-                <div className="mt-4 flex flex-wrap items-center gap-3 text-xs font-medium text-[#625f57]">
+                <div className="mt-3 flex flex-wrap items-center gap-2 text-xs font-medium text-[#625f57]">
                   <span className="rounded-full border border-[#b9b1a2] px-3 py-1.5">Issued November 04, 2026</span>
                   <span className="rounded-full border border-[#b9b1a2] px-3 py-1.5">Issued by Google Student Ambassador Program</span>
                 </div>
@@ -478,7 +478,7 @@ export function CertificationsSection({ onNavigate }: CertificationsSectionProps
                   target="_blank"
                   rel="noreferrer"
                   title="Open the original uploaded certificate PDF"
-                  className="mt-5 inline-flex items-center gap-2 rounded-lg border-2 border-[#171719] bg-[#ffe17a] px-4 py-2.5 text-sm font-bold text-[#171719] shadow-[3px_3px_0_#171719] transition-all hover:-translate-y-0.5 hover:shadow-[5px_5px_0_#171719]"
+                  className="mt-3 inline-flex items-center gap-2 rounded-lg border-2 border-[#171719] bg-[#ffe17a] px-4 py-2.5 text-sm font-bold text-[#171719] shadow-[3px_3px_0_#171719] transition-all hover:-translate-y-0.5 hover:shadow-[5px_5px_0_#171719]"
                 >
                   <FileText className="h-4 w-4" />
                   View certificate PDF
@@ -490,7 +490,7 @@ export function CertificationsSection({ onNavigate }: CertificationsSectionProps
         )}
 
         {/* Google Cloud Skill Badges Section Header */}
-        <div className="mt-16 pt-8 border-t border-[#35263D]">
+        <div className="mt-10 pt-6 border-t border-[#35263D]">
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-6">
             <div>
               <div className="text-xs uppercase tracking-[0.2em] text-[#E8B8D2] font-semibold flex items-center gap-2">
@@ -511,7 +511,7 @@ export function CertificationsSection({ onNavigate }: CertificationsSectionProps
           </div>
 
           {/* Search Bar & Filters */}
-          <div className="space-y-4 mb-8">
+          <div className="space-y-3 mb-6">
             {/* Search Input */}
             <div className="relative max-w-md">
               <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-[#A78BAF]" />
@@ -578,7 +578,7 @@ export function CertificationsSection({ onNavigate }: CertificationsSectionProps
 
           {/* Skill Badges Certificate Cards Grid */}
           {filteredBadges.length > 0 ? (
-            <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
               {filteredBadges.map((badge) => (
                 <SkillBadgeCard
                   key={badge.id}
@@ -607,7 +607,7 @@ export function CertificationsSection({ onNavigate }: CertificationsSectionProps
         </div>
 
         {/* Bottom Context Info Cards */}
-        <div className="mt-16 grid gap-4 sm:grid-cols-3 pb-12">
+        <div className="mt-10 grid gap-4 sm:grid-cols-3 pb-0">
           <div className="rounded-2xl border border-[#35263D] bg-[#1A1222]/70 p-5 shadow-xs">
             <span className="text-[10px] font-mono uppercase tracking-wider text-[#E8B8D2] font-semibold">
               Hands-On Validation

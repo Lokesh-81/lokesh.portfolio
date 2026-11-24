@@ -72,7 +72,7 @@ export function ProjectCard({ project, onHoverStart, onHoverEnd, disableCardClic
       <div
         onMouseEnter={() => onHoverStart?.(project)}
         onMouseLeave={() => onHoverEnd?.()}
-        className="project-card-content relative z-10 flex h-full flex-col justify-between overflow-hidden rounded-2xl border border-[#35263D] bg-[#1A1222]/95 p-6 sm:p-7 backdrop-blur-xl shadow-[0_4px_25px_rgba(0,0,0,0.4)] transition-all duration-300 group-hover:border-[#E8B8D2]/60 group-hover:shadow-[0_8px_35px_rgba(37,99,235,0.25)]"
+        className="project-card-content portfolio-card relative z-10 flex h-full flex-col justify-between overflow-hidden rounded-2xl border border-[#35263D] bg-[#1A1222]/95 p-4 sm:p-5 backdrop-blur-xl shadow-[0_4px_25px_rgba(0,0,0,0.4)] transition-all duration-300 group-hover:border-[#E8B8D2]/60 group-hover:shadow-[0_8px_35px_rgba(37,99,235,0.25)]"
       >
         <div className="relative z-10 flex h-full flex-col justify-between">
           <div>
@@ -134,7 +134,7 @@ export function ProjectCard({ project, onHoverStart, onHoverEnd, disableCardClic
             </div>
 
             {/* Project Description */}
-            <p className="mt-3 text-xs sm:text-sm leading-relaxed text-[#DCCFE0]">
+            <p className="mt-2.5 text-sm leading-relaxed text-[#DCCFE0]">
               {projectDesc}
             </p>
 
@@ -157,7 +157,7 @@ export function ProjectCard({ project, onHoverStart, onHoverEnd, disableCardClic
           </div>
 
           {/* Footer: Tech stack & Direct Live Project Link ONLY */}
-          <div className="mt-5 border-t border-[#35263D] pt-4">
+          <div className="mt-4 border-t border-[#35263D] pt-3>
             <div className="flex flex-wrap items-center justify-between gap-3">
               <div className="flex flex-wrap gap-1.5">
                 {project.technologies.slice(0, 4).map((tech) => (

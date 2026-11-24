@@ -52,10 +52,10 @@ export function AboutSection() {
 
 
   return (
-    <div className="relative w-full px-4 sm:px-8 py-8 sm:py-12">
+    <div className="about-section-content relative w-full px-2 sm:px-4 py-5 sm:py-6">
       <div className="relative z-10 mx-auto max-w-[1400px]">
         {/* Main Grid */}
-        <div className="grid gap-10 lg:grid-cols-[0.8fr_1.2fr] items-start border-b border-[#35263D] pb-12">
+        <div className="grid gap-8 lg:grid-cols-[0.8fr_1.2fr] items-start border-b border-[#35263D] pb-8">
           <div>
             <div className="text-xs uppercase tracking-[0.2em] text-[#E8B8D2] font-semibold">
               <TextEffect key={`tag-${language}-${tagText}`} per="char" delay={0.05}>
@@ -132,44 +132,14 @@ export function AboutSection() {
             </div>
 
             {/* Fact Cards */}
-            <div className="grid grid-cols-2 gap-3.5 pt-2 sm:grid-cols-4">
-              <div className="rounded-2xl border border-[#35263D] bg-[#1A1222] p-4 shadow-xs">
-                <div className="flex items-center gap-1.5 text-[#D8B4E8]/80 mb-1.5 text-[10px] uppercase tracking-wider font-semibold">
-                  <MapPin className="h-3.5 w-3.5 text-[#E8B8D2]" />
-                  <span>{t('about.location')}</span>
-                </div>
-                <p className="font-semibold text-xs text-[#F5EAF5]">
-                  {language === 'en' ? location : t('hero.location')}
-                </p>
-              </div>
+            <div className="about-facts-grid pt-1">
+              <div className="about-fact about-fact-location"><span className="about-fact-icon"><MapPin aria-hidden="true" /></span><div className="about-fact-copy"><span className="about-fact-label">{t('about.location')}</span><p>{language === 'en' ? location : t('hero.location')}</p></div></div>
 
-              <div className="rounded-2xl border border-[#35263D] bg-[#1A1222] p-4 shadow-xs">
-                <div className="flex items-center gap-1.5 text-[#D8B4E8]/80 mb-1.5 text-[10px] uppercase tracking-wider font-semibold">
-                  <Languages className="h-3.5 w-3.5 text-[#E8B8D2]" />
-                  <span>{t('about.languages')}</span>
-                </div>
-                <p className="font-semibold text-[11px] text-[#F5EAF5] leading-tight">
-                  {languagesList}
-                </p>
-              </div>
+              <div className="about-fact about-fact-languages"><span className="about-fact-icon"><Languages aria-hidden="true" /></span><div className="about-fact-copy"><span className="about-fact-label">{t('about.languages')}</span><p>{languagesList}</p></div></div>
 
-              <div className="rounded-2xl border border-[#35263D] bg-[#1A1222] p-4 shadow-xs">
-                <div className="flex items-center gap-1.5 text-[#D8B4E8]/80 mb-1.5 text-[10px] uppercase tracking-wider font-semibold">
-                  <GraduationCap className="h-3.5 w-3.5 text-[#E8B8D2]" />
-                  <span>{t('about.education')}</span>
-                </div>
-                <p className="font-semibold text-xs text-[#F5EAF5]">{education}</p>
-              </div>
+              <div className="about-fact about-fact-education"><span className="about-fact-icon"><GraduationCap aria-hidden="true" /></span><div className="about-fact-copy"><span className="about-fact-label">{t('about.education')}</span><p>{education}</p></div></div>
 
-              <div className="rounded-2xl border border-[#35263D] bg-[#1A1222] p-4 shadow-xs">
-                <div className="flex items-center gap-1.5 text-[#D8B4E8]/80 mb-1.5 text-[10px] uppercase tracking-wider font-semibold">
-                  <Award className="h-3.5 w-3.5 text-[#E8B8D2]" />
-                  <span>{t('about.recognition')}</span>
-                </div>
-                <p className="font-semibold text-[11px] text-[#F5EAF5] leading-tight">
-                  {recognition}
-                </p>
-              </div>
+              <div className="about-fact about-fact-recognition"><span className="about-fact-icon"><Award aria-hidden="true" /></span><div className="about-fact-copy"><span className="about-fact-label">{t('about.recognition')}</span><p>{recognition}</p></div></div>
             </div>
 
             {/* Active Google Cloud Certification Callout */}
@@ -247,9 +217,7 @@ export function AboutSection() {
                     <span className="font-bold text-xs sm:text-sm text-white">
                       {activeResume?.title || 'Official Curriculum Vitae (ATS Resume)'}
                     </span>
-                    <span className="text-[10px] font-mono font-semibold px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">
-                      {activeResume?.version || 'Active'}
-                    </span>
+                    
                   </div>
                   <p className="text-[11px] text-[#DCCFE0] mt-0.5 font-mono">
                     Full Stack Engineer · Google Cloud Certified · Verified Experience &amp; Tech Stack
@@ -282,8 +250,8 @@ export function AboutSection() {
         </div>
 
         {/* Engineering Philosophy Cards (No numbers) */}
-        <div className="mt-10 grid gap-6 md:grid-cols-3 pb-12">
-          <div className="rounded-2xl border border-[#35263D] bg-[#1A1222]/80 p-6 shadow-xs hover:border-[#E8B8D2] transition-colors">
+        <div className="about-philosophy-grid mt-8 grid gap-4 md:grid-cols-3 pb-0">
+          <div className="about-philosophy-card rounded-2xl border border-[#35263D] bg-[#1A1222]/80 p-4 shadow-xs hover:border-[#E8B8D2] transition-colors">
             <h3 className="text-base font-bold text-[#F5EAF5]">
               <TextEffect key={`phil1-title-${language}`} per="word" delay={0.5}>
                 {t('about.philosophy1.title')}
@@ -294,7 +262,7 @@ export function AboutSection() {
             </p>
           </div>
 
-          <div className="rounded-2xl border border-[#35263D] bg-[#1A1222]/80 p-6 shadow-xs hover:border-[#E8B8D2] transition-colors">
+          <div className="about-philosophy-card rounded-2xl border border-[#35263D] bg-[#1A1222]/80 p-4 shadow-xs hover:border-[#E8B8D2] transition-colors">
             <h3 className="text-base font-bold text-[#F5EAF5]">
               <TextEffect key={`phil2-title-${language}`} per="word" delay={0.55}>
                 {t('about.philosophy2.title')}
@@ -305,7 +273,7 @@ export function AboutSection() {
             </p>
           </div>
 
-          <div className="rounded-2xl border border-[#35263D] bg-[#1A1222]/80 p-6 shadow-xs hover:border-[#E8B8D2] transition-colors">
+          <div className="about-philosophy-card rounded-2xl border border-[#35263D] bg-[#1A1222]/80 p-4 shadow-xs hover:border-[#E8B8D2] transition-colors">
             <h3 className="text-base font-bold text-[#F5EAF5]">
               <TextEffect key={`phil3-title-${language}`} per="word" delay={0.6}>
                 {t('about.philosophy3.title')}

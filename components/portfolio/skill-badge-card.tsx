@@ -24,9 +24,9 @@ export function SkillBadgeCard({
       onClick={onClick}
       className={cn(
         'skill-badge-card group relative bg-white rounded-2xl border border-[#E2E8F0] shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col justify-between overflow-hidden cursor-pointer select-none text-center',
-        size === 'sm' && 'p-4 min-h-[190px]',
-        size === 'md' && 'p-5 sm:p-6 min-h-[220px]',
-        size === 'lg' && 'p-6 sm:p-8 min-h-[260px]',
+        size === 'sm' && 'p-3',
+        size === 'md' && 'p-3.5 sm:p-4',
+        size === 'lg' && 'p-4 sm:p-5',
         'hover:-translate-y-1 hover:border-[#4285F4]/50',
         className
       )}
@@ -46,7 +46,7 @@ export function SkillBadgeCard({
       </div>
 
       {/* Middle Content: Title, Category, Divider, and Level */}
-      <div className="my-auto py-2 flex flex-col items-center justify-center">
+      <div className="my-3 py-1 flex flex-col items-center justify-center">
         {/* Title */}
         <h3
           className={cn(
@@ -58,12 +58,12 @@ export function SkillBadgeCard({
         </h3>
 
         {/* Category */}
-        <p className="mt-2 text-xs sm:text-sm text-[#5F6368] font-normal">
+        <p className="mt-1 text-xs sm:text-sm text-[#5F6368] font-normal">
           {badge.category}
         </p>
 
         {/* Subtle Horizontal Divider Line */}
-        <div className="my-2.5 w-12 h-[1px] bg-[#DADCE0]" />
+        <div className="my-2 w-10 h-[1px] bg-[#DADCE0]" />
 
         {/* Level Tag */}
         <p className="text-[10px] sm:text-[11px] font-medium tracking-[0.14em] text-[#5F6368] uppercase font-mono">
@@ -72,7 +72,7 @@ export function SkillBadgeCard({
       </div>
 
       {/* Footer Info: Issued Date */}
-      <div className="pb-2 text-[10px] font-mono text-[#9AA0A6] flex items-center justify-between px-1">
+      <div className="pb-0 text-xs font-mono text-[#9AA0A6] flex items-center justify-between px-1">
         <span>Issued {badge.issuedDate}</span>
         <span className="text-[#1A73E8] opacity-0 group-hover:opacity-100 transition-opacity text-[11px] font-semibold">
           View &rarr;

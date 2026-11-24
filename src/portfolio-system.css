@@ -1,0 +1,57 @@
+:root{--sk-paper:#f8f6e9;--sk-ink:#171719;--sk-muted:#514b43;--sk-line:#c9c1b4;--sk-section-space:clamp(48px,5vw,72px);--sk-card-padding:clamp(14px,1.35vw,18px);--sk-card-gap:clamp(12px,1.4vw,18px);--sk-body-size:15px;--sk-meta-size:12px;--sk-radius:9px;--sk-shadow:4px 4px 0 rgba(23,23,25,.92);--portfolio-scroll-offset:108px}
+html{scroll-padding-top:var(--portfolio-scroll-offset);scroll-behavior:smooth}
+.portfolio-shell{background:var(--sk-paper)!important;color:var(--sk-ink)!important;font-size:var(--sk-body-size)}
+.portfolio-shell .portfolio-section,.portfolio-shell .portfolio-contact-stage{scroll-margin-top:var(--portfolio-scroll-offset);padding-block:var(--sk-section-space)!important;overflow:visible}
+.portfolio-shell .portfolio-section>.about-section-content,.portfolio-shell .portfolio-section>.experience-section-content,.portfolio-shell .portfolio-section>.certifications-sketchbook{min-height:0!important}
+.portfolio-shell .portfolio-card{min-height:0!important;height:auto;padding:var(--sk-card-padding);border:1.6px solid var(--sk-ink);border-radius:var(--sk-radius);background:#fffdf5;color:var(--sk-ink);box-shadow:var(--sk-shadow)}
+.portfolio-shell .portfolio-card :is(h3,h4,strong){color:var(--sk-ink)}
+.portfolio-shell .portfolio-card :is(p,li,blockquote){color:#403d37;font-size:14px;line-height:1.55}
+.portfolio-shell .portfolio-card :is(a,button){min-height:36px}
+.portfolio-shell .about-section-content{padding:20px 0 24px!important}
+.portfolio-shell .about-facts-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr)) minmax(1.25fr,1.45fr);gap:0;overflow:hidden;border:1.6px solid var(--sk-ink);border-radius:8px;background:#fffdf5;box-shadow:3px 3px 0 var(--sk-ink)}
+.portfolio-shell .about-fact{display:flex;align-items:center;min-width:0;gap:10px;padding:14px 15px;background:transparent}
+.portfolio-shell .about-fact+.about-fact{border-left:1px solid #d8d0c1}
+.portfolio-shell .about-fact-icon{display:grid;place-items:center;width:32px;height:32px;flex:0 0 32px;border:1px solid var(--sk-ink);border-radius:6px;background:#ffe9a1;color:#28251f}
+.portfolio-shell .about-fact-languages .about-fact-icon{background:#d9f1df}.portfolio-shell .about-fact-education .about-fact-icon{background:#e8def8}.portfolio-shell .about-fact-recognition .about-fact-icon{background:#f7dce5}
+.portfolio-shell .about-fact-icon svg{width:16px;height:16px}.portfolio-shell .about-fact-copy{min-width:0}
+.portfolio-shell .about-fact-label{display:block;margin-bottom:3px;color:#756b5e!important;font:700 11px/1.2 Inter,sans-serif;letter-spacing:.09em;text-transform:uppercase}
+.portfolio-shell .about-fact-copy p{margin:0;color:#292622!important;font:600 13px/1.4 Inter,sans-serif!important}
+.portfolio-shell .about-philosophy-grid{gap:14px!important}.portfolio-shell .about-philosophy-card{padding:16px!important}.portfolio-shell .about-philosophy-card p{font-size:14px!important;line-height:1.5!important}
+.portfolio-shell .experience-card{padding:17px 18px!important}.portfolio-shell .experience-card h3{font-size:clamp(17px,1.5vw,20px)!important;line-height:1.2!important}
+.portfolio-shell .experience-card p,.portfolio-shell .experience-card li{font-size:14px!important;line-height:1.5!important}
+.portfolio-shell .experience-card .experience-belvo-lor{padding:14px!important;margin-top:14px!important}
+.portfolio-shell .experience-card .experience-lor-title{font-size:14px!important}.portfolio-shell .experience-card .experience-lor-meta{font-size:12px!important}.portfolio-shell .experience-card .experience-lor-quote{padding:11px!important;margin-top:12px!important}
+.portfolio-shell .belvo-certification-showcase{padding:18px!important}.portfolio-shell .belvo-certification-showcase>.relative.z-10{grid-template-columns:minmax(220px,260px) minmax(0,1fr)!important;gap:20px!important}
+.portfolio-shell .cert-credential-sidebar{padding:14px!important}.portfolio-shell .cert-credential-details{min-width:0}.portfolio-shell .cert-credential-details h3{font-size:clamp(20px,2vw,26px)!important;line-height:1.15!important}
+.portfolio-shell .cert-competency-card{min-height:0!important;height:auto!important;padding:14px!important;align-self:stretch}.portfolio-shell .cert-competency-title{font-size:15px!important;line-height:1.25!important}.portfolio-shell .cert-competency-description{font-size:14px!important;line-height:1.45!important}
+.portfolio-shell .belvo-lor-showcase{padding:18px!important}.portfolio-shell .belvo-lor-layout{grid-template-columns:minmax(190px,220px) minmax(0,1fr)!important;align-items:start!important;gap:18px!important}
+.portfolio-shell .belvo-lor-sidebar{gap:12px!important}.portfolio-shell .belvo-lor-thumbnail{height:auto!important;min-height:0!important}.portfolio-shell .belvo-lor-thumbnail iframe{display:block;width:100%!important;height:176px!important;min-height:0!important}
+.portfolio-shell .belvo-lor-sidebar>div:nth-child(2){padding:12px!important}.portfolio-shell .belvo-lor-sidebar .group\/badge{padding:9px!important}
+.portfolio-shell .belvo-lor-details{gap:13px!important;min-width:0}.portfolio-shell .belvo-lor-details h3{font-size:clamp(20px,2vw,26px)!important;line-height:1.15!important}
+.portfolio-shell .belvo-lor-details blockquote{padding:12px!important;font-size:14px!important}.portfolio-shell .belvo-lor-details .grid>div{min-height:0!important;padding:8px 10px!important}
+.portfolio-shell .gsa-certificate-card{padding:0!important}.portfolio-shell .gsa-certificate-card>div{gap:18px!important;padding:18px!important}.portfolio-shell .gsa-certificate-thumbnail{max-height:230px!important}.portfolio-shell .gsa-certificate-card h3{font-size:clamp(20px,2vw,26px)!important;line-height:1.15!important}
+.portfolio-shell .skills-marquee-panel,.portfolio-shell .skills-library{padding:17px!important;min-height:0!important}.portfolio-shell .skills-directory-item{min-height:0!important;padding:12px 0!important;gap:14px!important}
+.portfolio-shell .skills-item-main h4{font-size:16px!important;line-height:1.25!important}.portfolio-shell .skills-item-main p{font-size:14px!important;line-height:1.45!important}
+.portfolio-shell .tech-stack-card{height:76px!important;width:232px!important;flex-basis:232px!important}
+.portfolio-shell .skill-badge-card{min-height:0!important;height:auto!important;padding:14px!important;justify-content:space-between!important;border-radius:8px!important;border:1.5px solid var(--sk-ink)!important;box-shadow:3px 3px 0 var(--sk-ink)!important}
+.portfolio-shell .skill-badge-card h3{font-size:14px!important;line-height:1.35!important}.portfolio-shell .skill-badge-card p{font-size:12px!important;line-height:1.4!important}.portfolio-shell .skill-badge-card>div:nth-child(2){margin:10px 0!important}
+.portfolio-shell .project-card-content{padding:18px!important}.portfolio-shell .project-card-content h3{font-size:clamp(18px,1.6vw,21px)!important;line-height:1.2!important}
+.portfolio-shell .project-card-content p,.portfolio-shell .project-card-content li{font-size:14px!important;line-height:1.5!important}.portfolio-shell .project-card-content .project-tech-chip{font-size:12px!important;padding:4px 7px!important}
+.portfolio-shell .testimonial-ledger-card{padding:17px!important;min-height:0!important}.portfolio-shell .testimonial-ledger-card blockquote{font-size:14px!important;line-height:1.55!important}
+.portfolio-shell .contact-form-panel,.portfolio-shell .contact-direct-panel{padding:18px!important;min-height:0!important}
+.portfolio-shell .portfolio-section :is([class*="text-[10px]"],[class*="text-[11px]"]){color:#625b51!important;font-size:12px!important;line-height:1.4!important;opacity:1!important}
+.portfolio-shell .portfolio-section :is([class*="text-xs"]){font-size:13px!important;line-height:1.5!important}.portfolio-shell .portfolio-section :is([class*="text-sm"]){font-size:14px!important;line-height:1.55!important}
+.portfolio-shell .portfolio-editorial>section.sk-scroll-in>*,.portfolio-shell .portfolio-contact-stage.sk-scroll-in>*{animation-name:portfolio-section-fade-in!important}
+@keyframes portfolio-section-fade-in{from{opacity:.78;filter:blur(1px)}to{opacity:1;filter:blur(0)}}
+@media(max-width:900px){
+ .portfolio-shell .about-facts-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+ .portfolio-shell .about-fact:nth-child(3){border-left:0;border-top:1px solid #d8d0c1}.portfolio-shell .about-fact:nth-child(4){border-top:1px solid #d8d0c1}
+ .portfolio-shell .belvo-certification-showcase>.relative.z-10,.portfolio-shell .belvo-lor-layout,.portfolio-shell .gsa-certificate-card>div{grid-template-columns:minmax(0,1fr)!important}
+ .portfolio-shell .cert-credential-sidebar{max-width:360px;margin-inline:auto}.portfolio-shell .belvo-lor-sidebar{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);align-items:start}
+}
+@media(max-width:600px){
+ .portfolio-shell .portfolio-section,.portfolio-shell .portfolio-contact-stage{padding-block:48px!important}.portfolio-shell .about-facts-grid{grid-template-columns:minmax(0,1fr)}
+ .portfolio-shell .about-fact+.about-fact{border-left:0;border-top:1px solid #d8d0c1}.portfolio-shell .about-fact{padding:12px 13px}
+ .portfolio-shell .experience-card{padding:14px!important}.portfolio-shell .belvo-lor-sidebar{grid-template-columns:minmax(0,1fr)}.portfolio-shell .project-card-content{padding:15px!important}.portfolio-shell .portfolio-card{border-radius:8px}
+}
+@media(prefers-reduced-motion:reduce){.portfolio-shell .portfolio-editorial>section.sk-scroll-in>*,.portfolio-shell .portfolio-contact-stage.sk-scroll-in>*{animation:none!important}}

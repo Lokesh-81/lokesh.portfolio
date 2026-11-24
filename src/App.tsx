@@ -21,25 +21,16 @@ import { NotFound } from '@/components/ui/not-found';
 type SectionId = 'home' | 'about' | 'work' | 'skills' | 'certifications' | 'experience' | 'testimonials' | 'contact';
 const sectionIds: SectionId[] = ['home', 'about', 'work', 'skills', 'experience', 'certifications', 'testimonials', 'contact'];
 
+function getPortfolioNavOffset() {
+  const nav = document.querySelector<HTMLElement>('.portfolio-shell nav[aria-label="Main Navigation"]');
+  return Math.ceil(Math.max(0, nav?.getBoundingClientRect().bottom ?? 0) + 18);
+}
 function scrollToPortfolioSection(id: SectionId) {
-  if (id === 'home') {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-    return;
-  }
-  const alignSectionHeading = () => {
-    const target = document.getElementById(id);
-    if (!target) return;
-    const nav = document.querySelector<HTMLElement>('.portfolio-shell nav[aria-label="Main Navigation"]');
-    const navRect = nav?.getBoundingClientRect();
-    const navBottom = navRect?.bottom ?? 0;
-    const navHeight = navRect?.height ?? 0;
-    const heading = target.querySelector<HTMLElement>('h2, h1, .portfolio-section-kicker') ?? target;
-    const gap = 24;
-    const top = window.scrollY + heading.getBoundingClientRect().top - Math.max(navBottom + gap, navHeight + gap);
-    target.style.scrollMarginTop = `${Math.ceil(navHeight + gap)}px`;
-    window.scrollTo({ top: Math.max(0, top), behavior: 'smooth' });
-  };
-  window.requestAnimationFrame(() => window.requestAnimationFrame(alignSectionHeading));
+  if (id === 'home') { window.scrollTo({ top: 0, behavior: 'smooth' }); return; }
+  const target = document.getElementById(id);
+  if (!target) return;
+  const top = window.scrollY + target.getBoundingClientRect().top - getPortfolioNavOffset();
+  window.scrollTo({ top: Math.max(0, top), behavior: 'smooth' });
 }
 
 function PortfolioContent() {
@@ -49,6 +40,21 @@ function PortfolioContent() {
     return window.location.pathname.startsWith('/studio') || window.location.hash === '#studio' || window.location.hash.startsWith('#/studio');
   });
   const [isNotFound, setIsNotFound] = useState(false);
+
+  useEffect(() => {
+    const nav = document.querySelector<HTMLElement>('.portfolio-shell nav[aria-label="Main Navigation"]');
+    if (!nav) return;
+    const updateOffset = () => document.documentElement.style.setProperty('--portfolio-scroll-offset', `${getPortfolioNavOffset()}px`);
+    updateOffset();
+    const observer = new ResizeObserver(updateOffset);
+    observer.observe(nav);
+    window.addEventListener('resize', updateOffset, { passive: true });
+    return () => {
+      observer.disconnect();
+      window.removeEventListener('resize', updateOffset);
+      document.documentElement.style.removeProperty('--portfolio-scroll-offset');
+    };
+  }, [isStudioRoute]);
 
   useEffect(() => {
     const checkRoute = () => {
@@ -172,31 +178,31 @@ function PortfolioContent() {
         </header>
 
         <main className="portfolio-main">
-          <section id="home" className="portfolio-hero-stage scroll-mt-24">
+          <section id="home" className="portfolio-hero-stage portfolio-anchor-target">
             <div className="portfolio-hero-content"><Hero onNavigate={handleNavigate} /></div>
             <div className="portfolio-hero-index"><span>INDEPENDENT DEVELOPER</span><span>HYDERABAD · INDIA</span></div>
           </section>
 
           <div className="portfolio-editorial">
-            <section id="about" className="portfolio-section scroll-mt-24">
+            <section id="about" className="portfolio-section portfolio-anchor-target">
 <AboutSection />
             </section>
-            <section id="work" className="portfolio-section portfolio-work-section scroll-mt-24">
+            <section id="work" className="portfolio-section portfolio-work-section portfolio-anchor-target">
 <ProjectsSection />
             </section>
-            <section id="skills" className="portfolio-section scroll-mt-24">
+            <section id="skills" className="portfolio-section portfolio-anchor-target">
 <SkillsSection />
             </section>
-            <section id="experience" className="portfolio-section scroll-mt-24">
+            <section id="experience" className="portfolio-section portfolio-anchor-target">
 <ExperienceSection onNavigate={handleNavigate} />
             </section>
-            <section id="certifications" className="portfolio-section scroll-mt-24">
+            <section id="certifications" className="portfolio-section portfolio-anchor-target">
 <CertificationsSection onNavigate={handleNavigate} />
             </section>
-            <section id="testimonials" className="portfolio-section scroll-mt-24">
+            <section id="testimonials" className="portfolio-section portfolio-anchor-target">
 <TestimonialsSection />
             </section>
-            <section id="contact" className="portfolio-contact-stage scroll-mt-24">
+            <section id="contact" className="portfolio-contact-stage portfolio-anchor-target">
 <ContactSection />
             </section>
           </div>
