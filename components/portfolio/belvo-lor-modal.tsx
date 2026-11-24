@@ -29,7 +29,6 @@ export interface BelvoLorModalProps {
   isOpen: boolean;
   onClose: () => void;
   pdfUrl?: string;
-  vectorUrl?: string;
   title?: string;
 }
 
@@ -37,7 +36,6 @@ export function BelvoLorModal({
   isOpen,
   onClose,
   pdfUrl,
-  vectorUrl,
   title,
 }: BelvoLorModalProps) {
   const { experiences } = usePortfolio();
@@ -45,6 +43,11 @@ export function BelvoLorModal({
   const [zoomLevel, setZoomLevel] = useState<number>(100);
   const [fitMode, setFitMode] = useState<'width' | 'page' | 'custom'>('page');
   const [blobDocUrl, setBlobDocUrl] = useState<string | null>(null);
+  const [loadedPdfSource, setLoadedPdfSource] = useState<string>('');
+  const [isPdfLoading, setIsPdfLoading] = useState(false);
+  const [pdfError, setPdfError] = useState<string | null>(null);
+  const [retryToken, setRetryToken] = useState(0);
+  const iframeRef = useRef<HTMLIFrameElement>(null);
   const closeButtonRef = useRef<HTMLButtonElement>(null);
   const onCloseRef = useRef(onClose);
   onCloseRef.current = onClose;
@@ -53,9 +56,7 @@ export function BelvoLorModal({
     experiences.find((e) => e.id === 'belvo') ||
     experiences.find((e) => e.company?.toLowerCase().includes('belvo'));
 
-  const currentPdfUrl = pdfUrl || belvoExp?.lor?.pdfUrl || '';
-  const currentVectorUrl = vectorUrl || belvoExp?.lor?.vectorUrl || '';
-  const currentDocUrl = currentPdfUrl || currentVectorUrl;
+  const currentPdfUrl = pdfUrl || belvoExp?.lor?.pdfUrl || '/belvo-lor.pdf';
   const currentTitle = title || belvoExp?.lor?.title || 'Belvo Company — Letter of Recommendation';
   const currentIssuer = belvoExp?.lor?.issuer || 'Belvo Company';
   const currentSignatory = belvoExp?.lor?.issuedBy || 'Hrishikesh Mishra';
@@ -84,33 +85,46 @@ export function BelvoLorModal({
     };
   }, [isOpen]);
 
-  // Legacy Studio records may still contain a Data URL. Render it as a Blob URL
-  // rather than putting a large base64 payload directly into the iframe.
+  // Validate the actual document before rendering. Stale Studio URLs fall back
+  // to the version-controlled public PDF instead of showing a blank iframe.
   useEffect(() => {
-    if (!currentDocUrl.startsWith('data:')) {
-      setBlobDocUrl(null);
-      return;
-    }
+    if (!isOpen) return;
+    let disposed = false;
     let objectUrl: string | null = null;
-    try {
-      objectUrl = URL.createObjectURL(dataUrlToBlob(currentDocUrl));
-      setBlobDocUrl(objectUrl);
-    } catch (error) {
-      console.error('[Belvo LOR] Could not prepare document preview:', error);
-      setBlobDocUrl(null);
-    }
-    return () => {
-      if (objectUrl) URL.revokeObjectURL(objectUrl);
+    const loadPdf = async () => {
+      setIsPdfLoading(true); setPdfError(null); setBlobDocUrl(null); setLoadedPdfSource('');
+      const sources = Array.from(new Set([currentPdfUrl, '/belvo-lor.pdf'].filter(Boolean)));
+      let lastError: unknown = null;
+      for (const source of sources) {
+        try {
+          let pdfBlob: Blob;
+          if (source.startsWith('data:')) pdfBlob = dataUrlToBlob(source);
+          else {
+            const response = await fetch(source, { cache: 'no-store' });
+            if (!response.ok) throw new Error(`PDF request failed with HTTP ${response.status}`);
+            const contentType = response.headers.get('content-type') || '';
+            if (contentType && !/(pdf|octet-stream)/i.test(contentType)) throw new Error(`Expected a PDF response, received ${contentType}`);
+            pdfBlob = await response.blob();
+          }
+          const signature = new TextDecoder().decode(await pdfBlob.slice(0, 5).arrayBuffer());
+          if (signature !== '%PDF-') throw new Error('The selected file is not a valid PDF document.');
+          objectUrl = URL.createObjectURL(new Blob([pdfBlob], { type: 'application/pdf' }));
+          if (disposed) { URL.revokeObjectURL(objectUrl); return; }
+          setBlobDocUrl(objectUrl); setLoadedPdfSource(source); setIsPdfLoading(false); return;
+        } catch (error) { lastError = error; }
+      }
+      if (!disposed) { setPdfError(lastError instanceof Error ? lastError.message : 'The official PDF could not be loaded.'); setIsPdfLoading(false); }
     };
-  }, [currentDocUrl]);
+    void loadPdf();
+    return () => { disposed = true; if (objectUrl) URL.revokeObjectURL(objectUrl); };
+  }, [isOpen, currentPdfUrl, retryToken]);
 
-  const viewerDocUrl = currentDocUrl.startsWith('data:') ? (blobDocUrl || '') : currentDocUrl;
+  const viewerDocUrl = blobDocUrl || '';
   const pdfViewerUrl = React.useMemo(() => {
     if (!viewerDocUrl) return '';
-    const baseUrl = viewerDocUrl.split('#')[0];
-    if (fitMode === 'page') return `${baseUrl}#toolbar=1&navpanes=0&view=Fit`;
-    if (fitMode === 'custom') return `${baseUrl}#toolbar=1&navpanes=0&zoom=${zoomLevel}`;
-    return `${baseUrl}#toolbar=1&navpanes=0&view=FitH`;
+    if (fitMode === 'page') return `${viewerDocUrl}#toolbar=1&navpanes=0&view=Fit`;
+    if (fitMode === 'custom') return `${viewerDocUrl}#toolbar=1&navpanes=0&zoom=${zoomLevel}`;
+    return `${viewerDocUrl}#toolbar=1&navpanes=0&view=FitH`;
   }, [viewerDocUrl, fitMode, zoomLevel]);
 
   const lorFullText = `BELVO COMPANY
@@ -157,7 +171,8 @@ Location: Goregaon, Mumbai`;
   };
 
   const handlePrint = () => {
-    window.print();
+    try { iframeRef.current?.contentWindow?.print(); }
+    catch { setPdfError('The browser could not open the PDF print dialog. Use Download PDF to print the document.'); }
   };
 
   const handleZoomIn = () => {
@@ -274,13 +289,13 @@ Location: Goregaon, Mumbai`;
 
                 {/* Open in Standalone Tab (Direct browser unblocked PDF or Blob) */}
                 <a
-                  href={currentPdfUrl || undefined}
-                  target={currentPdfUrl && !currentPdfUrl.startsWith('data:') ? "_blank" : undefined}
+                  href={blobDocUrl || undefined}
+                  target={blobDocUrl ? "_blank" : undefined}
                   rel="noopener noreferrer"
-                  aria-disabled={!currentPdfUrl}
+                  aria-disabled={!blobDocUrl}
                   onClick={(event) => {
                     event.preventDefault();
-                    if (currentPdfUrl) openDocumentInNewTab(currentPdfUrl, currentTitle);
+                    if (blobDocUrl) openDocumentInNewTab(blobDocUrl, currentTitle);
                   }}
                   className="flex items-center gap-1.5 rounded-xl border border-[#35263D] bg-[#1A1222] px-3 py-1.5 text-xs font-medium text-[#DCCFE0] hover:border-purple-400 hover:text-white transition-colors"
                   title="Open the saved Belvo PDF in a new tab"
@@ -303,7 +318,7 @@ Location: Goregaon, Mumbai`;
                 {/* Download PDF button */}
                 <button
                   type="button"
-                  onClick={() => downloadDocument(currentPdfUrl, 'Poosala_Lokesh_Belvo_LOR.pdf')}
+                  onClick={() => downloadDocument(blobDocUrl || '', 'Poosala_Lokesh_Belvo_LOR.pdf')}
                   className="flex items-center gap-1.5 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 px-3.5 py-1.5 text-xs font-semibold text-white shadow-sm hover:scale-[1.02] active:scale-[0.98] transition-all cursor-pointer"
                   title="Download the official document file"
                 >
@@ -327,11 +342,16 @@ Location: Goregaon, Mumbai`;
 
             {/* Document Surface - High-Res Direct Vector or PDF Document Viewer */}
             <div className="portfolio-pdf-surface flex-1 min-h-0 overflow-hidden p-0 sm:p-2 flex justify-center items-stretch">
-              {currentDocUrl ? (
+              {isPdfLoading ? (
+                <div className="m-auto rounded-xl border border-[#35263D] bg-white p-6 text-center text-[#171719]"><span className="inline-block h-5 w-5 animate-spin rounded-full border-2 border-[#9b78b5] border-t-transparent" /><p className="mt-3 text-sm font-medium">Loading and verifying the official PDF…</p></div>
+              ) : pdfError ? (
+                <div role="alert" className="m-auto w-full max-w-[620px] rounded-xl border border-rose-300 bg-rose-50 p-6 text-center text-[#402b2b]"><p className="font-semibold">The PDF could not be displayed</p><p className="mt-2 text-sm">{pdfError}</p><button type="button" onClick={() => setRetryToken((value) => value + 1)} className="mt-4 rounded-lg border border-[#402b2b] px-4 py-2 text-sm font-semibold">Retry PDF</button></div>
+              ) : blobDocUrl ? (
                 <div
                   className="w-full h-full min-h-0 max-w-[1100px] flex justify-center"
                 >
                   <iframe
+                    ref={iframeRef}
                     src={pdfViewerUrl}
                     title={currentTitle}
                     className="belvo-pdf-frame"
@@ -353,7 +373,7 @@ Location: Goregaon, Mumbai`;
                 <span>
                   Official Document:{' '}
                   <strong className="text-white font-mono">
-                    {getCleanDocDisplayName(currentPdfUrl, 'Poosala_Lokesh_Belvo_LOR.pdf')}
+                    {getCleanDocDisplayName(loadedPdfSource || currentPdfUrl, 'Poosala_Lokesh_Belvo_LOR.pdf')}
                   </strong>{' '}
                   (Issued by {currentIssuer} · {currentSignatory}, {currentRole})
                 </span>
@@ -377,14 +397,7 @@ Location: Goregaon, Mumbai`;
                   )}
                 </button>
 
-                <button
-                  type="button"
-                  onClick={() => downloadDocument(currentPdfUrl, 'Poosala_Lokesh_Belvo_LOR.pdf')}
-                  className="text-xs text-purple-300 hover:text-white underline cursor-pointer"
-                >
-                  Download Direct PDF
-                </button>
-              </div>
+</div>
             </div>
           </motion.div>
         </div>

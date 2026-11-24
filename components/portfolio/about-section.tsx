@@ -1,6 +1,7 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
+import { motion, useInView, useReducedMotion } from 'framer-motion';
 import {
   MapPin,
   Languages,
@@ -25,6 +26,10 @@ export function AboutSection() {
   const { t, language } = useLanguage();
   const [isLorModalOpen, setIsLorModalOpen] = useState(false);
   const [isResumeModalOpen, setIsResumeModalOpen] = useState(false);
+  const factsRef = useRef<HTMLDivElement>(null);
+  const factsInView = useInView(factsRef, { once: true, amount: 0.32 });
+  const reduceMotion = useReducedMotion();
+  const factVariants = { hidden: { opacity: 0, y: 22 }, visible: (index: number) => ({ opacity: 1, y: 0, transition: { duration: 0.58, delay: index * 0.14, ease: 'easeOut' } }) };
 
   const belvoExp =
     experiences.find((e) => e.id === 'belvo') ||
@@ -131,19 +136,31 @@ export function AboutSection() {
               </TextEffect>
             </div>
 
-            {/* Independent animated editorial facts */}
-            <div className="about-facts-grid pt-1" aria-label="Personal details">
-              <div className="about-fact about-fact-location"><span className="about-fact-icon"><MapPin aria-hidden="true" /></span><div className="about-fact-copy"><span className="about-fact-label">{t('about.location')}</span><p>{language === 'en' ? location : t('hero.location')}</p></div></div>
-
-              <div className="about-fact about-fact-languages"><span className="about-fact-icon"><Languages aria-hidden="true" /></span><div className="about-fact-copy"><span className="about-fact-label">{t('about.languages')}</span><p>{languagesList}</p></div></div>
-
-              <div className="about-fact about-fact-education"><span className="about-fact-icon"><GraduationCap aria-hidden="true" /></span><div className="about-fact-copy"><span className="about-fact-label">{t('about.education')}</span><p>{education}</p></div></div>
-
-              <div className="about-fact about-fact-recognition"><span className="about-fact-icon"><Award aria-hidden="true" /></span><div className="about-fact-copy"><span className="about-fact-label">{t('about.recognition')}</span><p>{recognition}</p></div></div>
+            {/* Scroll-linked editorial facts: the path draws first, then each fact arrives in sequence */}
+            <div ref={factsRef} className="about-facts-grid pt-1" aria-label="Personal details">
+              <motion.svg className="about-facts-path" viewBox="0 0 1000 64" preserveAspectRatio="none" aria-hidden="true">
+                <motion.path d="M 105 30 C 175 2 260 2 330 30 S 485 58 550 30 S 765 2 850 30" fill="none" stroke="#aa9a86" strokeWidth="1.8" strokeDasharray="4 8" initial={{ pathLength: 0, opacity: 0 }} animate={reduceMotion ? { pathLength: 1, opacity: 0.55 } : factsInView ? { pathLength: 1, opacity: 0.8 } : { pathLength: 0, opacity: 0 }} transition={{ duration: 1.35, ease: 'easeInOut' }} />
+              </motion.svg>
+              <motion.div custom={0} variants={factVariants} initial={reduceMotion ? false : 'hidden'} animate={reduceMotion || factsInView ? 'visible' : 'hidden'} className="about-fact about-fact-location">
+                <motion.span className="about-fact-icon" animate={factsInView && !reduceMotion ? { y: [0, -4, 0], rotate: [0, -3, 0] } : undefined} transition={{ duration: 3.8, repeat: Infinity, ease: 'easeInOut' }} whileHover={reduceMotion ? undefined : { rotate: 12, scale: 1.08 }}><MapPin aria-hidden="true" /></motion.span>
+                <div className="about-fact-copy"><span className="about-fact-label">{t('about.location')}</span><p>{language === 'en' ? location : t('hero.location')}</p></div>
+              </motion.div>
+              <motion.div custom={1} variants={factVariants} initial={reduceMotion ? false : 'hidden'} animate={reduceMotion || factsInView ? 'visible' : 'hidden'} className="about-fact about-fact-languages">
+                <motion.span className="about-fact-icon" animate={factsInView && !reduceMotion ? { y: [0, -5, 0], rotate: [0, 3, 0] } : undefined} transition={{ duration: 4.2, repeat: Infinity, ease: 'easeInOut', delay: 0.25 }} whileHover={reduceMotion ? undefined : { rotate: -12, scale: 1.08 }}><Languages aria-hidden="true" /></motion.span>
+                <div className="about-fact-copy"><span className="about-fact-label">{t('about.languages')}</span><p>{languagesList}</p></div>
+              </motion.div>
+              <motion.div custom={2} variants={factVariants} initial={reduceMotion ? false : 'hidden'} animate={reduceMotion || factsInView ? 'visible' : 'hidden'} className="about-fact about-fact-education">
+                <motion.span className="about-fact-icon" animate={factsInView && !reduceMotion ? { y: [0, -4, 0], rotate: [0, -2, 0] } : undefined} transition={{ duration: 4.5, repeat: Infinity, ease: 'easeInOut', delay: 0.45 }} whileHover={reduceMotion ? undefined : { rotate: 10, scale: 1.08 }}><GraduationCap aria-hidden="true" /></motion.span>
+                <div className="about-fact-copy"><span className="about-fact-label">{t('about.education')}</span><p>{education}</p></div>
+              </motion.div>
+              <motion.div custom={3} variants={factVariants} initial={reduceMotion ? false : 'hidden'} animate={reduceMotion || factsInView ? 'visible' : 'hidden'} className="about-fact about-fact-recognition">
+                <motion.span className="about-fact-icon" animate={factsInView && !reduceMotion ? { y: [0, -5, 0], rotate: [0, 3, 0] } : undefined} transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut', delay: 0.65 }} whileHover={reduceMotion ? undefined : { rotate: -10, scale: 1.08 }}><Award aria-hidden="true" /></motion.span>
+                <div className="about-fact-copy"><span className="about-fact-label">{t('about.recognition')}</span><p>{recognition}</p></div>
+              </motion.div>
             </div>
 
             {/* Active Google Cloud Certification Callout */}
-            <div className="rounded-2xl border border-[#F9AB00]/40 bg-[#F9AB00]/10 p-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 backdrop-blur-md shadow-xs">
+            <div className="about-credential-card about-credential-card--certificate rounded-2xl border border-[#F9AB00]/40 bg-[#F9AB00]/10 p-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 backdrop-blur-md shadow-xs">
               <div className="flex items-center gap-3">
                 <img
                   src="/professional-cloud-architect-certification.svg"
@@ -176,7 +193,7 @@ export function AboutSection() {
 
             {/* Official Letter of Recommendation (Belvo Company) Callout */}
             {hasLor && (
-              <div className="rounded-2xl border border-purple-500/40 bg-purple-950/20 p-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 backdrop-blur-md shadow-xs">
+              <div className="about-credential-card about-credential-card--lor rounded-2xl border border-purple-500/40 bg-purple-950/20 p-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 backdrop-blur-md shadow-xs">
                 <div className="flex items-center gap-3">
                   <div className="h-11 w-11 rounded-xl bg-purple-500/20 border border-purple-500/40 flex items-center justify-center shrink-0 text-purple-300">
                     <FileCheck2 className="h-6 w-6 text-purple-400" />
@@ -207,7 +224,7 @@ export function AboutSection() {
             )}
 
             {/* Official Curriculum Vitae / ATS Resume Callout */}
-            <div className="rounded-2xl border border-blue-500/40 bg-blue-950/20 p-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 backdrop-blur-md shadow-xs">
+            <div className="about-credential-card about-credential-card--resume rounded-2xl border border-blue-500/40 bg-blue-950/20 p-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 backdrop-blur-md shadow-xs">
               <div className="flex items-center gap-3">
                 <div className="h-11 w-11 rounded-xl bg-blue-500/20 border border-blue-500/40 flex items-center justify-center shrink-0 text-blue-400">
                   <FileText className="h-6 w-6" />

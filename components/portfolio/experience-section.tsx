@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import {
   Calendar,
   MapPin,
@@ -15,7 +15,7 @@ import {
 import { TextEffect } from '@/components/core/text-effect';
 import { usePortfolio } from '@/lib/portfolio-context';
 import { useLanguage } from '@/i18n';
-import { openDocumentInNewTab } from '@/lib/document-utils';
+import { BelvoLorModal } from '@/components/portfolio/belvo-lor-modal';
 
 const experienceTranslations: Record<
   string,
@@ -220,6 +220,8 @@ export interface ExperienceSectionProps {
 export function ExperienceSection({ onNavigate }: ExperienceSectionProps = {}) {
   const { experiences } = usePortfolio();
   const { t, language } = useLanguage();
+  const [isLorModalOpen, setIsLorModalOpen] = useState(false);
+  const belvoExperience = experiences.find((item) => item.id === 'belvo' || item.company?.toLowerCase().includes('belvo'));
 
   return (
     <div className="experience-section-content relative w-full px-2 sm:px-4 py-5 sm:py-6">
@@ -354,16 +356,9 @@ export function ExperienceSection({ onNavigate }: ExperienceSectionProps = {}) {
                       </div>
 
                       <div className="flex items-center gap-2 shrink-0">
-                        <a
-                          href={exp.lor?.pdfUrl || '/belvo-lor.pdf'}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-purple-600 via-indigo-600 to-purple-700 hover:from-purple-500 hover:to-indigo-500 px-4 py-2.5 text-xs font-semibold text-white shadow-md transition-all"
-                          title="Open the saved Belvo PDF in a new tab"
-                        >
-                          <FileText className="h-4 w-4" />
-                          <span>View Official LOR (PDF)</span>
-                        </a>
+                        <button type="button" onClick={() => setIsLorModalOpen(true)} className="flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-purple-600 via-indigo-600 to-purple-700 hover:from-purple-500 hover:to-indigo-500 px-4 py-2.5 text-xs font-semibold text-white shadow-md transition-all" title="View the official Belvo PDF inside the portfolio">
+                          <FileText className="h-4 w-4" /><span>View Official LOR (PDF)</span>
+                        </button>
                       </div>
                     </div>
 
@@ -378,6 +373,7 @@ export function ExperienceSection({ onNavigate }: ExperienceSectionProps = {}) {
         </div>
       </div>
 
+      <BelvoLorModal isOpen={isLorModalOpen} onClose={() => setIsLorModalOpen(false)} pdfUrl={belvoExperience?.lor?.pdfUrl || '/belvo-lor.pdf'} title={belvoExperience?.lor?.title || 'Belvo Company — Letter of Recommendation'} />
     </div>
   );
 }
