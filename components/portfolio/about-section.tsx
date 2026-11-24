@@ -29,7 +29,9 @@ export function AboutSection() {
   const factsRef = useRef<HTMLDivElement>(null);
   const factsInView = useInView(factsRef, { once: true, amount: 0.32 });
   const reduceMotion = useReducedMotion();
-  const factVariants = { hidden: { opacity: 0, y: 22 }, visible: (index: number) => ({ opacity: 1, y: 0, transition: { duration: 0.58, delay: index * 0.14, ease: 'easeOut' } }) };
+  const [activeFact, setActiveFact] = useState<string | null>(null);
+  const timelinePath = 'M 125 30 C 190 2 300 2 375 30 S 550 58 625 30 S 800 2 875 30';
+  const factVariants = { hidden: { opacity: 0, y: 22 }, visible: (index: number) => ({ opacity: 1, y: 0, transition: { duration: 0.58, delay: index * 0.19, ease: 'easeOut' } }) };
 
   const belvoExp =
     experiences.find((e) => e.id === 'belvo') ||
@@ -136,29 +138,144 @@ export function AboutSection() {
               </TextEffect>
             </div>
 
-            {/* Scroll-linked editorial facts: the path draws first, then each fact arrives in sequence */}
-            <div ref={factsRef} className="about-facts-grid pt-1" aria-label="Personal details">
+            {/* Living timeline: scroll reveal, continuous SVG motion, and per-fact interaction */}
+            <div
+              ref={factsRef}
+              className="about-facts-grid pt-1"
+              aria-label="Personal details"
+              data-active={activeFact || ''}
+            >
+              <span className="about-facts-orb about-facts-orb-one" aria-hidden="true" />
+              <span className="about-facts-orb about-facts-orb-two" aria-hidden="true" />
+              <span className="about-facts-orb about-facts-orb-three" aria-hidden="true" />
               <motion.svg className="about-facts-path" viewBox="0 0 1000 64" preserveAspectRatio="none" aria-hidden="true">
-                <motion.path d="M 105 30 C 175 2 260 2 330 30 S 485 58 550 30 S 765 2 850 30" fill="none" stroke="#aa9a86" strokeWidth="1.8" strokeDasharray="4 8" initial={{ pathLength: 0, opacity: 0 }} animate={reduceMotion ? { pathLength: 1, opacity: 0.55 } : factsInView ? { pathLength: 1, opacity: 0.8 } : { pathLength: 0, opacity: 0 }} transition={{ duration: 1.35, ease: 'easeInOut' }} />
+                <defs>
+                  <linearGradient id="about-facts-gradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                    <stop offset="0%" stopColor="#e9c5a6" />
+                    <stop offset="48%" stopColor="#c9b5e7" />
+                    <stop offset="100%" stopColor="#e9b9ca" />
+                  </linearGradient>
+                  <filter id="about-facts-dot-glow" x="-300%" y="-300%" width="600%" height="600%">
+                    <feGaussianBlur stdDeviation="3" result="blur" />
+                    <feMerge><feMergeNode in="blur" /><feMergeNode in="SourceGraphic" /></feMerge>
+                  </filter>
+                </defs>
+                <motion.path
+                  id="about-facts-route"
+                  d={timelinePath}
+                  fill="none"
+                  stroke="#aa9a86"
+                  strokeWidth="1.8"
+                  strokeDasharray="4 8"
+                  initial={{ pathLength: 0, opacity: 0 }}
+                  animate={reduceMotion ? { pathLength: 1, opacity: 0.55 } : factsInView ? { pathLength: 1, opacity: 0.72 } : { pathLength: 0, opacity: 0 }}
+                  transition={{ duration: 1.5, ease: 'easeInOut' }}
+                />
+                <motion.path
+                  className="about-facts-segment about-facts-segment-1"
+                  d="M 125 30 C 190 2 300 2 375 30"
+                  fill="none" stroke="#d6a9b8" strokeWidth="3.2" strokeLinecap="round"
+                  initial={{ pathLength: 0, opacity: 0 }}
+                  animate={factsInView ? { pathLength: 1, opacity: 0.12 } : { pathLength: 0, opacity: 0 }}
+                  transition={{ duration: 1.1, delay: 0.35 }}
+                />
+                <motion.path
+                  className="about-facts-segment about-facts-segment-2"
+                  d="M 375 30 C 450 58 550 58 625 30"
+                  fill="none" stroke="#b9a8db" strokeWidth="3.2" strokeLinecap="round"
+                  initial={{ pathLength: 0, opacity: 0 }}
+                  animate={factsInView ? { pathLength: 1, opacity: 0.12 } : { pathLength: 0, opacity: 0 }}
+                  transition={{ duration: 1.1, delay: 0.55 }}
+                />
+                <motion.path
+                  className="about-facts-segment about-facts-segment-3"
+                  d="M 625 30 C 700 2 800 2 875 30"
+                  fill="none" stroke="#a9cbb4" strokeWidth="3.2" strokeLinecap="round"
+                  initial={{ pathLength: 0, opacity: 0 }}
+                  animate={factsInView ? { pathLength: 1, opacity: 0.12 } : { pathLength: 0, opacity: 0 }}
+                  transition={{ duration: 1.1, delay: 0.75 }}
+                />
+                {!reduceMotion && factsInView && (
+                  <>
+                    <motion.path
+                      d={timelinePath}
+                      pathLength={1}
+                      fill="none"
+                      stroke="url(#about-facts-gradient)"
+                      strokeWidth="3"
+                      strokeLinecap="round"
+                      strokeDasharray="0.12 0.88"
+                      initial={{ strokeDashoffset: 1, opacity: 0 }}
+                      animate={{ strokeDashoffset: [1, 0], opacity: [0.35, 0.9, 0.35] }}
+                      transition={{ duration: 7, repeat: Infinity, ease: 'linear' }}
+                    />
+                    <circle r="6.5" fill="#fff9e9" stroke="#d8a9c6" strokeWidth="2" filter="url(#about-facts-dot-glow)">
+                      <animateMotion dur="7s" repeatCount="indefinite" rotate="auto" path={timelinePath} />
+                    </circle>
+                  </>
+                )}
               </motion.svg>
-              <motion.div custom={0} variants={factVariants} initial={reduceMotion ? false : 'hidden'} animate={reduceMotion || factsInView ? 'visible' : 'hidden'} className="about-fact about-fact-location">
-                <motion.span className="about-fact-icon" animate={factsInView && !reduceMotion ? { y: [0, -4, 0], rotate: [0, -3, 0] } : undefined} transition={{ duration: 3.8, repeat: Infinity, ease: 'easeInOut' }} whileHover={reduceMotion ? undefined : { rotate: 12, scale: 1.08 }}><MapPin aria-hidden="true" /></motion.span>
-                <div className="about-fact-copy"><span className="about-fact-label">{t('about.location')}</span><p>{language === 'en' ? location : t('hero.location')}</p></div>
+
+              <motion.div
+                custom={0} variants={factVariants} initial={reduceMotion ? false : 'hidden'}
+                animate={reduceMotion || factsInView ? 'visible' : 'hidden'}
+                className="about-fact about-fact-location" data-active={activeFact === 'location'}
+                tabIndex={0} role="group" aria-label={`${t('about.location')}: ${location}`}
+                onPointerEnter={() => setActiveFact('location')} onPointerLeave={() => setActiveFact((v) => v === 'location' ? null : v)}
+                onPointerDown={() => setActiveFact('location')} onFocus={() => setActiveFact('location')}
+                onBlur={() => setActiveFact((v) => v === 'location' ? null : v)}
+              >
+                <motion.span className="about-fact-icon" animate={factsInView && !reduceMotion ? { y: [0, -5, 0], rotate: [0, -2, 0] } : undefined} transition={{ duration: 3.8, repeat: Infinity, ease: 'easeInOut' }} whileHover={reduceMotion ? undefined : { y: -5, rotate: 12, scale: 1.1, boxShadow: '0 0 22px rgba(255, 224, 160, .7)' }} whileTap={reduceMotion ? undefined : { scale: 0.96 }}><MapPin aria-hidden="true" /></motion.span>
+                <motion.div className="about-fact-copy" initial={false} animate={reduceMotion || factsInView ? { opacity: 1, x: 0 } : { opacity: 0, x: -12 }} transition={{ duration: 0.45, delay: 0.08 }}>
+                  <span className="about-fact-label">{t('about.location')}</span><p>{language === 'en' ? location : t('hero.location')}</p>
+                </motion.div>
               </motion.div>
-              <motion.div custom={1} variants={factVariants} initial={reduceMotion ? false : 'hidden'} animate={reduceMotion || factsInView ? 'visible' : 'hidden'} className="about-fact about-fact-languages">
-                <motion.span className="about-fact-icon" animate={factsInView && !reduceMotion ? { y: [0, -5, 0], rotate: [0, 3, 0] } : undefined} transition={{ duration: 4.2, repeat: Infinity, ease: 'easeInOut', delay: 0.25 }} whileHover={reduceMotion ? undefined : { rotate: -12, scale: 1.08 }}><Languages aria-hidden="true" /></motion.span>
-                <div className="about-fact-copy"><span className="about-fact-label">{t('about.languages')}</span><p>{languagesList}</p></div>
+
+              <motion.div
+                custom={1} variants={factVariants} initial={reduceMotion ? false : 'hidden'}
+                animate={reduceMotion || factsInView ? 'visible' : 'hidden'}
+                className="about-fact about-fact-languages" data-active={activeFact === 'languages'}
+                tabIndex={0} role="group" aria-label={`${t('about.languages')}: ${languagesList}`}
+                onPointerEnter={() => setActiveFact('languages')} onPointerLeave={() => setActiveFact((v) => v === 'languages' ? null : v)}
+                onPointerDown={() => setActiveFact('languages')} onFocus={() => setActiveFact('languages')}
+                onBlur={() => setActiveFact((v) => v === 'languages' ? null : v)}
+              >
+                <motion.span className="about-fact-icon" animate={factsInView && !reduceMotion ? { y: [0, -5, 0], rotate: [0, 3, 0] } : undefined} transition={{ duration: 4.2, repeat: Infinity, ease: 'easeInOut', delay: 0.25 }} whileHover={reduceMotion ? undefined : { y: -5, rotate: -12, scale: 1.1, boxShadow: '0 0 22px rgba(217, 239, 223, .8)' }} whileTap={reduceMotion ? undefined : { scale: 0.96 }}><Languages aria-hidden="true" /></motion.span>
+                <motion.div className="about-fact-copy" initial={false} animate={reduceMotion || factsInView ? { opacity: 1, x: 0 } : { opacity: 0, x: -12 }} transition={{ duration: 0.45, delay: 0.27 }}>
+                  <span className="about-fact-label">{t('about.languages')}</span><p>{languagesList}</p>
+                </motion.div>
               </motion.div>
-              <motion.div custom={2} variants={factVariants} initial={reduceMotion ? false : 'hidden'} animate={reduceMotion || factsInView ? 'visible' : 'hidden'} className="about-fact about-fact-education">
-                <motion.span className="about-fact-icon" animate={factsInView && !reduceMotion ? { y: [0, -4, 0], rotate: [0, -2, 0] } : undefined} transition={{ duration: 4.5, repeat: Infinity, ease: 'easeInOut', delay: 0.45 }} whileHover={reduceMotion ? undefined : { rotate: 10, scale: 1.08 }}><GraduationCap aria-hidden="true" /></motion.span>
-                <div className="about-fact-copy"><span className="about-fact-label">{t('about.education')}</span><p>{education}</p></div>
+
+              <motion.div
+                custom={2} variants={factVariants} initial={reduceMotion ? false : 'hidden'}
+                animate={reduceMotion || factsInView ? 'visible' : 'hidden'}
+                className="about-fact about-fact-education" data-active={activeFact === 'education'}
+                tabIndex={0} role="group" aria-label={`${t('about.education')}: ${education}`}
+                onPointerEnter={() => setActiveFact('education')} onPointerLeave={() => setActiveFact((v) => v === 'education' ? null : v)}
+                onPointerDown={() => setActiveFact('education')} onFocus={() => setActiveFact('education')}
+                onBlur={() => setActiveFact((v) => v === 'education' ? null : v)}
+              >
+                <motion.span className="about-fact-icon" animate={factsInView && !reduceMotion ? { y: [0, -4, 0], rotate: [0, -2, 0] } : undefined} transition={{ duration: 4.5, repeat: Infinity, ease: 'easeInOut', delay: 0.45 }} whileHover={reduceMotion ? undefined : { y: -5, rotate: 10, scale: 1.1, boxShadow: '0 0 22px rgba(231, 221, 247, .85)' }} whileTap={reduceMotion ? undefined : { scale: 0.96 }}><GraduationCap aria-hidden="true" /></motion.span>
+                <motion.div className="about-fact-copy" initial={false} animate={reduceMotion || factsInView ? { opacity: 1, x: 0 } : { opacity: 0, x: -12 }} transition={{ duration: 0.45, delay: 0.46 }}>
+                  <span className="about-fact-label">{t('about.education')}</span><p>{education}</p>
+                </motion.div>
               </motion.div>
-              <motion.div custom={3} variants={factVariants} initial={reduceMotion ? false : 'hidden'} animate={reduceMotion || factsInView ? 'visible' : 'hidden'} className="about-fact about-fact-recognition">
-                <motion.span className="about-fact-icon" animate={factsInView && !reduceMotion ? { y: [0, -5, 0], rotate: [0, 3, 0] } : undefined} transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut', delay: 0.65 }} whileHover={reduceMotion ? undefined : { rotate: -10, scale: 1.08 }}><Award aria-hidden="true" /></motion.span>
-                <div className="about-fact-copy"><span className="about-fact-label">{t('about.recognition')}</span><p>{recognition}</p></div>
+
+              <motion.div
+                custom={3} variants={factVariants} initial={reduceMotion ? false : 'hidden'}
+                animate={reduceMotion || factsInView ? 'visible' : 'hidden'}
+                className="about-fact about-fact-recognition" data-active={activeFact === 'recognition'}
+                tabIndex={0} role="group" aria-label={`${t('about.recognition')}: ${recognition}`}
+                onPointerEnter={() => setActiveFact('recognition')} onPointerLeave={() => setActiveFact((v) => v === 'recognition' ? null : v)}
+                onPointerDown={() => setActiveFact('recognition')} onFocus={() => setActiveFact('recognition')}
+                onBlur={() => setActiveFact((v) => v === 'recognition' ? null : v)}
+              >
+                <motion.span className="about-fact-icon" animate={factsInView && !reduceMotion ? { y: [0, -5, 0], rotate: [0, 3, 0] } : undefined} transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut', delay: 0.65 }} whileHover={reduceMotion ? undefined : { y: -5, rotate: -10, scale: 1.1, boxShadow: '0 0 22px rgba(246, 220, 232, .85)' }} whileTap={reduceMotion ? undefined : { scale: 0.96 }}><Award aria-hidden="true" /></motion.span>
+                <motion.div className="about-fact-copy" initial={false} animate={reduceMotion || factsInView ? { opacity: 1, x: 0 } : { opacity: 0, x: -12 }} transition={{ duration: 0.45, delay: 0.65 }}>
+                  <span className="about-fact-label">{t('about.recognition')}</span><p>{recognition}</p>
+                </motion.div>
               </motion.div>
             </div>
-
             {/* Active Google Cloud Certification Callout */}
             <div className="about-credential-card about-credential-card--certificate rounded-2xl border border-[#F9AB00]/40 bg-[#F9AB00]/10 p-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 backdrop-blur-md shadow-xs">
               <div className="flex items-center gap-3">
