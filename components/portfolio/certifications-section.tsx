@@ -407,7 +407,7 @@ export function CertificationsSection({ onNavigate }: CertificationsSectionProps
                 &ldquo;During the internship, Poosala Lokesh demonstrated a strong willingness to learn and actively participated in web development activities... They showed dedication, adaptability, and a professional attitude while completing assigned tasks and meeting project requirements. Their ability to learn new concepts and apply technical knowledge in practical situations was appreciable.&rdquo;
               </blockquote>
 
-              <div className="space-y-2.5">
+              <div className="space-y-2">
                 <h4 className="text-xs uppercase tracking-wider text-purple-400 font-mono font-semibold flex items-center gap-1.5">
                   <ShieldCheck className="h-3.5 w-3.5" />
                   Core Professional Competencies Verified in LOR
