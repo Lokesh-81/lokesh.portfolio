@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { usePortfolio } from '@/lib/portfolio-context';
 import {
   LayoutDashboard, User, Compass, FileText, Briefcase, History, GraduationCap, Cpu,
@@ -38,45 +38,42 @@ export type StudioTabId =
 interface StudioLayoutProps { onExitStudio: () => void; }
 
 const navGroups = [
-  {
-    label: 'Workspace',
-    items: [
-      { id: 'dashboard', label: 'Overview', icon: LayoutDashboard, description: 'Your portfolio at a glance' },
-      { id: 'analytics', label: 'Analytics', icon: BarChart3, description: 'Traffic and engagement' },
-      { id: 'messages', label: 'Inbox', icon: Inbox, description: 'Visitor messages' },
-    ],
-  },
-  {
-    label: 'Build your portfolio',
-    items: [
-      { id: 'profile', label: 'Profile', icon: User, description: 'Identity and biography' },
-      { id: 'hero', label: 'Homepage', icon: Compass, description: 'Hero content and introduction' },
-      { id: 'about', label: 'About', icon: FileText, description: 'Story and profile details' },
-      { id: 'projects', label: 'Projects', icon: Briefcase, description: 'Case studies and links' },
-      { id: 'experience', label: 'Experience', icon: History, description: 'Roles and work history' },
-      { id: 'education', label: 'Education', icon: GraduationCap, description: 'Academic background' },
-      { id: 'skills', label: 'Skills', icon: Cpu, description: 'Tools and capabilities' },
-      { id: 'certifications', label: 'Certifications', icon: Award, description: 'Credentials and badges' },
-      { id: 'achievements', label: 'Achievements', icon: Trophy, description: 'Awards and milestones' },
-      { id: 'testimonials', label: 'Testimonials', icon: Quote, description: 'Recommendations' },
-      { id: 'languages', label: 'Languages', icon: Languages, description: 'Spoken languages' },
-      { id: 'social', label: 'Social links', icon: Share2, description: 'External profiles' },
-      { id: 'contact', label: 'Contact details', icon: Phone, description: 'Ways to reach you' },
-    ],
-  },
-  {
-    label: 'Assets & settings',
-    items: [
-      { id: 'media', label: 'Media library', icon: ImageIcon, description: 'Images and uploaded assets' },
-      { id: 'resume', label: 'Resume & documents', icon: FileCheck2, description: 'Manage downloadable files' },
-      { id: 'settings', label: 'Settings', icon: Settings, description: 'SEO, security and data' },
-    ],
-  },
+  { label: 'Workspace', items: [
+    { id: 'dashboard', label: 'Overview', icon: LayoutDashboard, description: 'Your portfolio at a glance' },
+    { id: 'analytics', label: 'Analytics', icon: BarChart3, description: 'Traffic and engagement' },
+  ] },
+  { label: 'Portfolio', items: [
+    { id: 'profile', label: 'Profile', icon: User, description: 'Identity and biography' },
+    { id: 'hero', label: 'Homepage', icon: Compass, description: 'Hero content and introduction' },
+    { id: 'about', label: 'About', icon: FileText, description: 'Story and profile details' },
+    { id: 'projects', label: 'Projects', icon: Briefcase, description: 'Case studies and links' },
+    { id: 'experience', label: 'Experience', icon: History, description: 'Roles and work history' },
+    { id: 'education', label: 'Education', icon: GraduationCap, description: 'Academic background' },
+    { id: 'skills', label: 'Skills', icon: Cpu, description: 'Tools and capabilities' },
+  ] },
+  { label: 'Proof & recognition', items: [
+    { id: 'certifications', label: 'Certifications', icon: Award, description: 'Credentials and badges' },
+    { id: 'achievements', label: 'Achievements', icon: Trophy, description: 'Awards and milestones' },
+    { id: 'testimonials', label: 'Testimonials', icon: Quote, description: 'Recommendations' },
+    { id: 'languages', label: 'Languages', icon: Languages, description: 'Spoken languages' },
+  ] },
+  { label: 'Communication', items: [
+    { id: 'messages', label: 'Inbox', icon: Inbox, description: 'Visitor messages' },
+    { id: 'social', label: 'Social links', icon: Share2, description: 'External profiles' },
+    { id: 'contact', label: 'Contact details', icon: Phone, description: 'Ways to reach you' },
+  ] },
+  { label: 'Library & settings', items: [
+    { id: 'media', label: 'Media library', icon: ImageIcon, description: 'Images and uploaded assets' },
+    { id: 'resume', label: 'Resume & documents', icon: FileCheck2, description: 'Manage downloadable files' },
+    { id: 'settings', label: 'Settings', icon: Settings, description: 'SEO, security and data' },
+  ] },
 ] as const;
 
 export function StudioLayout({ onExitStudio }: StudioLayoutProps) {
   const { profile, messages, isSupabaseConnected, supabaseDiagnostic, syncFromSupabase, logoutStudioAdmin, adminUser } = usePortfolio();
   const [activeTab, setActiveTab] = useState<StudioTabId>('dashboard');
+  const [activeNavGroup, setActiveNavGroup] = useState('Workspace');
+  const searchInputRef = useRef<HTMLInputElement>(null);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
   const [search, setSearch] = useState('');
@@ -85,13 +82,11 @@ export function StudioLayout({ onExitStudio }: StudioLayoutProps) {
 
   const unreadMessagesCount = messages.filter((m) => m.status === 'new').length;
   const activeItem = navGroups.flatMap((g) => g.items).find((item) => item.id === activeTab);
-  const filteredGroups = useMemo(() => navGroups.map((group) => ({
-    ...group,
-    items: group.items.filter((item) => {
-      const q = search.trim().toLowerCase();
-      return !q || item.label.toLowerCase().includes(q) || item.description.toLowerCase().includes(q);
-    }),
-  })).filter((group) => group.items.length), [search]);
+  const filteredGroups = useMemo(() => {
+    const q = search.trim().toLowerCase();
+    const source = q ? navGroups : navGroups.filter((group) => group.label === activeNavGroup);
+    return source.map((group) => ({ ...group, items: group.items.filter((item) => !q || item.label.toLowerCase().includes(q) || item.description.toLowerCase().includes(q)) })).filter((group) => group.items.length);
+  }, [search, activeNavGroup]);
 
   const showToast = (msg: string, type: 'success' | 'error' = 'success') => {
     setToast({ msg, type });
@@ -100,8 +95,21 @@ export function StudioLayout({ onExitStudio }: StudioLayoutProps) {
 
   const chooseTab = (id: string) => {
     setActiveTab(id as StudioTabId);
-    setIsMobileMenuOpen(false);
+    const group = navGroups.find((entry) => entry.items.some((item) => item.id === id));
+    if (group) setActiveNavGroup(group.label);
+    setSearch(''); setIsMobileMenuOpen(false);
   };
+
+  useEffect(() => {
+    const handleStudioKeys = (event: KeyboardEvent) => {
+      const target = event.target as HTMLElement | null;
+      const isTyping = target?.matches('input, textarea, select, [contenteditable="true"]');
+      if (event.key === '/' && !isTyping) { event.preventDefault(); searchInputRef.current?.focus(); }
+      if (event.key === 'Escape' && search) setSearch('');
+    };
+    window.addEventListener('keydown', handleStudioKeys);
+    return () => window.removeEventListener('keydown', handleStudioKeys);
+  }, [search]);
 
   const handleSync = async () => {
     setIsSyncing(true);
@@ -155,35 +163,29 @@ export function StudioLayout({ onExitStudio }: StudioLayoutProps) {
         <div className="studio-brand-mark">PL</div>
         <div className="min-w-0">
           <div className="studio-brand-title">LOKESH / STUDIO</div>
-          <div className="studio-brand-subtitle">Portfolio control room</div>
+          <div className="studio-brand-subtitle">Creative workbench</div>
         </div>
         {mobile && <button className="studio-icon-button ml-auto" onClick={() => setIsMobileMenuOpen(false)} aria-label="Close menu"><X size={18} /></button>}
       </div>
       <div className="studio-sidebar-search">
         <Search size={15} />
-        <input value={search} onChange={(e) => setSearch(e.target.value)} placeholder="Find a setting or page..." aria-label="Search Studio pages" />
+        <input ref={searchInputRef} value={search} onChange={(e) => setSearch(e.target.value)} placeholder="Find an experience..." aria-label="Search Studio pages" />
         <kbd>/</kbd>
       </div>
-      <nav className="studio-nav">
-        {filteredGroups.map((group) => (
-          <div className="studio-nav-group" key={group.label}>
-            <div className="studio-nav-heading">{group.label}</div>
-            {group.items.map((item) => {
-              const Icon = item.icon;
-              const selected = activeTab === item.id;
-              const badge = item.id === 'messages' ? unreadMessagesCount : 0;
-              return (
-                <button key={item.id} type="button" onClick={() => chooseTab(item.id)} className={`studio-nav-item ${selected ? 'is-active' : ''}`} title={item.description}>
-                  <Icon size={17} strokeWidth={1.8} />
-                  <span>{item.label}</span>
-                  {badge > 0 && <b>{badge}</b>}
-                  {selected && <ChevronRight className="studio-nav-chevron" size={15} />}
-                </button>
-              );
-            })}
-          </div>
-        ))}
-        {filteredGroups.length === 0 && <p className="studio-empty-search">No matching pages. Try another term.</p>}
+      {!search.trim() && <div className="studio-category-list" aria-label="Studio categories">
+        {navGroups.map((group) => <button key={group.label} type="button" aria-pressed={activeNavGroup === group.label} onClick={() => setActiveNavGroup(group.label)} className={`studio-category-button ${activeNavGroup === group.label ? 'is-active' : ''}`}><span>{group.label}</span><small>{group.items.length}</small></button>)}
+      </div>}
+      <nav className="studio-nav" aria-label="Studio experiences">
+        {filteredGroups.map((group) => <div className="studio-nav-group" key={group.label}>
+          {search.trim() && <div className="studio-nav-heading">{group.label}</div>}
+          {group.items.map((item) => {
+            const Icon = item.icon; const selected = activeTab === item.id; const badge = item.id === 'messages' ? unreadMessagesCount : 0;
+            return <button key={item.id} type="button" onClick={() => chooseTab(item.id)} className={`studio-nav-item ${selected ? 'is-active' : ''}`} title={item.description}>
+              <Icon size={17} strokeWidth={1.8} /><span>{item.label}</span>{badge > 0 && <b>{badge}</b>}{selected && <ChevronRight className="studio-nav-chevron" size={15} />}
+            </button>;
+          })}
+        </div>)}
+        {filteredGroups.length === 0 && <p className="studio-empty-search">No matching experiences. Try another term.</p>}
       </nav>
       <div className="studio-sidebar-bottom">
         <div className="studio-account">
@@ -206,7 +208,7 @@ export function StudioLayout({ onExitStudio }: StudioLayoutProps) {
           <div className="flex items-center gap-3 min-w-0">
             <button className="studio-icon-button lg:hidden" onClick={() => setIsMobileMenuOpen(true)} aria-label="Open navigation"><Menu size={19} /></button>
             <button className="studio-icon-button hidden lg:inline-flex" onClick={() => setIsSidebarCollapsed((v) => !v)} aria-label="Toggle sidebar"><PanelLeftClose size={18} /></button>
-            <div className="studio-breadcrumb"><span>Studio</span><ChevronRight size={14} /><strong>{activeItem?.label || 'Overview'}</strong></div>
+            <div className="studio-breadcrumb"><button type="button" onClick={() => chooseTab('dashboard')} title="Return to Studio overview">Studio overview</button><ChevronRight size={14} /><strong>{activeItem?.label || 'Overview'}</strong></div>
           </div>
           <div className="flex items-center gap-2">
             <span title={supabaseDiagnostic || 'Supabase database connected'} aria-label={supabaseDiagnostic || 'Supabase database connected'} className={`studio-connection-pill ${isSupabaseConnected ? 'connected' : 'offline'}`}><i />{isSupabaseConnected ? 'Database connected' : 'Local cache · hover for details'}</span>
@@ -217,10 +219,10 @@ export function StudioLayout({ onExitStudio }: StudioLayoutProps) {
 
         <main className="studio-content">
           <div className="studio-page-heading">
-            <div><div className="studio-eyebrow">CONTENT MANAGEMENT</div><h1>{activeItem?.label || 'Overview'}</h1><p>{activeItem?.description || 'Manage your portfolio and keep everything up to date.'}</p></div>
+            <div><div className="studio-eyebrow">YOUR CREATIVE WORKSPACE</div><h1>{activeItem?.label || 'Overview'}</h1><p>{activeItem?.description || 'Edit, organize, and publish the details that shape your portfolio.'}</p></div>
             <div className="studio-page-context"><span>EDITING AS</span><strong>{profile?.name || adminUser?.username || 'Lokesh'}</strong></div>
           </div>
-          <div className="studio-tab-surface">{renderActiveTab()}</div>
+          <div className="studio-tab-surface"><div key={activeTab} className="studio-tab-transition">{renderActiveTab()}</div></div>
           <footer className="studio-footer"><span>LOKESH / STUDIO</span><span>Changes are saved through your connected portfolio data store.</span></footer>
         </main>
       </div>

@@ -130,10 +130,13 @@ export function TestimonialsSection() {
         <div><p>{t('testimonials.subtitle') || 'A few words from the people and teams I have had the chance to work with.'}</p><button type="button" onClick={() => setIsLorModalOpen(true)}><FileCheck2 size={15}/> View Belvo LOR <span>↗</span></button></div>
       </header>
       <div className="testimonials-ledger">
-        {stackItems.map((item) => <article className="testimonial-ledger-card portfolio-card" key={item.id || item.name}>
+        {stackItems.map((item) => {
+          const tone = item.name.includes('Abhishek') ? 'testimonial-tone--foundarly' : item.name.includes('Indira') ? 'testimonial-tone--indira' : 'testimonial-tone--belvo';
+          return <article className={`testimonial-ledger-card portfolio-card ${tone}`} key={item.id || item.name}>
           <blockquote>“{item.description}”</blockquote>
           <footer><div className="testimonial-avatar">{item.initials}</div><div><strong>{item.name}</strong><span>{[item.role, item.company].filter(Boolean).join(' · ')}</span></div><span className="testimonial-ledger-arrow">↗</span></footer>
-        </article>)}
+        </article>;
+        })}
       </div>
       <BelvoLorModal isOpen={isLorModalOpen} onClose={() => setIsLorModalOpen(false)} />
     </div>
