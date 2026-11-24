@@ -59,6 +59,8 @@ export function CertificationsSection({ onNavigate }: CertificationsSectionProps
   const [isLorModalOpen, setIsLorModalOpen] = useState(false);
   const [selectedBadge, setSelectedBadge] = useState<SkillBadge | null>(null);
   const [copiedId, setCopiedId] = useState<string | null>(null);
+  const [isLorPreviewLoading, setIsLorPreviewLoading] = useState(true);
+  const [lorPreviewError, setLorPreviewError] = useState(false);
 
   // Search & Filter state
   const [selectedCategory, setSelectedCategory] = useState<'All' | BadgeCategory>('All');
@@ -316,12 +318,24 @@ export function CertificationsSection({ onNavigate }: CertificationsSectionProps
             {/* Left column groups preview and verification to prevent an empty grid row. */}
             <div className="belvo-lor-sidebar min-w-0 space-y-3">
             <div className="belvo-lor-thumbnail" role="button" tabIndex={0} onClick={() => setIsLorModalOpen(true)} onKeyDown={(event) => { if (event.key === "Enter" || event.key === " ") setIsLorModalOpen(true); }} aria-label="Open official Belvo Letter of Recommendation">
-              {belvoPdfUrl ? (
-                <>
-                  <iframe src="/belvo-lor.pdf#page=1&toolbar=0&navpanes=0&scrollbar=0" title="Belvo Letter of Recommendation preview" loading="lazy" tabIndex={-1} />
-                </>
+              {belvoPdfUrl && !lorPreviewError ? (
+                <div className="belvo-lor-preview-frame">
+                  {isLorPreviewLoading && <div className="belvo-lor-preview-loading">Loading document preview…</div>}
+                  <iframe
+                    src={`${belvoPdfUrl}#page=1&toolbar=0&navpanes=0&scrollbar=0&view=FitH`}
+                    title="Belvo Letter of Recommendation first-page preview"
+                    loading="eager"
+                    tabIndex={-1}
+                    onLoad={() => setIsLorPreviewLoading(false)}
+                    onError={() => { setLorPreviewError(true); setIsLorPreviewLoading(false); }}
+                  />
+                </div>
               ) : (
-                <p className="p-5 text-sm text-center">Add the official LOR PDF in Studio to display it here.</p>
+                <div className="belvo-lor-preview-fallback">
+                  <FileText className="h-8 w-8" />
+                  <p>{belvoPdfUrl ? 'The PDF preview is unavailable in this browser.' : 'Add the official LOR PDF in Studio to display it here.'}</p>
+                  <button type="button" onClick={() => setIsLorModalOpen(true)}>Open PDF viewer</button>
+                </div>
               )}
             </div>
 
