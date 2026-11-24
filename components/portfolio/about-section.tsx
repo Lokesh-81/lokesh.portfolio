@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useRef, useState } from 'react';
-import { motion, useInView, useReducedMotion } from 'framer-motion';
+import { motion, useReducedMotion } from 'framer-motion';
 import {
   MapPin,
   Languages,
@@ -27,7 +27,6 @@ export function AboutSection() {
   const [isLorModalOpen, setIsLorModalOpen] = useState(false);
   const [isResumeModalOpen, setIsResumeModalOpen] = useState(false);
   const factsRef = useRef<HTMLDivElement>(null);
-  const factsInView = useInView(factsRef, { once: true, amount: 0.32 });
   const reduceMotion = useReducedMotion();
 
   const belvoExp =
