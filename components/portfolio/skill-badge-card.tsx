@@ -16,7 +16,7 @@ export function SkillBadgeCard({
   size = 'md',
 }: SkillBadgeCardProps) {
   const getLevelLabel = (level: string) => {
-    return `SKILL BADGE · ${level.toUpperCase()}`;
+    return level ? `SKILL BADGE · ${level.toUpperCase()}` : 'GOOGLE CLOUD SKILL BADGE';
   };
 
   return (
@@ -30,7 +30,7 @@ export function SkillBadgeCard({
         'hover:-translate-y-1 hover:border-[#4285F4]/50',
         className
       )}
-      title={`${badge.title} — ${badge.category} (${badge.level})`}
+      title={`${badge.title} — Google Cloud Skill Badge`}
     >
       {/* Top Google Cloud Header */}
       <div className="flex items-center justify-center gap-1.5 pt-1">
@@ -73,7 +73,7 @@ export function SkillBadgeCard({
 
       {/* Footer Info: Issued Date */}
       <div className="pb-0 text-xs font-mono text-[#9AA0A6] flex items-center justify-between px-1">
-        <span>Issued {badge.issuedDate}</span>
+        <span>Google Cloud Skill Badge</span>
         <span className="text-[#1A73E8] opacity-0 group-hover:opacity-100 transition-opacity text-[11px] font-semibold">
           View &rarr;
         </span>
