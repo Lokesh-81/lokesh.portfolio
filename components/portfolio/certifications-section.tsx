@@ -497,7 +497,7 @@ export function CertificationsSection({ onNavigate }: CertificationsSectionProps
                 <Boxes className="h-4 w-4 text-[#4285F4]" />
                 <span>OFFICIAL GOOGLE CLOUD SKILL BADGES</span>
               </div>
-              <h3 className="mt-1 text-2xl sm:text-4xl font-light text-[#F5EAF5] tracking-tight">
+              <h3 className="certifications-badges-heading mt-1 text-xl sm:text-3xl font-light text-[#F5EAF5] tracking-tight">
                 Skill Badges &{' '}
                 <span className="instrument italic font-normal text-[#E8B8D2]">
                   Hands-On Accreditations.

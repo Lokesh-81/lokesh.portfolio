@@ -110,3 +110,5 @@ html{scroll-padding-top:var(--portfolio-scroll-offset);scroll-behavior:smooth}
 .portfolio-shell .about-section-content [class*="rounded-2xl"][class*="border"] [class*="text-[#A78BAF"]{color:#51483e!important}
 .portfolio-shell .about-section-content [class*="rounded-2xl"][class*="border"] [class*="text-white"],
 .portfolio-shell .about-section-content [class*="rounded-2xl"][class*="border"] [class*="text-[#F5EAF5"]{color:#25231f!important}
+
+.portfolio-shell .certifications-badges-heading{font-size:clamp(1.45rem,2.8vw,2.5rem)!important;line-height:1.08!important;margin:4px 0 6px!important}
