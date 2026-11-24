@@ -160,7 +160,6 @@ export const skillBadges: SkillBadge[] = [
       category: "Machine Learning & AI",
       level: "Introductory",
       issuer: "Google Cloud",
-      issuedDate: "Dec 23, 2025",
       description: "Inspect text for emotion, extract entities, evaluate syntax, and classify content using Google Cloud Natural Language API.",
       skills: ["Cloud Natural Language API", "Sentiment Analysis", "Entity Extraction", "Content Classification"]
   },
@@ -180,7 +179,6 @@ export const skillBadges: SkillBadge[] = [
       category: "Smart Analytics",
       level: "Intermediate",
       issuer: "Google Cloud",
-      issuedDate: "Dec 25, 2025",
       description: "Ingest datasets, partition and cluster tables, optimize analytical SQL queries, manage access control, and build high-performance data warehouses.",
       skills: ["BigQuery", "Data Warehousing", "Partitioning & Clustering", "SQL Optimization"]
   },
@@ -190,7 +188,6 @@ export const skillBadges: SkillBadge[] = [
       category: "Security",
       level: "Intermediate",
       issuer: "Google Cloud",
-      issuedDate: "Dec 19, 2025",
       description: "Configure multi-tier VPC networks, firewall rules, Cloud NAT, private Google access, Cloud Armor DDoS mitigation, and secure bastions.",
       skills: ["VPC Security", "Cloud Armor", "Firewall Rules", "Private Google Access"]
   },
@@ -205,7 +202,6 @@ export const skillBadges: SkillBadge[] = [
       category: "Serverless & Apps",
       level: "Introductory",
       issuer: "Google Cloud",
-      issuedDate: "Dec 25, 2025",
       description: "Deploy scalable modern websites on Compute Engine, Cloud Storage, and serverless Cloud Run with load balancing.",
       skills: ["Cloud Run", "Compute Engine", "Static Site Hosting", "Load Balancing"]
   },
@@ -215,7 +211,6 @@ export const skillBadges: SkillBadge[] = [
       category: "Serverless & Apps",
       level: "Intermediate",
       issuer: "Google Cloud",
-      issuedDate: "Dec 23, 2025",
       description: "Build decoupled event-driven microservices responding to Cloud Storage, Audit Logs, and Pub/Sub events using Eventarc and Cloud Run.",
       skills: ["Eventarc", "Event-Driven Architecture", "Cloud Run", "Pub/Sub Triggers"]
   },
@@ -230,7 +225,6 @@ export const skillBadges: SkillBadge[] = [
       category: "Infrastructure & Networking",
       level: "Intermediate",
       issuer: "Google Cloud",
-      issuedDate: "Jul 22, 2026",
       description: "Bridge AWS cloud concepts to GCP architecture, managing cross-cloud networking, IAM mappings, compute parity, and storage migration.",
       skills: ["GCP vs AWS Architecture", "Compute Engine", "VPC Peering", "Multi-Cloud Strategy"]
   },
@@ -245,7 +239,6 @@ export const skillBadges: SkillBadge[] = [
       category: "Smart Analytics",
       level: "Intermediate",
       issuer: "Google Cloud",
-      issuedDate: "Dec 25, 2025",
       description: "Model dimensions, measures, explores, derived tables, and relationship joins using LookML to power self-service business intelligence.",
       skills: ["Looker", "LookML", "Data Modeling", "Explores & Dashboards"]
   },
@@ -255,7 +248,6 @@ export const skillBadges: SkillBadge[] = [
       category: "Serverless & Apps",
       level: "Intermediate",
       issuer: "Google Cloud",
-      issuedDate: "Dec 19, 2025",
       description: "Develop asynchronous serverless microservices and webhooks using Cloud Run functions with event bindings.",
       skills: ["Cloud Run Functions", "Microservices", "Webhook Handlers", "Event Bindings"]
   },
@@ -285,7 +277,6 @@ export const skillBadges: SkillBadge[] = [
       category: "Databases & Storage",
       level: "Intermediate",
       issuer: "Google Cloud",
-      issuedDate: "Dec 23, 2025",
       description: "Provision globally distributed, strongly consistent relational databases with Cloud Spanner, multi-region replication, and query tuning.",
       skills: ["Cloud Spanner", "Distributed SQL", "Global Replication", "Database Tuning"]
   },
@@ -295,7 +286,6 @@ export const skillBadges: SkillBadge[] = [
       category: "Security",
       level: "Intermediate",
       issuer: "Google Cloud",
-      issuedDate: "Dec 15, 2025",
       description: "Implement secure object storage architecture with uniform bucket-level access, CMEK encryption keys, and lifecycle audit policies.",
       skills: ["Cloud Storage", "CMEK Encryption", "Bucket Policies", "Data Governance"]
   },
@@ -305,7 +295,6 @@ export const skillBadges: SkillBadge[] = [
       category: "Machine Learning & AI",
       level: "Intermediate",
       issuer: "Google Cloud",
-      issuedDate: "Dec 25, 2025",
       description: "Train, evaluate, and operationalize machine learning models (linear regression, logistic regression, k-means) directly using SQL in BigQuery.",
       skills: ["BigQuery ML", "SQL Modeling", "Model Evaluation", "Hyperparameter Tuning"]
   },
@@ -330,7 +319,6 @@ export const skillBadges: SkillBadge[] = [
       category: "Kubernetes & DevOps",
       level: "Intermediate",
       issuer: "Google Cloud",
-      issuedDate: "Dec 25, 2025",
       description: "Deploy, manage, and scale containerized applications on Google Kubernetes Engine (GKE) with Pods, Deployments, and Services.",
       skills: ["Google Kubernetes Engine", "Pods & Services", "Rolling Updates", "GKE Deployments"]
   },
@@ -365,7 +353,6 @@ export const skillBadges: SkillBadge[] = [
       category: "Serverless & Apps",
       level: "Intermediate",
       issuer: "Google Cloud",
-      issuedDate: "Dec 19, 2025",
       description: "Containerize web apps and APIs, configure continuous deployment, concurrency, custom domains, and traffic splitting on Cloud Run.",
       skills: ["Cloud Run Containers", "Traffic Splitting", "Concurrency Tuning", "Serverless Architecture"]
   },
@@ -380,7 +367,6 @@ export const skillBadges: SkillBadge[] = [
       category: "Infrastructure & Networking",
       level: "Intermediate",
       issuer: "Google Cloud",
-      issuedDate: "Dec 25, 2025",
       description: "Deploy custom VPC networks, multi-region subnets, Cloud Router, Cloud DNS, internal and external load balancers.",
       skills: ["VPC Subnetting", "Cloud Router", "Cloud DNS", "Network Routing"]
   },
@@ -390,7 +376,6 @@ export const skillBadges: SkillBadge[] = [
       category: "Machine Learning & AI",
       level: "Advanced",
       issuer: "Google Cloud",
-      issuedDate: "Jul 28, 2026",
       description: "Architect and engineer autonomous AI agent systems, function calling, memory persistence, and orchestration with Agent Development Kit.",
       skills: ["Agent Development Kit (ADK)", "Autonomous Agents", "Tool Calling", "Gemini Orchestration"]
   },
@@ -400,7 +385,6 @@ export const skillBadges: SkillBadge[] = [
       category: "Machine Learning & AI",
       level: "Intermediate",
       issuer: "Google Cloud",
-      issuedDate: "Dec 25, 2025",
       description: "Feature engineering, data preprocessing, categorical encoding, and feature transformation pipelines for high-accuracy predictive ML models.",
       skills: ["Feature Engineering", "Data Transformation", "Predictive Modeling", "BigQuery ML"]
   },
@@ -430,7 +414,6 @@ export const skillBadges: SkillBadge[] = [
       category: "Kubernetes & DevOps",
       level: "Intermediate",
       issuer: "Google Cloud",
-      issuedDate: "Dec 14, 2025",
       description: "Automate continuous integration and continuous deployment pipelines using Cloud Build, Artifact Registry, and Cloud Deploy.",
       skills: ["Cloud Build", "Cloud Deploy", "Artifact Registry", "CI/CD Automation"]
   },
@@ -440,7 +423,6 @@ export const skillBadges: SkillBadge[] = [
       category: "Serverless & Apps",
       level: "Introductory",
       issuer: "Google Cloud",
-      issuedDate: "Dec 24, 2025",
       description: "Automate organizational workflows connecting Google Workspace tools and Google Cloud services with script hooks.",
       skills: ["Google Workspace APIs", "Workflow Automation", "Apps Script", "Cloud Integration"]
   },
@@ -450,7 +432,6 @@ export const skillBadges: SkillBadge[] = [
       category: "Security",
       level: "Introductory",
       issuer: "Google Cloud",
-      issuedDate: "Dec 25, 2025",
       description: "Deploy Cloud IAM least privilege policies, custom roles, service accounts, Cloud Audit Logs, and Identity-Aware Proxy (IAP).",
       skills: ["Cloud IAM", "Service Accounts", "Audit Logging", "Identity-Aware Proxy"]
   },
@@ -475,7 +456,6 @@ export const skillBadges: SkillBadge[] = [
       category: "Infrastructure & Networking",
       level: "Intermediate",
       issuer: "Google Cloud",
-      issuedDate: "Dec 25, 2025",
       description: "Configure global HTTP(S) load balancers, managed instance groups, autoscaling policies, SSL certificates, and health checks.",
       skills: ["HTTP(S) Load Balancing", "Managed Instance Groups", "Autoscaling", "Cloud CDN"]
   },
@@ -495,7 +475,6 @@ export const skillBadges: SkillBadge[] = [
       category: "Smart Analytics",
       level: "Intermediate",
       issuer: "Google Cloud",
-      issuedDate: "Dec 23, 2025",
       description: "Automate executive reporting pipelines by querying BigQuery and dynamically generating Google Sheets charts, Docs, and Gmail alerts.",
       skills: ["BigQuery", "Apps Script", "Workspace Integration", "Automated Reporting"]
   },
@@ -505,7 +484,6 @@ export const skillBadges: SkillBadge[] = [
       category: "Kubernetes & DevOps",
       level: "Intermediate",
       issuer: "Google Cloud",
-      issuedDate: "Dec 14, 2025",
       description: "Administer GKE clusters, multi-zonal node pools, RBAC permissions, horizontal pod autoscalers (HPA), and ingress controllers.",
       skills: ["GKE Cluster Administration", "RBAC", "Node Pool Management", "Horizontal Pod Autoscaler"]
   },
@@ -515,7 +493,6 @@ export const skillBadges: SkillBadge[] = [
       category: "Databases & Storage",
       level: "Intermediate",
       issuer: "Google Cloud",
-      issuedDate: "Dec 25, 2025",
       description: "Plan and execute minimal-downtime database migrations from MySQL to Cloud SQL using Google Cloud Database Migration Service (DMS).",
       skills: ["Database Migration Service", "Cloud SQL MySQL", "Continuous Migration", "Connection Profiles"]
   },
@@ -525,7 +502,6 @@ export const skillBadges: SkillBadge[] = [
       category: "Security",
       level: "Intermediate",
       issuer: "Google Cloud",
-      issuedDate: "Dec 25, 2025",
       description: "Continuous vulnerability assessment, posture management, threat detection, and compliance auditing with Security Command Center (SCC).",
       skills: ["Security Command Center", "Threat Mitigation", "Compliance Auditing", "Vulnerability Scanning"]
   },
@@ -545,7 +521,6 @@ export const skillBadges: SkillBadge[] = [
       category: "Kubernetes & DevOps",
       level: "Intermediate",
       issuer: "Google Cloud",
-      issuedDate: "Dec 25, 2025",
       description: "Collect, query, and visualize metrics at scale across GKE clusters with Managed Service for Prometheus and Cloud Monitoring.",
       skills: ["Managed Prometheus", "PromQL", "Cloud Monitoring", "Kubernetes Telemetry"]
   },
@@ -570,7 +545,6 @@ export const skillBadges: SkillBadge[] = [
       category: "Machine Learning & AI",
       level: "Intermediate",
       issuer: "Google Cloud",
-      issuedDate: "Dec 14, 2025",
       description: "Prepare, validate, and structure multimodal datasets to train and tune Google Cloud Machine Learning APIs and Vertex AI services.",
       skills: ["Dataset Preparation", "Data Validation", "Vertex AI", "Data Pipelines"]
   },
@@ -595,7 +569,6 @@ export const skillBadges: SkillBadge[] = [
       category: "Security",
       level: "Intermediate",
       issuer: "Google Cloud",
-      issuedDate: "Dec 15, 2025",
       description: "Inspect, classify, mask, and redact personally identifiable information (PII) and sensitive data across Cloud Storage and BigQuery using Cloud DLP.",
       skills: ["Cloud DLP", "PII Redaction", "Data Masking", "Sensitive Data Discovery"]
   },
@@ -610,7 +583,6 @@ export const skillBadges: SkillBadge[] = [
       category: "Security",
       level: "Intermediate",
       issuer: "Google Cloud",
-      issuedDate: "Dec 23, 2025",
       description: "Enforce software supply chain security with Binary Authorization, container image signing, vulnerability scans, and SLSA compliance in Cloud Build.",
       skills: ["Binary Authorization", "Container Scanning", "SLSA Framework", "Artifact Registry"]
   },
@@ -625,7 +597,6 @@ export const skillBadges: SkillBadge[] = [
       category: "Serverless & Apps",
       level: "Introductory",
       issuer: "Google Cloud",
-      issuedDate: "Dec 25, 2025",
       description: "Configure Google Cloud Workstations, Cloud Shell environments, gcloud CLI profiles, and developer IAM permissions.",
       skills: ["Cloud Workstations", "Cloud Shell", "gcloud CLI", "Developer Tooling"]
   },
@@ -635,7 +606,6 @@ export const skillBadges: SkillBadge[] = [
       category: "Smart Analytics",
       level: "Intermediate",
       issuer: "Google Cloud",
-      issuedDate: "Dec 16, 2025",
       description: "Publish, share, and govern analytical datasets across organizations with BigQuery Analytics Hub and private exchanges.",
       skills: ["Analytics Hub", "Data Sharing", "Data Governance", "BigQuery"]
   },
@@ -645,7 +615,6 @@ export const skillBadges: SkillBadge[] = [
       category: "Databases & Storage",
       level: "Introductory",
       issuer: "Google Cloud",
-      issuedDate: "Dec 17, 2025",
       description: "Manage Cloud Storage buckets, Cloud SQL databases, and BigQuery datasets using gcloud, gsutil, and bq command-line interfaces.",
       skills: ["gcloud CLI", "gsutil", "bq CLI", "Data Management"]
   },
@@ -660,7 +629,6 @@ export const skillBadges: SkillBadge[] = [
       category: "Smart Analytics",
       level: "Intermediate",
       issuer: "Google Cloud",
-      issuedDate: "Dec 16, 2025",
       description: "Architect streaming ingestion pipelines using Cloud Pub/Sub, Dataflow with Apache Beam, and BigQuery streaming inserts.",
       skills: ["Cloud Pub/Sub", "Cloud Dataflow", "Streaming Ingestion", "Real-Time Analytics"]
   },
@@ -680,7 +648,6 @@ export const skillBadges: SkillBadge[] = [
       category: "Machine Learning & AI",
       level: "Introductory",
       issuer: "Google Cloud",
-      issuedDate: "Dec 25, 2025",
       description: "Integrate pre-trained Google Cloud Vision API, Speech-to-Text, Translation API, and Text-to-Speech into production web applications.",
       skills: ["Cloud Vision API", "Speech-to-Text", "Translation API", "Text-to-Speech"]
   },
