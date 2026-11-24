@@ -335,10 +335,10 @@ export function CertificationsSection({ onNavigate }: CertificationsSectionProps
               )}
             </div>
 
-            <div className="flex flex-col items-center text-center p-3 rounded-xl border border-purple-500/30 bg-[#100B18]/80 shadow-inner">
+            <div className="flex flex-col items-center text-center p-2 rounded-xl border border-purple-500/30 bg-[#100B18]/80 shadow-inner">
               <div
                 onClick={() => setIsLorModalOpen(true)}
-                className="cursor-pointer group/badge relative p-3 rounded-xl bg-white/5 border border-purple-500/20 hover:border-purple-400 transition-all w-full flex flex-col items-center"
+                className="cursor-pointer group/badge relative p-2 rounded-xl bg-white/5 border border-purple-500/20 hover:border-purple-400 transition-all w-full flex flex-col items-center"
                 title="Click to view full Letter of Recommendation (PDF)"
               >
                 {/* Belvo Emblem */}
@@ -350,12 +350,12 @@ export function CertificationsSection({ onNavigate }: CertificationsSectionProps
                 </span>
               </div>
 
-              <div className="mt-3 inline-flex items-center gap-2 rounded-full border border-emerald-500/30 bg-emerald-500/10 px-3.5 py-1 text-[11px] font-medium text-emerald-400">
+              <div className="mt-2 inline-flex items-center gap-2 rounded-full border border-emerald-500/30 bg-emerald-500/10 px-3.5 py-1 text-[11px] font-medium text-emerald-400">
                 <span className="h-2 w-2 rounded-full bg-emerald-400 animate-pulse" />
                 <span>Verified Executive Endorsement</span>
               </div>
 
-              <div className="mt-3 w-full space-y-1.5 border-t border-[#35263D] pt-3 text-left text-xs font-mono text-[#D8B4E8]/80">
+              <div className="mt-2 w-full space-y-1 border-t border-[#35263D] pt-2 text-left text-xs font-mono text-[#D8B4E8]/80">
                 <div className="flex justify-between">
                   <span className="text-[#A78BAF]">Issued By:</span>
                   <span className="text-[#F5EAF5] font-semibold">Hrishikesh Mishra</span>
@@ -374,7 +374,7 @@ export function CertificationsSection({ onNavigate }: CertificationsSectionProps
                 </div>
               </div>
 
-              <div className="mt-3 w-full space-y-2">
+              <div className="mt-2 w-full space-y-1.5">
                 <button type="button" onClick={() => setIsLorModalOpen(true)} className="flex w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 px-4 py-2.5 text-xs font-semibold text-white shadow-md hover:scale-[1.02] active:scale-[0.98] transition-all cursor-pointer">
                   <FileText className="h-3.5 w-3.5" /><span>View Official LOR (PDF)</span>
                 </button>
@@ -424,7 +424,7 @@ export function CertificationsSection({ onNavigate }: CertificationsSectionProps
                   ].map((skill, idx) => (
                     <div
                       key={idx}
-                      className="flex items-center gap-2 rounded-lg border border-[#35263D] bg-[#100B18]/60 px-2.5 py-2"
+                      className="flex items-center gap-2 rounded-lg border border-[#35263D] bg-[#100B18]/60 px-2.5 py-1.5"
                     >
                       <Check className="h-3.5 w-3.5 text-purple-400 shrink-0" />
                       <span>{skill}</span>
