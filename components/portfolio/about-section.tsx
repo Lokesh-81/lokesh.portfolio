@@ -30,7 +30,7 @@ export function AboutSection() {
   const factsInView = useInView(factsRef, { once: true, amount: 0.32 });
   const reduceMotion = useReducedMotion();
   const [activeFact, setActiveFact] = useState<string | null>(null);
-  const timelinePath = 'M 125 30 C 190 2 300 2 375 30 S 550 58 625 30 S 800 2 875 30';
+  const timelinePath = 'M 110 30 C 150 2 270 2 330 30 S 490 58 550 30 S 740 2 835 30';
   const factVariants = { hidden: { opacity: 0, y: 22 }, visible: (index: number) => ({ opacity: 1, y: 0, transition: { duration: 0.58, delay: index * 0.19, ease: 'easeOut' } }) };
 
   const belvoExp =
@@ -173,7 +173,7 @@ export function AboutSection() {
                 />
                 <motion.path
                   className="about-facts-segment about-facts-segment-1"
-                  d="M 125 30 C 190 2 300 2 375 30"
+                  d="M 110 30 C 150 2 270 2 330 30"
                   fill="none" stroke="#d6a9b8" strokeWidth="3.2" strokeLinecap="round"
                   initial={{ pathLength: 0, opacity: 0 }}
                   animate={factsInView ? { pathLength: 1, opacity: 0.12 } : { pathLength: 0, opacity: 0 }}
@@ -181,7 +181,7 @@ export function AboutSection() {
                 />
                 <motion.path
                   className="about-facts-segment about-facts-segment-2"
-                  d="M 375 30 C 450 58 550 58 625 30"
+                  d="M 330 30 C 410 58 480 58 550 30"
                   fill="none" stroke="#b9a8db" strokeWidth="3.2" strokeLinecap="round"
                   initial={{ pathLength: 0, opacity: 0 }}
                   animate={factsInView ? { pathLength: 1, opacity: 0.12 } : { pathLength: 0, opacity: 0 }}
@@ -189,7 +189,7 @@ export function AboutSection() {
                 />
                 <motion.path
                   className="about-facts-segment about-facts-segment-3"
-                  d="M 625 30 C 700 2 800 2 875 30"
+                  d="M 550 30 C 640 2 755 2 835 30"
                   fill="none" stroke="#a9cbb4" strokeWidth="3.2" strokeLinecap="round"
                   initial={{ pathLength: 0, opacity: 0 }}
                   animate={factsInView ? { pathLength: 1, opacity: 0.12 } : { pathLength: 0, opacity: 0 }}
