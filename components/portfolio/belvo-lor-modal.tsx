@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useEffect, useRef } from 'react';
+import { createPortal } from 'react-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   X,
@@ -42,7 +43,7 @@ export function BelvoLorModal({
   const { experiences } = usePortfolio();
   const [copiedText, setCopiedText] = useState(false);
   const [zoomLevel, setZoomLevel] = useState<number>(100);
-  const [fitMode, setFitMode] = useState<'width' | 'page' | 'custom'>('width');
+  const [fitMode, setFitMode] = useState<'width' | 'page' | 'custom'>('page');
   const [blobDocUrl, setBlobDocUrl] = useState<string | null>(null);
   const closeButtonRef = useRef<HTMLButtonElement>(null);
   const onCloseRef = useRef(onClose);
@@ -171,20 +172,20 @@ Location: Goregaon, Mumbai`;
 
   const handleResetZoom = () => {
     setZoomLevel(100);
-    setFitMode('width');
+    setFitMode('page');
   };
 
-  return (
+  return typeof document === 'undefined' ? null : createPortal(
     <AnimatePresence>
       {isOpen && (
-        <div className="fixed inset-0 z-[120] flex items-center justify-center p-2 sm:p-4 overflow-hidden">
+        <div className="fixed inset-0 z-[10000] isolate flex items-center justify-center p-2 sm:p-4 overflow-hidden">
           {/* Backdrop with blur */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={onClose}
-            className="fixed inset-0 bg-[#100B18]/90 backdrop-blur-xl -z-10"
+            className="fixed inset-0 z-0 bg-[#100B18]/90 backdrop-blur-xl"
           />
 
           {/* Modal Container */}
@@ -196,7 +197,7 @@ Location: Goregaon, Mumbai`;
             role="dialog"
             aria-modal="true"
             aria-labelledby="belvo-lor-dialog-title"
-            className="relative w-full max-w-5xl h-[min(92dvh,900px)] max-h-[calc(100dvh-1rem)] rounded-2xl sm:rounded-3xl border border-[#2A2B3D] bg-[#1A1222] shadow-2xl overflow-hidden flex flex-col"
+            className="relative z-10 w-full max-w-5xl h-[min(92dvh,900px)] max-h-[calc(100dvh-1rem)] rounded-2xl sm:rounded-3xl border border-[#2A2B3D] bg-[#1A1222] shadow-2xl overflow-hidden flex flex-col"
           >
             {/* Modal Header */}
             <div className="relative flex flex-wrap items-center justify-between border-b border-[#35263D] px-4 sm:px-6 py-3.5 pr-14 bg-[#100B18]/95 gap-3 shrink-0">
@@ -388,7 +389,8 @@ Location: Goregaon, Mumbai`;
           </motion.div>
         </div>
       )}
-    </AnimatePresence>
+    </AnimatePresence>,
+    document.body,
   );
 }
 

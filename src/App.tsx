@@ -21,6 +21,21 @@ import { NotFound } from '@/components/ui/not-found';
 type SectionId = 'home' | 'about' | 'work' | 'skills' | 'certifications' | 'experience' | 'testimonials' | 'contact';
 const sectionIds: SectionId[] = ['home', 'about', 'work', 'skills', 'experience', 'certifications', 'testimonials', 'contact'];
 
+function scrollToPortfolioSection(id: SectionId) {
+  if (id === 'home') {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    return;
+  }
+  const target = document.getElementById(id);
+  if (!target) return;
+  const nav = document.querySelector<HTMLElement>('.portfolio-shell nav[aria-label="Main Navigation"]');
+  const navBottom = nav?.getBoundingClientRect().bottom ?? 0;
+  const desiredContentTop = Math.max(88, navBottom + 20);
+  const sectionPaddingTop = Number.parseFloat(window.getComputedStyle(target).paddingTop) || 0;
+  const top = window.scrollY + target.getBoundingClientRect().top + sectionPaddingTop - desiredContentTop;
+  window.scrollTo({ top: Math.max(0, top), behavior: 'smooth' });
+}
+
 function PortfolioContent() {
   const [activeSection, setActiveSection] = useState<SectionId>('home');
   const [isStudioRoute, setIsStudioRoute] = useState(() => {
@@ -47,7 +62,7 @@ function PortfolioContent() {
       if (sectionIds.includes(hash as SectionId)) {
         setIsNotFound(false);
         setActiveSection(hash as SectionId);
-        window.setTimeout(() => document.getElementById(hash)?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 0);
+        window.setTimeout(() => scrollToPortfolioSection(hash as SectionId), 0);
       } else {
         setIsNotFound(true);
       }
@@ -130,7 +145,7 @@ function PortfolioContent() {
     setIsNotFound(false);
     setActiveSection(id);
     window.history.replaceState(null, '', `#${id}`);
-    document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    scrollToPortfolioSection(id);
   }, []);
 
   const handleExitStudio = () => {

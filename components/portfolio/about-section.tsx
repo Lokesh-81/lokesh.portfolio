@@ -52,7 +52,7 @@ export function AboutSection() {
 
 
   return (
-    <div className="relative min-h-[85vh] w-full px-4 sm:px-8 py-8 sm:py-12">
+    <div className="relative w-full px-4 sm:px-8 py-8 sm:py-12">
       <div className="relative z-10 mx-auto max-w-[1400px]">
         {/* Main Grid */}
         <div className="grid gap-10 lg:grid-cols-[0.8fr_1.2fr] items-start border-b border-[#35263D] pb-12">
@@ -100,12 +100,13 @@ export function AboutSection() {
               <span className="text-[10px] font-mono uppercase tracking-wider text-[#D8B4E8]/70 block mb-2">
                 Signature
               </span>
-              <div className="overflow-visible py-1">
+              <div className="w-full max-w-full overflow-visible py-1">
                 <Signature
                   text="Poosala Lokesh"
                   fontSize={28}
                   duration={1.5}
                   color="#E8B8D2"
+                  className="block max-w-full"
                   fontUrl="/LastoriaBoldRegular.otf"
                   inView={true}
                   once={true}

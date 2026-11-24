@@ -1,6 +1,7 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
+import { createPortal } from 'react-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, Check, Copy, ExternalLink, ShieldCheck, Award, Share2 } from 'lucide-react';
 import { SkillBadge } from '@/lib/data/certifications';
@@ -12,20 +13,29 @@ export interface SkillBadgeModalProps {
 
 export function SkillBadgeModal({ badge, onClose }: SkillBadgeModalProps) {
   const [copied, setCopied] = useState(false);
+  const closeButtonRef = useRef<HTMLButtonElement>(null);
+  const onCloseRef = useRef(onClose);
+  onCloseRef.current = onClose;
 
   useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') onClose();
+    if (!badge) return;
+    const previousOverflow = document.body.style.overflow;
+    const previousFocus = document.activeElement instanceof HTMLElement ? document.activeElement : null;
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        event.preventDefault();
+        onCloseRef.current();
+      }
     };
-    if (badge) {
-      document.addEventListener('keydown', handleKeyDown);
-      document.body.style.overflow = 'hidden';
-    }
+    document.addEventListener('keydown', handleKeyDown);
+    document.body.style.overflow = 'hidden';
+    closeButtonRef.current?.focus();
     return () => {
       document.removeEventListener('keydown', handleKeyDown);
-      document.body.style.overflow = '';
+      document.body.style.overflow = previousOverflow;
+      previousFocus?.focus();
     };
-  }, [badge, onClose]);
+  }, [badge]);
 
   if (!badge) return null;
 
@@ -35,16 +45,16 @@ export function SkillBadgeModal({ badge, onClose }: SkillBadgeModalProps) {
     setTimeout(() => setCopied(false), 2500);
   };
 
-  return (
+  return typeof document === 'undefined' ? null : createPortal(
     <AnimatePresence>
-      <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 overflow-y-auto">
+      <div className="fixed inset-0 z-[10000] isolate flex items-center justify-center p-3 sm:p-6 overflow-y-auto">
         {/* Backdrop */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           onClick={onClose}
-          className="fixed inset-0 bg-[#100B18]/85 backdrop-blur-xl -z-10"
+          className="fixed inset-0 z-0 bg-[#100B18]/85 backdrop-blur-xl"
         />
 
         {/* Modal Dialog */}
@@ -53,7 +63,7 @@ export function SkillBadgeModal({ badge, onClose }: SkillBadgeModalProps) {
           animate={{ opacity: 1, scale: 1, y: 0 }}
           exit={{ opacity: 0, scale: 0.94, y: 16 }}
           transition={{ duration: 0.22, ease: [0.16, 1, 0.3, 1] }}
-          className="relative w-full max-w-2xl rounded-3xl border border-[#35263D] bg-[#1A1222] shadow-2xl overflow-hidden flex flex-col my-auto"
+          className="relative z-10 w-full max-w-2xl rounded-3xl border border-[#35263D] bg-[#1A1222] shadow-2xl overflow-hidden flex flex-col my-auto"
         >
           {/* Header */}
           <div className="flex items-center justify-between border-b border-[#35263D] px-6 py-4 bg-[#100B18]/90">
@@ -91,9 +101,11 @@ export function SkillBadgeModal({ badge, onClose }: SkillBadgeModalProps) {
               </button>
 
               <button
-                onClick={onClose}
+                ref={closeButtonRef}
+                type="button"
+                onClick={() => onCloseRef.current()}
                 className="flex h-8 w-8 items-center justify-center rounded-xl border border-[#35263D] bg-[#1A1222] text-[#DCCFE0] hover:bg-[#35263D] hover:text-white transition-colors cursor-pointer"
-                aria-label="Close"
+                aria-label="Close certificate details"
               >
                 <X className="h-4 w-4" />
               </button>
@@ -195,6 +207,7 @@ export function SkillBadgeModal({ badge, onClose }: SkillBadgeModalProps) {
           </div>
         </motion.div>
       </div>
-    </AnimatePresence>
+    </AnimatePresence>,
+    document.body,
   );
 }

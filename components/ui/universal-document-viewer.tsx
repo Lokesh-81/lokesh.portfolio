@@ -221,7 +221,7 @@ export function UniversalDocumentViewer({
       <div className="w-full relative bg-[#EDE5DE] flex flex-col items-center justify-center min-h-[500px]">
         {effectiveUrl ? (
           <iframe
-            src={`${(effectiveUrl.startsWith("blob:") || effectiveUrl.startsWith("data:") ? effectiveUrl : documentUrl) }#toolbar=1&navpanes=0&view=FitH`}
+            src={`${(effectiveUrl.startsWith("blob:") || effectiveUrl.startsWith("data:") ? effectiveUrl : documentUrl) }#toolbar=1&navpanes=0&view=Fit`}
             title={title}
             className="w-full border-0 bg-[#FBF8F5]"
             style={{ height: typeof height === 'number' ? `${height}px` : height }}

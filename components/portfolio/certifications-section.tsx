@@ -111,12 +111,6 @@ export function CertificationsSection({ onNavigate }: CertificationsSectionProps
     });
   }, [selectedCategory, selectedLevel, searchQuery]);
 
-  // Counts for category pills
-  const getCategoryCount = (cat: 'All' | BadgeCategory) => {
-    if (cat === 'All') return skillBadges.length;
-    return skillBadges.filter((b) => b.category === cat).length;
-  };
-
   return (
     <div className="certifications-sketchbook relative w-full px-4 sm:px-8 py-8 sm:py-12">
       <div className="relative z-10 mx-auto max-w-[1400px]">
@@ -514,9 +508,6 @@ export function CertificationsSection({ onNavigate }: CertificationsSectionProps
               </p>
             </div>
 
-            <div className="text-xs font-mono text-[#D8B4E8]/80 px-3.5 py-1.5 rounded-xl bg-[#1A1222] border border-[#35263D] self-start md:self-auto shrink-0">
-              Showing <strong className="text-white">{filteredBadges.length}</strong> of {skillBadges.length} Badges
-            </div>
           </div>
 
           {/* Search Bar & Filters */}
@@ -547,7 +538,6 @@ export function CertificationsSection({ onNavigate }: CertificationsSectionProps
                 Domain:
               </span>
               {CATEGORIES.map((cat) => {
-                const count = getCategoryCount(cat);
                 const isSelected = selectedCategory === cat;
                 return (
                   <button
@@ -560,13 +550,6 @@ export function CertificationsSection({ onNavigate }: CertificationsSectionProps
                     }`}
                   >
                     <span>{cat}</span>
-                    <span
-                      className={`credential-category-count text-[10px] font-mono px-1.5 py-0.2 rounded-full ${
-                        isSelected ? 'bg-white/20 text-white' : 'bg-[#35263D] text-[#BDA9C4]'
-                      }`}
-                    >
-                      {count}
-                    </span>
                   </button>
                 );
               })}
