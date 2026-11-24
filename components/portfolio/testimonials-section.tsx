@@ -123,28 +123,14 @@ export function TestimonialsSection() {
     });
   }, [testimonials]);
 
-  const defaultIndex = stackItems.findIndex((item) => item.name.includes('Hrishikesh') || item.company?.includes('Belvo')) >= 0
-    ? stackItems.findIndex((item) => item.name.includes('Hrishikesh') || item.company?.includes('Belvo'))
-    : 0;
-
-  const [activeMember, setActiveMember] = useState<OrbitStackItem>(
-    stackItems[defaultIndex] || stackItems[0]
-  );
-
-  const isBelvoActive =
-    activeMember?.name?.includes('Hrishikesh') ||
-    activeMember?.company?.includes('Belvo') ||
-    activeMember?.stat === 'Official LOR';
-
   return (
     <div className="testimonials-editorial">
       <header className="testimonials-editorial-heading">
-        <div><span className="testimonials-overline">WORDS / FROM THE PEOPLE</span><h2>Good work. <em>Good people.</em></h2></div>
+        <div><h2>Testimonials</h2></div>
         <div><p>{t('testimonials.subtitle') || 'A few words from the people and teams I have had the chance to work with.'}</p><button type="button" onClick={() => setIsLorModalOpen(true)}><FileCheck2 size={15}/> View Belvo recommendation <span>↗</span></button></div>
       </header>
       <div className="testimonials-ledger">
-        {stackItems.map((item, index) => <article className={`testimonial-ledger-card portfolio-card ${isBelvoActive && item.name === activeMember?.name ? 'is-selected' : ''}`} key={item.id || item.name} onClick={() => setActiveMember(item)}>
-          <div className="testimonial-ledger-top"><span>{String(index + 1).padStart(2, '0')} / RECOMMENDATION</span><span>{'★'.repeat(Math.min(5, item.rating || 5))}</span></div>
+        {stackItems.map((item) => <article className="testimonial-ledger-card portfolio-card" key={item.id || item.name}>
           <blockquote>“{item.description}”</blockquote>
           <footer><div className="testimonial-avatar">{item.initials}</div><div><strong>{item.name}</strong><span>{[item.role, item.company].filter(Boolean).join(' · ')}</span></div><span className="testimonial-ledger-arrow">↗</span></footer>
         </article>)}

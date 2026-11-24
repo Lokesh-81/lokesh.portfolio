@@ -131,8 +131,8 @@ export function AboutSection() {
               </TextEffect>
             </div>
 
-            {/* Fact Cards */}
-            <div className="about-facts-grid pt-1">
+            {/* Independent animated editorial facts */}
+            <div className="about-facts-grid pt-1" aria-label="Personal details">
               <div className="about-fact about-fact-location"><span className="about-fact-icon"><MapPin aria-hidden="true" /></span><div className="about-fact-copy"><span className="about-fact-label">{t('about.location')}</span><p>{language === 'en' ? location : t('hero.location')}</p></div></div>
 
               <div className="about-fact about-fact-languages"><span className="about-fact-icon"><Languages aria-hidden="true" /></span><div className="about-fact-copy"><span className="about-fact-label">{t('about.languages')}</span><p>{languagesList}</p></div></div>

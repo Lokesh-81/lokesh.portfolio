@@ -123,7 +123,7 @@ export function CertificationsSection({ onNavigate }: CertificationsSectionProps
                 {t('certifications.tag') || 'PROFESSIONAL CREDENTIALS'}
               </TextEffect>
             </div>
-            <h2 className="mt-1 text-3xl font-light tracking-tight text-[#F5EAF5] sm:text-5xl md:text-6xl">
+            <h2 className="portfolio-section-heading mt-1 text-2xl font-light tracking-tight text-[#F5EAF5] sm:text-4xl md:text-5xl">
               <TextEffect key={`title-${language}`} per="word" delay={0.15}>
                 {t('certifications.title') || 'Certifications &'}
               </TextEffect>{' '}

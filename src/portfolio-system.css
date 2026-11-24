@@ -55,3 +55,49 @@ html{scroll-padding-top:var(--portfolio-scroll-offset);scroll-behavior:smooth}
  .portfolio-shell .experience-card{padding:14px!important}.portfolio-shell .belvo-lor-sidebar{grid-template-columns:minmax(0,1fr)}.portfolio-shell .project-card-content{padding:15px!important}.portfolio-shell .portfolio-card{border-radius:8px}
 }
 @media(prefers-reduced-motion:reduce){.portfolio-shell .portfolio-editorial>section.sk-scroll-in>*,.portfolio-shell .portfolio-contact-stage.sk-scroll-in>*{animation:none!important}}
+/* Free-flowing About facts: independent editorial elements, never a table */
+.portfolio-shell .about-facts-grid{position:relative;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:clamp(14px,2vw,28px);overflow:visible;border:0!important;border-radius:0!important;background:transparent!important;box-shadow:none!important;padding:16px 0 8px}
+.portfolio-shell .about-facts-grid:before{content:"";position:absolute;left:5%;right:5%;top:38px;height:1px;background:repeating-linear-gradient(90deg,#b8a994 0 5px,transparent 5px 12px);pointer-events:none}
+.portfolio-shell .about-fact{position:relative;display:flex;align-items:flex-start;gap:12px;min-width:0;padding:0!important;border:0!important;background:transparent!important;box-shadow:none!important;animation:about-fact-enter .65s cubic-bezier(.2,.75,.25,1) both}
+.portfolio-shell .about-fact:nth-child(1){animation-delay:0ms}.portfolio-shell .about-fact:nth-child(2){animation-delay:110ms}.portfolio-shell .about-fact:nth-child(3){animation-delay:220ms}.portfolio-shell .about-fact:nth-child(4){animation-delay:330ms}
+.portfolio-shell .about-fact-icon{position:relative;z-index:1;width:44px;height:44px;flex:0 0 44px;border:1.5px solid #24221e;border-radius:50%;background:#ffe7a0;color:#25231f;box-shadow:2px 2px 0 #25231f;transition:transform .28s ease,box-shadow .28s ease}
+.portfolio-shell .about-fact-languages .about-fact-icon{background:#d9efdf}.portfolio-shell .about-fact-education .about-fact-icon{background:#e7ddf7}.portfolio-shell .about-fact-recognition .about-fact-icon{background:#f6dce8}
+.portfolio-shell .about-fact-icon svg{width:19px;height:19px}.portfolio-shell .about-fact:hover .about-fact-icon{transform:translateY(-4px) rotate(-8deg);box-shadow:4px 5px 0 #25231f}
+.portfolio-shell .about-fact-copy{padding-top:4px}.portfolio-shell .about-fact-label{color:#66594b!important;font-size:11px!important;letter-spacing:.11em}.portfolio-shell .about-fact-copy p{color:#25231f!important;font-size:14px!important;line-height:1.45!important;font-weight:650!important}
+@keyframes about-fact-enter{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
+/* One responsive editorial heading scale; hero h1 is untouched */
+.portfolio-shell .portfolio-section h2,.portfolio-shell .portfolio-contact-stage h2,.portfolio-shell .testimonials-editorial-heading h2,.portfolio-shell .skills-editorial-heading h2{font-size:clamp(2rem,4.1vw,3.65rem)!important;line-height:1.02!important;margin-block:0 .55rem!important;letter-spacing:-.045em!important}
+.portfolio-shell .portfolio-section .portfolio-section-heading{font-size:clamp(2rem,4.1vw,3.65rem)!important;line-height:1.02!important}
+/* Experience badge and attribution contrast on cream paper */
+.portfolio-shell .experience-card{background:#fffdf5!important;border-color:#25231f!important;color:#25231f!important}
+.portfolio-shell .experience-card :is(p,li,span){color:#49443c}
+.portfolio-shell .experience-card :is(h3,strong){color:#211f1b!important}
+.portfolio-shell .experience-card [class*="bg-[#100B18"],.portfolio-shell .experience-card [class*="bg-[#35263D"]{background:#f0e9dc!important;border-color:#a89b88!important}
+.portfolio-shell .experience-card [class*="text-[#F5EAF5"],.portfolio-shell .experience-card [class*="text-[#DCCFE0"],.portfolio-shell .experience-card [class*="text-[#D8B4E8"]{color:#39342d!important}
+.portfolio-shell .experience-card .experience-belvo-lor{background:#f3eafa!important;border-color:#a98cba!important}
+.portfolio-shell .experience-card .experience-lor-meta,.portfolio-shell .experience-card .experience-lor-meta strong{color:#40354a!important}
+.portfolio-shell .experience-card .experience-lor-title{color:#30263a!important}
+/* Compact skill badge cards and filter rhythm */
+.portfolio-shell .skill-badge-card{min-height:0!important;padding:12px 13px 14px!important}
+.portfolio-shell .skill-badge-card>div:first-child{padding-top:0!important}
+.portfolio-shell .skill-badge-card>div:nth-child(2){margin:7px 0!important;padding:0!important}
+.portfolio-shell .skill-badge-card h3{font-size:13px!important;line-height:1.3!important}
+.portfolio-shell .skill-badge-card p{font-size:11px!important;line-height:1.35!important}
+.portfolio-shell .skill-badge-card>div:last-of-type{font-size:10px!important;color:#625b51!important}
+.portfolio-shell .certification-category-tabs,.portfolio-shell .certification-level-tabs{gap:6px!important}
+.portfolio-shell .certifications-sketchbook input{min-height:38px!important}
+.portfolio-shell .certifications-sketchbook .space-y-3{row-gap:8px!important}
+.portfolio-shell .certifications-sketchbook .grid.gap-4{gap:12px!important}
+/* Testimonials: uniform sketchbook treatment and natural card heights */
+.portfolio-shell .testimonials-editorial-heading{display:flex;align-items:end;justify-content:space-between;gap:24px;margin-bottom:22px}
+.portfolio-shell .testimonials-editorial-heading h2{color:#211f1b!important;font-family:Georgia,serif;font-weight:400!important}
+.portfolio-shell .testimonials-ledger{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));align-items:start;gap:16px}
+.portfolio-shell .testimonial-ledger-card,.portfolio-shell .testimonial-ledger-card.is-selected{height:auto!important;min-height:0!important;align-self:start;padding:18px!important;border:1.5px solid #25231f!important;border-radius:10px!important;background:#fffdf5!important;box-shadow:3px 3px 0 #25231f!important;outline:0!important;transform:none!important;transition:transform .22s ease,box-shadow .22s ease!important}
+.portfolio-shell .testimonial-ledger-card:hover{transform:translateY(-3px)!important;box-shadow:5px 6px 0 #25231f!important}
+.portfolio-shell .testimonial-ledger-card blockquote{margin:0!important;padding:0!important;color:#39352e!important;font-size:14px!important;line-height:1.65!important}
+.portfolio-shell .testimonial-ledger-card footer{margin-top:18px!important;padding-top:13px!important;border-top:1px solid #ded6ca!important}
+.portfolio-shell .testimonial-ledger-card footer strong{color:#211f1b!important}.portfolio-shell .testimonial-ledger-card footer span{color:#625b51!important}
+.portfolio-shell .testimonial-ledger-card .testimonial-avatar{border:1px solid #25231f!important;background:#f5e7c4!important;color:#25231f!important}
+@media(max-width:850px){.portfolio-shell .about-facts-grid{grid-template-columns:repeat(2,minmax(0,1fr));row-gap:22px}.portfolio-shell .about-facts-grid:before{display:none}.portfolio-shell .testimonials-ledger{grid-template-columns:1fr}}
+@media(max-width:560px){.portfolio-shell .about-facts-grid{grid-template-columns:1fr;gap:18px}.portfolio-shell .about-fact{align-items:center}.portfolio-shell .testimonials-editorial-heading{align-items:flex-start;flex-direction:column}.portfolio-shell .testimonials-editorial-heading h2{font-size:2.25rem!important}}
+@media(prefers-reduced-motion:reduce){.portfolio-shell .about-fact{animation:none!important}.portfolio-shell .about-fact-icon,.portfolio-shell .testimonial-ledger-card{transition:none!important}}
