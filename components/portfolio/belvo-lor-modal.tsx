@@ -10,7 +10,6 @@ import {
   Printer,
   FileCheck2,
   Download,
-  ExternalLink,
   ShieldCheck,
   ZoomIn,
   ZoomOut,
@@ -19,7 +18,6 @@ import {
 } from 'lucide-react';
 import { usePortfolio } from '@/lib/portfolio-context';
 import {
-  openDocumentInNewTab,
   downloadDocument,
   getCleanDocDisplayName,
   dataUrlToBlob,
@@ -286,25 +284,6 @@ Location: Goregaon, Mumbai`;
                     Fit Page
                   </button>
                 </div>
-
-                {/* Open in Standalone Tab (Direct browser unblocked PDF or Blob) */}
-                {blobDocUrl && (
-                  <a
-                    href={blobDocUrl || undefined}
-                    target={blobDocUrl ? "_blank" : undefined}
-                    rel="noopener noreferrer"
-                    aria-disabled={!blobDocUrl}
-                    onClick={(event) => {
-                      event.preventDefault();
-                      if (blobDocUrl) openDocumentInNewTab(blobDocUrl, currentTitle);
-                    }}
-                    className="flex items-center gap-1.5 rounded-xl border border-[#35263D] bg-[#1A1222] px-3 py-1.5 text-xs font-medium text-[#DCCFE0] hover:border-purple-400 hover:text-white transition-colors"
-                    title="Open the saved Belvo PDF in a new tab"
-                  >
-                    <ExternalLink className="h-3.5 w-3.5" />
-                    <span className="hidden sm:inline">Open in Tab</span>
-                  </a>
-                )}
 
                 {/* Print Button */}
                 <button
