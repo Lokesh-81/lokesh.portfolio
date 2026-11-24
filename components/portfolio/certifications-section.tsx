@@ -535,9 +535,10 @@ export function CertificationsSection({ onNavigate }: CertificationsSectionProps
                   <button
                     key={cat}
                     onClick={() => setSelectedCategory(cat)}
+                    aria-pressed={isSelected}
                     className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[11px] font-medium transition-all cursor-pointer ${
                       isSelected
-                        ? 'bg-[#A77BC2] text-white shadow-md'
+                        ? 'bg-[#E9E1F4] text-[#292431] border border-[#292431] shadow-[2px_2px_0_#292431]'
                         : 'bg-[#1A1222] text-[#DCCFE0] border border-[#35263D] hover:border-[#E8B8D2]/40 hover:text-white'
                     }`}
                   >
@@ -556,9 +557,10 @@ export function CertificationsSection({ onNavigate }: CertificationsSectionProps
                 <button
                   key={lvl}
                   onClick={() => setSelectedLevel(lvl)}
+                  aria-pressed={selectedLevel === lvl}
                   className={`px-2.5 py-1 rounded-lg font-mono text-[11px] transition-colors cursor-pointer ${
                     selectedLevel === lvl
-                      ? 'bg-[#2A1C33] text-[#E8B8D2] border border-[#E8B8D2]/40 font-semibold'
+                      ? 'bg-[#E9E1F4] text-[#292431] border border-[#292431] shadow-[2px_2px_0_#292431] font-semibold'
                       : 'text-[#BDA9C4] hover:text-white'
                   }`}
                 >
