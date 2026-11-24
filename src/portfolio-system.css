@@ -188,3 +188,113 @@ html{scroll-padding-top:var(--portfolio-scroll-offset);scroll-behavior:smooth}
 .portfolio-shell .cert-credential-details{height:auto!important;min-height:0!important}
 .portfolio-shell .gsa-certificate-card>div{align-items:start!important}
 @media(max-width:900px){.portfolio-shell .belvo-lor-layout{grid-template-columns:minmax(0,1fr)!important}.portfolio-shell .cert-credential-sidebar{max-width:340px}}
+
+
+/* Belvo LOR structural layout: two independent, content-sized panels.
+   The parent is only a grid; neither column inherits the other's height. */
+.portfolio-shell .belvo-lor-layout{
+  display:grid!important;
+  grid-template-columns:minmax(205px,225px) minmax(0,1fr)!important;
+  grid-auto-rows:max-content!important;
+  align-items:start!important;
+  align-content:start!important;
+  gap:16px!important;
+  height:auto!important;
+  min-height:0!important;
+  padding:0!important;
+  background:transparent!important;
+  border:0!important;
+  box-shadow:none!important;
+}
+.portfolio-shell .belvo-lor-sidebar,
+.portfolio-shell .belvo-lor-details{
+  height:max-content!important;
+  min-height:0!important;
+  max-height:none!important;
+  align-self:start!important;
+  margin:0!important;
+}
+.portfolio-shell .belvo-lor-sidebar{
+  gap:8px!important;
+  padding:10px!important;
+}
+.portfolio-shell .belvo-lor-thumbnail{
+  height:auto!important;
+  min-height:0!important;
+  max-height:none!important;
+}
+.portfolio-shell .belvo-lor-preview-frame,
+.portfolio-shell .belvo-lor-preview-frame iframe{
+  height:148px!important;
+  min-height:0!important;
+}
+.portfolio-shell .belvo-lor-sidebar>div:nth-child(2){
+  padding:8px!important;
+}
+.portfolio-shell .belvo-lor-sidebar .belvo-wordmark-mark{
+  transform:scale(.82);
+  transform-origin:center;
+  margin-block:-3px!important;
+}
+.portfolio-shell .belvo-lor-sidebar .belvo-wordmark{
+  font-size:19px!important;
+  line-height:1.05!important;
+}
+.portfolio-shell .belvo-lor-sidebar .belvo-wordmark-sub{
+  font-size:8px!important;
+  line-height:1.1!important;
+}
+.portfolio-shell .belvo-lor-sidebar .belvo-wordmark~span{
+  line-height:1.2!important;
+}
+.portfolio-shell .belvo-lor-details{
+  display:flex!important;
+  flex-direction:column!important;
+  gap:12px!important;
+  padding:15px!important;
+}
+.portfolio-shell .belvo-lor-details>div,
+.portfolio-shell .belvo-lor-details>blockquote{
+  flex:0 0 auto!important;
+  height:auto!important;
+  min-height:0!important;
+  margin-block:0!important;
+}
+.portfolio-shell .belvo-lor-details blockquote{
+  padding:10px 12px!important;
+  line-height:1.5!important;
+}
+.portfolio-shell .belvo-lor-details .grid{
+  align-items:start!important;
+  grid-auto-rows:max-content!important;
+  gap:7px!important;
+}
+.portfolio-shell .belvo-lor-details .grid>div{
+  height:auto!important;
+  min-height:0!important;
+  align-self:start!important;
+  padding:7px 9px!important;
+}
+.portfolio-shell .belvo-lor-details .border-t{
+  padding-top:10px!important;
+}
+@media(max-width:900px){
+  .portfolio-shell .belvo-lor-layout{
+    grid-template-columns:minmax(0,1fr)!important;
+    gap:12px!important;
+  }
+  .portfolio-shell .belvo-lor-sidebar{
+    display:grid!important;
+    grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important;
+    align-items:start!important;
+  }
+  .portfolio-shell .belvo-lor-details{width:100%!important}
+}
+@media(max-width:600px){
+  .portfolio-shell .belvo-lor-sidebar{
+    grid-template-columns:minmax(0,1fr)!important;
+  }
+  .portfolio-shell .belvo-lor-preview-frame,
+  .portfolio-shell .belvo-lor-preview-frame iframe{height:190px!important}
+  .portfolio-shell .belvo-lor-details{padding:13px!important}
+}
