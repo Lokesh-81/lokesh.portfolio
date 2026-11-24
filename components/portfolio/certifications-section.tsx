@@ -310,13 +310,9 @@ export function CertificationsSection({ onNavigate }: CertificationsSectionProps
         </div>
 
         {/* Featured Showcase Card for Belvo Company Official Letter of Recommendation (LOR) */}
-        <div className="belvo-lor-showcase portfolio-card mt-6 rounded-3xl border border-purple-500/40 bg-gradient-to-br from-purple-950/40 via-[#1A1222] to-[#100B18] p-4 sm:p-5 shadow-2xl backdrop-blur-xl relative overflow-hidden group hover:border-purple-400/60 transition-all">
-          <div className="absolute top-0 right-0 w-96 h-96 bg-[radial-gradient(ellipse_at_top_right,rgba(168,85,247,0.18),transparent_70%)] pointer-events-none" />
-          <div className="absolute bottom-0 left-0 w-80 h-80 bg-[radial-gradient(ellipse_at_bottom_left,rgba(99,102,241,0.12),transparent_70%)] pointer-events-none" />
-
-          <div className="belvo-lor-layout relative z-10 grid gap-5 lg:grid-cols-[minmax(190px,220px)_minmax(0,1fr)] items-start">
+        <div className="belvo-lor-layout mt-6 grid grid-cols-1 items-start gap-4 lg:grid-cols-[minmax(205px,225px)_minmax(0,1fr)] lg:gap-5">
             {/* Left column groups preview and verification to prevent an empty grid row. */}
-            <div className="belvo-lor-sidebar min-w-0 space-y-3">
+            <div className="belvo-lor-sidebar min-w-0 self-start space-y-2 rounded-2xl border border-purple-500/30 bg-gradient-to-br from-purple-950/35 to-[#100B18] p-3 shadow-lg">
             <div className="belvo-lor-thumbnail" role="button" tabIndex={0} onClick={() => setIsLorModalOpen(true)} onKeyDown={(event) => { if (event.key === "Enter" || event.key === " ") setIsLorModalOpen(true); }} aria-label="Open official Belvo Letter of Recommendation">
               {belvoPdfUrl && !lorPreviewError ? (
                 <div className="belvo-lor-preview-frame">
@@ -387,7 +383,7 @@ export function CertificationsSection({ onNavigate }: CertificationsSectionProps
             </div>
 
             {/* Right Column: Letter Summary & Key Competencies Highlighted */}
-            <div className="belvo-lor-details min-w-0 space-y-4">
+            <div className="belvo-lor-details min-w-0 self-start space-y-3 rounded-2xl border border-purple-500/25 bg-[#171020]/90 p-4 shadow-lg sm:p-5">
               <div>
                 <div className="flex flex-wrap items-center gap-2 mb-2">
                   <span className="font-mono text-xs uppercase tracking-wider text-purple-400 font-semibold bg-purple-500/10 border border-purple-500/30 px-2.5 py-0.5 rounded-full">
@@ -437,7 +433,6 @@ export function CertificationsSection({ onNavigate }: CertificationsSectionProps
                 </div>
               </div>
             </div>
-          </div>
         </div>
 
         {/* Google Student Ambassador Program 2026 — Semester 1 */}
