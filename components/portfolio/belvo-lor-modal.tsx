@@ -21,6 +21,7 @@ import {
   openDocumentInNewTab,
   downloadDocument,
   getCleanDocDisplayName,
+  dataUrlToBlob,
 } from '@/lib/document-utils';
 
 export interface BelvoLorModalProps {
@@ -41,6 +42,11 @@ export function BelvoLorModal({
   const { experiences } = usePortfolio();
   const [copiedText, setCopiedText] = useState(false);
   const [zoomLevel, setZoomLevel] = useState<number>(100);
+  const [fitMode, setFitMode] = useState<'width' | 'page' | 'custom'>('width');
+  const [blobDocUrl, setBlobDocUrl] = useState<string | null>(null);
+  const closeButtonRef = useRef<HTMLButtonElement>(null);
+  const onCloseRef = useRef(onClose);
+  onCloseRef.current = onClose;
 
   const belvoExp =
     experiences.find((e) => e.id === 'belvo') ||
@@ -55,18 +61,56 @@ export function BelvoLorModal({
   const currentRole = belvoExp?.lor?.role || 'CEO, Belvo';
 
   useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') onClose();
+    if (!isOpen) return;
+    const previousOverflow = document.body.style.overflow;
+    const previousFocus = document.activeElement instanceof HTMLElement
+      ? document.activeElement
+      : null;
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        event.preventDefault();
+        onCloseRef.current();
+      }
     };
-    if (isOpen) {
-      document.addEventListener('keydown', handleKeyDown);
-      document.body.style.overflow = 'hidden';
-    }
+    document.addEventListener('keydown', handleKeyDown);
+    document.body.style.overflow = 'hidden';
+    closeButtonRef.current?.focus();
+
     return () => {
       document.removeEventListener('keydown', handleKeyDown);
-      document.body.style.overflow = '';
+      document.body.style.overflow = previousOverflow;
+      previousFocus?.focus();
     };
-  }, [isOpen, onClose]);
+  }, [isOpen]);
+
+  // Legacy Studio records may still contain a Data URL. Render it as a Blob URL
+  // rather than putting a large base64 payload directly into the iframe.
+  useEffect(() => {
+    if (!currentDocUrl.startsWith('data:')) {
+      setBlobDocUrl(null);
+      return;
+    }
+    let objectUrl: string | null = null;
+    try {
+      objectUrl = URL.createObjectURL(dataUrlToBlob(currentDocUrl));
+      setBlobDocUrl(objectUrl);
+    } catch (error) {
+      console.error('[Belvo LOR] Could not prepare document preview:', error);
+      setBlobDocUrl(null);
+    }
+    return () => {
+      if (objectUrl) URL.revokeObjectURL(objectUrl);
+    };
+  }, [currentDocUrl]);
+
+  const viewerDocUrl = currentDocUrl.startsWith('data:') ? (blobDocUrl || '') : currentDocUrl;
+  const pdfViewerUrl = React.useMemo(() => {
+    if (!viewerDocUrl) return '';
+    const baseUrl = viewerDocUrl.split('#')[0];
+    if (fitMode === 'page') return `${baseUrl}#toolbar=1&navpanes=0&view=Fit`;
+    if (fitMode === 'custom') return `${baseUrl}#toolbar=1&navpanes=0&zoom=${zoomLevel}`;
+    return `${baseUrl}#toolbar=1&navpanes=0&view=FitH`;
+  }, [viewerDocUrl, fitMode, zoomLevel]);
 
   const lorFullText = `BELVO COMPANY
 Date: 22-09-2026
@@ -116,21 +160,24 @@ Location: Goregaon, Mumbai`;
   };
 
   const handleZoomIn = () => {
+    setFitMode('custom');
     setZoomLevel((prev) => Math.min(prev + 15, 160));
   };
 
   const handleZoomOut = () => {
+    setFitMode('custom');
     setZoomLevel((prev) => Math.max(prev - 15, 70));
   };
 
   const handleResetZoom = () => {
     setZoomLevel(100);
+    setFitMode('width');
   };
 
   return (
     <AnimatePresence>
       {isOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 md:p-6 overflow-y-auto">
+        <div className="fixed inset-0 z-[120] flex items-center justify-center p-2 sm:p-4 overflow-hidden">
           {/* Backdrop with blur */}
           <motion.div
             initial={{ opacity: 0 }}
@@ -146,17 +193,20 @@ Location: Goregaon, Mumbai`;
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.94, y: 16 }}
             transition={{ duration: 0.24, ease: [0.16, 1, 0.3, 1] }}
-            className="relative w-full max-w-5xl h-[92vh] rounded-3xl border border-[#2A2B3D] bg-[#1A1222] shadow-2xl overflow-hidden flex flex-col my-auto"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="belvo-lor-dialog-title"
+            className="relative w-full max-w-5xl h-[min(92dvh,900px)] max-h-[calc(100dvh-1rem)] rounded-2xl sm:rounded-3xl border border-[#2A2B3D] bg-[#1A1222] shadow-2xl overflow-hidden flex flex-col"
           >
             {/* Modal Header */}
-            <div className="flex flex-wrap items-center justify-between border-b border-[#35263D] px-4 sm:px-6 py-3.5 bg-[#100B18]/95 gap-3 shrink-0">
+            <div className="relative flex flex-wrap items-center justify-between border-b border-[#35263D] px-4 sm:px-6 py-3.5 pr-14 bg-[#100B18]/95 gap-3 shrink-0">
               <div className="flex items-center gap-3">
                 <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-purple-500/20 border border-purple-500/40 text-purple-400">
                   <FileCheck2 className="h-5 w-5" />
                 </div>
                 <div>
                   <div className="flex items-center gap-2">
-                    <h3 className="text-sm sm:text-base font-semibold text-[#F5EAF5]">
+                    <h3 id="belvo-lor-dialog-title" className="text-sm sm:text-base font-semibold text-[#F5EAF5]">
                       Belvo Company — Letter of Recommendation
                     </h3>
                     <span className="hidden sm:inline-flex items-center gap-1 rounded-full bg-emerald-500/20 px-2 py-0.5 text-[10px] font-medium text-emerald-400 border border-emerald-500/30">
@@ -173,7 +223,7 @@ Location: Goregaon, Mumbai`;
               {/* Action Controls & Zoom */}
               <div className="flex items-center gap-2 flex-wrap">
                 {/* Zoom Controls */}
-                <div className="hidden sm:flex items-center rounded-xl border border-[#35263D] bg-[#1A1222] px-1 py-1 text-xs">
+                <div className="flex items-center flex-wrap rounded-xl border border-[#35263D] bg-[#1A1222] px-1 py-1 text-xs">
                   <button
                     onClick={handleZoomOut}
                     className="p-1.5 text-[#BDA9C4] hover:text-white transition-colors cursor-pointer rounded-lg hover:bg-[#35263D]"
@@ -195,11 +245,30 @@ Location: Goregaon, Mumbai`;
                     <button
                       onClick={handleResetZoom}
                       className="p-1.5 text-[#BDA9C4] hover:text-white transition-colors cursor-pointer rounded-lg hover:bg-[#35263D]"
-                      title="Reset Zoom"
+                      title="Reset Zoom / Fit to Width"
                     >
                       <RotateCcw className="h-3.5 w-3.5" />
                     </button>
                   )}
+                  <span className="mx-1 h-5 w-px bg-[#35263D]" />
+                  <button
+                    type="button"
+                    onClick={() => setFitMode('width')}
+                    aria-pressed={fitMode === 'width'}
+                    className={`rounded-lg px-2 py-1.5 text-[10px] transition-colors ${fitMode === 'width' ? 'bg-[#35263D] text-white' : 'text-[#BDA9C4] hover:text-white'}`}
+                    title="Fit PDF to viewer width"
+                  >
+                    Fit Width
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setFitMode('page')}
+                    aria-pressed={fitMode === 'page'}
+                    className={`rounded-lg px-2 py-1.5 text-[10px] transition-colors ${fitMode === 'page' ? 'bg-[#35263D] text-white' : 'text-[#BDA9C4] hover:text-white'}`}
+                    title="Fit the complete PDF page in the viewer"
+                  >
+                    Fit Page
+                  </button>
                 </div>
 
                 {/* Open in Standalone Tab (Direct browser unblocked PDF or Blob) */}
@@ -243,9 +312,12 @@ Location: Goregaon, Mumbai`;
 
                 {/* Close Button */}
                 <button
-                  onClick={onClose}
-                  className="flex h-8 w-8 items-center justify-center rounded-xl border border-[#35263D] bg-[#1A1222] text-[#DCCFE0] hover:bg-[#35263D] hover:text-white transition-colors cursor-pointer ml-1"
-                  aria-label="Close"
+                  ref={closeButtonRef}
+                  type="button"
+                  onClick={() => onCloseRef.current()}
+                  className="absolute right-3 top-3 z-30 flex h-9 w-9 items-center justify-center rounded-xl border border-[#8B718F] bg-[#2A1C33] text-white shadow-lg hover:bg-[#49334F] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#E8B8D2] transition-colors cursor-pointer"
+                  aria-label="Close PDF viewer"
+                  title="Close PDF viewer (Esc)"
                 >
                   <X className="h-4 w-4" />
                 </button>
@@ -253,19 +325,16 @@ Location: Goregaon, Mumbai`;
             </div>
 
             {/* Document Surface - High-Res Direct Vector or PDF Document Viewer */}
-            <div className="flex-1 overflow-y-auto p-3 sm:p-6 bg-[#070B18] flex justify-center items-start custom-scrollbar">
+            <div className="flex-1 min-h-0 overflow-hidden p-0 sm:p-2 bg-[#070B18] flex justify-center items-stretch">
               {currentDocUrl ? (
                 <div
-                  className="w-full max-w-[820px] flex justify-center transition-all duration-150 ease-out"
-                  style={{
-                    transform: `scale(${zoomLevel / 100})`,
-                    transformOrigin: 'top center',
-                  }}
+                  className="w-full h-full min-h-0 max-w-[1100px] flex justify-center"
                 >
                   <iframe
-                    src={`${currentDocUrl}#toolbar=1&navpanes=0&view=FitH`}
+                    src={pdfViewerUrl}
                     title={currentTitle}
                     className="belvo-pdf-frame"
+                    style={{ width: '100%', height: '100%' }}
                     loading="eager"
                   />
                 </div>

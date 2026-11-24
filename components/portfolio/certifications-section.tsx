@@ -65,17 +65,24 @@ export function CertificationsSection({ onNavigate }: CertificationsSectionProps
   const [selectedLevel, setSelectedLevel] = useState<'All' | 'Introductory' | 'Intermediate' | 'Advanced'>('All');
   const [searchQuery, setSearchQuery] = useState('');
 
-  const certifications = studioCertifications.length
-    ? studioCertifications.map((item) => {
-        const fallback = fallbackCertifications.find((entry) => entry.id === item.id);
-        return {
-          ...fallback,
-          ...item,
-          credentialUrl: item.credentialUrl || item.verificationUrl || fallback?.credentialUrl || '',
-          verificationUrl: item.verificationUrl || fallback?.verificationUrl || '',
-        };
-      })
-    : fallbackCertifications;
+  // Keep bundled credentials visible even when Studio only contains a partial
+  // set of database rows. Studio values override defaults by ID.
+  const studioCertificationsById = new Map(studioCertifications.map((item) => [item.id, item]));
+  const certifications = [
+    ...fallbackCertifications.map((fallback) => {
+      const item = studioCertificationsById.get(fallback.id);
+      if (!item) return fallback;
+      return {
+        ...fallback,
+        ...item,
+        credentialUrl: item.credentialUrl || fallback.credentialUrl || '',
+        verificationUrl: item.verificationUrl || fallback.verificationUrl || '',
+      };
+    }),
+    ...studioCertifications.filter(
+      (item) => !fallbackCertifications.some((fallback) => fallback.id === item.id),
+    ),
+  ];
   const cert = certifications.find((item) => item.id === 'gcp-pca') || certifications[0];
   const ambassadorCert = certifications.find((item) => item.id === 'google-student-ambassador-2026');
 
@@ -111,7 +118,7 @@ export function CertificationsSection({ onNavigate }: CertificationsSectionProps
   };
 
   return (
-    <div className="certifications-sketchbook relative min-h-[85vh] w-full px-4 sm:px-8 py-8 sm:py-12">
+    <div className="certifications-sketchbook relative w-full px-4 sm:px-8 py-8 sm:py-12">
       <div className="relative z-10 mx-auto max-w-[1400px]">
         {/* Section Header */}
         <div className="flex flex-col justify-between gap-4 border-b border-[#35263D] pb-6 md:flex-row md:items-end">
@@ -473,7 +480,7 @@ export function CertificationsSection({ onNavigate }: CertificationsSectionProps
                   <span className="rounded-full border border-[#b9b1a2] px-3 py-1.5">Issued by Google Student Ambassador Program</span>
                 </div>
                 <a
-                  href={ambassadorCert.credentialUrl}
+                  href={ambassadorCert.credentialUrl || ambassadorCert.verificationUrl || '/certificates/GSA_Semester1_Certificate_P.Lokesh.pdf'}
                   target="_blank"
                   rel="noreferrer"
                   title="Open the original uploaded certificate PDF"

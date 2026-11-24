@@ -45,7 +45,7 @@ html,body{background:var(--sk-paper)!important;color:var(--sk-ink)!important}
 .portfolio-section-kicker{display:inline-flex!important;gap:10px!important;background:var(--sk-yellow)!important;border:1.5px solid var(--sk-ink)!important;color:var(--sk-ink)!important;padding:9px 13px!important;margin-bottom:24px!important;font:600 11px/1 'Barlow Condensed',sans-serif!important;letter-spacing:.08em!important;box-shadow:3px 3px 0 var(--sk-ink)!important}
 .portfolio-section h2,.portfolio-contact-stage h2{font:800 clamp(2.5rem,5.8vw,5.6rem)/.95 'Barlow Condensed',sans-serif!important;letter-spacing:-.025em!important;text-transform:uppercase!important;color:var(--sk-ink)!important}
 .portfolio-section h3,.portfolio-contact-stage h3{font-family:'Barlow Condensed',sans-serif!important;font-weight:700!important;text-transform:uppercase!important;color:var(--sk-ink)!important}
-.portfolio-section p,.portfolio-contact-stage p{font-family:'Patrick Hand',cursive!important;font-size:clamp(1.05rem,1.4vw,1.3rem)!important;color:#625f57!important}
+.portfolio-section p,.portfolio-contact-stage p{font-family:Inter,Arial,sans-serif!important;font-size:clamp(1rem,1.15vw,1.12rem)!important;line-height:1.7!important;color:#403d37!important}
 .portfolio-section [class*="rounded-2xl"],.portfolio-section [class*="rounded-3xl"],.portfolio-section [class*="rounded-xl"],.portfolio-contact-stage [class*="rounded-2xl"],.portfolio-contact-stage [class*="rounded-3xl"],.portfolio-contact-stage [class*="rounded-xl"]{border:1.7px solid var(--sk-ink)!important;border-radius:9px!important;box-shadow:5px 5px 0 var(--sk-ink)!important}
 .portfolio-section [class*="bg-[#1A1222"],.portfolio-section [class*="bg-[#100B18"],.portfolio-section [class*="bg-[#0B132B"],.portfolio-section [class*="bg-[#111827"],.portfolio-contact-stage [class*="bg-[#1A1222"],.portfolio-contact-stage [class*="bg-[#100B18"],.portfolio-contact-stage [class*="bg-[#0B132B"],.portfolio-contact-stage [class*="bg-[#111827"]{background-color:var(--sk-yellow)!important;background-image:none!important}
 .portfolio-section [class*="border-[#35263D"],.portfolio-section [class*="border-[#1F2937"],.portfolio-contact-stage [class*="border-[#35263D"],.portfolio-contact-stage [class*="border-[#1F2937"]{border-color:var(--sk-ink)!important}
@@ -487,7 +487,7 @@ html,body{background:var(--sk-paper)!important;color:var(--sk-ink)!important}
 .certifications-sketchbook button{color:#24221f!important}
 .certifications-sketchbook button span{color:inherit}
 .certifications-sketchbook .credential-category-count{color:#24221f!important}
-.belvo-pdf-frame{display:block!important;width:100%!important;height:100%!important;min-height:72vh!important;border:0!important;background:#fff!important}
+.belvo-pdf-frame{display:block!important;width:100%!important;height:100%!important;min-height:0!important;border:0!important;background:#fff!important}
 @media(max-width:700px){.belvo-certification-showcase .belvo-lor-thumbnail,.belvo-certification-showcase .belvo-lor-thumbnail iframe{min-height:300px!important;height:300px!important}}
 /* Contact form: make fields, dropdown and message state consistently legible. */
 .contact-sketchbook{color:#24221f!important}
