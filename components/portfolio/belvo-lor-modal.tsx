@@ -288,21 +288,23 @@ Location: Goregaon, Mumbai`;
                 </div>
 
                 {/* Open in Standalone Tab (Direct browser unblocked PDF or Blob) */}
-                <a
-                  href={blobDocUrl || undefined}
-                  target={blobDocUrl ? "_blank" : undefined}
-                  rel="noopener noreferrer"
-                  aria-disabled={!blobDocUrl}
-                  onClick={(event) => {
-                    event.preventDefault();
-                    if (blobDocUrl) openDocumentInNewTab(blobDocUrl, currentTitle);
-                  }}
-                  className="flex items-center gap-1.5 rounded-xl border border-[#35263D] bg-[#1A1222] px-3 py-1.5 text-xs font-medium text-[#DCCFE0] hover:border-purple-400 hover:text-white transition-colors"
-                  title="Open the saved Belvo PDF in a new tab"
-                >
-                  <ExternalLink className="h-3.5 w-3.5" />
-                  <span className="hidden sm:inline">Open in Tab</span>
-                </a>
+                {blobDocUrl && (
+                  <a
+                    href={blobDocUrl || undefined}
+                    target={blobDocUrl ? "_blank" : undefined}
+                    rel="noopener noreferrer"
+                    aria-disabled={!blobDocUrl}
+                    onClick={(event) => {
+                      event.preventDefault();
+                      if (blobDocUrl) openDocumentInNewTab(blobDocUrl, currentTitle);
+                    }}
+                    className="flex items-center gap-1.5 rounded-xl border border-[#35263D] bg-[#1A1222] px-3 py-1.5 text-xs font-medium text-[#DCCFE0] hover:border-purple-400 hover:text-white transition-colors"
+                    title="Open the saved Belvo PDF in a new tab"
+                  >
+                    <ExternalLink className="h-3.5 w-3.5" />
+                    <span className="hidden sm:inline">Open in Tab</span>
+                  </a>
+                )}
 
                 {/* Print Button */}
                 <button
@@ -318,6 +320,7 @@ Location: Goregaon, Mumbai`;
                 {/* Download PDF button */}
                 <button
                   type="button"
+                  disabled={!blobDocUrl}
                   onClick={() => downloadDocument(blobDocUrl || '', 'Poosala_Lokesh_Belvo_LOR.pdf')}
                   className="flex items-center gap-1.5 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 px-3.5 py-1.5 text-xs font-semibold text-white shadow-sm hover:scale-[1.02] active:scale-[0.98] transition-all cursor-pointer"
                   title="Download the official document file"
@@ -353,6 +356,7 @@ Location: Goregaon, Mumbai`;
                   <iframe
                     ref={iframeRef}
                     src={pdfViewerUrl}
+                    onError={() => setPdfError("The browser PDF viewer could not render this document.")}
                     title={currentTitle}
                     className="belvo-pdf-frame"
                     style={{ width: '100%', height: '100%' }}

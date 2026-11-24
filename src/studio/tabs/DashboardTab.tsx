@@ -12,15 +12,11 @@ import {
   Trophy,
   Inbox,
   FileText,
-  CheckCircle2,
   ArrowRight,
   Database,
   ExternalLink,
-  ShieldCheck,
   Languages,
   BarChart3,
-  Monitor,
-  Smartphone,
   Eye,
 } from 'lucide-react';
 import { openDocumentInNewTab, getCleanDocDisplayName } from '@/lib/document-utils';
