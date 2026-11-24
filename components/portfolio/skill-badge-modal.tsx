@@ -40,7 +40,7 @@ export function SkillBadgeModal({ badge, onClose }: SkillBadgeModalProps) {
   if (!badge) return null;
 
   const handleCopyTitle = () => {
-    navigator.clipboard.writeText(`Google Cloud Skill Badge: ${badge.title} (${badge.level}) - Issued ${badge.issuedDate}`);
+    navigator.clipboard.writeText(`Google Cloud Skill Badge: ${badge.title}`);
     setCopied(true);
     setTimeout(() => setCopied(false), 2500);
   };
@@ -76,7 +76,7 @@ export function SkillBadgeModal({ badge, onClose }: SkillBadgeModalProps) {
                   Google Cloud Skill Badge Certificate
                 </h3>
                 <p className="text-[11px] font-mono text-[#D8B4E8]/70">
-                  {badge.category} · {badge.level}
+                  {[badge.category, badge.level].filter(Boolean).join(' · ') || 'Google Cloud Skill Badge'}
                 </p>
               </div>
             </div>
@@ -148,7 +148,7 @@ export function SkillBadgeModal({ badge, onClose }: SkillBadgeModalProps) {
               {/* Recipient & Metadata Footer */}
               <div className="border-t border-[#F1F3F4] pt-3 flex items-center justify-between text-[11px] font-mono text-[#5F6368]">
                 <span>Awarded to: <strong className="text-[#202124]">P. Lokesh</strong></span>
-                <span>Issued: <strong className="text-[#202124]">{badge.issuedDate}</strong></span>
+                <span>Google Cloud Skill Badge</span>
               </div>
 
               {/* Google 4-color bottom stripe */}
@@ -168,7 +168,7 @@ export function SkillBadgeModal({ badge, onClose }: SkillBadgeModalProps) {
                 Badge Description & Scope
               </h4>
               <p className="text-xs text-[#DCCFE0] leading-relaxed">
-                {badge.description}
+                {badge.description || 'Google Cloud skill badge included in the supplied credential inventory.'}
               </p>
             </div>
 
@@ -191,7 +191,7 @@ export function SkillBadgeModal({ badge, onClose }: SkillBadgeModalProps) {
             <div className="pt-2 flex flex-wrap items-center justify-between gap-3 text-xs text-[#BDA9C4] border-t border-[#35263D]">
               <div className="flex items-center gap-1.5 text-emerald-400 font-mono">
                 <ShieldCheck className="h-4 w-4" />
-                <span>Verified Google Cloud Skill Accreditation</span>
+                <span>Google Cloud Skills Boost</span>
               </div>
 
               <a
