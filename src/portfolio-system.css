@@ -171,3 +171,20 @@ html{scroll-padding-top:var(--portfolio-scroll-offset);scroll-behavior:smooth}
 .portfolio-shell .belvo-lor-preview-fallback{display:flex;min-height:150px;flex-direction:column;align-items:center;justify-content:center;gap:9px;padding:18px;text-align:center;background:#f4f0e8;color:#625b51;font-size:12px}
 .portfolio-shell .belvo-lor-preview-fallback button{border:1px solid #25231f;background:#e9e1f4;color:#25231f;padding:6px 10px;font-size:11px;font-weight:650}
 @media(max-width:600px){.portfolio-shell .belvo-lor-preview-frame,.portfolio-shell .belvo-lor-preview-frame iframe{height:210px}}
+
+/* Final content-sizing pass: no stretched recognition or credential panels */
+.portfolio-shell .belvo-lor-showcase,
+.portfolio-shell .belvo-certification-showcase,
+.portfolio-shell .gsa-certificate-card,
+.portfolio-shell .about-credential-card{height:auto!important;min-height:0!important;align-self:start!important}
+.portfolio-shell .belvo-lor-layout{grid-template-columns:minmax(145px,165px) minmax(0,1fr)!important;align-items:start!important}
+.portfolio-shell .belvo-lor-layout>*,
+.portfolio-shell .belvo-lor-sidebar,
+.portfolio-shell .belvo-lor-details{height:auto!important;min-height:0!important;align-self:start!important}
+.portfolio-shell .belvo-lor-sidebar>div{height:auto!important;min-height:0!important}
+.portfolio-shell .belvo-lor-details .grid{align-items:start!important}
+.portfolio-shell .belvo-lor-details .grid>div{height:auto!important;min-height:0!important}
+.portfolio-shell .cert-credential-sidebar{height:auto!important;min-height:0!important;max-width:220px}
+.portfolio-shell .cert-credential-details{height:auto!important;min-height:0!important}
+.portfolio-shell .gsa-certificate-card>div{align-items:start!important}
+@media(max-width:900px){.portfolio-shell .belvo-lor-layout{grid-template-columns:minmax(0,1fr)!important}.portfolio-shell .cert-credential-sidebar{max-width:340px}}
