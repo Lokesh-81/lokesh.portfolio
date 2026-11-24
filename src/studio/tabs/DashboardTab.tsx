@@ -11,20 +11,16 @@ import {
   Award,
   Trophy,
   Inbox,
-  Image,
   FileText,
   CheckCircle2,
-  AlertTriangle,
   ArrowRight,
   Database,
   ExternalLink,
   ShieldCheck,
   Languages,
   BarChart3,
-  Users,
   Monitor,
   Smartphone,
-  Activity,
   Eye,
 } from 'lucide-react';
 import { openDocumentInNewTab, getCleanDocDisplayName } from '@/lib/document-utils';
@@ -45,7 +41,6 @@ export function DashboardTab({ onNavigateTab, onOpenPublicSite }: DashboardTabPr
     achievements,
     languages,
     messages,
-    mediaItems,
     activeResume,
     supabaseStatus,
   } = usePortfolio();
@@ -161,318 +156,99 @@ export function DashboardTab({ onNavigateTab, onOpenPublicSite }: DashboardTabPr
     },
   ];
 
+  const quickActions = [
+    { label: 'Profile & links', detail: 'Identity, bio and social profiles', tab: 'profile' },
+    { label: 'Experience', detail: 'Roles, Belvo and recommendations', tab: 'experience' },
+    { label: 'Testimonials', detail: 'Client words and endorsements', tab: 'testimonials' },
+    { label: 'Security & settings', detail: 'Access, SEO and data tools', tab: 'settings' },
+  ];
+
   return (
-    <div className="space-y-8">
-      {/* Welcome & Quick Actions Bar */}
-      <div className="flex flex-col gap-4 rounded-3xl border border-[#1F2937] bg-[#111827]/80 p-6 sm:p-8 backdrop-blur-xl sm:flex-row sm:items-center sm:justify-between">
-        <div>
-          <div className="inline-flex items-center gap-2 rounded-full border border-[#2563EB]/40 bg-[#2563EB]/10 px-3 py-1 text-[11px] font-medium text-[#60A5FA] mb-2">
-            <ShieldCheck className="h-3.5 w-3.5" />
-            <span>Admin Control Panel</span>
-          </div>
-          <h1 className="text-2xl font-bold tracking-tight text-[#E0E7FF] sm:text-3xl">
-            Welcome to Portfolio Studio
-          </h1>
-          <p className="mt-1 text-xs text-[#94A3B8] sm:text-sm">
-            Manage your personal portfolio content, resume, projects, and incoming contact inquiries.
-          </p>
+    <div className="studio-overview">
+      <section className="studio-overview-hero">
+        <div className="studio-overview-hero-copy">
+          <span className="studio-overview-kicker">STUDIO / WORKBENCH</span>
+          <h2>Make the next update count.</h2>
+          <p>Your portfolio is a living body of work. Choose an area to refine, review what visitors are seeing, or open the public site.</p>
         </div>
-
-        <div className="flex flex-wrap items-center gap-3">
-          <button
-            onClick={() => onNavigateTab('projects')}
-            className="inline-flex items-center gap-2 rounded-xl bg-[#2563EB] px-4 py-2.5 text-xs font-semibold text-white shadow-md hover:bg-[#1D4ED8] transition-all cursor-pointer"
-          >
-            <FolderGit2 className="h-4 w-4" />
-            <span>Add Project</span>
-          </button>
-          <button
-            onClick={onOpenPublicSite}
-            className="inline-flex items-center gap-2 rounded-xl border border-[#1F2937] bg-[#0B132B] px-4 py-2.5 text-xs font-medium text-[#CBD5E1] hover:border-[#60A5FA] hover:text-[#60A5FA] transition-all cursor-pointer"
-          >
-            <span>View Public Site</span>
-            <ExternalLink className="h-3.5 w-3.5" />
-          </button>
+        <div className="studio-overview-hero-actions">
+          <button type="button" onClick={() => onNavigateTab('projects')} className="studio-overview-primary"><FolderGit2 size={16} /> Add a project</button>
+          <button type="button" onClick={onOpenPublicSite} className="studio-overview-secondary">View live portfolio <ExternalLink size={14} /></button>
         </div>
-      </div>
+        <span className="studio-overview-stamp" aria-hidden="true">PL / 01</span>
+      </section>
 
-      {/* Production Readiness & Onboarding Checklist */}
-      <div className="rounded-2xl border border-emerald-500/30 bg-emerald-950/20 p-5 shadow-lg">
-        <div className="flex items-center justify-between mb-3">
-          <div className="flex items-center gap-2">
-            <CheckCircle2 className="h-5 w-5 text-emerald-400" />
-            <h3 className="text-sm font-bold text-white">Production Launch & Onboarding Checklist</h3>
-          </div>
-          <span className="text-[10px] font-mono text-emerald-300 bg-emerald-500/10 border border-emerald-500/20 px-2 py-0.5 rounded-full">
-            All Systems Verified
-          </span>
-        </div>
-        <p className="text-xs text-slate-300 mb-4">
-          Key setup steps to verify your live portfolio, resume, and credentials:
-        </p>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
-          <button
-            onClick={() => onNavigateTab('profile')}
-            className="p-3 rounded-xl border border-emerald-500/20 bg-[#0B132B]/80 hover:border-emerald-500/50 text-left transition-all cursor-pointer"
-          >
-            <div className="text-xs font-bold text-emerald-300 flex items-center justify-between">
-              <span>1. Bio & Links</span>
-              <CheckCircle2 className="h-3.5 w-3.5 text-emerald-400" />
-            </div>
-            <p className="text-[11px] text-slate-400 mt-1">Review contact email & social handles</p>
-          </button>
-
-          <button
-            onClick={() => onNavigateTab('experience')}
-            className="p-3 rounded-xl border border-emerald-500/20 bg-[#0B132B]/80 hover:border-emerald-500/50 text-left transition-all cursor-pointer"
-          >
-            <div className="text-xs font-bold text-emerald-300 flex items-center justify-between">
-              <span>2. Belvo LOR</span>
-              <CheckCircle2 className="h-3.5 w-3.5 text-emerald-400" />
-            </div>
-            <p className="text-[11px] text-slate-400 mt-1">CEO Hrishikesh Mishra endorsement</p>
-          </button>
-
-          <button
-            onClick={() => onNavigateTab('testimonials')}
-            className="p-3 rounded-xl border border-emerald-500/20 bg-[#0B132B]/80 hover:border-emerald-500/50 text-left transition-all cursor-pointer"
-          >
-            <div className="text-xs font-bold text-emerald-300 flex items-center justify-between">
-              <span>3. Testimonials</span>
-              <CheckCircle2 className="h-3.5 w-3.5 text-emerald-400" />
-            </div>
-            <p className="text-[11px] text-slate-400 mt-1">Client reviews & recommendations</p>
-          </button>
-
-          <button
-            onClick={() => onNavigateTab('settings')}
-            className="p-3 rounded-xl border border-emerald-500/20 bg-[#0B132B]/80 hover:border-emerald-500/50 text-left transition-all cursor-pointer"
-          >
-            <div className="text-xs font-bold text-emerald-300 flex items-center justify-between">
-              <span>4. Security & Backups</span>
-              <CheckCircle2 className="h-3.5 w-3.5 text-emerald-400" />
-            </div>
-            <p className="text-[11px] text-slate-400 mt-1">Password & database JSON export</p>
-          </button>
-        </div>
-      </div>
-
-      {/* Live Audience & Viewer Analytics Banner */}
-      <div className="rounded-2xl border border-blue-500/30 bg-gradient-to-r from-[#0B132B] via-[#0D1836] to-[#0B132B] p-5 shadow-xl">
-        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
-          <div className="space-y-1">
-            <div className="flex items-center gap-2 flex-wrap">
-              <span className="flex h-6 w-6 items-center justify-center rounded-lg bg-blue-500/20 text-blue-400">
-                <BarChart3 className="h-3.5 w-3.5" />
-              </span>
-              <h3 className="text-sm font-bold text-white tracking-tight">Portfolio Audience & Traffic Insights</h3>
-              <span className="inline-flex items-center gap-1.5 text-[10px] font-semibold text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 px-2.5 py-0.5 rounded-full font-mono">
-                <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse" />
-                {analytics.liveViewersCount} Live Online
-              </span>
-            </div>
-            <p className="text-xs text-[#94A3B8]">
-              {analytics.totalViews.toLocaleString()} total page impressions across {analytics.uniqueVisitors.toLocaleString()} unique visitors.
-            </p>
-          </div>
-
-          <div className="flex items-center gap-4 flex-wrap">
-            <div className="flex items-center gap-3 border-l border-[#1F2937] pl-4 hidden sm:flex">
-              <div>
-                <span className="text-[10px] text-[#64748B] uppercase font-semibold block">Top Platform</span>
-                <span className="text-xs font-bold text-[#E0E7FF] capitalize flex items-center gap-1">
-                  {desktopPct >= mobilePct ? <Monitor className="h-3 w-3 text-blue-400" /> : <Smartphone className="h-3 w-3 text-purple-400" />}
-                  {desktopPct >= mobilePct ? `Desktop (${desktopPct}%)` : `Mobile (${mobilePct}%)`}
-                </span>
-              </div>
-              <div className="border-l border-[#1F2937] pl-3">
-                <span className="text-[10px] text-[#64748B] uppercase font-semibold block">Top Section</span>
-                <span className="text-xs font-bold text-blue-400 capitalize font-mono">
-                  #{analytics.topSection}
-                </span>
-              </div>
-            </div>
-
-            <button
-              type="button"
-              onClick={() => onNavigateTab('analytics')}
-              className="inline-flex items-center gap-2 rounded-xl bg-blue-600 hover:bg-blue-500 px-4 py-2 text-xs font-semibold text-white shadow-sm transition-all cursor-pointer hover:scale-[1.02] active:scale-[0.98]"
-            >
-              <span>View Full Analytics</span>
-              <ArrowRight className="h-3.5 w-3.5" />
+      <section className="studio-overview-start" aria-labelledby="studio-quick-edits">
+        <div className="studio-overview-section-heading"><span>01 / QUICK EDITS</span><h3 id="studio-quick-edits">Pick up where you left off</h3></div>
+        <div className="studio-overview-quick-links">
+          {quickActions.map((action, index) => (
+            <button key={action.tab} type="button" onClick={() => onNavigateTab(action.tab)} className="studio-overview-quick-link">
+              <span className="studio-overview-quick-index">0{index + 1}</span>
+              <span className="studio-overview-quick-copy"><strong>{action.label}</strong><small>{action.detail}</small></span>
+              <ArrowRight size={15} />
             </button>
-          </div>
+          ))}
         </div>
-      </div>
+      </section>
 
-      {/* Database & Persistence Status Callout */}
-      <div className="rounded-2xl border border-[#1F2937] bg-[#0B132B]/80 p-4 sm:p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-        <div className="flex items-center gap-3">
-          <div
-            className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border ${
-              supabaseStatus === 'connected'
-                ? 'border-emerald-500/40 bg-emerald-500/10 text-emerald-400'
-                : 'border-amber-500/40 bg-amber-500/10 text-amber-400'
-            }`}
-          >
-            <Database className="h-5 w-5" />
-          </div>
-          <div>
-            <div className="flex items-center gap-2">
-              <span className="text-xs font-semibold text-[#E0E7FF]">
-                {supabaseStatus === 'connected'
-                  ? 'Supabase Database Active'
-                  : 'Supabase Sync Ready (Local Fallback Active)'}
-              </span>
-              <span
-                className={`h-2 w-2 rounded-full ${
-                  supabaseStatus === 'connected' ? 'bg-emerald-400 animate-pulse' : 'bg-amber-400'
-                }`}
-              />
-            </div>
-            <p className="text-[11px] text-[#94A3B8]">
-              {supabaseStatus === 'connected'
-                ? 'Connected directly to Supabase REST & Storage. Real-time updates active.'
-                : 'Changes are safely persisted locally. You can execute the one-click SQL migration in the Database tab.'}
-            </p>
-          </div>
-        </div>
-
-        <button
-          onClick={() => onNavigateTab('database')}
-          className="inline-flex items-center gap-1.5 text-xs font-medium text-[#60A5FA] hover:underline cursor-pointer shrink-0"
-        >
-          <span>Manage Database & SQL</span>
-          <ArrowRight className="h-3.5 w-3.5" />
-        </button>
-      </div>
-
-      {/* Stat Grid */}
-      <div className="grid grid-cols-2 gap-4 sm:grid-cols-4">
+      <section className="studio-overview-metrics" aria-label="Portfolio content summary">
         {statCards.map((card) => {
           const Icon = card.icon;
           return (
-            <div
-              key={card.id}
-              onClick={() => onNavigateTab(card.tab)}
-              className="group relative cursor-pointer rounded-2xl border border-[#1F2937] bg-[#111827]/70 p-5 transition-all hover:border-[#60A5FA]/40 hover:bg-[#111827] shadow-xs"
-            >
-              <div className="flex items-center justify-between">
-                <span className="text-xs font-medium text-[#94A3B8]">{card.label}</span>
-                <div className={`flex h-8 w-8 items-center justify-center rounded-lg border ${card.bg}`}>
-                  <Icon className={`h-4 w-4 ${card.color}`} />
-                </div>
-              </div>
-              <div className="mt-3">
-                <span className="text-2xl font-bold tracking-tight text-[#E0E7FF]">{card.value}</span>
-                <p className="mt-0.5 text-[11px] text-[#64748B]">{card.sub}</p>
-              </div>
-            </div>
+            <button key={card.id} type="button" onClick={() => onNavigateTab(card.tab)} className="studio-overview-metric">
+              <span className="studio-overview-metric-icon"><Icon size={16} /></span>
+              <span className="studio-overview-metric-copy"><small>{card.label}</small><strong>{card.value}</strong><em>{card.sub}</em></span>
+              <ArrowRight size={13} className="studio-overview-metric-arrow" />
+            </button>
           );
         })}
+      </section>
+
+      <div className="studio-overview-grid">
+        <article className="studio-overview-panel studio-overview-audience">
+          <div className="studio-overview-panel-heading"><span>02 / LIVE SIGNALS</span><button type="button" onClick={() => onNavigateTab('analytics')}>Full analytics <ArrowRight size={13} /></button></div>
+          <h3>People are finding your work.</h3>
+          <p className="studio-overview-panel-description">{analytics.totalViews.toLocaleString()} page impressions from {analytics.uniqueVisitors.toLocaleString()} unique visitors over the last 7 days.</p>
+          <div className="studio-overview-audience-stats">
+            <div><strong>{analytics.liveViewersCount}</strong><small>Live now</small></div>
+            <div><strong>{desktopPct >= mobilePct ? 'Desktop' : 'Mobile'}</strong><small>Top platform · {Math.max(desktopPct, mobilePct)}%</small></div>
+            <div><strong>{analytics.topSection || '—'}</strong><small>Top section</small></div>
+          </div>
+        </article>
+
+        <article className="studio-overview-panel studio-overview-datastore">
+          <div className="studio-overview-panel-heading"><span>03 / DATA & SYNC</span><Database size={16} /></div>
+          <div className="studio-overview-status"><span className={supabaseStatus === 'connected' ? 'is-connected' : 'is-local'} /><strong>{supabaseStatus === 'connected' ? 'Supabase connected' : 'Local cache active'}</strong></div>
+          <p className="studio-overview-panel-description">{supabaseStatus === 'connected' ? 'Your edits are connected to the portfolio database and storage.' : 'Your browser has a local fallback. Review connection and backup settings before relying on a sync.'}</p>
+          <button type="button" className="studio-overview-text-action" onClick={() => onNavigateTab('settings')}>Open data settings <ArrowRight size={13} /></button>
+        </article>
       </div>
 
-      {/* Quick Navigation Cards */}
-      <div className="grid gap-6 md:grid-cols-2 overflow-hidden">
-        {/* Active Resume Card */}
-        <div className="rounded-2xl border border-[#1F2937] bg-[#111827]/80 p-6 overflow-hidden">
-          <div className="flex items-center justify-between mb-4">
-            <div className="flex items-center gap-2.5">
-              <FileText className="h-5 w-5 text-[#60A5FA]" />
-              <h3 className="text-sm font-semibold text-[#E0E7FF]">Active Resume Status</h3>
-            </div>
-            <button
-              onClick={() => onNavigateTab('resume')}
-              className="text-xs text-[#60A5FA] hover:underline cursor-pointer"
-            >
-              Manage Resumes
-            </button>
+      <div className="studio-overview-grid studio-overview-grid-bottom">
+        <article className="studio-overview-panel studio-overview-resume">
+          <div className="studio-overview-panel-heading"><span>04 / DOCUMENTS</span><button type="button" onClick={() => onNavigateTab('resume')}>Manage resumes <ArrowRight size={13} /></button></div>
+          <div className="studio-overview-document">
+            <span className="studio-overview-document-icon"><FileText size={18} /></span>
+            <span className="studio-overview-document-copy"><strong>{cleanResumeName}</strong><small>{isBase64Resume ? 'PDF stored in portfolio assets' : resumeUrl}{activeResume?.fileSize ? ` · ${activeResume.fileSize}` : ''}</small></span>
+            <button type="button" onClick={handleOpenActiveResume} aria-label="View active resume"><Eye size={16} /></button>
           </div>
+        </article>
 
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 rounded-xl border border-[#1F2937] bg-[#0B132B] p-3.5 overflow-hidden">
-            <div className="flex items-center gap-3 min-w-0">
-              <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-[#2563EB]/20 text-[#60A5FA]">
-                <FileText className="h-4 w-4" />
-              </div>
-              <div className="min-w-0 flex-1">
-                <p className="text-xs font-medium text-[#E0E7FF] truncate">
-                  {cleanResumeName}
-                </p>
-                <p className="text-[10px] text-[#64748B] flex items-center gap-1.5 truncate">
-                  <span className="font-mono text-slate-400">
-                    {isBase64Resume ? 'Document: Stored PDF' : `Link: ${resumeUrl}`}
-                  </span>
-                  {activeResume?.fileSize && <span>· {activeResume.fileSize}</span>}
-                </p>
-              </div>
-            </div>
-            <div className="flex items-center gap-2 shrink-0 self-end sm:self-center">
-              <button
-                type="button"
-                onClick={handleOpenActiveResume}
-                className="inline-flex items-center gap-1.5 rounded-lg border border-[#2563EB]/40 bg-[#2563EB]/15 px-3 py-1.5 text-xs font-semibold text-[#60A5FA] hover:bg-[#2563EB]/30 hover:text-white transition-all cursor-pointer shadow-xs"
-                title="View or Open Resume in New Tab"
-              >
-                <Eye className="h-3.5 w-3.5" />
-                <span>View Resume</span>
-              </button>
-              <span className="inline-flex items-center gap-1 rounded-full border border-emerald-500/30 bg-emerald-500/10 px-2 py-0.5 text-[10px] font-medium text-emerald-400">
-                <CheckCircle2 className="h-3 w-3" />
-                Live
-              </span>
-            </div>
-          </div>
-        </div>
-
-        {/* Recent Inquiries Preview Card */}
-        <div className="rounded-2xl border border-[#1F2937] bg-[#111827]/80 p-6 overflow-hidden">
-          <div className="flex items-center justify-between mb-4">
-            <div className="flex items-center gap-2.5">
-              <Inbox className="h-5 w-5 text-[#F87171]" />
-              <h3 className="text-sm font-semibold text-[#E0E7FF]">Recent Inquiries</h3>
-            </div>
-            <button
-              onClick={() => onNavigateTab('messages')}
-              className="text-xs text-[#60A5FA] hover:underline cursor-pointer"
-            >
-              View All ({messages.length})
-            </button>
-          </div>
-
+        <article className="studio-overview-panel studio-overview-inbox">
+          <div className="studio-overview-panel-heading"><span>05 / INBOX</span><button type="button" onClick={() => onNavigateTab('messages')}>View all ({messages.length}) <ArrowRight size={13} /></button></div>
           {messages.length === 0 ? (
-            <div className="relative z-10 flex flex-col items-center justify-center rounded-xl border border-dashed border-[#1F2937] bg-[#0B132B]/50 p-6 text-center text-xs text-[#64748B]">
-              <Inbox className="h-8 w-8 text-[#334155] mb-2" />
-              <span>No contact inquiries received yet.</span>
-              <span className="text-[10px] text-[#475569] mt-1">
-                Submissions from the public contact form will appear here.
-              </span>
-            </div>
+            <div className="studio-overview-empty"><Inbox size={20} /><span>No visitor inquiries yet. New contact form submissions will appear here.</span></div>
           ) : (
-            <div className="space-y-2">
+            <div className="studio-overview-message-list">
               {messages.slice(0, 3).map((msg) => (
-                <div
-                  key={msg.id}
-                  onClick={() => onNavigateTab('messages')}
-                  className="flex items-center justify-between rounded-xl border border-[#1F2937] bg-[#0B132B] p-3 hover:border-[#60A5FA]/40 transition-colors cursor-pointer"
-                >
-                  <div className="overflow-hidden">
-                    <p className="text-xs font-semibold text-[#E0E7FF] truncate">{msg.name}</p>
-                    <p className="text-[11px] text-[#94A3B8] truncate">{msg.subject || msg.message}</p>
-                  </div>
-                  <span
-                    className={`shrink-0 text-[10px] px-2 py-0.5 rounded-full ${
-                      msg.status === 'new'
-                        ? 'bg-red-500/20 text-red-400 font-semibold'
-                        : 'bg-[#1F2937] text-[#94A3B8]'
-                    }`}
-                  >
-                    {msg.status}
-                  </span>
-                </div>
+                <button key={msg.id} type="button" onClick={() => onNavigateTab('messages')} className="studio-overview-message">
+                  <span><strong>{msg.name}</strong><small>{msg.subject || msg.message}</small></span>
+                  <em className={msg.status === 'new' ? 'is-new' : ''}>{msg.status}</em>
+                </button>
               ))}
             </div>
           )}
-        </div>
+        </article>
       </div>
     </div>
   );
