@@ -101,3 +101,12 @@ html{scroll-padding-top:var(--portfolio-scroll-offset);scroll-behavior:smooth}
 @media(max-width:850px){.portfolio-shell .about-facts-grid{grid-template-columns:repeat(2,minmax(0,1fr));row-gap:22px}.portfolio-shell .about-facts-grid:before{display:none}.portfolio-shell .testimonials-ledger{grid-template-columns:1fr}}
 @media(max-width:560px){.portfolio-shell .about-facts-grid{grid-template-columns:1fr;gap:18px}.portfolio-shell .about-fact{align-items:center}.portfolio-shell .testimonials-editorial-heading{align-items:flex-start;flex-direction:column}.portfolio-shell .testimonials-editorial-heading h2{font-size:2.25rem!important}}
 @media(prefers-reduced-motion:reduce){.portfolio-shell .about-fact{animation:none!important}.portfolio-shell .about-fact-icon,.portfolio-shell .testimonial-ledger-card{transition:none!important}}
+
+/* About callout readability: certification, LOR and resume metadata */
+.portfolio-shell .about-section-content [class*="rounded-2xl"][class*="border"] :is(p,span,strong){color:#302c26!important;opacity:1!important}
+.portfolio-shell .about-section-content [class*="rounded-2xl"][class*="border"] p{font-size:12px!important;line-height:1.45!important}
+.portfolio-shell .about-section-content [class*="rounded-2xl"][class*="border"] [class*="text-[#D8B4E8"],
+.portfolio-shell .about-section-content [class*="rounded-2xl"][class*="border"] [class*="text-[#DCCFE0"],
+.portfolio-shell .about-section-content [class*="rounded-2xl"][class*="border"] [class*="text-[#A78BAF"]{color:#51483e!important}
+.portfolio-shell .about-section-content [class*="rounded-2xl"][class*="border"] [class*="text-white"],
+.portfolio-shell .about-section-content [class*="rounded-2xl"][class*="border"] [class*="text-[#F5EAF5"]{color:#25231f!important}

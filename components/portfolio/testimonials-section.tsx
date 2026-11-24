@@ -127,7 +127,7 @@ export function TestimonialsSection() {
     <div className="testimonials-editorial">
       <header className="testimonials-editorial-heading">
         <div><h2>Testimonials</h2></div>
-        <div><p>{t('testimonials.subtitle') || 'A few words from the people and teams I have had the chance to work with.'}</p><button type="button" onClick={() => setIsLorModalOpen(true)}><FileCheck2 size={15}/> View Belvo recommendation <span>↗</span></button></div>
+        <div><p>{t('testimonials.subtitle') || 'A few words from the people and teams I have had the chance to work with.'}</p><button type="button" onClick={() => setIsLorModalOpen(true)}><FileCheck2 size={15}/> View Belvo LOR <span>↗</span></button></div>
       </header>
       <div className="testimonials-ledger">
         {stackItems.map((item) => <article className="testimonial-ledger-card portfolio-card" key={item.id || item.name}>
