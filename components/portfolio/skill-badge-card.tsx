@@ -30,7 +30,7 @@ export function SkillBadgeCard({
         'hover:-translate-y-1 hover:border-[#4285F4]/50',
         className
       )}
-      title={`${badge.title} — Google Cloud Skill Badge`}
+      title={`${badge.title} — Google Cloud Skill Badge`} role="button" tabIndex={0} aria-label={`View details for ${badge.title}`} onKeyDown={(event) => { if ((event.key === "Enter" || event.key === " ") && onClick) { event.preventDefault(); onClick(); } }}
     >
       {/* Top Google Cloud Header */}
       <div className="flex items-center justify-center gap-1.5 pt-1">
@@ -58,9 +58,7 @@ export function SkillBadgeCard({
         </h3>
 
         {/* Category */}
-        <p className="mt-1 text-xs sm:text-sm text-[#5F6368] font-normal">
-          {badge.category}
-        </p>
+        {badge.category ? <p className="mt-1 text-xs sm:text-sm text-[#5F6368] font-normal">{badge.category}</p> : null}
 
         {/* Subtle Horizontal Divider Line */}
         <div className="my-2 w-10 h-[1px] bg-[#DADCE0]" />
