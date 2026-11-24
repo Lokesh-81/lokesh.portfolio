@@ -157,7 +157,7 @@ export function ProjectCard({ project, onHoverStart, onHoverEnd, disableCardClic
           </div>
 
           {/* Footer: Tech stack & Direct Live Project Link ONLY */}
-          <div className="mt-4 border-t border-[#35263D] pt-3>
+          <div className="mt-4 border-t border-[#35263D] pt-3">
             <div className="flex flex-wrap items-center justify-between gap-3">
               <div className="flex flex-wrap gap-1.5">
                 {project.technologies.slice(0, 4).map((tech) => (

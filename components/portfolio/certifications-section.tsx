@@ -207,7 +207,7 @@ export function CertificationsSection({ onNavigate }: CertificationsSectionProps
               </div>
 
               {/* Primary Interactive Actions */}
-              <div className="mt-3 w-full space-y-2>
+              <div className="mt-3 w-full space-y-2">
                 <a
                   href={cert.credentialUrl || cert.verificationUrl || '#'}
                   target="_blank"
