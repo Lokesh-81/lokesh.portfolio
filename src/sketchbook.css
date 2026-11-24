@@ -2636,3 +2636,63 @@ html.scroll-motion-ready .portfolio-shell .scroll-motion-item:not(.scroll-motion
     height: 230px !important;
   }
 }
+
+
+/* Focused correction pass: keep PDF overlays and dialogs inside the cream sketchbook visual system. */
+.portfolio-pdf-modal { color:#29251f!important; }
+.portfolio-pdf-backdrop {
+  background:rgba(248,246,233,.58)!important;
+  backdrop-filter:blur(4px)!important;
+  -webkit-backdrop-filter:blur(4px)!important;
+}
+.portfolio-pdf-dialog {
+  background:#f8f6e9!important;color:#29251f!important;border:2px solid #171719!important;
+  box-shadow:8px 8px 0 rgba(23,23,25,.24),0 18px 55px rgba(23,23,25,.18)!important;
+}
+.portfolio-pdf-dialog .portfolio-pdf-header,
+.portfolio-pdf-dialog>div:last-child {background:#f0eadb!important;color:#29251f!important;border-color:#c9bfad!important}
+.portfolio-pdf-dialog .portfolio-pdf-header :is(h3,p,span,button),
+.portfolio-pdf-dialog>div:last-child :is(p,span,strong,button) {color:#29251f!important}
+.portfolio-pdf-dialog .portfolio-pdf-surface {background:#e8e1d2!important;border-color:#c9bfad!important}
+.portfolio-pdf-dialog .portfolio-pdf-header button,
+.portfolio-pdf-dialog>div:last-child button {
+  background:#fffdf5!important;color:#29251f!important;border:1px solid #b8aa96!important;
+}
+.portfolio-pdf-dialog .portfolio-pdf-header button:hover,
+.portfolio-pdf-dialog>div:last-child button:hover {background:#f3e6d5!important}
+.portfolio-pdf-dialog .portfolio-pdf-header button[aria-label*="Close"] {
+  background:#fffdf5!important;color:#29251f!important;border:2px solid #171719!important;box-shadow:2px 2px 0 #171719!important;
+}
+.portfolio-pdf-dialog iframe,.portfolio-pdf-dialog .belvo-pdf-frame {
+  width:100%!important;height:100%!important;min-height:0!important;max-height:100%!important;
+  background:#fffdf5!important;border:1px solid #c9bfad!important;
+}
+@media(max-width:640px){
+  .portfolio-pdf-dialog {width:100%!important;height:96dvh!important;max-height:96dvh!important;border-radius:9px!important}
+  .portfolio-pdf-dialog .portfolio-pdf-header {padding:10px 48px 10px 12px!important}
+  .portfolio-pdf-dialog .portfolio-pdf-surface {padding:4px!important}
+}
+
+/* Compact Google Cloud architectural competency tiles without changing their content. */
+.portfolio-shell #certifications .cert-competency-card {
+  min-height:0!important;height:auto!important;padding:15px!important;display:flex!important;
+  flex-direction:column!important;align-self:stretch!important;gap:4px!important;
+  border:1.7px solid #171719!important;border-radius:8px!important;background:#fffdf5!important;
+  box-shadow:3px 3px 0 #171719!important;
+}
+.portfolio-shell #certifications .cert-competency-title {
+  margin:0 0 2px!important;gap:7px!important;font-size:15px!important;line-height:1.25!important;
+  font-weight:700!important;color:#29251f!important;
+}
+.portfolio-shell #certifications .cert-competency-title svg {width:15px!important;height:15px!important;flex:0 0 15px!important}
+.portfolio-shell #certifications .cert-competency-description,
+.portfolio-shell #certifications .cert-competency-card p {
+  margin:0!important;font-size:14px!important;line-height:1.45!important;color:#49443c!important;font-weight:400!important;
+}
+.portfolio-shell #certifications .belvo-certification-showcase .grid.sm\:grid-cols-2 {align-items:stretch!important;gap:10px!important}
+
+/* Keep hero role legible while retaining its handwritten typeface and motion. */
+.portfolio-shell .hero-rebuild-role strong {color:#98445f!important;-webkit-text-fill-color:#98445f!important}
+
+/* Numeric badge-count chips are not part of the visible badge UI. */
+.portfolio-shell #certifications .credential-category-count {display:none!important}

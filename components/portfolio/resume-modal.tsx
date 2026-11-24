@@ -95,14 +95,14 @@ ${educations.map((e) => `• ${e.degree} — ${e.institution} (${e.period || e.e
   return typeof document === 'undefined' ? null : createPortal(
     <AnimatePresence>
       {isOpen && (
-        <div className="fixed inset-0 z-[10000] isolate flex items-center justify-center p-2 sm:p-4 md:p-6 overflow-hidden">
+        <div className="portfolio-pdf-modal fixed inset-0 z-[10000] isolate flex items-center justify-center p-2 sm:p-4 md:p-6 overflow-hidden">
           {/* Backdrop */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={onClose}
-            className="absolute inset-0 z-0 bg-black/85 backdrop-blur-md"
+            className="portfolio-pdf-backdrop absolute inset-0 z-0"
           />
 
           {/* Modal Container */}
@@ -111,10 +111,10 @@ ${educations.map((e) => `• ${e.degree} — ${e.institution} (${e.period || e.e
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.96, y: 15 }}
             transition={{ duration: 0.2, ease: 'easeOut' }}
-            className="relative z-10 flex flex-col w-full max-w-4xl h-[min(92dvh,900px)] max-h-[calc(100dvh-1rem)] rounded-2xl sm:rounded-3xl border border-[#D8C8C0] bg-[#F7F2EE] shadow-2xl overflow-hidden"
+            className="portfolio-pdf-dialog relative z-10 flex flex-col w-full max-w-5xl h-[min(94dvh,980px)] max-h-[calc(100dvh-1rem)] rounded-xl sm:rounded-2xl border shadow-2xl overflow-hidden"
           >
             {/* Header */}
-            <div className="relative flex flex-wrap items-center justify-between gap-3 px-4 sm:px-6 py-3.5 pr-14 border-b border-[#D8C8C0] bg-[#F0E8E2] shrink-0">
+            <div className="portfolio-pdf-header relative flex flex-wrap items-center justify-between gap-3 px-4 sm:px-6 py-3.5 pr-14 border-b shrink-0">
               <div className="flex items-center gap-3">
                 <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#E8D5D8] text-[#9B6876]">
                   <FileText className="h-5 w-5" />
@@ -213,7 +213,7 @@ ${educations.map((e) => `• ${e.degree} — ${e.institution} (${e.period || e.e
             </div>
 
             {/* Document Body */}
-            <div className="flex-1 min-h-0 overflow-y-auto p-3 sm:p-6 bg-[#EDE5DE] flex justify-center items-start custom-scrollbar">
+            <div className="portfolio-pdf-surface flex-1 min-h-0 overflow-y-auto p-3 sm:p-6 flex justify-center items-start custom-scrollbar">
               <div
                 className="w-full max-w-[820px] flex justify-center transition-all duration-150 ease-out"
                 style={{

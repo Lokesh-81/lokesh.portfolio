@@ -272,13 +272,13 @@ export function CertificationsSection({ onNavigate }: CertificationsSectionProps
                     return (
                       <div
                         key={dom.title}
-                        className="rounded-xl border border-[#35263D] bg-[#100B18]/60 p-3.5 hover:border-[#E8B8D2]/40 transition-colors"
+                        className="cert-competency-card rounded-xl border border-[#35263D] bg-[#100B18]/60 p-3.5 hover:border-[#E8B8D2]/40 transition-colors"
                       >
-                        <div className="flex items-center gap-2 text-xs font-bold text-[#F5EAF5] mb-1">
+                        <div className="cert-competency-title flex items-center gap-2 text-xs font-bold text-[#F5EAF5] mb-1">
                           <IconComp className="h-3.5 w-3.5 text-[#E8B8D2]" />
                           <span>{dom.title}</span>
                         </div>
-                        <p className="text-[11px] leading-relaxed text-[#DCCFE0]">
+                        <p className="cert-competency-description text-[11px] leading-relaxed text-[#DCCFE0]">
                           {dom.description}
                         </p>
                       </div>

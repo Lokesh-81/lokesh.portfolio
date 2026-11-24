@@ -26,14 +26,20 @@ function scrollToPortfolioSection(id: SectionId) {
     window.scrollTo({ top: 0, behavior: 'smooth' });
     return;
   }
-  const target = document.getElementById(id);
-  if (!target) return;
-  const nav = document.querySelector<HTMLElement>('.portfolio-shell nav[aria-label="Main Navigation"]');
-  const navBottom = nav?.getBoundingClientRect().bottom ?? 0;
-  const desiredContentTop = Math.max(88, navBottom + 20);
-  const sectionPaddingTop = Number.parseFloat(window.getComputedStyle(target).paddingTop) || 0;
-  const top = window.scrollY + target.getBoundingClientRect().top + sectionPaddingTop - desiredContentTop;
-  window.scrollTo({ top: Math.max(0, top), behavior: 'smooth' });
+  const alignSectionHeading = () => {
+    const target = document.getElementById(id);
+    if (!target) return;
+    const nav = document.querySelector<HTMLElement>('.portfolio-shell nav[aria-label="Main Navigation"]');
+    const navRect = nav?.getBoundingClientRect();
+    const navBottom = navRect?.bottom ?? 0;
+    const navHeight = navRect?.height ?? 0;
+    const heading = target.querySelector<HTMLElement>('h2, h1, .portfolio-section-kicker') ?? target;
+    const gap = 24;
+    const top = window.scrollY + heading.getBoundingClientRect().top - Math.max(navBottom + gap, navHeight + gap);
+    target.style.scrollMarginTop = `${Math.ceil(navHeight + gap)}px`;
+    window.scrollTo({ top: Math.max(0, top), behavior: 'smooth' });
+  };
+  window.requestAnimationFrame(() => window.requestAnimationFrame(alignSectionHeading));
 }
 
 function PortfolioContent() {

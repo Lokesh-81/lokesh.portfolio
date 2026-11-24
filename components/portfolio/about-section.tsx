@@ -191,7 +191,7 @@ export function AboutSection() {
                     </span>
                   </div>
                   <p className="text-[11px] text-[#D8B4E8]/80 font-mono mt-0.5">
-                    Series #128554 · ID: 7cffa63a... · Valid Sep 2026 – Sep 2028 · 37 Google Cloud Skill Badges
+                    Series #128554 · ID: 7cffa63a... · Valid Sep 2026 – Sep 2028
                   </p>
                 </div>
               </div>
@@ -199,7 +199,7 @@ export function AboutSection() {
                 href="#certifications"
                 className="inline-flex items-center gap-1.5 text-xs font-semibold text-[#E8B8D2] hover:text-white transition-colors cursor-pointer shrink-0 rounded-xl bg-[#F9AB00]/20 border border-[#F9AB00]/40 px-3 py-1.5"
               >
-                <span>View Cert & 37 Badges</span>
+                <span>View Certificate & Skill Badges</span>
                 <ArrowUpRight className="h-3.5 w-3.5" />
               </a>
             </div>
