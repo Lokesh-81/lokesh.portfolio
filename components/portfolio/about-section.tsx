@@ -221,7 +221,7 @@ export function AboutSection() {
                 animate={reduceMotion || factsInView ? 'visible' : 'hidden'}
                 className="about-fact about-fact-location" data-active={activeFact === 'location'}
                 tabIndex={0} role="group" aria-label={`${t('about.location')}: ${location}`}
-                onPointerEnter={() => setActiveFact('location')} onPointerLeave={() => setActiveFact((v) => v === 'location' ? null : v)}
+                onPointerEnter={() => setActiveFact('location')} onPointerLeave={(event) => { if (event.pointerType === 'mouse') setActiveFact((v) => v === 'location' ? null : v); }}
                 onPointerDown={() => setActiveFact('location')} onFocus={() => setActiveFact('location')}
                 onBlur={() => setActiveFact((v) => v === 'location' ? null : v)}
               >
@@ -236,7 +236,7 @@ export function AboutSection() {
                 animate={reduceMotion || factsInView ? 'visible' : 'hidden'}
                 className="about-fact about-fact-languages" data-active={activeFact === 'languages'}
                 tabIndex={0} role="group" aria-label={`${t('about.languages')}: ${languagesList}`}
-                onPointerEnter={() => setActiveFact('languages')} onPointerLeave={() => setActiveFact((v) => v === 'languages' ? null : v)}
+                onPointerEnter={() => setActiveFact('languages')} onPointerLeave={(event) => { if (event.pointerType === 'mouse') setActiveFact((v) => v === 'languages' ? null : v); }}
                 onPointerDown={() => setActiveFact('languages')} onFocus={() => setActiveFact('languages')}
                 onBlur={() => setActiveFact((v) => v === 'languages' ? null : v)}
               >
@@ -251,7 +251,7 @@ export function AboutSection() {
                 animate={reduceMotion || factsInView ? 'visible' : 'hidden'}
                 className="about-fact about-fact-education" data-active={activeFact === 'education'}
                 tabIndex={0} role="group" aria-label={`${t('about.education')}: ${education}`}
-                onPointerEnter={() => setActiveFact('education')} onPointerLeave={() => setActiveFact((v) => v === 'education' ? null : v)}
+                onPointerEnter={() => setActiveFact('education')} onPointerLeave={(event) => { if (event.pointerType === 'mouse') setActiveFact((v) => v === 'education' ? null : v); }}
                 onPointerDown={() => setActiveFact('education')} onFocus={() => setActiveFact('education')}
                 onBlur={() => setActiveFact((v) => v === 'education' ? null : v)}
               >
@@ -266,7 +266,7 @@ export function AboutSection() {
                 animate={reduceMotion || factsInView ? 'visible' : 'hidden'}
                 className="about-fact about-fact-recognition" data-active={activeFact === 'recognition'}
                 tabIndex={0} role="group" aria-label={`${t('about.recognition')}: ${recognition}`}
-                onPointerEnter={() => setActiveFact('recognition')} onPointerLeave={() => setActiveFact((v) => v === 'recognition' ? null : v)}
+                onPointerEnter={() => setActiveFact('recognition')} onPointerLeave={(event) => { if (event.pointerType === 'mouse') setActiveFact((v) => v === 'recognition' ? null : v); }}
                 onPointerDown={() => setActiveFact('recognition')} onFocus={() => setActiveFact('recognition')}
                 onBlur={() => setActiveFact((v) => v === 'recognition' ? null : v)}
               >
